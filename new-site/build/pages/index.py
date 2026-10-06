@@ -118,12 +118,15 @@ def render(ctx):
     mq_outline = "".join(f'<span class="outline">{t}</span><span class="mq-dot">·</span>' for t in list(reversed(ticker)) * 2)
 
     # ---------------- 06 shop ----------------
+    TAGS = {"kingsmann": ["new", "best"], "nova": ["new", "best"], "rodeo": ["new", "gift"], "maverick": ["new", "under"],
+            "majestic": ["best"], "monarch": ["best", "gift"], "outlaw": ["best"], "upbuck": ["gift"], "regal": ["gift", "under"],
+            "purefold": ["under", "gift"], "regent": ["new"]}
     def pcard(p, i):
         cuts = ctx["cutouts"](p)
         main = cuts[0]; alt = cuts[1] if len(cuts) > 1 else cuts[0]
         opts = "".join(f'<label class="opt"><input type="radio" name="c-{p["id"]}" value="{c}" {"checked" if c == p["defaultColour"] else ""}><span class="sw" style="--sw:{ctx["swatch"].get(c, "#6E4328")}"></span>{c}</label>' for c in p["colours"])
         return f'''
-<article class="pcard" data-product="{p["id"]}" data-reveal data-delay="{(i % 3) * 0.12}">
+<article class="pcard" data-product="{p["id"]}" data-tags="{" ".join(TAGS.get(p["id"], []))}" data-reveal data-delay="{(i % 3) * 0.12}">
   <div class="pcard-media"><div class="bloom" style="--bloom:{p.get("style") and ctx["bloom"].get(p["style"]) or "#C9B290"}" data-bloom></div><img class="main" src="{main["small"]}" alt="{p["name"]} in {main["colour"].lower()}" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="{alt["small"]}" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></div>
   <div class="pcard-head"><span class="pcard-num">STAGR.{str(i + 1).zfill(2)}</span><span class="label">{p["style"] or "Belt"}</span></div>
   <h3 class="pcard-name">{p["name"].split(" ")[0]}<span class="dotc">.</span></h3>
@@ -294,7 +297,13 @@ def render(ctx):
 
 /* ---- 06 shop ---- */
 .shop-sec { background: var(--bone); color: var(--ink); padding: var(--section-sm) 0 var(--section); }
-.shop-grid { display: grid; gap: 16px; grid-template-columns: 1fr; margin-top: 40px; }
+.coll-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 20px 32px; margin-top: 12px; padding-bottom: 24px; border-bottom: 1px solid var(--line); }
+.coll-tabs { display: flex; flex-wrap: wrap; gap: 8px; }
+.ctab { min-height: 44px; padding: 0 20px; border: 1px solid var(--line-strong); font-size: .75rem; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--fg); transition: background-color .3s ease, color .3s ease, border-color .3s ease; }
+.ctab:hover { border-color: var(--fg); }
+.ctab[aria-selected="true"] { background: var(--ink); color: var(--bone); border-color: var(--ink); }
+.pcard.is-hidden { display: none; }
+.shop-grid { display: grid; gap: 16px; grid-template-columns: 1fr; margin-top: 32px; }
 @media (min-width: 640px) { .shop-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (min-width: 1024px) { .shop-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; } }
 .delivery { display: grid; gap: 28px; margin-top: var(--section-sm); padding-top: 40px; border-top: 1px solid var(--line); }
@@ -421,10 +430,19 @@ def render(ctx):
 
 <section id="shop" class="shop-sec on-bone" aria-labelledby="shop-title">
   <div class="wrap">
-    <div data-reveal><p class="label"><b>06</b><span class="slash">/</span>The range</p></div>
-    <h2 class="h2" id="shop-title" data-text-reveal="lines" style="margin-top:12px;max-width:16ch">Order direct. Pay at the door.</h2>
-    <p class="lead" data-reveal data-delay=".15" style="margin-top:16px">Every piece below is in the workshop now. Add it to your cart and send the order on WhatsApp. Cash on delivery, 3 to 5 working days anywhere in Pakistan.</p>
-    <div class="shop-grid">{cards}</div>
+    <div data-reveal><p class="label"><b>06</b><span class="slash">/</span>Shop</p></div>
+    <div class="coll-head">
+      <h2 class="h2" id="shop-title" data-text-reveal="lines">The collection</h2>
+      <div class="coll-tabs" role="tablist" aria-label="Filter the collection" data-reveal data-delay=".15">
+        <button type="button" class="ctab" role="tab" aria-selected="true" data-tab="new">New in</button>
+        <button type="button" class="ctab" role="tab" aria-selected="false" data-tab="best">Bestsellers</button>
+        <button type="button" class="ctab" role="tab" aria-selected="false" data-tab="gift">Gifting</button>
+        <button type="button" class="ctab" role="tab" aria-selected="false" data-tab="under">Under Rs 2,000</button>
+        <button type="button" class="ctab" role="tab" aria-selected="false" data-tab="all">All</button>
+      </div>
+    </div>
+    <div class="shop-grid" data-shop-grid>{cards}</div>
+    <p class="small muted" style="margin-top:24px"><span data-shop-count></span> · Cash on delivery, 3 to 5 working days anywhere in Pakistan.</p>
     <div class="or-row" id="delivery"><span class="shop-rule" data-shop-rule style="transform-origin:right"></span><span class="label">How it reaches you</span><span class="shop-rule" data-shop-rule style="transform-origin:left"></span></div>
     <div class="delivery">{"".join(f'<div data-reveal data-delay="{i * .1}"><h3>{t["title"]}</h3><p>{t["sub"]}</p></div>' for i, t in enumerate(trust))}</div>
   </div>
@@ -601,6 +619,18 @@ function initAnimations() {
   function initShop() {
     const section = $("#shop"); if (!section) return;
     G.fromTo($$("[data-shop-rule]"), { scaleX: 0 }, { scaleX: 1, duration: .6, ease: "power3.out", scrollTrigger: { trigger: "[data-shop-rule]", start: "top 88%", toggleActions: "play none none none" } });
+    const grid = $("[data-shop-grid]"), cards = $$("[data-product]", grid), tabs = $$(".ctab"), countEl = $("[data-shop-count]");
+    const apply = (tab) => {
+      const state = window.Flip && !reduced ? window.Flip.getState(cards) : null;
+      let n = 0;
+      cards.forEach((c) => { const ok = tab === "all" || c.dataset.tags.split(" ").indexOf(tab) >= 0; c.classList.toggle("is-hidden", !ok); if (ok) n++; });
+      if (countEl) countEl.textContent = n + (n === 1 ? " piece" : " pieces");
+      if (state) window.Flip.from(state, { duration: .7, ease: "power3.out", stagger: .03, absolute: true, scale: true, onEnter: (els) => G.fromTo(els, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: .5, ease: "power2.out" }), onLeave: (els) => G.to(els, { opacity: 0, y: 12, duration: .3 }) });
+      ST.refresh();
+    };
+    tabs.forEach((t) => t.addEventListener("click", () => { tabs.forEach((x) => x.setAttribute("aria-selected", String(x === t))); apply(t.dataset.tab); }));
+    cards.forEach((c) => { c.removeAttribute("data-reveal"); G.set(c, { opacity: 1 }); c.classList.add("is-revealed"); });
+    apply("new");
     $$("[data-product]").forEach((card) => { const btn = $("[data-add]", card); $$("[data-colour-opts] input", card).forEach((r) => r.addEventListener("change", () => { btn.dataset.colour = r.value; const p = S.product(card.dataset.product); const im = p.cutouts.find((c) => c.colour.toLowerCase() === r.value.toLowerCase()); if (im) { const main = $("img.main", card); G.fromTo(main, { opacity: 0 }, { opacity: 1, duration: .4 }); main.src = im.small; } })); });
   }
 
