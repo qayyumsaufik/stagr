@@ -1,0 +1,6 @@
+User-Agent: *
+Allow: /
+Disallow: /api/
+Disallow: /dev
+
+Sitemap: https://still-il67e5c5a-refractwebs-projects.vercel.app/sitemap.xml
