@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<style>
+  html, body { margin: 0; padding: 0; background: #F0EEE6; }
+  body { font-family: Inter, system-ui, sans-serif; color: #4A453D; -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+  a { color: #6B4A2F; text-decoration: none; }
+  a:hover { color: #B8873F; }
+  button { font-family: inherit; }
+  ::selection { background: #B8873F; color: #F0EEE6; }
+  @keyframes ds-cue { 0% { transform: translateY(0); opacity: 0.2 } 40% { opacity: 1 } 100% { transform: translateY(14px); opacity: 0 } }
+  @media (prefers-reduced-motion: reduce) { * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important } }
+</style>
+</helmet>
+
+<div style="position: relative; width: 100%; overflow-x: hidden; background: #F0EEE6">
+
+  <div ref="{{ cursorRef }}" style="position: fixed; top: 0; left: 0; width: 10px; height: 10px; border-radius: 50%; background: #B8873F; pointer-events: none; z-index: 999; mix-blend-mode: normal; opacity: 0; transform: translate(-50%, -50%)"></div>
+
+  <header style="position: fixed; top: 0; left: 0; right: 0; z-index: 120; background: {{ navBg }}; box-shadow: {{ navShadow }}; transition: background 500ms ease, box-shadow 500ms ease" onMouseLeave="{{ closeMega }}">
+    <div style="max-width: 1680px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 56px); height: {{ navHeight }}; display: flex; align-items: center; justify-content: space-between; gap: 24px; transition: height 400ms ease">
+
+      <a href="#" data-magnetic="1" style="display: flex; align-items: center; gap: 10px; color: {{ navInk }}; transition: color 400ms ease">
+        <span style="display: inline-block; width: 22px; height: 16px; border: 1.5px solid #B8873F; border-radius: 3px; position: relative">
+          <span style="position: absolute; top: 50%; left: -6px; width: 8px; height: 1.5px; background: #B8873F; transform: translateY(-50%)"></span>
+        </span>
+        <span style="font-family: Fraunces, Georgia, serif; font-size: 21px; letter-spacing: -0.02em; font-weight: 500">Duke Street</span>
+      </a>
+
+      <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+        <nav style="display: flex; align-items: center; gap: clamp(18px, 2.4vw, 38px)">
+          <sc-for list="{{ navLinks }}" as="link" hint-placeholder-count="5">
+            <a href="#" data-nav="1" onMouseEnter="{{ link.onEnter }}" style="font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase; color: {{ navInk }}; padding: 8px 0; border-bottom: 1px solid {{ link.rule }}; transition: color 400ms ease, border-color 300ms ease">{{ link.label }}</a>
+          </sc-for>
+        </nav>
+      </sc-if>
+
+      <div style="display: flex; align-items: center; gap: clamp(14px, 1.6vw, 26px)">
+        <button onClick="{{ openSearch }}" aria-label="Search" style="background: none; border: 0; cursor: pointer; padding: 6px; display: flex; color: {{ navInk }}; transition: color 400ms ease">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="11" cy="11" r="7"></circle><path d="M16.5 16.5 21 21"></path></svg>
+        </button>
+        <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+          <a href="#" style="font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase; color: {{ navInk }}; transition: color 400ms ease">Track Order</a>
+        </sc-if>
+        <button data-magnetic="1" onClick="{{ openCart }}" aria-label="Open cart" style="background: none; border: 0; cursor: pointer; padding: 6px; position: relative; display: flex; color: {{ navInk }}; transition: color 400ms ease">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 7h16l-1.3 13H5.3L4 7Z"></path><path d="M8.5 7V5.6A3.5 3.5 0 0 1 12 2a3.5 3.5 0 0 1 3.5 3.6V7"></path></svg>
+          <sc-if value="{{ hasCart }}" hint-placeholder-val="{{ true }}">
+            <span style="position: absolute; top: -2px; right: -4px; min-width: 17px; height: 17px; padding: 0 4px; border-radius: 9px; background: #B8873F; color: #FFF; font-size: 10px; font-weight: 600; display: flex; align-items: center; justify-content: center">{{ cartCount }}</span>
+          </sc-if>
+        </button>
+        <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ toggleMenu }}" aria-label="Menu" style="background: none; border: 0; cursor: pointer; padding: 6px; display: flex; flex-direction: column; gap: 5px; color: {{ navInk }}">
+            <span style="display: block; width: 22px; height: 1.5px; background: currentColor"></span>
+            <span style="display: block; width: 22px; height: 1.5px; background: currentColor"></span>
+          </button>
+        </sc-if>
+      </div>
+    </div>
+
+    <sc-if value="{{ megaOpen }}" hint-placeholder-val="{{ false }}">
+      <div ref="{{ megaRef }}" style="border-top: 1px solid #DED6C4; background: #F7F4EC; box-shadow: 0 24px 48px -28px rgba(31,29,26,0.35)">
+        <div style="max-width: 1680px; margin: 0 auto; padding: 44px clamp(20px, 4vw, 56px) 48px; display: grid; grid-template-columns: 1fr 1fr 1.1fr; gap: clamp(24px, 4vw, 72px)">
+          <sc-for list="{{ megaColumns }}" as="col" hint-placeholder-count="2">
+            <div data-mega-item="1">
+              <p style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.2em; color: #B8873F; margin: 0 0 20px">{{ col.title }}</p>
+              <div style="display: flex; flex-direction: column; gap: 12px">
+                <sc-for list="{{ col.items }}" as="item" hint-placeholder-count="4">
+                  <a href="#" style="font-family: Fraunces, Georgia, serif; font-size: 20px; color: #1F1D1A; letter-spacing: -0.01em">{{ item }}</a>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+          <div data-mega-item="1" style="display: flex; gap: 20px; align-items: flex-start">
+            <div style="flex: 1; aspect-ratio: 4 / 5; overflow: hidden; background: #DED6C4">
+              <img src="{{ megaFeatured.image }}" alt="{{ megaFeatured.alt }}" style="width: 100%; height: 100%; object-fit: cover; display: block" />
+            </div>
+            <div style="flex: 1; padding-top: 6px">
+              <p style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.2em; color: #B8873F; margin: 0 0 12px">Featured</p>
+              <p style="font-family: Fraunces, Georgia, serif; font-size: 22px; color: #1F1D1A; margin: 0 0 6px; line-height: 1.2">{{ megaFeatured.name }}</p>
+              <p style="font-size: 14px; margin: 0 0 22px; color: #4A453D">{{ megaFeatured.priceLabel }}</p>
+              <a href="#" style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.14em; color: #1F1D1A; border-bottom: 1px solid #B8873F; padding-bottom: 4px">{{ megaFeatured.shopAll }}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+  </header>
+
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position: fixed; inset: 0; z-index: 200; background: #F0EEE6; padding: 28px clamp(20px, 6vw, 48px); display: flex; flex-direction: column">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 56px">
+        <span style="font-family: Fraunces, Georgia, serif; font-size: 21px; color: #1F1D1A">Duke Street</span>
+        <button onClick="{{ toggleMenu }}" aria-label="Close menu" style="background: none; border: 0; font-size: 26px; line-height: 1; color: #1F1D1A; cursor: pointer">&times;</button>
+      </div>
+      <nav style="display: flex; flex-direction: column; gap: 6px">
+        <sc-for list="{{ mobileLinks }}" as="link" hint-placeholder-count="6">
+          <a href="#" data-menu-link="1" style="font-family: Fraunces, Georgia, serif; font-size: clamp(34px, 11vw, 52px); color: #1F1D1A; letter-spacing: -0.03em; line-height: 1.25">{{ link }}</a>
+        </sc-for>
+      </nav>
+      <p style="margin-top: auto; font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase; color: #B8873F">Nothing but leather</p>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ searchOpen }}" hint-placeholder-val="{{ false }}">
+    <div style="position: fixed; inset: 0; z-index: 210; background: rgba(59,42,30,0.96); display: flex; flex-direction: column; padding: clamp(28px, 6vw, 64px)">
+      <div style="display: flex; justify-content: flex-end">
+        <button onClick="{{ closeSearch }}" aria-label="Close search" style="background: none; border: 0; color: #F0EEE6; font-size: 30px; line-height: 1; cursor: pointer">&times;</button>
+      </div>
+      <div style="max-width: 900px; width: 100%; margin: clamp(40px, 12vh, 140px) auto 0">
+        <p style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.2em; color: #B8873F; margin: 0 0 24px">Search the house</p>
+        <input type="text" placeholder="Belts, wallets, bracelets" style="width: 100%; background: none; border: 0; border-bottom: 1px solid rgba(240,238,230,0.35); color: #F0EEE6; font-family: Fraunces, Georgia, serif; font-size: clamp(28px, 5vw, 56px); padding: 0 0 18px; outline: none" />
+        <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 36px">
+          <sc-for list="{{ searchSuggestions }}" as="s" hint-placeholder-count="4">
+            <span style="font-size: 13px; color: #DED6C4; border: 1px solid rgba(222,214,196,0.3); border-radius: 999px; padding: 8px 16px">{{ s }}</span>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <section data-screen-label="Hero" style="position: relative; height: 100svh; min-height: 620px; width: 100%; overflow: hidden; background: #3B2A1E">
+    <sc-for list="{{ heroSlides }}" as="slide" hint-placeholder-count="3">
+      <div style="position: absolute; inset: 0; z-index: {{ slide.z }}; clip-path: {{ slide.clip }}; transition: clip-path 1100ms cubic-bezier(0.76, 0, 0.24, 1); overflow: hidden">
+        <img data-hero-img="{{ slide.index }}" src="{{ slide.image }}" alt="{{ slide.alt }}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform-origin: {{ slide.origin }}" />
+        <div style="position: absolute; inset: 0; background: {{ slide.scrim }}"></div>
+      </div>
+    </sc-for>
+
+    <div style="position: relative; z-index: 20; height: 100%; max-width: 1680px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 56px); display: flex; flex-direction: column; justify-content: flex-end; padding-bottom: clamp(90px, 14vh, 150px)">
+      <p data-hero-eyebrow="1" style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.2em; color: #B8873F; margin: 0 0 22px">{{ active.eyebrow }}</p>
+      <h1 style="margin: 0; font-family: Fraunces, Georgia, serif; font-weight: 400; font-size: clamp(46px, 8.4vw, 140px); line-height: 0.95; letter-spacing: -0.035em; color: {{ active.ink }}; max-width: 15ch; display: flex; flex-wrap: wrap; column-gap: 0.28em">
+        <sc-for list="{{ active.words }}" as="w" hint-placeholder-count="4">
+          <span style="display: inline-block; overflow: hidden; padding-bottom: 0.06em"><span data-word="1" style="display: inline-block">{{ w }}</span></span>
+        </sc-for>
+      </h1>
+      <p data-hero-sub="1" style="margin: 26px 0 0; max-width: 46ch; font-size: clamp(15px, 1.15vw, 18px); line-height: 1.65; color: {{ active.subInk }}">{{ active.sub }}</p>
+      <div data-hero-cta="1" style="display: flex; flex-wrap: wrap; gap: 14px; margin-top: 38px">
+        <button data-magnetic="1" style="cursor: pointer; border: 0; background: #B8873F; color: #FFF; font-size: 12px; text-transform: uppercase; letter-spacing: 0.14em; padding: 17px 34px">Shop Belts</button>
+        <button data-magnetic="1" style="cursor: pointer; background: none; border: 1px solid {{ active.borderInk }}; color: {{ active.ink }}; font-size: 12px; text-transform: uppercase; letter-spacing: 0.14em; padding: 17px 34px">Explore Gifting</button>
+      </div>
+    </div>
+
+    <div style="position: absolute; z-index: 30; bottom: clamp(28px, 5vh, 46px); left: 0; right: 0; max-width: 1680px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 56px); display: flex; align-items: center; justify-content: space-between; gap: 24px">
+      <div style="display: flex; gap: 10px; align-items: center; flex: 1; max-width: 320px">
+        <sc-for list="{{ progressBars }}" as="bar" hint-placeholder-count="3">
+          <button onClick="{{ bar.onClick }}" aria-label="{{ bar.label }}" style="flex: 1; height: 2px; background: {{ bar.track }}; border: 0; padding: 0; cursor: pointer; position: relative">
+            <span data-bar="{{ bar.index }}" style="position: absolute; left: 0; top: 0; bottom: 0; width: 0%; background: #B8873F"></span>
+          </button>
+        </sc-for>
+        <span style="font-size: 11px; letter-spacing: 0.14em; color: {{ active.subInk }}; margin-left: 8px">{{ active.counter }}</span>
+      </div>
+      <div style="display: flex; gap: 10px">
+        <button onClick="{{ prevSlide }}" aria-label="Previous slide" style="width: 46px; height: 46px; border-radius: 50%; border: 1px solid {{ active.borderInk }}; background: none; color: {{ active.ink }}; cursor: pointer; display: flex; align-items: center; justify-content: center">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 5l-7 7 7 7"></path></svg>
+        </button>
+        <button onClick="{{ nextSlide }}" aria-label="Next slide" style="width: 46px; height: 46px; border-radius: 50%; border: 1px solid {{ active.borderInk }}; background: none; color: {{ active.ink }}; cursor: pointer; display: flex; align-items: center; justify-content: center">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 5l7 7-7 7"></path></svg>
+        </button>
+      </div>
+    </div>
+
+    <div style="position: absolute; z-index: 30; bottom: 14px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 6px">
+      <span style="font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: {{ active.subInk }}">Scroll</span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="{{ active.ink }}" stroke-width="1.3" style="animation: ds-cue 1.8s ease-in-out infinite"><path d="M12 4v14M6 13l6 6 6-6"></path></svg>
+    </div>
+  </section>
+
+  <section data-screen-label="Featured belts" style="padding: clamp(72px, 11vw, 150px) clamp(20px, 4vw, 56px) clamp(60px, 9vw, 120px); background: #F0EEE6">
+    <div style="max-width: 1680px; margin: 0 auto">
+      <div data-reveal="1" style="display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 24px; padding-bottom: 40px; border-bottom: 1px solid #DED6C4">
+        <div>
+          <p style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.2em; color: #B8873F; margin: 0 0 18px">The belt room</p>
+          <h2 style="margin: 0; font-family: Fraunces, Georgia, serif; font-weight: 400; font-size: clamp(34px, 5vw, 68px); line-height: 1.02; letter-spacing: -0.03em; color: #1F1D1A; max-width: 18ch">Cut from one hide. Made to outlast the suit.</h2>
+        </div>
+        <a href="#" style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.14em; color: #1F1D1A; border-bottom: 1px solid #B8873F; padding-bottom: 5px; white-space: nowrap">Shop all belts</a>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 268px), 1fr)); gap: clamp(20px, 2.4vw, 40px); padding-top: clamp(36px, 5vw, 60px)">
+        <sc-for list="{{ featured }}" as="p" hint-placeholder-count="8">
+          <article data-reveal="1" onMouseEnter="{{ p.onEnter }}" onMouseLeave="{{ p.onLeave }}" style="background: #F7F4EC; position: relative">
+            <div style="position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: #DED6C4">
+              <img src="{{ p.image }}" alt="{{ p.alt }}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale({{ p.scale }}); transition: transform 900ms cubic-bezier(0.22, 1, 0.36, 1)" />
+              <img src="{{ p.image2 }}" alt="{{ p.alt2 }}" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: {{ p.alt2Opacity }}; transform: scale({{ p.scale }}); transition: opacity 700ms ease, transform 900ms cubic-bezier(0.22, 1, 0.36, 1)" />
+              <span style="position: absolute; top: 14px; left: 14px; font-size: 10px; text-transform: uppercase; letter-spacing: 0.18em; color: #F0EEE6; background: rgba(59,42,30,0.72); padding: 6px 10px">{{ p.leather }}</span>
+              <button onClick="{{ p.add }}" style="position: absolute; left: 14px; right: 14px; bottom: 14px; border: 0; cursor: pointer; background: #1F1D1A; color: #F0EEE6; font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; padding: 14px 0; opacity: {{ p.ctaOpacity }}; transform: translateY({{ p.ctaY }}); transition: opacity 400ms ease, transform 500ms cubic-bezier(0.22, 1, 0.36, 1)">Add to cart</button>
+            </div>
+            <div style="padding: 20px 18px 24px; overflow: hidden">
+              <div style="display: flex; justify-content: space-between; gap: 14px; align-items: baseline; transform: translateY({{ p.infoY }}); transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1)">
+                <h3 style="margin: 0; font-family: Fraunces, Georgia, serif; font-weight: 400; font-size: 19px; letter-spacing: -0.01em; color: #1F1D1A; line-height: 1.25">{{ p.name }}</h3>
+                <span style="font-size: 14px; color: #4A453D; white-space: nowrap">{{ p.priceLabel }}</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 10px; margin-top: 10px; transform: translateY({{ p.infoY }}); transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1)">
+                <span style="font-size: 12px; color: #8B5E3C; letter-spacing: 0.04em">{{ p.color }}</span>
+                <span style="height: 1px; background: #B8873F; width: {{ p.ruleWidth }}; transition: width 600ms cubic-bezier(0.22, 1, 0.36, 1)"></span>
+              </div>
+            </div>
+          </article>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <sc-if value="{{ cartOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeCart }}" style="position: fixed; inset: 0; z-index: 300; background: rgba(31,29,26,0.42)"></div>
+  </sc-if>
+  <aside style="position: fixed; top: 0; right: 0; bottom: 0; z-index: 310; width: min(440px, 100vw); background: #F0EEE6; transform: translateX({{ cartX }}); transition: transform 620ms cubic-bezier(0.76, 0, 0.24, 1); display: flex; flex-direction: column; box-shadow: -30px 0 60px -40px rgba(31,29,26,0.6)">
+    <div style="display: flex; align-items: center; justify-content: space-between; padding: 26px 28px; border-bottom: 1px solid #DED6C4">
+      <p style="margin: 0; font-family: Fraunces, Georgia, serif; font-size: 21px; color: #1F1D1A">Your bag<span style="font-family: Inter, sans-serif; font-size: 13px; color: #8B5E3C; margin-left: 8px">{{ cartCountLabel }}</span></p>
+      <button onClick="{{ closeCart }}" aria-label="Close cart" style="background: none; border: 0; font-size: 26px; line-height: 1; color: #1F1D1A; cursor: pointer">&times;</button>
+    </div>
+
+    <div style="padding: 22px 28px; border-bottom: 1px solid #DED6C4">
+      <p style="margin: 0 0 12px; font-size: 12px; color: #4A453D">{{ deliveryNote }}</p>
+      <div style="height: 3px; background: #DED6C4; position: relative">
+        <span style="position: absolute; left: 0; top: 0; bottom: 0; width: {{ deliveryPct }}; background: #B8873F; transition: width 600ms cubic-bezier(0.22, 1, 0.36, 1)"></span>
+      </div>
+    </div>
+
+    <div style="flex: 1; overflow-y: auto; padding: 8px 28px">
+      <sc-if value="{{ cartEmpty }}" hint-placeholder-val="{{ true }}">
+        <p style="margin: 40px 0; font-size: 14px; color: #4A453D; line-height: 1.7">Your bag is empty. Start with a belt.</p>
+      </sc-if>
+      <sc-for list="{{ cartLines }}" as="line" hint-placeholder-count="0">
+        <div style="display: flex; gap: 16px; padding: 22px 0; border-bottom: 1px solid #DED6C4">
+          <div style="width: 76px; aspect-ratio: 4 / 5; background: #DED6C4; overflow: hidden; flex-shrink: 0">
+            <img src="{{ line.image }}" alt="{{ line.alt }}" style="width: 100%; height: 100%; object-fit: cover; display: block" />
+          </div>
+          <div style="flex: 1; min-width: 0">
+            <div style="display: flex; justify-content: space-between; gap: 12px">
+              <p style="margin: 0; font-family: Fraunces, Georgia, serif; font-size: 16px; color: #1F1D1A; line-height: 1.3">{{ line.name }}</p>
+              <button onClick="{{ line.remove }}" aria-label="Remove" style="background: none; border: 0; color: #8B5E3C; font-size: 18px; line-height: 1; cursor: pointer">&times;</button>
+            </div>
+            <p style="margin: 4px 0 14px; font-size: 12px; color: #8B5E3C">{{ line.meta }}</p>
+            <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px">
+              <div style="display: flex; align-items: center; border: 1px solid #DED6C4">
+                <button onClick="{{ line.dec }}" aria-label="Decrease" style="width: 30px; height: 30px; border: 0; background: none; color: #1F1D1A; cursor: pointer">&minus;</button>
+                <span style="min-width: 24px; text-align: center; font-size: 13px; color: #1F1D1A">{{ line.qty }}</span>
+                <button onClick="{{ line.inc }}" aria-label="Increase" style="width: 30px; height: 30px; border: 0; background: none; color: #1F1D1A; cursor: pointer">+</button>
+              </div>
+              <span style="font-size: 13px; color: #4A453D">{{ line.lineTotal }}</span>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="padding: 24px 28px 30px; border-top: 1px solid #DED6C4; background: #F7F4EC">
+      <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 18px">
+        <span style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.14em; color: #4A453D">Subtotal</span>
+        <span style="font-family: Fraunces, Georgia, serif; font-size: 24px; color: #1F1D1A">{{ subtotalLabel }}</span>
+      </div>
+      <button data-magnetic="1" style="width: 100%; border: 0; cursor: pointer; background: #B8873F; color: #FFF; font-size: 12px; text-transform: uppercase; letter-spacing: 0.14em; padding: 18px 0">Checkout</button>
+      <p style="margin: 14px 0 0; font-size: 11px; color: #8B5E3C; text-align: center; letter-spacing: 0.04em">Cash on delivery, or pay now and save 15 percent.</p>
+    </div>
+  </aside>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900}}">
+const PKR = n => "Rs " + n.toLocaleString("en-PK");
+const img = (seed, w, h) => "https://picsum.photos/seed/" + seed + "/" + w + "/" + h;
+
+const PRODUCTS = [
+  { id: 1, name: "The Regent Dress Belt", cat: "Belts", price: 5900, color: "Espresso", leather: "Full grain" },
+  { id: 2, name: "The Mayfair Bridle", cat: "Belts", price: 6800, color: "Chestnut", leather: "Bridle" },
+  { id: 3, name: "The Sloane Reversible", cat: "Belts", price: 7400, color: "Black / Tan", leather: "Calf" },
+  { id: 4, name: "The Whitehall Formal", cat: "Belts", price: 5200, color: "Black", leather: "Box calf" },
+  { id: 5, name: "The Cavendish Braid", cat: "Belts", price: 4600, color: "Cognac", leather: "Woven calf" },
+  { id: 6, name: "The Pall Mall Casual", cat: "Belts", price: 3900, color: "Mid tan", leather: "Pull-up" },
+  { id: 7, name: "The Albany Suede", cat: "Belts", price: 4300, color: "Sand", leather: "Suede" },
+  { id: 8, name: "The Kensington Stitch", cat: "Belts", price: 8500, color: "Oxblood", leather: "Shell" }
+];
+
+class Component extends DCLogic {
+  state = {
+    slide: 0, scrolled: false, mega: null, cartOpen: false, menuOpen: false,
+    searchOpen: false, hover: null, cart: [], w: typeof window !== "undefined" ? window.innerWidth : 1440
+  };
+
+  slides = [
+    { dark: false, eyebrow: "New season, 2026", head: "Leather that earns its keep.", sub: "Belts, wallets and bracelets cut from full grain hide and finished by hand in small runs.", image: img("dukestreet-studio", 3840, 2160), alt: "Cream studio still life of a leather belt in daylight", scrim: "linear-gradient(90deg, rgba(240,238,230,0.92) 0%, rgba(240,238,230,0.55) 46%, rgba(240,238,230,0.05) 78%)", origin: "70% 50%" },
+    { dark: true, eyebrow: "The bridle collection", head: "Nothing but leather.", sub: "Solid brass buckles, hand burnished edges and a single row of saddle stitch. No shortcuts.", image: img("dukestreet-moody", 3840, 2160), alt: "Low key close up of dark leather with brass buckle highlights", scrim: "linear-gradient(90deg, rgba(31,29,26,0.9) 0%, rgba(31,29,26,0.6) 50%, rgba(31,29,26,0.15) 85%)", origin: "35% 60%" },
+    { dark: false, eyebrow: "Corporate and personal gifting", head: "A gift that keeps its shape.", sub: "Engraved sets for the office, boxed pairs for the people you like. Delivered across Pakistan.", image: img("dukestreet-lifestyle", 3840, 2160), alt: "Lifestyle shot of a man fastening a leather belt", scrim: "linear-gradient(90deg, rgba(240,238,230,0.9) 0%, rgba(240,238,230,0.5) 48%, rgba(240,238,230,0.05) 80%)", origin: "50% 40%" }
+  ];
+
+  mega = {
+    Belts: {
+      columns: [
+        { title: "By style", items: ["Dress belts", "Casual belts", "Reversible", "Braided"] },
+        { title: "By leather", items: ["Full grain", "Bridle", "Suede", "Box calf"] }
+      ],
+      featured: { name: "The Mayfair Bridle", price: 6800, image: img("dukestreet-mega-belt", 1200, 1500), alt: "Bridle leather belt coiled on cream paper", shopAll: "Shop all belts" }
+    },
+    Wallets: {
+      columns: [
+        { title: "By style", items: ["Bifold", "Cardholder", "Travel wallet", "Coin pocket"] },
+        { title: "By leather", items: ["Full grain", "Shell cordovan", "Pebble grain", "Suede"] }
+      ],
+      featured: { name: "The Holland Bifold", price: 7200, image: img("dukestreet-mega-wallet", 1200, 1500), alt: "Bifold leather wallet open on a cream surface", shopAll: "Shop all wallets" }
+    },
+    Bracelets: {
+      columns: [
+        { title: "By style", items: ["Single wrap", "Double wrap", "Braided cord", "Brass clasp"] },
+        { title: "By leather", items: ["Full grain", "Bridle", "Waxed cord", "Nubuck"] }
+      ],
+      featured: { name: "The Jermyn Wrap", price: 2900, image: img("dukestreet-mega-bracelet", 1200, 1500), alt: "Braided leather bracelet with brass clasp", shopAll: "Shop all bracelets" }
+    }
+  };
+
+  componentDidMount() {
+    this.onScroll = () => {
+      const s = window.scrollY > 80;
+      if (s !== this.state.scrolled) this.setState({ scrolled: s });
+    };
+    this.onResize = () => this.setState({ w: window.innerWidth });
+    window.addEventListener("scroll", this.onScroll, { passive: true });
+    window.addEventListener("resize", this.onResize);
+    this.reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    this.startTimer();
+    this.waitForLibs();
+    this.bindCursor();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("scroll", this.onScroll);
+    window.removeEventListener("resize", this.onResize);
+    clearInterval(this.timer);
+    if (this.raf) cancelAnimationFrame(this.raf);
+    if (this.lenis) this.lenis.destroy();
+    if (window.ScrollTrigger) window.ScrollTrigger.getAll().forEach(t => t.kill());
+  }
+
+  componentDidUpdate(_p, prev) {
+    if (prev.slide !== this.state.slide) this.animateSlide();
+    if (prev.mega !== this.state.mega && this.state.mega && window.gsap && !this.reduced) {
+      window.gsap.fromTo("[data-mega-item]", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.5, stagger: 0.07, ease: "power2.out" });
+    }
+    if (prev.menuOpen !== this.state.menuOpen && this.state.menuOpen && window.gsap && !this.reduced) {
+      window.gsap.fromTo("[data-menu-link]", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.6, stagger: 0.06, ease: "power3.out" });
+    }
+  }
+
+  waitForLibs(tries) {
+    tries = tries || 0;
+    if (!window.gsap && tries < 60) { setTimeout(() => this.waitForLibs(tries + 1), 100); return; }
+    if (!window.gsap) return;
+    const gsap = window.gsap;
+    if (window.ScrollTrigger) gsap.registerPlugin(window.ScrollTrigger);
+    if (window.Lenis && !this.reduced) {
+      this.lenis = new window.Lenis({ duration: 1.1, smoothWheel: true });
+      const raf = t => { this.lenis.raf(t); this.raf = requestAnimationFrame(raf); };
+      this.raf = requestAnimationFrame(raf);
+      if (window.ScrollTrigger) this.lenis.on("scroll", window.ScrollTrigger.update);
+    }
+    this.animateSlide(true);
+    if (this.reduced) return;
+    if (window.ScrollTrigger) {
+      gsap.utils.toArray("[data-reveal]").forEach((el, i) => {
+        gsap.fromTo(el, { opacity: 0, y: 40 }, {
+          opacity: 1, y: 0, duration: 0.9, ease: "power3.out", delay: (i % 4) * 0.07,
+          scrollTrigger: { trigger: el, start: "top 88%" }
+        });
+      });
+    }
+  }
+
+  animateSlide(first) {
+    const gsap = window.gsap;
+    if (!gsap) return;
+    const dur = this.reduced ? 0.001 : 1;
+    gsap.fromTo("[data-word]", { yPercent: 110 }, { yPercent: 0, duration: dur, stagger: 0.07, ease: "power4.out", overwrite: true });
+    gsap.fromTo("[data-hero-eyebrow], [data-hero-sub], [data-hero-cta]", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: dur * 0.8, stagger: 0.1, delay: 0.25, ease: "power2.out", overwrite: true });
+    const el = document.querySelector('[data-hero-img="' + this.state.slide + '"]');
+    if (el && !this.reduced) gsap.fromTo(el, { scale: 1.02 }, { scale: 1.16, duration: 8, ease: "none", overwrite: true });
+    const bars = document.querySelectorAll("[data-bar]");
+    bars.forEach((b, i) => gsap.set(b, { width: i < this.state.slide ? "100%" : "0%" }));
+    const bar = document.querySelector('[data-bar="' + this.state.slide + '"]');
+    if (bar) gsap.fromTo(bar, { width: "0%" }, { width: "100%", duration: 6, ease: "none", overwrite: true });
+  }
+
+  bindCursor() {
+    if (window.matchMedia("(hover: none)").matches) return;
+    const dot = this.cursor;
+    if (!dot) return;
+    let raf = null, tx = 0, ty = 0, cx = 0, cy = 0;
+    const loop = () => { cx += (tx - cx) * 0.22; cy += (ty - cy) * 0.22; dot.style.transform = "translate(" + (cx - 5) + "px," + (cy - 5) + "px) scale(" + this.cursorScale + ")"; raf = requestAnimationFrame(loop); };
+    this.cursorScale = 1;
+    document.addEventListener("mousemove", e => {
+      tx = e.clientX; ty = e.clientY;
+      dot.style.opacity = "1";
+      const over = e.target.closest && e.target.closest("a, button, [data-nav], input");
+      this.cursorScale = over ? 3.4 : 1;
+      dot.style.background = over ? "rgba(184,135,63,0.35)" : "#B8873F";
+      const mag = e.target.closest && e.target.closest("[data-magnetic]");
+      if (window.gsap && !this.reduced) {
+        if (mag) {
+          const r = mag.getBoundingClientRect();
+          window.gsap.to(mag, { x: (e.clientX - r.left - r.width / 2) * 0.25, y: (e.clientY - r.top - r.height / 2) * 0.35, duration: 0.5, ease: "power3.out" });
+          if (this.lastMag && this.lastMag !== mag) window.gsap.to(this.lastMag, { x: 0, y: 0, duration: 0.6, ease: "elastic.out(1,0.4)" });
+          this.lastMag = mag;
+        } else if (this.lastMag) {
+          window.gsap.to(this.lastMag, { x: 0, y: 0, duration: 0.7, ease: "elastic.out(1,0.4)" });
+          this.lastMag = null;
+        }
+      }
+    });
+    loop();
+  }
+
+  startTimer() {
+    clearInterval(this.timer);
+    this.timer = setInterval(() => this.setState(s => ({ slide: (s.slide + 1) % 3 })), 6000);
+  }
+
+  go(i) { this.setState({ slide: (i + 3) % 3 }); this.startTimer(); }
+
+  addToCart(p) {
+    this.setState(s => {
+      const found = s.cart.find(l => l.id === p.id);
+      const cart = found ? s.cart.map(l => l.id === p.id ? Object.assign({}, l, { qty: l.qty + 1 }) : l)
+        : s.cart.concat([{ id: p.id, qty: 1 }]);
+      return { cart, cartOpen: true };
+    });
+  }
+
+  setQty(id, d) {
+    this.setState(s => ({ cart: s.cart.map(l => l.id === id ? Object.assign({}, l, { qty: Math.max(1, l.qty + d) }) : l) }));
+  }
+
+  renderVals() {
+    const st = this.state;
+    const desktop = st.w >= 960;
+    const slide = this.slides[st.slide];
+    const solid = st.scrolled || !!st.mega;
+    const navInk = solid ? "#1F1D1A" : (slide.dark ? "#F0EEE6" : "#1F1D1A");
+    const cartUnits = st.cart.reduce((a, l) => a + l.qty, 0);
+    const subtotal = st.cart.reduce((a, l) => a + l.qty * PRODUCTS.find(p => p.id === l.id).price, 0);
+    const FREE = 5000;
+    const megaData = st.mega ? this.mega[st.mega] : null;
+
+    return {
+      isDesktop: desktop,
+      isMobile: !desktop,
+      cursorRef: el => { this.cursor = el; },
+      megaRef: el => { this.megaEl = el; },
+      navBg: solid ? "#F0EEE6" : "transparent",
+      navShadow: solid ? "0 2px 30px -18px rgba(31,29,26,0.55)" : "none",
+      navHeight: st.scrolled ? "68px" : "88px",
+      navInk,
+      navLinks: ["Belts", "Wallets", "Bracelets", "Gifting", "About"].map(label => ({
+        label,
+        rule: st.mega === label ? "#B8873F" : "transparent",
+        onEnter: () => this.setState({ mega: this.mega[label] ? label : null })
+      })),
+      closeMega: () => this.setState({ mega: null }),
+      megaOpen: !!megaData,
+      megaColumns: megaData ? megaData.columns : [],
+      megaFeatured: megaData ? Object.assign({}, megaData.featured, { priceLabel: PKR(megaData.featured.price) }) : {},
+      mobileLinks: ["Belts", "Wallets", "Bracelets", "Gifting", "About", "Track Order"],
+      menuOpen: st.menuOpen,
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      searchOpen: st.searchOpen,
+      openSearch: () => this.setState({ searchOpen: true }),
+      closeSearch: () => this.setState({ searchOpen: false }),
+      searchSuggestions: ["Bridle belt", "Bifold wallet", "Corporate gifting", "Size 34", "Espresso"],
+
+      heroSlides: this.slides.map((s, i) => ({
+        index: i,
+        image: s.image,
+        alt: s.alt,
+        scrim: s.scrim,
+        origin: s.origin,
+        z: i === st.slide ? 3 : (i === (st.slide + 2) % 3 ? 2 : 1),
+        clip: i === st.slide ? "inset(0% 0% 0% 0%)" : (i === (st.slide + 2) % 3 ? "inset(0% 0% 0% 0%)" : "inset(0% 0% 0% 100%)")
+      })),
+      active: {
+        eyebrow: slide.eyebrow,
+        words: slide.head.split(" "),
+        sub: slide.sub,
+        ink: slide.dark ? "#F0EEE6" : "#1F1D1A",
+        subInk: slide.dark ? "#DED6C4" : "#4A453D",
+        borderInk: slide.dark ? "rgba(240,238,230,0.5)" : "rgba(31,29,26,0.35)",
+        counter: "0" + (st.slide + 1) + " / 03"
+      },
+      progressBars: [0, 1, 2].map(i => ({
+        index: i,
+        label: "Go to slide " + (i + 1),
+        track: slide.dark ? "rgba(240,238,230,0.3)" : "rgba(31,29,26,0.18)",
+        onClick: () => this.go(i)
+      })),
+      prevSlide: () => this.go(st.slide - 1),
+      nextSlide: () => this.go(st.slide + 1),
+
+      featured: PRODUCTS.map(p => {
+        const on = st.hover === p.id;
+        return {
+          name: p.name,
+          priceLabel: PKR(p.price),
+          color: p.color,
+          leather: p.leather,
+          image: img("ds-" + p.id + "-a", 1200, 1500),
+          image2: img("ds-" + p.id + "-b", 1200, 1500),
+          alt: p.name + ", " + p.color + " " + p.leather.toLowerCase() + " leather",
+          alt2: p.name + " shown from a second angle",
+          alt2Opacity: on ? 1 : 0,
+          scale: on ? 1.06 : 1,
+          ctaOpacity: on ? 1 : 0,
+          ctaY: on ? "0px" : "14px",
+          infoY: on ? "-4px" : "0px",
+          ruleWidth: on ? "56px" : "0px",
+          onEnter: () => this.setState({ hover: p.id }),
+          onLeave: () => this.setState({ hover: null }),
+          add: e => { e.stopPropagation(); this.addToCart(p); }
+        };
+      }),
+
+      hasCart: cartUnits > 0,
+      cartCount: cartUnits,
+      cartCountLabel: cartUnits === 1 ? "1 item" : cartUnits + " items",
+      cartOpen: st.cartOpen,
+      cartX: st.cartOpen ? "0%" : "101%",
+      openCart: () => this.setState({ cartOpen: true }),
+      closeCart: () => this.setState({ cartOpen: false }),
+      cartEmpty: st.cart.length === 0,
+      cartLines: st.cart.map(l => {
+        const p = PRODUCTS.find(x => x.id === l.id);
+        return {
+          name: p.name,
+          meta: p.color + " · " + p.leather + " · Size 34",
+          image: img("ds-" + p.id + "-a", 1200, 1500),
+          alt: p.name,
+          qty: l.qty,
+          lineTotal: PKR(p.price * l.qty),
+          inc: () => this.setQty(p.id, 1),
+          dec: () => this.setQty(p.id, -1),
+          remove: () => this.setState(s => ({ cart: s.cart.filter(x => x.id !== p.id) }))
+        };
+      }),
+      deliveryNote: subtotal >= FREE ? "Delivery is on us." : "You are " + PKR(FREE - subtotal) + " from free delivery.",
+      deliveryPct: Math.min(100, Math.round((subtotal / FREE) * 100)) + "%",
+      subtotalLabel: PKR(subtotal)
+    };
+  }
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  html, body { margin: 0; padding: 0; background: #14100E; }
+  body { font-family: Inter, system-ui, sans-serif; color: #14100E; -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+  a { color: #14100E; text-decoration: none; }
+  a:hover { color: #B8873F; }
+</style>
+</helmet>
+
+<div id="post" style="width: 1080px; height: 1080px; position: relative; overflow: hidden; background: #B5AB95">
+
+  <img src="post-plate.png" alt="A woman sitting on the floor unboxing a Stagr order of belts, wallets and a key fob" style="position: absolute; left: 0; bottom: 0; width: 1080px; height: auto; display: block" />
+
+  <div style="position: absolute; left: 0; right: 0; top: 0; height: 640px; background: linear-gradient(180deg, #B5AB95 0%, #B5AB95 78%, rgba(181,171,149,0) 100%)"></div>
+
+  <img src="stagr-lockup-dark.png" alt="Stagr" style="position: absolute; left: 76px; top: 76px; width: 108px; height: auto; display: block" />
+
+  <div style="position: absolute; left: 76px; top: 244px; width: 600px">
+    <p style="margin: 0 0 22px; display: flex; align-items: center; gap: 12px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.26em; color: #14100E">
+      <span style="display: block; width: 28px; height: 1px; background: #B8873F"></span>
+      <span>{{ eyebrow }}</span>
+    </p>
+    <h1 style="margin: 0; font-family: Fraunces, Georgia, serif; font-weight: 400; font-size: 78px; line-height: 0.96; letter-spacing: -0.04em; color: #14100E">{{ headline }}</h1>
+    <p style="margin: 24px 0 0; max-width: 32ch; font-size: 21px; line-height: 1.5; color: #2A241E; text-wrap: pretty">{{ subhead }}</p>
+    <div style="display: flex; align-items: center; gap: 22px; margin-top: 36px">
+      <span style="display: inline-flex; align-items: center; gap: 14px; background: #14100E; color: #E3D9C6; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.16em; min-height: 56px; padding: 0 30px">
+        <span>{{ cta }}</span>
+        <svg width="22" height="10" viewBox="0 0 22 10" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M0 5h19M14 1l4 4-4 4"></path></svg>
+      </span>
+      <span style="font-size: 14px; font-weight: 600; letter-spacing: 0.04em; color: #2A241E">{{ note }}</span>
+    </div>
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1080,&quot;height&quot;:1080},&quot;eyebrow&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Gifting, now open&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;headline&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Gift him the box.&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;subhead&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;He will say you should not have. He will also not put it down.&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;cta&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Shop gifting&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;note&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Cash on delivery&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      eyebrow: this.props.eyebrow ?? "Gifting, now open",
+      headline: this.props.headline ?? "Gift him the box.",
+      subhead: this.props.subhead ?? "He will say you should not have. He will also not put it down.",
+      cta: this.props.cta ?? "Shop gifting",
+      note: this.props.note ?? "Cash on delivery"
+    };
+  }
+}
+
+</script>
+</body>
+</html>

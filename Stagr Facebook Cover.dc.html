@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  html, body { margin: 0; padding: 0; background: #14100E; }
+  body { font-family: Inter, system-ui, sans-serif; color: #14100E; -webkit-font-smoothing: antialiased; }
+  * { box-sizing: border-box; }
+  a { color: #14100E; text-decoration: none; }
+  a:hover { color: #B8873F; }
+</style>
+</helmet>
+
+<div id="cover" style="width: 1640px; height: 856px; position: relative; overflow: hidden; background: #E3D9C6">
+
+  <img src="cover-plate.png" alt="Two models carrying Stagr leather goods against a sunlit cream wall" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block" />
+
+  <div style="position: absolute; left: 50%; top: 0; transform: translateX(-50%); width: 760px; height: 100%; background: radial-gradient(56% 46% at 50% 36%, rgba(227,217,198,0.84) 0%, rgba(227,217,198,0.4) 60%, rgba(227,217,198,0) 100%)"></div>
+
+  <div style="position: absolute; left: 50%; top: 128px; transform: translateX(-50%); width: 640px; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0">
+    <img src="stagr-lockup-dark.png" alt="Stagr" style="width: 190px; height: auto; display: block; margin: 0 0 34px" />
+    <p style="margin: 0 0 22px; display: flex; align-items: center; gap: 14px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.25em; color: #B8873F">
+      <span style="display: block; width: 34px; height: 1px; background: #B8873F"></span>
+      <span>{{ eyebrow }}</span>
+      <span style="display: block; width: 34px; height: 1px; background: #B8873F"></span>
+    </p>
+    <h1 style="margin: 0; font-family: Fraunces, Georgia, serif; font-weight: 400; font-size: 62px; line-height: 1.04; letter-spacing: -0.035em; color: #14100E; text-wrap: pretty">{{ headline }}</h1>
+    <p style="margin: 22px 0 0; font-size: 16px; line-height: 1.6; color: rgba(20,16,14,0.75)">{{ subhead }}</p>
+    <p style="margin: 26px 0 0; font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3em; color: rgba(20,16,14,0.7); white-space: nowrap">{{ footnote }}</p>
+  </div>
+
+  <sc-if value="{{ showSafeZones }}" hint-placeholder-val="{{ false }}">
+    <div style="position: absolute; inset: 0; pointer-events: none">
+      <div style="position: absolute; left: 50%; bottom: 8px; transform: translateX(-50%); width: 216px; height: 216px; border-radius: 50%; border: 2px dashed rgba(184,135,63,0.95); background: rgba(184,135,63,0.14)"></div>
+      <div style="position: absolute; left: 44px; bottom: 20px; width: 200px; height: 200px; border-radius: 50%; border: 2px dashed rgba(184,135,63,0.6)"></div>
+      <div style="position: absolute; left: 50%; top: 0; bottom: 0; transform: translateX(-50%); width: 1130px; border-left: 2px dashed rgba(20,16,14,0.45); border-right: 2px dashed rgba(20,16,14,0.45)"></div>
+      <span style="position: absolute; left: 50%; bottom: 236px; transform: translateX(-50%); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; color: #B8873F; background: #FFFFFF; padding: 5px 10px; white-space: nowrap">Profile picture, mobile</span>
+      <span style="position: absolute; left: 50%; top: 18px; transform: translate(-50%, 0); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.2em; color: #14100E; background: #FFFFFF; padding: 5px 10px; white-space: nowrap">Mobile crop, 1130px</span>
+    </div>
+  </sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1640,&quot;height&quot;:856},&quot;eyebrow&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;New arrivals&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;headline&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Something new is coming.&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;subhead&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Belts, wallets and bracelets. Launching this September.&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;footnote&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Stagr · Nothing but leather&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;showSafeZones&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Guides&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      eyebrow: this.props.eyebrow ?? "New arrivals",
+      headline: this.props.headline ?? "Something new is coming.",
+      subhead: this.props.subhead ?? "Belts, wallets and bracelets. Launching this September.",
+      footnote: this.props.footnote ?? "Stagr · Nothing but leather",
+      showSafeZones: this.props.showSafeZones ?? false
+    };
+  }
+}
+
+</script>
+</body>
+</html>
