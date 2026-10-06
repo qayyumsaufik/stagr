@@ -301,7 +301,10 @@
         onSplit(self) {
           el.classList.add("is-split");
           const vars = { yPercent: 105, duration: 1.2, ease: EASE.in, stagger: 0.09, delay, overwrite: true };
-          if (now) { if (el.dataset.wait === "loader") { return G.from(self.lines, Object.assign(vars, { paused: true })); } return G.from(self.lines, vars); }
+          if (now) {
+            if (el.dataset.wait === "loader" && !S.loaderDone) { const tw = G.from(self.lines, Object.assign(vars, { paused: true })); S.onLoaderDone.push(() => tw.play()); return tw; }
+            return G.from(self.lines, vars);
+          }
           return G.from(self.lines, Object.assign(vars, { scrollTrigger: trig(el) }));
         },
       });
@@ -313,11 +316,11 @@
     if (!G || REDUCED) { els.forEach((el) => { el.classList.add("is-revealed"); qa("img", el).forEach((i) => { i.style.clipPath = "none"; i.style.transform = "none"; }); }); return; }
     els.forEach((el) => {
       if (el._rev) return; el._rev = true;
-      const img = q("img, picture", el); if (!img) return;
+      const img = q("img", el); if (!img) return;
       const from = el.dataset.from || "bottom";
       const start = { bottom: "inset(0 0 100% 0)", top: "inset(100% 0 0 0)", left: "inset(0 100% 0 0)", right: "inset(0 0 0 100%)" }[from];
       const tw = G.fromTo(img, { clipPath: start, scale: 1.15 }, { clipPath: "inset(0 0 0 0)", scale: 1, duration: 1.4, ease: EASE.big, delay: +(el.dataset.delay || 0), paused: el.dataset.wait === "loader", scrollTrigger: el.dataset.wait === "loader" ? null : trig(el), onComplete: () => { el.classList.add("is-revealed"); img.style.clipPath = ""; } });
-      if (el.dataset.wait === "loader") S.onLoaderDone.push(() => tw.play());
+      if (el.dataset.wait === "loader") (S.loaderDone ? tw.play() : S.onLoaderDone.push(() => tw.play()));
     });
   }
   function revealBlocks(root) {
@@ -329,7 +332,7 @@
       const kind = el.dataset.reveal, delay = +(el.dataset.delay || 0);
       const from = kind === "up" ? { opacity: 0, y: 32 } : { opacity: 0 };
       const tw = G.fromTo(el, from, { opacity: 1, y: 0, duration: 1, ease: EASE.in, delay, paused: el.dataset.wait === "loader", scrollTrigger: el.dataset.wait === "loader" ? null : trig(el), onComplete: () => el.classList.add("is-revealed") });
-      if (el.dataset.wait === "loader") S.onLoaderDone.push(() => tw.play());
+      if (el.dataset.wait === "loader") (S.loaderDone ? tw.play() : S.onLoaderDone.push(() => tw.play()));
     });
     // staggered groups
     qa("[data-stagger]", root).forEach((grp) => {
@@ -451,7 +454,7 @@
   /* ---------------- boot ---------------- */
   function boot() {
     initReveals(document);
-    const start = () => { S.onLoaderDone.forEach((f) => { try { f(); } catch (e) { console.error(e); } }); S.onLoaderDone.length = 0; ST && ST.refresh(); };
+    const start = () => { S.loaderDone = true; S.onLoaderDone.forEach((f) => { try { f(); } catch (e) { console.error(e); } }); S.onLoaderDone.length = 0; ST && ST.refresh(); };
     curtainIn().then(runLoader).then(start);
     S.onReady.forEach((f) => { try { f(); } catch (e) { console.error(e); } });
     if (ST) { window.addEventListener("load", () => ST.refresh()); if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => ST.refresh()); }

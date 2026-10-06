@@ -289,7 +289,7 @@ em.i, .i { font-style: italic; font-weight: 300; }
   aspect-ratio: var(--ar, 4 / 5);
   border-radius: var(--radius);
 }
-.media > img, .media > video, .media > picture > img {
+.media > img, .media > video, .media > picture > img, .media picture img {
   position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
 }
 .media.contain > img { object-fit: contain; }
@@ -489,15 +489,15 @@ svg.arrow { width: 18px; height: 18px; display: inline-block; vertical-align: mi
 /* ---------- reveal primitives (opacity / transform only) ---------- */
 .js [data-reveal] { opacity: 0; }
 .js [data-reveal="up"] { transform: translateY(32px); }
-.js .reveal-img > img, .js .reveal-img > picture { clip-path: inset(0 0 100% 0); transform: scale(1.15); }
-.js .reveal-img[data-from="left"] > img { clip-path: inset(0 100% 0 0); }
-.js .reveal-img[data-from="right"] > img { clip-path: inset(0 0 0 100%); }
-.js .reveal-img[data-from="top"] > img { clip-path: inset(100% 0 0 0); }
+.js .reveal-img img { clip-path: inset(0 0 100% 0); transform: scale(1.15); }
+.js .reveal-img[data-from="left"] img { clip-path: inset(0 100% 0 0); }
+.js .reveal-img[data-from="right"] img { clip-path: inset(0 0 0 100%); }
+.js .reveal-img[data-from="top"] img { clip-path: inset(100% 0 0 0); }
 .js [data-lines] { visibility: hidden; }
 .js .is-revealed, .js .is-split { visibility: visible; opacity: 1; transform: none; }
-.js .reveal-img.is-revealed > img, .js .reveal-img.is-revealed > picture { clip-path: none; transform: none; }
+.js .reveal-img.is-revealed img { clip-path: none; transform: none; }
 .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-.no-js [data-reveal], .no-js .reveal-img > img, .no-js [data-lines] { opacity: 1; transform: none; clip-path: none; visibility: visible; }
+.no-js [data-reveal], .no-js .reveal-img img, .no-js [data-lines] { opacity: 1; transform: none; clip-path: none; visibility: visible; }
 .line-mask { overflow: hidden; }
 
 /* ---------- header ---------- */
@@ -651,7 +651,7 @@ svg.arrow { width: 18px; height: 18px; display: inline-block; vertical-align: mi
 /* ---------- reduced motion ---------- */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .2s !important; scroll-behavior: auto !important; }
-  .js [data-reveal], .js .reveal-img > img, .js [data-lines] { opacity: 1; transform: none; clip-path: none; visibility: visible; }
+  .js [data-reveal], .js .reveal-img img, .js [data-lines] { opacity: 1; transform: none; clip-path: none; visibility: visible; }
   .cursor { display: none !important; }
   .js.has-cursor, .js.has-cursor a, .js.has-cursor button { cursor: auto; }
   .scroll-cue i::after { animation: none; transform: none; }

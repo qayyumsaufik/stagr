@@ -81,7 +81,8 @@
           "height": 896,
           "colour": "black",
           "kind": "studio",
-          "alt": "Nova Double-Sided Leather Belt in black"
+          "alt": "Nova Double-Sided Leather Belt in black",
+          "srcSmall": "assets/products/nova-black-1-800.jpg"
         },
         {
           "src": "assets/products/nova-black-2.jpg",
@@ -90,7 +91,8 @@
           "height": 1024,
           "colour": "black",
           "kind": "studio",
-          "alt": "Nova Double-Sided Leather Belt in black"
+          "alt": "Nova Double-Sided Leather Belt in black",
+          "srcSmall": "assets/products/nova-black-2-800.jpg"
         },
         {
           "src": "assets/products/nova-black-3.jpg",
@@ -99,7 +101,8 @@
           "height": 896,
           "colour": "black",
           "kind": "studio",
-          "alt": "Nova Double-Sided Leather Belt in black"
+          "alt": "Nova Double-Sided Leather Belt in black",
+          "srcSmall": "assets/products/nova-black-3-800.jpg"
         }
       ],
       "lifestyleImages": [
@@ -111,7 +114,8 @@
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Old site used heritage-01 / nova-02 / heritage-open / nova-flat for Nova; heritage-* shows a tan+brown belt lineup, nova-* a dark coiled belt.",
-          "alt": "Nova Double-Sided Leather Belt, workshop photograph"
+          "alt": "Nova Double-Sided Leather Belt, workshop photograph",
+          "srcSmall": "assets/lifestyle/heritage-01-800.jpg"
         },
         {
           "src": "assets/lifestyle/nova-02.jpg",
@@ -121,27 +125,30 @@
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Old site used heritage-01 / nova-02 / heritage-open / nova-flat for Nova; heritage-* shows a tan+brown belt lineup, nova-* a dark coiled belt.",
-          "alt": "Nova Double-Sided Leather Belt, workshop photograph"
+          "alt": "Nova Double-Sided Leather Belt, workshop photograph",
+          "srcSmall": "assets/lifestyle/nova-02-800.jpg"
         },
         {
           "src": "assets/lifestyle/heritage-open.jpg",
           "source": "products-images/heritage-open.jpg",
-          "width": 1800,
-          "height": 1200,
+          "width": 1600,
+          "height": 1067,
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Old site used heritage-01 / nova-02 / heritage-open / nova-flat for Nova; heritage-* shows a tan+brown belt lineup, nova-* a dark coiled belt.",
-          "alt": "Nova Double-Sided Leather Belt, workshop photograph"
+          "alt": "Nova Double-Sided Leather Belt, workshop photograph",
+          "srcSmall": "assets/lifestyle/heritage-open-800.jpg"
         },
         {
           "src": "assets/lifestyle/nova-flat.jpg",
           "source": "products-images/nova-flat.jpg",
-          "width": 1800,
-          "height": 1200,
+          "width": 1600,
+          "height": 1067,
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Old site used heritage-01 / nova-02 / heritage-open / nova-flat for Nova; heritage-* shows a tan+brown belt lineup, nova-* a dark coiled belt.",
-          "alt": "Nova Double-Sided Leather Belt, workshop photograph"
+          "alt": "Nova Double-Sided Leather Belt, workshop photograph",
+          "srcSmall": "assets/lifestyle/nova-flat-800.jpg"
         }
       ],
       "badges": [
@@ -215,7 +222,8 @@
           "height": 896,
           "colour": "brown",
           "kind": "studio",
-          "alt": "Outlaw Crazy Horse Leather Belt in brown"
+          "alt": "Outlaw Crazy Horse Leather Belt in brown",
+          "srcSmall": "assets/products/outlaw-brown-1-800.jpg"
         },
         {
           "src": "assets/products/outlaw-brown-2.jpg",
@@ -224,7 +232,8 @@
           "height": 1024,
           "colour": "brown",
           "kind": "studio",
-          "alt": "Outlaw Crazy Horse Leather Belt in brown"
+          "alt": "Outlaw Crazy Horse Leather Belt in brown",
+          "srcSmall": "assets/products/outlaw-brown-2-800.jpg"
         }
       ],
       "lifestyleImages": [
@@ -236,7 +245,8 @@
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Old site mapped ranger-* to Outlaw, but ranger-* shows a TAN belt with an embossed stag; the Outlaw studio shots are dark brown. The tan belt may actually be the Monarch. Please confirm.",
-          "alt": "Outlaw Crazy Horse Leather Belt, workshop photograph"
+          "alt": "Outlaw Crazy Horse Leather Belt, workshop photograph",
+          "srcSmall": "assets/lifestyle/ranger-01-800.jpg"
         },
         {
           "src": "assets/lifestyle/ranger-02.jpg",
@@ -246,37 +256,41 @@
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Old site mapped ranger-* to Outlaw, but ranger-* shows a TAN belt with an embossed stag; the Outlaw studio shots are dark brown. The tan belt may actually be the Monarch. Please confirm.",
-          "alt": "Outlaw Crazy Horse Leather Belt, workshop photograph"
+          "alt": "Outlaw Crazy Horse Leather Belt, workshop photograph",
+          "srcSmall": "assets/lifestyle/ranger-02-800.jpg"
         },
         {
           "src": "assets/lifestyle/ranger-open.jpg",
           "source": "products-images/ranger-open.jpg",
-          "width": 1800,
-          "height": 1200,
+          "width": 1600,
+          "height": 1067,
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Old site mapped ranger-* to Outlaw, but ranger-* shows a TAN belt with an embossed stag; the Outlaw studio shots are dark brown. The tan belt may actually be the Monarch. Please confirm.",
-          "alt": "Outlaw Crazy Horse Leather Belt, workshop photograph"
+          "alt": "Outlaw Crazy Horse Leather Belt, workshop photograph",
+          "srcSmall": "assets/lifestyle/ranger-open-800.jpg"
         },
         {
           "src": "assets/lifestyle/ranger-flat.jpg",
           "source": "products-images/ranger-flat.jpg",
-          "width": 1800,
-          "height": 1200,
+          "width": 1600,
+          "height": 1067,
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Old site mapped ranger-* to Outlaw, but ranger-* shows a TAN belt with an embossed stag; the Outlaw studio shots are dark brown. The tan belt may actually be the Monarch. Please confirm.",
-          "alt": "Outlaw Crazy Horse Leather Belt, workshop photograph"
+          "alt": "Outlaw Crazy Horse Leather Belt, workshop photograph",
+          "srcSmall": "assets/lifestyle/ranger-flat-800.jpg"
         },
         {
           "src": "assets/lifestyle/ranger-wide.jpg",
           "source": "products-images/ranger-wide.jpg",
-          "width": 2400,
-          "height": 1350,
+          "width": 1600,
+          "height": 900,
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Old site mapped ranger-* to Outlaw, but ranger-* shows a TAN belt with an embossed stag; the Outlaw studio shots are dark brown. The tan belt may actually be the Monarch. Please confirm.",
-          "alt": "Outlaw Crazy Horse Leather Belt, workshop photograph"
+          "alt": "Outlaw Crazy Horse Leather Belt, workshop photograph",
+          "srcSmall": "assets/lifestyle/ranger-wide-800.jpg"
         }
       ],
       "badges": [
@@ -349,7 +363,8 @@
           "height": 896,
           "colour": "black",
           "kind": "studio",
-          "alt": "Regent Premium Leather Belt in black"
+          "alt": "Regent Premium Leather Belt in black",
+          "srcSmall": "assets/products/regent-black-1-800.jpg"
         },
         {
           "src": "assets/products/regent-black-2.jpg",
@@ -358,7 +373,8 @@
           "height": 1024,
           "colour": "black",
           "kind": "studio",
-          "alt": "Regent Premium Leather Belt in black"
+          "alt": "Regent Premium Leather Belt in black",
+          "srcSmall": "assets/products/regent-black-2-800.jpg"
         }
       ],
       "lifestyleImages": [
@@ -370,7 +386,8 @@
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Old site mapped onyx-* (black belt, dark wood, coffee beans) to Regent. Looks consistent.",
-          "alt": "Regent Premium Leather Belt, workshop photograph"
+          "alt": "Regent Premium Leather Belt, workshop photograph",
+          "srcSmall": "assets/lifestyle/onyx-02-800.jpg"
         },
         {
           "src": "assets/lifestyle/onyx-01.jpg",
@@ -380,27 +397,30 @@
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Old site mapped onyx-* (black belt, dark wood, coffee beans) to Regent. Looks consistent.",
-          "alt": "Regent Premium Leather Belt, workshop photograph"
+          "alt": "Regent Premium Leather Belt, workshop photograph",
+          "srcSmall": "assets/lifestyle/onyx-01-800.jpg"
         },
         {
           "src": "assets/lifestyle/onyx-open.jpg",
           "source": "products-images/onyx-open.jpg",
-          "width": 1800,
-          "height": 1200,
+          "width": 1600,
+          "height": 1067,
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Old site mapped onyx-* (black belt, dark wood, coffee beans) to Regent. Looks consistent.",
-          "alt": "Regent Premium Leather Belt, workshop photograph"
+          "alt": "Regent Premium Leather Belt, workshop photograph",
+          "srcSmall": "assets/lifestyle/onyx-open-800.jpg"
         },
         {
           "src": "assets/lifestyle/onyx-flat.jpg",
           "source": "products-images/onyx-flat.jpg",
-          "width": 1800,
-          "height": 1200,
+          "width": 1600,
+          "height": 1067,
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Old site mapped onyx-* (black belt, dark wood, coffee beans) to Regent. Looks consistent.",
-          "alt": "Regent Premium Leather Belt, workshop photograph"
+          "alt": "Regent Premium Leather Belt, workshop photograph",
+          "srcSmall": "assets/lifestyle/onyx-flat-800.jpg"
         }
       ],
       "badges": [
@@ -473,7 +493,8 @@
           "height": 896,
           "colour": "tan",
           "kind": "studio",
-          "alt": "Monarch Premium Leather Belt in tan"
+          "alt": "Monarch Premium Leather Belt in tan",
+          "srcSmall": "assets/products/monarch-tan-1-800.jpg"
         },
         {
           "src": "assets/products/monarch-tan-2.jpg",
@@ -482,7 +503,8 @@
           "height": 1024,
           "colour": "tan",
           "kind": "studio",
-          "alt": "Monarch Premium Leather Belt in tan"
+          "alt": "Monarch Premium Leather Belt in tan",
+          "srcSmall": "assets/products/monarch-tan-2-800.jpg"
         }
       ],
       "lifestyleImages": [
@@ -494,7 +516,8 @@
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Old site mapped monarch-01 + heritage-02/heritage-flat/belts-lineup to Monarch. monarch-01 is a tan belt close-up; heritage-* are multi-belt lineups.",
-          "alt": "Monarch Premium Leather Belt, workshop photograph"
+          "alt": "Monarch Premium Leather Belt, workshop photograph",
+          "srcSmall": "assets/lifestyle/monarch-01-800.jpg"
         },
         {
           "src": "assets/lifestyle/heritage-02.jpg",
@@ -504,27 +527,30 @@
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Old site mapped monarch-01 + heritage-02/heritage-flat/belts-lineup to Monarch. monarch-01 is a tan belt close-up; heritage-* are multi-belt lineups.",
-          "alt": "Monarch Premium Leather Belt, workshop photograph"
+          "alt": "Monarch Premium Leather Belt, workshop photograph",
+          "srcSmall": "assets/lifestyle/heritage-02-800.jpg"
         },
         {
           "src": "assets/lifestyle/heritage-flat.jpg",
           "source": "products-images/heritage-flat.jpg",
-          "width": 1800,
-          "height": 1200,
+          "width": 1600,
+          "height": 1067,
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Old site mapped monarch-01 + heritage-02/heritage-flat/belts-lineup to Monarch. monarch-01 is a tan belt close-up; heritage-* are multi-belt lineups.",
-          "alt": "Monarch Premium Leather Belt, workshop photograph"
+          "alt": "Monarch Premium Leather Belt, workshop photograph",
+          "srcSmall": "assets/lifestyle/heritage-flat-800.jpg"
         },
         {
           "src": "assets/lifestyle/belts-lineup.jpg",
           "source": "products-images/belts-lineup.jpg",
-          "width": 2400,
-          "height": 1600,
+          "width": 1600,
+          "height": 1067,
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Old site mapped monarch-01 + heritage-02/heritage-flat/belts-lineup to Monarch. monarch-01 is a tan belt close-up; heritage-* are multi-belt lineups.",
-          "alt": "Monarch Premium Leather Belt, workshop photograph"
+          "alt": "Monarch Premium Leather Belt, workshop photograph",
+          "srcSmall": "assets/lifestyle/belts-lineup-800.jpg"
         }
       ],
       "badges": [
@@ -573,13 +599,14 @@
       "dimensions": null,
       "images": [
         {
-          "src": "assets/products/kingsmann-brown-1.png",
+          "src": "assets/products/kingsmann-brown-1.jpg",
           "source": "products-images/v2/kingsmen-brown-1.png",
           "width": 1448,
           "height": 1086,
           "colour": "Brown",
           "kind": "studio",
-          "alt": "Kingsmann Bifold Leather Wallet in brown"
+          "alt": "Kingsmann Bifold Leather Wallet in brown",
+          "srcSmall": "assets/products/kingsmann-brown-1-800.jpg"
         },
         {
           "src": "assets/products/kingsmann-brown-2.jpg",
@@ -588,16 +615,18 @@
           "height": 768,
           "colour": "Brown",
           "kind": "studio",
-          "alt": "Kingsmann Bifold Leather Wallet in brown"
+          "alt": "Kingsmann Bifold Leather Wallet in brown",
+          "srcSmall": "assets/products/kingsmann-brown-2-800.jpg"
         },
         {
-          "src": "assets/products/kingsmann-black-1.png",
+          "src": "assets/products/kingsmann-black-1.jpg",
           "source": "products-images/v2/kingsmen-black-1.png",
           "width": 1448,
           "height": 1086,
           "colour": "Black",
           "kind": "studio",
-          "alt": "Kingsmann Bifold Leather Wallet in black"
+          "alt": "Kingsmann Bifold Leather Wallet in black",
+          "srcSmall": "assets/products/kingsmann-black-1-800.jpg"
         },
         {
           "src": "assets/products/kingsmann-black-2.jpg",
@@ -606,7 +635,8 @@
           "height": 768,
           "colour": "Black",
           "kind": "studio",
-          "alt": "Kingsmann Bifold Leather Wallet in black"
+          "alt": "Kingsmann Bifold Leather Wallet in black",
+          "srcSmall": "assets/products/kingsmann-black-2-800.jpg"
         }
       ],
       "lifestyleImages": [
@@ -618,7 +648,8 @@
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Lifestyle shots show a dark bifold with contrast (orange) stitching and a Stagr stamp; kingsmen-flat shows two bifolds (brown + black).",
-          "alt": "Kingsmann Bifold Leather Wallet, workshop photograph"
+          "alt": "Kingsmann Bifold Leather Wallet, workshop photograph",
+          "srcSmall": "assets/lifestyle/kingsmen-01-800.jpg"
         },
         {
           "src": "assets/lifestyle/kingsmen-02.jpg",
@@ -628,27 +659,30 @@
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Lifestyle shots show a dark bifold with contrast (orange) stitching and a Stagr stamp; kingsmen-flat shows two bifolds (brown + black).",
-          "alt": "Kingsmann Bifold Leather Wallet, workshop photograph"
+          "alt": "Kingsmann Bifold Leather Wallet, workshop photograph",
+          "srcSmall": "assets/lifestyle/kingsmen-02-800.jpg"
         },
         {
           "src": "assets/lifestyle/kingsmen-open.jpg",
           "source": "products-images/kingsmen-open.jpg",
-          "width": 1800,
-          "height": 1200,
+          "width": 1600,
+          "height": 1067,
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Lifestyle shots show a dark bifold with contrast (orange) stitching and a Stagr stamp; kingsmen-flat shows two bifolds (brown + black).",
-          "alt": "Kingsmann Bifold Leather Wallet, workshop photograph"
+          "alt": "Kingsmann Bifold Leather Wallet, workshop photograph",
+          "srcSmall": "assets/lifestyle/kingsmen-open-800.jpg"
         },
         {
           "src": "assets/lifestyle/kingsmen-flat.jpg",
           "source": "products-images/kingsmen-flat.jpg",
-          "width": 1800,
-          "height": 1200,
+          "width": 1600,
+          "height": 1067,
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Lifestyle shots show a dark bifold with contrast (orange) stitching and a Stagr stamp; kingsmen-flat shows two bifolds (brown + black).",
-          "alt": "Kingsmann Bifold Leather Wallet, workshop photograph"
+          "alt": "Kingsmann Bifold Leather Wallet, workshop photograph",
+          "srcSmall": "assets/lifestyle/kingsmen-flat-800.jpg"
         }
       ],
       "badges": [
@@ -703,16 +737,18 @@
           "height": 896,
           "colour": "Brown",
           "kind": "studio",
-          "alt": "Majestic Trifold Leather Wallet in brown"
+          "alt": "Majestic Trifold Leather Wallet in brown",
+          "srcSmall": "assets/products/majestic-brown-1-800.jpg"
         },
         {
-          "src": "assets/products/majestic-brown-2.png",
+          "src": "assets/products/majestic-brown-2.jpg",
           "source": "products-images/v2/majestic-brown-2.png",
           "width": 1448,
           "height": 1086,
           "colour": "Brown",
           "kind": "studio",
-          "alt": "Majestic Trifold Leather Wallet in brown"
+          "alt": "Majestic Trifold Leather Wallet in brown",
+          "srcSmall": "assets/products/majestic-brown-2-800.jpg"
         },
         {
           "src": "assets/products/majestic-black-1.jpg",
@@ -721,16 +757,18 @@
           "height": 896,
           "colour": "Black",
           "kind": "studio",
-          "alt": "Majestic Trifold Leather Wallet in black"
+          "alt": "Majestic Trifold Leather Wallet in black",
+          "srcSmall": "assets/products/majestic-black-1-800.jpg"
         },
         {
-          "src": "assets/products/majestic-black-2.png",
+          "src": "assets/products/majestic-black-2.jpg",
           "source": "products-images/v2/majestic-black-2.png",
           "width": 1448,
           "height": 1086,
           "colour": "Black",
           "kind": "studio",
-          "alt": "Majestic Trifold Leather Wallet in black"
+          "alt": "Majestic Trifold Leather Wallet in black",
+          "srcSmall": "assets/products/majestic-black-2-800.jpg"
         }
       ],
       "lifestyleImages": [
@@ -742,7 +780,8 @@
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Lifestyle shots: bifold-style wallet with flip-out card flap on a Stagr box and on burlap.",
-          "alt": "Majestic Trifold Leather Wallet, workshop photograph"
+          "alt": "Majestic Trifold Leather Wallet, workshop photograph",
+          "srcSmall": "assets/lifestyle/majestic-01-800.jpg"
         },
         {
           "src": "assets/lifestyle/majestic-02.jpg",
@@ -752,27 +791,30 @@
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Lifestyle shots: bifold-style wallet with flip-out card flap on a Stagr box and on burlap.",
-          "alt": "Majestic Trifold Leather Wallet, workshop photograph"
+          "alt": "Majestic Trifold Leather Wallet, workshop photograph",
+          "srcSmall": "assets/lifestyle/majestic-02-800.jpg"
         },
         {
           "src": "assets/lifestyle/majestic-open.jpg",
           "source": "products-images/majestic-open.jpg",
-          "width": 1800,
-          "height": 1200,
+          "width": 1600,
+          "height": 1067,
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Lifestyle shots: bifold-style wallet with flip-out card flap on a Stagr box and on burlap.",
-          "alt": "Majestic Trifold Leather Wallet, workshop photograph"
+          "alt": "Majestic Trifold Leather Wallet, workshop photograph",
+          "srcSmall": "assets/lifestyle/majestic-open-800.jpg"
         },
         {
           "src": "assets/lifestyle/majestic-flat.jpg",
           "source": "products-images/majestic-flat.jpg",
-          "width": 1800,
-          "height": 1200,
+          "width": 1600,
+          "height": 1067,
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Lifestyle shots: bifold-style wallet with flip-out card flap on a Stagr box and on burlap.",
-          "alt": "Majestic Trifold Leather Wallet, workshop photograph"
+          "alt": "Majestic Trifold Leather Wallet, workshop photograph",
+          "srcSmall": "assets/lifestyle/majestic-flat-800.jpg"
         }
       ],
       "badges": [
@@ -820,40 +862,44 @@
       "dimensions": null,
       "images": [
         {
-          "src": "assets/products/maverick-brown-1.png",
+          "src": "assets/products/maverick-brown-1.jpg",
           "source": "products-images/v2/maverick-brown-1.png",
           "width": 1448,
           "height": 1086,
           "colour": "Brown",
           "kind": "studio",
-          "alt": "Maverick Minimalist Leather Wallet in brown"
+          "alt": "Maverick Minimalist Leather Wallet in brown",
+          "srcSmall": "assets/products/maverick-brown-1-800.jpg"
         },
         {
-          "src": "assets/products/maverick-brown-2.png",
+          "src": "assets/products/maverick-brown-2.jpg",
           "source": "products-images/v2/maverick-brown-2.png",
           "width": 1448,
           "height": 1086,
           "colour": "Brown",
           "kind": "studio",
-          "alt": "Maverick Minimalist Leather Wallet in brown"
+          "alt": "Maverick Minimalist Leather Wallet in brown",
+          "srcSmall": "assets/products/maverick-brown-2-800.jpg"
         },
         {
-          "src": "assets/products/maverick-black-1.png",
+          "src": "assets/products/maverick-black-1.jpg",
           "source": "products-images/v2/maverick-black-1.png",
           "width": 1448,
           "height": 1086,
           "colour": "Black",
           "kind": "studio",
-          "alt": "Maverick Minimalist Leather Wallet in black"
+          "alt": "Maverick Minimalist Leather Wallet in black",
+          "srcSmall": "assets/products/maverick-black-1-800.jpg"
         },
         {
-          "src": "assets/products/maverick-black-2.png",
+          "src": "assets/products/maverick-black-2.jpg",
           "source": "products-images/v2/maverick-black-2.png",
           "width": 1448,
           "height": 1086,
           "colour": "Black",
           "kind": "studio",
-          "alt": "Maverick Minimalist Leather Wallet in black"
+          "alt": "Maverick Minimalist Leather Wallet in black",
+          "srcSmall": "assets/products/maverick-black-2-800.jpg"
         }
       ],
       "lifestyleImages": [
@@ -865,7 +911,8 @@
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Lifestyle shots: pouch-style card holder with a flap and embossed stag.",
-          "alt": "Maverick Minimalist Leather Wallet, workshop photograph"
+          "alt": "Maverick Minimalist Leather Wallet, workshop photograph",
+          "srcSmall": "assets/lifestyle/maverick-01-800.jpg"
         },
         {
           "src": "assets/lifestyle/maverick-02.jpg",
@@ -875,27 +922,30 @@
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Lifestyle shots: pouch-style card holder with a flap and embossed stag.",
-          "alt": "Maverick Minimalist Leather Wallet, workshop photograph"
+          "alt": "Maverick Minimalist Leather Wallet, workshop photograph",
+          "srcSmall": "assets/lifestyle/maverick-02-800.jpg"
         },
         {
           "src": "assets/lifestyle/maverick-open.jpg",
           "source": "products-images/maverick-open.jpg",
-          "width": 1800,
-          "height": 1200,
+          "width": 1600,
+          "height": 1067,
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Lifestyle shots: pouch-style card holder with a flap and embossed stag.",
-          "alt": "Maverick Minimalist Leather Wallet, workshop photograph"
+          "alt": "Maverick Minimalist Leather Wallet, workshop photograph",
+          "srcSmall": "assets/lifestyle/maverick-open-800.jpg"
         },
         {
           "src": "assets/lifestyle/maverick-flat.jpg",
           "source": "products-images/maverick-flat.jpg",
-          "width": 1800,
-          "height": 1200,
+          "width": 1600,
+          "height": 1067,
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Lifestyle shots: pouch-style card holder with a flap and embossed stag.",
-          "alt": "Maverick Minimalist Leather Wallet, workshop photograph"
+          "alt": "Maverick Minimalist Leather Wallet, workshop photograph",
+          "srcSmall": "assets/lifestyle/maverick-flat-800.jpg"
         }
       ],
       "badges": [
@@ -943,40 +993,44 @@
       "dimensions": null,
       "images": [
         {
-          "src": "assets/products/purefold-brown-1.png",
+          "src": "assets/products/purefold-brown-1.jpg",
           "source": "products-images/v2/purefold-brown-1.png",
           "width": 1448,
           "height": 1086,
           "colour": "Brown",
           "kind": "studio",
-          "alt": "Purefold Minimalist Leather Wallet in brown"
+          "alt": "Purefold Minimalist Leather Wallet in brown",
+          "srcSmall": "assets/products/purefold-brown-1-800.jpg"
         },
         {
-          "src": "assets/products/purefold-brown-2.png",
+          "src": "assets/products/purefold-brown-2.jpg",
           "source": "products-images/v2/purefold-brown-2.png",
           "width": 1448,
           "height": 1086,
           "colour": "Brown",
           "kind": "studio",
-          "alt": "Purefold Minimalist Leather Wallet in brown"
+          "alt": "Purefold Minimalist Leather Wallet in brown",
+          "srcSmall": "assets/products/purefold-brown-2-800.jpg"
         },
         {
-          "src": "assets/products/purefold-black-1.png",
+          "src": "assets/products/purefold-black-1.jpg",
           "source": "products-images/v2/purefold-black-1.png",
           "width": 1448,
           "height": 1086,
           "colour": "Black",
           "kind": "studio",
-          "alt": "Purefold Minimalist Leather Wallet in black"
+          "alt": "Purefold Minimalist Leather Wallet in black",
+          "srcSmall": "assets/products/purefold-black-1-800.jpg"
         },
         {
-          "src": "assets/products/purefold-black-2.png",
+          "src": "assets/products/purefold-black-2.jpg",
           "source": "products-images/v2/purefold-black-2.png",
           "width": 1448,
           "height": 1086,
           "colour": "Black",
           "kind": "studio",
-          "alt": "Purefold Minimalist Leather Wallet in black"
+          "alt": "Purefold Minimalist Leather Wallet in black",
+          "srcSmall": "assets/products/purefold-black-2-800.jpg"
         }
       ],
       "lifestyleImages": [
@@ -988,7 +1042,8 @@
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Lifestyle shots: slim vertical bifold on burlap, open view shows card slots.",
-          "alt": "Purefold Minimalist Leather Wallet, workshop photograph"
+          "alt": "Purefold Minimalist Leather Wallet, workshop photograph",
+          "srcSmall": "assets/lifestyle/purefold-01-800.jpg"
         },
         {
           "src": "assets/lifestyle/purefold-02.jpg",
@@ -998,27 +1053,30 @@
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Lifestyle shots: slim vertical bifold on burlap, open view shows card slots.",
-          "alt": "Purefold Minimalist Leather Wallet, workshop photograph"
+          "alt": "Purefold Minimalist Leather Wallet, workshop photograph",
+          "srcSmall": "assets/lifestyle/purefold-02-800.jpg"
         },
         {
           "src": "assets/lifestyle/purefold-open.jpg",
           "source": "products-images/purefold-open.jpg",
-          "width": 1800,
-          "height": 1200,
+          "width": 1600,
+          "height": 1067,
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Lifestyle shots: slim vertical bifold on burlap, open view shows card slots.",
-          "alt": "Purefold Minimalist Leather Wallet, workshop photograph"
+          "alt": "Purefold Minimalist Leather Wallet, workshop photograph",
+          "srcSmall": "assets/lifestyle/purefold-open-800.jpg"
         },
         {
           "src": "assets/lifestyle/purefold-flat.jpg",
           "source": "products-images/purefold-flat.jpg",
-          "width": 1800,
-          "height": 1200,
+          "width": 1600,
+          "height": 1067,
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Lifestyle shots: slim vertical bifold on burlap, open view shows card slots.",
-          "alt": "Purefold Minimalist Leather Wallet, workshop photograph"
+          "alt": "Purefold Minimalist Leather Wallet, workshop photograph",
+          "srcSmall": "assets/lifestyle/purefold-flat-800.jpg"
         }
       ],
       "badges": [
@@ -1072,7 +1130,8 @@
           "height": 1353,
           "colour": "Tan",
           "kind": "studio",
-          "alt": "Rodeo Long Leather Wallet in tan"
+          "alt": "Rodeo Long Leather Wallet in tan",
+          "srcSmall": "assets/products/rodeo-tan-1-800.jpg"
         },
         {
           "src": "assets/products/rodeo-tan-2.jpg",
@@ -1081,7 +1140,8 @@
           "height": 1264,
           "colour": "Tan",
           "kind": "studio",
-          "alt": "Rodeo Long Leather Wallet in tan"
+          "alt": "Rodeo Long Leather Wallet in tan",
+          "srcSmall": "assets/products/rodeo-tan-2-800.jpg"
         },
         {
           "src": "assets/products/rodeo-black-1.jpg",
@@ -1090,16 +1150,18 @@
           "height": 1353,
           "colour": "Black",
           "kind": "studio",
-          "alt": "Rodeo Long Leather Wallet in black"
+          "alt": "Rodeo Long Leather Wallet in black",
+          "srcSmall": "assets/products/rodeo-black-1-800.jpg"
         },
         {
-          "src": "assets/products/rodeo-black-2.png",
+          "src": "assets/products/rodeo-black-2.jpg",
           "source": "products-images/v2/rodeo-black-2.png",
           "width": 1024,
           "height": 1536,
           "colour": "Black",
           "kind": "studio",
-          "alt": "Rodeo Long Leather Wallet in black"
+          "alt": "Rodeo Long Leather Wallet in black",
+          "srcSmall": "assets/products/rodeo-black-2-800.jpg"
         }
       ],
       "lifestyleImages": [
@@ -1111,7 +1173,8 @@
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Lifestyle shots: long wallet with snap-closure interior, shown with Stagr box and belt.",
-          "alt": "Rodeo Long Leather Wallet, workshop photograph"
+          "alt": "Rodeo Long Leather Wallet, workshop photograph",
+          "srcSmall": "assets/lifestyle/rodeo-01-800.jpg"
         },
         {
           "src": "assets/lifestyle/rodeo-02.jpg",
@@ -1121,27 +1184,30 @@
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Lifestyle shots: long wallet with snap-closure interior, shown with Stagr box and belt.",
-          "alt": "Rodeo Long Leather Wallet, workshop photograph"
+          "alt": "Rodeo Long Leather Wallet, workshop photograph",
+          "srcSmall": "assets/lifestyle/rodeo-02-800.jpg"
         },
         {
           "src": "assets/lifestyle/rodeo-open.jpg",
           "source": "products-images/rodeo-open.jpg",
-          "width": 1800,
-          "height": 1200,
+          "width": 1600,
+          "height": 1067,
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Lifestyle shots: long wallet with snap-closure interior, shown with Stagr box and belt.",
-          "alt": "Rodeo Long Leather Wallet, workshop photograph"
+          "alt": "Rodeo Long Leather Wallet, workshop photograph",
+          "srcSmall": "assets/lifestyle/rodeo-open-800.jpg"
         },
         {
           "src": "assets/lifestyle/rodeo-flat.jpg",
           "source": "products-images/rodeo-flat.jpg",
-          "width": 1800,
-          "height": 1200,
+          "width": 1600,
+          "height": 1067,
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Lifestyle shots: long wallet with snap-closure interior, shown with Stagr box and belt.",
-          "alt": "Rodeo Long Leather Wallet, workshop photograph"
+          "alt": "Rodeo Long Leather Wallet, workshop photograph",
+          "srcSmall": "assets/lifestyle/rodeo-flat-800.jpg"
         }
       ],
       "badges": [
@@ -1189,13 +1255,14 @@
       "dimensions": null,
       "images": [
         {
-          "src": "assets/products/regal-brown-1.png",
+          "src": "assets/products/regal-brown-1.jpg",
           "source": "products-images/v2/regal-brown-1.png",
           "width": 1536,
           "height": 1024,
           "colour": "Brown",
           "kind": "studio",
-          "alt": "Regal Bifold Leather Wallet in brown"
+          "alt": "Regal Bifold Leather Wallet in brown",
+          "srcSmall": "assets/products/regal-brown-1-800.jpg"
         },
         {
           "src": "assets/products/regal-brown-2.jpg",
@@ -1204,7 +1271,8 @@
           "height": 841,
           "colour": "Brown",
           "kind": "studio",
-          "alt": "Regal Bifold Leather Wallet in brown"
+          "alt": "Regal Bifold Leather Wallet in brown",
+          "srcSmall": "assets/products/regal-brown-2-800.jpg"
         },
         {
           "src": "assets/products/regal-black-1.jpg",
@@ -1213,16 +1281,18 @@
           "height": 843,
           "colour": "Black",
           "kind": "studio",
-          "alt": "Regal Bifold Leather Wallet in black"
+          "alt": "Regal Bifold Leather Wallet in black",
+          "srcSmall": "assets/products/regal-black-1-800.jpg"
         },
         {
-          "src": "assets/products/regal-black-2.png",
+          "src": "assets/products/regal-black-2.jpg",
           "source": "products-images/v2/regal-black-2.png",
           "width": 1537,
           "height": 1023,
           "colour": "Black",
           "kind": "studio",
-          "alt": "Regal Bifold Leather Wallet in black"
+          "alt": "Regal Bifold Leather Wallet in black",
+          "srcSmall": "assets/products/regal-black-2-800.jpg"
         }
       ],
       "lifestyleImages": [
@@ -1234,7 +1304,8 @@
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Lifestyle shots: classic bifold on Stagr box and on sherpa with tools.",
-          "alt": "Regal Bifold Leather Wallet, workshop photograph"
+          "alt": "Regal Bifold Leather Wallet, workshop photograph",
+          "srcSmall": "assets/lifestyle/regal-01-800.jpg"
         },
         {
           "src": "assets/lifestyle/regal-02.jpg",
@@ -1244,27 +1315,30 @@
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Lifestyle shots: classic bifold on Stagr box and on sherpa with tools.",
-          "alt": "Regal Bifold Leather Wallet, workshop photograph"
+          "alt": "Regal Bifold Leather Wallet, workshop photograph",
+          "srcSmall": "assets/lifestyle/regal-02-800.jpg"
         },
         {
           "src": "assets/lifestyle/regal-open.jpg",
           "source": "products-images/regal-open.jpg",
-          "width": 1800,
-          "height": 1200,
+          "width": 1600,
+          "height": 1067,
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Lifestyle shots: classic bifold on Stagr box and on sherpa with tools.",
-          "alt": "Regal Bifold Leather Wallet, workshop photograph"
+          "alt": "Regal Bifold Leather Wallet, workshop photograph",
+          "srcSmall": "assets/lifestyle/regal-open-800.jpg"
         },
         {
           "src": "assets/lifestyle/regal-flat.jpg",
           "source": "products-images/regal-flat.jpg",
-          "width": 1800,
-          "height": 1200,
+          "width": 1600,
+          "height": 1067,
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Lifestyle shots: classic bifold on Stagr box and on sherpa with tools.",
-          "alt": "Regal Bifold Leather Wallet, workshop photograph"
+          "alt": "Regal Bifold Leather Wallet, workshop photograph",
+          "srcSmall": "assets/lifestyle/regal-flat-800.jpg"
         }
       ],
       "badges": [
@@ -1318,7 +1392,8 @@
           "height": 842,
           "colour": "Brown",
           "kind": "studio",
-          "alt": "Upbuck Long Leather Wallet in brown"
+          "alt": "Upbuck Long Leather Wallet in brown",
+          "srcSmall": "assets/products/upbuck-brown-1-800.jpg"
         },
         {
           "src": "assets/products/upbuck-brown-2.jpg",
@@ -1327,7 +1402,8 @@
           "height": 1152,
           "colour": "Brown",
           "kind": "studio",
-          "alt": "Upbuck Long Leather Wallet in brown"
+          "alt": "Upbuck Long Leather Wallet in brown",
+          "srcSmall": "assets/products/upbuck-brown-2-800.jpg"
         },
         {
           "src": "assets/products/upbuck-black-1.jpg",
@@ -1336,7 +1412,8 @@
           "height": 842,
           "colour": "Black",
           "kind": "studio",
-          "alt": "Upbuck Long Leather Wallet in black"
+          "alt": "Upbuck Long Leather Wallet in black",
+          "srcSmall": "assets/products/upbuck-black-1-800.jpg"
         },
         {
           "src": "assets/products/upbuck-black-2.jpg",
@@ -1345,7 +1422,8 @@
           "height": 1353,
           "colour": "Black",
           "kind": "studio",
-          "alt": "Upbuck Long Leather Wallet in black"
+          "alt": "Upbuck Long Leather Wallet in black",
+          "srcSmall": "assets/products/upbuck-black-2-800.jpg"
         }
       ],
       "lifestyleImages": [
@@ -1357,7 +1435,8 @@
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Lifestyle shots: long bifold wallet with many card slots, shown open with cards and in hand.",
-          "alt": "Upbuck Long Leather Wallet, workshop photograph"
+          "alt": "Upbuck Long Leather Wallet, workshop photograph",
+          "srcSmall": "assets/lifestyle/upbuck-01-800.jpg"
         },
         {
           "src": "assets/lifestyle/upbuck-02.jpg",
@@ -1367,27 +1446,30 @@
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Lifestyle shots: long bifold wallet with many card slots, shown open with cards and in hand.",
-          "alt": "Upbuck Long Leather Wallet, workshop photograph"
+          "alt": "Upbuck Long Leather Wallet, workshop photograph",
+          "srcSmall": "assets/lifestyle/upbuck-02-800.jpg"
         },
         {
           "src": "assets/lifestyle/upbuck-open.jpg",
           "source": "products-images/upbuck-open.jpg",
-          "width": 1800,
-          "height": 1200,
+          "width": 1600,
+          "height": 1067,
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Lifestyle shots: long bifold wallet with many card slots, shown open with cards and in hand.",
-          "alt": "Upbuck Long Leather Wallet, workshop photograph"
+          "alt": "Upbuck Long Leather Wallet, workshop photograph",
+          "srcSmall": "assets/lifestyle/upbuck-open-800.jpg"
         },
         {
           "src": "assets/lifestyle/upbuck-flat.jpg",
           "source": "products-images/upbuck-flat.jpg",
-          "width": 1800,
-          "height": 1200,
+          "width": 1600,
+          "height": 1067,
           "kind": "lifestyle",
           "mappedBy": "old site (bundle-source / Duke Street v2)",
           "note": "Lifestyle shots: long bifold wallet with many card slots, shown open with cards and in hand.",
-          "alt": "Upbuck Long Leather Wallet, workshop photograph"
+          "alt": "Upbuck Long Leather Wallet, workshop photograph",
+          "srcSmall": "assets/lifestyle/upbuck-flat-800.jpg"
         }
       ],
       "badges": [
