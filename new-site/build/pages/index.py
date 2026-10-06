@@ -29,7 +29,7 @@ def render(ctx):
     def slide(p):
         a = p["images"][0]
         meta = (p["style"] or "Belt") + " · " + " / ".join(p["colours"])
-        return (f'<a class="slide" href="product.html?id={p["id"]}" draggable="false">'
+        return (f'<a class="slide" href="product-{p["id"]}.html" draggable="false">'
                 f'<div class="media media--studio"><img src="{a["src"]}" srcset="{a["srcSmall"]} 800w, {a["src"]} 1600w" sizes="(min-width: 1024px) 380px, 70vw" alt="{a["alt"]}" width="{a["width"]}" height="{a["height"]}" loading="lazy" draggable="false"></div>'
                 f'<div class="slide-body"><span class="card-name">{p["name"]}</span><span class="card-meta">{meta}</span><span class="price">{fmt(p["price"])}</span></div></a>')
     slides = "".join(slide(by[i]) for i in featured_ids)

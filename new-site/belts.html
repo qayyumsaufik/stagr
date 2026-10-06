@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Design system — Stagr</title>
-<meta name="description" content="Tokens, type scale, components and animation primitives for the Stagr website.">
+<title>Belts — handmade crazy horse leather — Stagr</title>
+<meta name="description" content="Handcrafted from 100% pure crazy horse leather, each belt pairs rugged durability with a rich patina that deepens over time.">
 <meta name="theme-color" content="#F6F2EC">
 <link rel="icon" type="image/png" href="assets/brand/stagr-mark-brass.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -677,36 +677,70 @@ html.no-loader .loader{display:none}
 .logo{display:inline-flex;align-items:center;gap:10px}
 .wordmark{font-family:var(--font-display);font-size:1.5rem;letter-spacing:-.01em;line-height:1;font-variation-settings:"opsz" 48}
 
-/* ---------- page: Design system ---------- */
+/* ---------- page: Belts — handmade crazy horse leather ---------- */
 
-.ds-section { padding-block: var(--section-sm); border-top: 1px solid var(--line); }
-.ds-head { display: grid; gap: 12px; margin-bottom: 40px; }
-.ds-head .h2 { max-width: 20ch; }
-.sw-grid { display: grid; gap: 20px; grid-template-columns: repeat(2, minmax(0,1fr)); }
-@media (min-width: 768px) { .sw-grid { grid-template-columns: repeat(3, minmax(0,1fr)); } }
-@media (min-width: 1024px) { .sw-grid { grid-template-columns: repeat(6, minmax(0,1fr)); } }
-.sw-cell { display: grid; gap: 10px; }
-.sw-chip { aspect-ratio: 4 / 3; border-radius: var(--radius); border: 1px solid var(--line); }
-.ds-panel { padding: clamp(24px, 4vw, 48px); border-radius: var(--radius); }
-.type-row { display: grid; gap: 8px; padding: 20px 0; border-bottom: 1px solid var(--line); }
-.type-row .small { color: var(--ink-3); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
-.grid-demo > div { background: var(--bg-2); min-height: 48px; display: grid; place-items: center; font-size: var(--fs-small); color: var(--ink-3); }
-.demo-row { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; }
-.demo-box { position: relative; border: 1px dashed var(--line-strong); border-radius: var(--radius); padding: clamp(20px, 4vw, 48px); display: grid; gap: 20px; }
-.demo-box .replay { justify-self: start; }
-.ds-cards { display: grid; gap: var(--gap); grid-template-columns: repeat(2, minmax(0,1fr)); }
-@media (min-width: 1024px) { .ds-cards { grid-template-columns: repeat(4, minmax(0,1fr)); } }
-.ds-doors { display: grid; gap: var(--gap); grid-template-columns: 1fr; }
-@media (min-width: 768px) { .ds-doors { grid-template-columns: 1fr 1fr; } }
-.cursor-zone { display: grid; place-items: center; min-height: 180px; background: var(--bg-2); border-radius: var(--radius); font-size: var(--fs-small); color: var(--ink-2); }
-.motion-table { width: 100%; border-collapse: collapse; font-size: var(--fs-small); }
-.motion-table th, .motion-table td { text-align: left; padding: 12px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
-.motion-table th { font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); }
-.px-demo { display: grid; gap: var(--gap); grid-template-columns: repeat(3, minmax(0,1fr)); }
-.px-demo .media { --ar: 3 / 4; }
-.px-demo .media:nth-child(2) { margin-top: 48px; }
-.loader-demo { position: relative; height: 260px; overflow: hidden; border-radius: var(--radius); }
-.loader-demo .loader { position: absolute; }
+.col-hero { padding-top: calc(var(--header-h) + clamp(40px, 8vw, 96px)); padding-bottom: clamp(40px, 6vw, 80px); }
+.col-hero .grid { align-items: end; }
+.col-hero .display { max-width: 9ch; }
+.col-hero .lead { margin-top: 24px; }
+.col-hero .count { margin-top: 32px; }
+.col-hero-img { --ar: 4 / 5; }
+@media (min-width: 768px) { .col-hero-img { --ar: 3 / 4; } }
+.col-hero-img.media-wide { --ar: 3 / 2; }
+
+/* filter bar */
+.filters { position: relative; z-index: 3; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 16px 0; }
+.filters .wrap { display: grid; gap: 14px; }
+.filter-groups { display: flex; flex-wrap: wrap; gap: 20px 32px; align-items: center; }
+.filter-group { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.filter-group .label { color: var(--ink-3); margin-right: 4px; }
+.filter-group .pill { min-height: 40px; padding: 0 16px; }
+.filters .select { min-height: 40px; width: auto; padding: 0 32px 0 0; font-size: var(--fs-small); font-weight: 600; }
+.filter-meta { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+.filter-meta .clear { display: none; }
+.filter-meta .clear.is-on { display: inline-flex; }
+@media (min-width: 1024px) { .filters .wrap { grid-template-columns: 1fr auto; align-items: center; } .filter-meta { justify-content: flex-end; } }
+
+/* sticky mini nav */
+.mini-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 85; background: var(--bg); border-bottom: 1px solid var(--line); transform: translateY(-110%); transition: transform .5s var(--ease-out); }
+.mini-nav.is-on { transform: none; }
+.mini-nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 56px; }
+.mini-nav .mn-title { font-family: var(--font-display); font-size: 1.25rem; display: flex; align-items: baseline; gap: 10px; }
+.mini-nav .mn-title .small { color: var(--ink-3); }
+.mini-nav .mn-actions { display: flex; gap: 8px; }
+.mini-nav .mn-actions .btn { --h: 38px; padding: 0 16px; }
+
+/* grid */
+.catalog { padding-block: clamp(40px, 6vw, 80px) var(--section); }
+.product-grid { display: grid; gap: clamp(16px, 2.4vw, 32px) var(--gap); grid-template-columns: repeat(2, minmax(0, 1fr)); position: relative; }
+@media (min-width: 1024px) { .product-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 1440px) { .product-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.product-grid .card.is-hidden { display: none; }
+.card .card-link { display: block; }
+.card .card-dots { display: flex; gap: 6px; margin-top: 8px; }
+.card .card-dots .dot { width: 12px; height: 12px; border-radius: 50%; background: var(--sw); box-shadow: inset 0 0 0 1px rgba(0,0,0,.2); }
+.card .card-top { position: relative; }
+.empty { display: none; padding: 64px 0; text-align: center; }
+.empty.is-on { display: block; }
+
+/* quick view */
+.qv-backdrop { position: fixed; inset: 0; z-index: 100; background: var(--overlay); opacity: 0; visibility: hidden; transition: opacity .4s ease, visibility 0s linear .4s; }
+.qv-backdrop.is-open { opacity: 1; visibility: visible; transition-delay: 0s; }
+.qv { position: fixed; z-index: 101; inset: auto 0 0 0; max-height: 92svh; overflow: auto; background: var(--bg); color: var(--ink); transform: translateY(102%); visibility: hidden; transition: transform .6s var(--ease-out), visibility 0s linear .6s; border-radius: 12px 12px 0 0; }
+.qv.is-open { transform: none; visibility: visible; transition-delay: 0s; }
+@media (min-width: 1024px) { .qv { inset: 50% auto auto 50%; width: min(960px, 92vw); max-height: 88vh; transform: translate(-50%, -50%) scale(.96); opacity: 0; border-radius: 4px; transition: transform .5s var(--ease-out), opacity .4s ease, visibility 0s linear .5s; visibility: hidden; } .qv.is-open { transform: translate(-50%, -50%) scale(1); opacity: 1; visibility: visible; transition-delay: 0s; } }
+.qv-inner { display: grid; }
+@media (min-width: 1024px) { .qv-inner { grid-template-columns: 1fr 1fr; } }
+.qv-media { position: relative; }
+.qv-media .media { --ar: 1 / 1; border-radius: 0; }
+@media (min-width: 1024px) { .qv-media .media { --ar: 4 / 5; height: 100%; } }
+.qv-thumbs { position: absolute; left: 16px; bottom: 16px; display: flex; gap: 8px; }
+.qv-thumbs button { width: 48px; height: 48px; border-radius: 4px; overflow: hidden; background: #F2EFEA; border: 2px solid transparent; }
+.qv-thumbs button[aria-pressed="true"] { border-color: var(--ink); }
+.qv-thumbs img { width: 100%; height: 100%; object-fit: contain; mix-blend-mode: multiply; }
+.qv-body { padding: clamp(20px, 3vw, 40px); display: grid; gap: 18px; align-content: start; }
+.qv-close { position: absolute; top: 12px; right: 12px; z-index: 2; }
+.qv .h3 { max-width: 14ch; }
 
 </style>
 </head>
@@ -762,244 +796,190 @@ html.no-loader .loader{display:none}
 
 <main id="main">
 
-<section class="section" style="padding-top:calc(var(--header-h) + var(--section-sm))">
-  <div class="wrap">
-    <p class="label label-row" data-reveal="up">Stagr · design system v1</p>
-    <h1 class="display" data-lines="now" style="margin-top:24px">Quiet surfaces, <em class="i">warm</em> leather, slow reveals.</h1>
-    <p class="lead" data-reveal="up" data-delay=".4" style="margin-top:32px">Every page is built from these tokens, components and animation primitives. Toggle the theme in the header to check the dark variant. Resize to check the fluid scale.</p>
-  </div>
-</section>
-
-<section class="ds-section" id="colour">
-  <div class="wrap">
-    <div class="ds-head"><p class="label">01 · Colour</p><h2 class="h2">Palette and functional tokens</h2><p class="muted body">Backgrounds and text are fixed by the brief. Links use cognac on light (5.9:1) and a lighter saddle on dark (8.1:1). Saddle tan is never used for body text; it carries rules, cues and hover fills.</p></div>
-    <div class="sw-grid"><div class="sw-cell"><div class="sw-chip" style="background:#F6F2EC"></div><div class="small"><strong>Background</strong><br><code>--c-offwhite</code> #F6F2EC</div></div><div class="sw-cell"><div class="sw-chip" style="background:#1E1612"></div><div class="small"><strong>Espresso</strong><br><code>--c-espresso</code> #1E1612</div></div><div class="sw-cell"><div class="sw-chip" style="background:#8B4A1F"></div><div class="small"><strong>Cognac</strong><br><code>--c-cognac</code> #8B4A1F</div></div><div class="sw-cell"><div class="sw-chip" style="background:#C58B4A"></div><div class="small"><strong>Saddle tan</strong><br><code>--c-saddle</code> #C58B4A</div></div><div class="sw-cell"><div class="sw-chip" style="background:#5C1F1F"></div><div class="small"><strong>Oxblood</strong><br><code>--c-oxblood</code> #5C1F1F</div></div><div class="sw-cell"><div class="sw-chip" style="background:#161311"></div><div class="small"><strong>Ink</strong><br><code>--c-ink</code> #161311</div></div></div>
-    <div class="sw-grid" style="margin-top:32px"><div class="sw-cell"><div class="sw-chip" style="background:var(--accent)"></div><div class="small"><strong>Accent / links</strong><br><code>--accent</code></div></div><div class="sw-cell"><div class="sw-chip" style="background:var(--accent-soft)"></div><div class="small"><strong>Accent soft (rules, cues)</strong><br><code>--accent-soft</code></div></div><div class="sw-cell"><div class="sw-chip" style="background:var(--focus)"></div><div class="small"><strong>Focus ring</strong><br><code>--focus</code></div></div><div class="sw-cell"><div class="sw-chip" style="background:var(--success)"></div><div class="small"><strong>Success</strong><br><code>--success</code></div></div><div class="sw-cell"><div class="sw-chip" style="background:var(--error)"></div><div class="small"><strong>Error</strong><br><code>--error</code></div></div><div class="sw-cell"><div class="sw-chip" style="background:var(--line-strong)"></div><div class="small"><strong>Line</strong><br><code>--line-strong</code></div></div><div class="sw-cell"><div class="sw-chip" style="background:var(--bg-2)"></div><div class="small"><strong>Surface 2</strong><br><code>--bg-2</code></div></div><div class="sw-cell"><div class="sw-chip" style="background:var(--btn-bg)"></div><div class="small"><strong>Button</strong><br><code>--btn-bg</code></div></div></div>
-    <div class="grid" style="margin-top:40px">
-      <div class="col-12 md:col-6 ds-panel theme-light" style="border:1px solid var(--line)"><p class="label">Light surface</p><p class="h3" style="margin-top:12px">Carried daily.</p><p class="muted" style="margin-top:8px">Body text on off-white. <a class="link" href="#">A cognac link.</a></p><p style="margin-top:16px"><button class="btn btn--sm">Add to cart</button> <button class="btn btn--ghost btn--sm">Quick view</button></p></div>
-      <div class="col-12 md:col-6 ds-panel theme-dark"><p class="label">Dark surface</p><p class="h3" style="margin-top:12px">Made slowly.</p><p class="muted" style="margin-top:8px">Body text on espresso. <a class="link" href="#">A saddle link.</a></p><p style="margin-top:16px"><button class="btn btn--sm">Add to cart</button> <button class="btn btn--ghost btn--sm">Quick view</button></p></div>
-      <div class="col-12 ds-panel theme-oxblood"><p class="label">Oxblood tint — used sparingly as a section accent</p><p class="h3" style="margin-top:12px">A handwritten note, in every order.</p></div>
+<section class="col-hero" aria-labelledby="col-title">
+  <div class="wrap grid">
+    <div class="col-12 lg:col-6">
+      <p class="label label-row" data-reveal="up">Collection · 4 styles</p>
+      <h1 class="display" id="col-title" data-lines="now" data-delay=".2" style="margin-top:20px">Belts</h1>
+      <p class="lead" data-reveal="up" data-delay=".5">Handcrafted from 100% pure crazy horse leather, each belt pairs rugged durability with a rich patina that deepens over time.</p>
+      <p class="small muted count" data-reveal="up" data-delay=".6">From Rs 2,394 to Rs 2,800 · Cash on delivery · 3 to 5 days across Pakistan</p>
+    </div>
+    <div class="col-12 lg:col-5 lg:start-8">
+      <div class="media col-hero-img  reveal-img" data-from="right"><img src="assets/lifestyle/heritage-02.jpg" srcset="assets/lifestyle/heritage-02-800.jpg 800w, assets/lifestyle/heritage-02.jpg 1600w" sizes="(min-width: 1024px) 40vw, 100vw" alt="Three Stagr belts in tan, brown and black laid on wood" width="1200" height="1500" fetchpriority="high"></div>
     </div>
   </div>
 </section>
 
-<section class="ds-section" id="type">
+<div class="mini-nav" aria-hidden="true">
   <div class="wrap">
-    <div class="ds-head"><p class="label">02 · Typography</p><h2 class="h2">Fraunces for the voice, Manrope for the work</h2><p class="muted body">Display sizes use the 144 optical size with soft serifs. Everything else is Manrope. Minimum size anywhere is 14px; body runs 16 to 18px.</p></div>
-    <div class="type-row"><div class="display">Nothing but leather</div><div class="small">.display · clamp(2.75rem, 1.6rem + 5.4vw, 7.5rem) · lh 1.02</div></div>
-    <div class="type-row"><div class="h1">We cut leather, not corners</div><div class="small">.h1 · clamp(2.5rem, 1.5rem + 4.2vw, 5.75rem)</div></div>
-    <div class="type-row"><div class="h2">Two lines. One workshop.</div><div class="small">.h2 · clamp(2rem, 1.3rem + 2.8vw, 4rem)</div></div>
-    <div class="type-row"><div class="h3">Crazy horse leather, stitched by hand</div><div class="small">.h3 · clamp(1.5rem, 1.2rem + 1.3vw, 2.375rem)</div></div>
-    <div class="type-row"><div class="h4">Kingsmann Bifold Leather Wallet</div><div class="small">.h4 · card names, drawer items</div></div>
-    <div class="type-row"><p class="lead">Belts and wallets cut from full hides by local artisans. Pay cash on delivery, anywhere in Pakistan.</p><div class="small">.lead · clamp(1.125rem, 1rem + .55vw, 1.4rem)</div></div>
-    <div class="type-row"><p class="body">Every piece is cut from full hides by local artisans. The waxed surface marks and darkens with use, so no two pieces age the same way. Keep it dry and away from direct heat.</p><div class="small">.body · 16–18px · max 60ch</div></div>
-    <div class="type-row"><p class="small">Three to five working days across Pakistan. Cash on delivery available.</p><div class="small">.small · 14px</div></div>
-    <div class="type-row"><p class="label">Micro label · 14px uppercase</p><p class="label label-row" style="margin-top:8px">With rule</p><div class="small">.label / .label-row</div></div>
-    <div class="type-row"><p class="h3">Regular, <em class="i">italic light</em>, and <span class="price">Rs 2,600<s>Rs 3,999</s></span></p><div class="small">.i · .price with compare-at</div></div>
+    <span class="mn-title">Belts <span class="small" data-count-mini>4</span></span>
+    <div class="mn-actions"><button type="button" class="btn btn--ghost btn--sm" data-scroll-to="#filters">Filters</button><a class="btn btn--ghost btn--sm" href="wallets.html">Wallets</a></div>
   </div>
-</section>
+</div>
 
-<section class="ds-section" id="layout">
+<section class="filters" id="filters" aria-label="Filter and sort">
   <div class="wrap">
-    <div class="ds-head"><p class="label">03 · Layout</p><h2 class="h2">Twelve columns, generous air</h2><p class="muted body">Max width 1440px. Gutters 24px on phones growing to 64px on desktop. Section rhythm clamps between 96px and 200px. Images sit in fixed aspect-ratio boxes so nothing shifts while they load.</p></div>
-    <div class="grid grid-demo"><div>1</div><div>2</div><div>3</div><div>4</div><div>5</div><div>6</div><div>7</div><div>8</div><div>9</div><div>10</div><div>11</div><div>12</div></div>
-    <div class="grid" style="margin-top:var(--gap)">
-      <div class="col-12 md:col-4 media ar-45 reveal-img"><img src="assets/products/monarch-tan-1.jpg" alt="Monarch Premium Leather Belt in tan" width="1200" height="896" loading="lazy" style="object-fit:cover"></div>
-      <div class="col-12 md:col-8 media ar-169 reveal-img" data-from="left"><img src="assets/lifestyle/belts-lineup.jpg" alt="Four Stagr belts hanging on wood" width="2400" height="1600" loading="lazy"></div>
+    <div class="filter-groups" data-stagger=".04">
+      <div class="filter-group"><span class="label">Colour</span><button type="button" class="pill" data-filter="colour" data-value="" aria-pressed="true">All</button><button type="button" class="pill" data-filter="colour" data-value="Brown" aria-pressed="false"><span class="dot" style="--sw:#7B4A2B"></span>Brown</button><button type="button" class="pill" data-filter="colour" data-value="Tan" aria-pressed="false"><span class="dot" style="--sw:#B0773F"></span>Tan</button><button type="button" class="pill" data-filter="colour" data-value="Black" aria-pressed="false"><span class="dot" style="--sw:#1A1512"></span>Black</button></div>
+      
+      <div class="filter-group"><span class="label">Leather</span><button type="button" class="pill" aria-pressed="true" disabled title="Every Stagr piece is crazy horse leather">Crazy horse</button></div>
+      <div class="filter-group"><span class="label">Price</span><button type="button" class="pill" data-filter="price" data-value="" aria-pressed="true">All</button><button type="button" class="pill" data-filter="price" data-value="0-2000" aria-pressed="false">Under Rs 2,000</button><button type="button" class="pill" data-filter="price" data-value="2000-3000" aria-pressed="false">Rs 2,000 – 3,000</button><button type="button" class="pill" data-filter="price" data-value="3000-99999" aria-pressed="false">Over Rs 3,000</button></div>
+    </div>
+    <div class="filter-meta">
+      <span class="small muted"><span data-count>4</span> pieces</span>
+      <button type="button" class="btn btn--flat btn--sm clear" data-clear>Clear filters</button>
+      <label class="sr-only" for="sort">Sort</label>
+      <select class="select" id="sort" data-sort><option value="default">Featured</option><option value="price-asc">Price, low to high</option><option value="price-desc">Price, high to low</option><option value="name">Name, A to Z</option></select>
     </div>
   </div>
 </section>
 
-<section class="ds-section" id="buttons">
+<section class="catalog" aria-label="Belts">
   <div class="wrap">
-    <div class="ds-head"><p class="label">04 · Buttons</p><h2 class="h2">One solid, the rest flat</h2><p class="muted body">Primary is the only filled button. Hover sweeps a cognac fill upward. Magnetic buttons follow the cursor within 40px and snap back.</p></div>
-    <div class="demo-row">
-      <button class="btn" data-magnetic><span class="btn-label">Add to cart</span></button>
-      <button class="btn btn--lg" data-magnetic><span class="btn-label">Shop belts</span><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-      <button class="btn btn--sm">Quick view</button>
-      <button class="btn btn--ghost" data-magnetic><span class="btn-label">View all</span></button>
-      <button class="btn btn--flat">Size guide</button>
-      <button class="btn btn--icon" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-      <button class="btn" disabled>Sold out</button>
+    <div class="product-grid" data-grid data-stagger=".07">
+<article class="card" data-item data-id="nova" data-colours="Black,Brown" data-style="Belt" data-price="2394" data-index="0" data-name="Nova Double-Sided Leather Belt">
+  <div class="card-top">
+  <a class="card-link" href="product-nova.html" data-cursor="View" aria-label="Nova Double-Sided Leather Belt">
+    <div class="media media--studio">
+      <img src="assets/products/nova-black-1.jpg" srcset="assets/products/nova-black-1-800.jpg 800w, assets/products/nova-black-1.jpg 1600w" sizes="(min-width: 1024px) 30vw, 50vw" alt="Nova Double-Sided Leather Belt in black" width="1200" height="896" loading="lazy">
+      <img class="alt" src="assets/products/nova-black-2.jpg" srcset="assets/products/nova-black-2-800.jpg 800w, assets/products/nova-black-2.jpg 1600w" sizes="(min-width: 1024px) 30vw, 50vw" alt="" width="1024" height="1024" loading="lazy" aria-hidden="true">
+      <span class="badge">Save 37%</span>
     </div>
-    <div class="demo-row theme-dark ds-panel" style="margin-top:24px">
-      <button class="btn" data-magnetic><span class="btn-label">Add to cart</span></button>
-      <button class="btn btn--ghost">View all</button>
-      <button class="btn btn--flat">Size guide</button>
-      <button class="btn btn--icon" aria-label="Next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-    </div>
-  </div>
-</section>
-
-<section class="ds-section" id="forms">
-  <div class="wrap">
-    <div class="ds-head"><p class="label">05 · Inputs and selection</p><h2 class="h2">Underlines, pills, swatches</h2></div>
-    <div class="grid">
-      <div class="col-12 md:col-6 stack" style="--stack:24px">
-        <div class="field"><label for="f1">Full name</label><input class="input" id="f1" placeholder="Your name"></div>
-        <div class="field"><label for="f2">Email</label><input class="input" id="f2" type="email" placeholder="you@example.com" aria-invalid="true" aria-describedby="f2e"><span class="error" id="f2e">Please add a valid email address.</span></div>
-        <div class="field"><label for="f3">City</label><select class="select" id="f3"><option>Karachi</option><option>Lahore</option><option>Islamabad</option></select></div>
-        <div class="field"><label for="f4">Handwritten note</label><textarea class="textarea" id="f4" placeholder="We write it by hand on a card and pack it with your order."></textarea><span class="hint">0 of 160 characters</span></div>
-        <label class="check"><input type="checkbox" checked> Keep me posted on new cuts</label>
-      </div>
-      <div class="col-12 md:col-6 stack" style="--stack:32px">
-        <div><p class="label" style="margin-bottom:12px">Filter pills</p><div class="pills"><button class="pill" aria-pressed="true">All</button><button class="pill" aria-pressed="false"><span class="dot" style="--sw:#7B4A2B"></span>Brown</button><button class="pill" aria-pressed="false"><span class="dot" style="--sw:#14100E"></span>Black</button><button class="pill" aria-pressed="false"><span class="dot" style="--sw:#B0773F"></span>Tan</button><button class="pill" aria-pressed="false">Under Rs 2,000</button></div></div>
-        <div><p class="label" style="margin-bottom:12px">Segmented tabs</p><div class="seg" data-seg><div class="seg-thumb"></div><button type="button" role="tab" aria-selected="true" data-tab="materials">Materials</button><button type="button" role="tab" aria-selected="false" data-tab="dimensions">Dimensions</button><button type="button" role="tab" aria-selected="false" data-tab="care">Care</button></div></div>
-        <div><p class="label" style="margin-bottom:12px">Colour · <span class="muted" style="text-transform:none;letter-spacing:0">Brown</span></p><div class="swatches"><label class="swatch" style="--sw:#7B4A2B"><input type="radio" name="sw" checked><span class="sw"></span><span class="sr-only">Brown</span></label><label class="swatch" style="--sw:#14100E"><input type="radio" name="sw"><span class="sw"></span><span class="sr-only">Black</span></label><label class="swatch" style="--sw:#B0773F"><input type="radio" name="sw"><span class="sw"></span><span class="sr-only">Tan</span></label></div></div>
-        <div><p class="label" style="margin-bottom:12px">Waist size</p><div class="sizes"><label class="size"><input type="radio" name="sz" >30</label><label class="size"><input type="radio" name="sz" >32</label><label class="size"><input type="radio" name="sz" checked>34</label><label class="size"><input type="radio" name="sz" >36</label><label class="size"><input type="radio" name="sz" >38</label><label class="size"><input type="radio" name="sz" >40</label><label class="size"><input type="radio" name="sz" >42</label><label class="size is-out"><input type="radio" name="sz" disabled>44</label></div></div>
-        <div class="demo-row"><div class="qty"><button type="button" aria-label="Decrease">−</button><span>1</span><button type="button" aria-label="Increase">+</button></div><span class="chip">Brown ×</span><span class="badge">New</span><span class="badge badge--solid">Bestseller</span><span class="badge badge--tint">Save 35%</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="ds-section" id="cards">
-  <div class="wrap">
-    <div class="ds-head"><p class="label">06 · Cards</p><h2 class="h2">Let the object speak</h2><p class="muted body">Studio shots sit on a warm grey plate with multiply blending so the white renders sit in the palette. Hover crossfades to the second view and raises the quick-add. Cards reveal with a stagger on scroll.</p></div>
-    <div class="ds-cards" data-stagger=".08">
-<a class="card" href="product-kingsmann.html" data-cursor="View">
-  <div class="media media--studio">
-    <img src="assets/products/kingsmann-brown-1.jpg" alt="Kingsmann Bifold Leather Wallet in brown" width="1448" height="1086" loading="lazy">
-    <img class="alt" src="assets/products/kingsmann-brown-2.jpg" alt="" width="1397" height="768" loading="lazy" aria-hidden="true">
-    <span class="badge">Bestseller</span>
-    <button type="button" class="btn btn--sm btn--wide quick" data-add="kingsmann" data-colour="Brown">Add to cart</button>
+  </a>
+  <button type="button" class="btn btn--sm btn--wide quick" data-quick="nova">Quick view</button>
   </div>
   <div class="card-body">
-    <div><div class="card-name">Kingsmann Bifold Leather Wallet</div><div class="card-meta">Bifold · Brown / Black</div><div class="card-rule"></div></div>
-    <div class="price">Rs 2,600<s>Rs 3,999</s></div>
+    <div><a class="card-name" href="product-nova.html">Nova Double-Sided Leather Belt</a><div class="card-meta">Belt · Black / Brown</div><div class="card-dots"><span class="dot" style="--sw:#1A1512" title="Black"></span><span class="dot" style="--sw:#7B4A2B" title="Brown"></span></div><div class="card-rule"></div></div>
+    <div class="price">Rs 2,394<s>Rs 3,800</s></div>
   </div>
-</a>
-<a class="card" href="product-monarch.html" data-cursor="View">
-  <div class="media media--studio">
-    <img src="assets/products/monarch-tan-1.jpg" alt="Monarch Premium Leather Belt in tan" width="1200" height="896" loading="lazy">
-    <img class="alt" src="assets/products/monarch-tan-2.jpg" alt="" width="1024" height="1024" loading="lazy" aria-hidden="true">
-    
-    <button type="button" class="btn btn--sm btn--wide quick" data-add="monarch" data-colour="Tan">Add to cart</button>
+</article>
+<article class="card" data-item data-id="outlaw" data-colours="Brown" data-style="Belt" data-price="2765" data-index="1" data-name="Outlaw Crazy Horse Leather Belt">
+  <div class="card-top">
+  <a class="card-link" href="product-outlaw.html" data-cursor="View" aria-label="Outlaw Crazy Horse Leather Belt">
+    <div class="media media--studio">
+      <img src="assets/products/outlaw-brown-1.jpg" srcset="assets/products/outlaw-brown-1-800.jpg 800w, assets/products/outlaw-brown-1.jpg 1600w" sizes="(min-width: 1024px) 30vw, 50vw" alt="Outlaw Crazy Horse Leather Belt in brown" width="1200" height="896" loading="lazy">
+      <img class="alt" src="assets/products/outlaw-brown-2.jpg" srcset="assets/products/outlaw-brown-2-800.jpg 800w, assets/products/outlaw-brown-2.jpg 1600w" sizes="(min-width: 1024px) 30vw, 50vw" alt="" width="1024" height="1024" loading="lazy" aria-hidden="true">
+      <span class="badge">Save 30%</span>
+    </div>
+  </a>
+  <button type="button" class="btn btn--sm btn--wide quick" data-quick="outlaw">Quick view</button>
   </div>
   <div class="card-body">
-    <div><div class="card-name">Monarch Premium Leather Belt</div><div class="card-meta">Belt · Tan</div><div class="card-rule"></div></div>
+    <div><a class="card-name" href="product-outlaw.html">Outlaw Crazy Horse Leather Belt</a><div class="card-meta">Belt · Brown</div><div class="card-dots"><span class="dot" style="--sw:#7B4A2B" title="Brown"></span></div><div class="card-rule"></div></div>
+    <div class="price">Rs 2,765<s>Rs 3,950</s></div>
+  </div>
+</article>
+<article class="card" data-item data-id="regent" data-colours="Black" data-style="Belt" data-price="2730" data-index="2" data-name="Regent Premium Leather Belt">
+  <div class="card-top">
+  <a class="card-link" href="product-regent.html" data-cursor="View" aria-label="Regent Premium Leather Belt">
+    <div class="media media--studio">
+      <img src="assets/products/regent-black-1.jpg" srcset="assets/products/regent-black-1-800.jpg 800w, assets/products/regent-black-1.jpg 1600w" sizes="(min-width: 1024px) 30vw, 50vw" alt="Regent Premium Leather Belt in black" width="1200" height="896" loading="lazy">
+      <img class="alt" src="assets/products/regent-black-2.jpg" srcset="assets/products/regent-black-2-800.jpg 800w, assets/products/regent-black-2.jpg 1600w" sizes="(min-width: 1024px) 30vw, 50vw" alt="" width="1024" height="1024" loading="lazy" aria-hidden="true">
+      <span class="badge">Save 30%</span>
+    </div>
+  </a>
+  <button type="button" class="btn btn--sm btn--wide quick" data-quick="regent">Quick view</button>
+  </div>
+  <div class="card-body">
+    <div><a class="card-name" href="product-regent.html">Regent Premium Leather Belt</a><div class="card-meta">Belt · Black</div><div class="card-dots"><span class="dot" style="--sw:#1A1512" title="Black"></span></div><div class="card-rule"></div></div>
+    <div class="price">Rs 2,730<s>Rs 3,900</s></div>
+  </div>
+</article>
+<article class="card" data-item data-id="monarch" data-colours="Tan" data-style="Belt" data-price="2800" data-index="3" data-name="Monarch Premium Leather Belt">
+  <div class="card-top">
+  <a class="card-link" href="product-monarch.html" data-cursor="View" aria-label="Monarch Premium Leather Belt">
+    <div class="media media--studio">
+      <img src="assets/products/monarch-tan-1.jpg" srcset="assets/products/monarch-tan-1-800.jpg 800w, assets/products/monarch-tan-1.jpg 1600w" sizes="(min-width: 1024px) 30vw, 50vw" alt="Monarch Premium Leather Belt in tan" width="1200" height="896" loading="lazy">
+      <img class="alt" src="assets/products/monarch-tan-2.jpg" srcset="assets/products/monarch-tan-2-800.jpg 800w, assets/products/monarch-tan-2.jpg 1600w" sizes="(min-width: 1024px) 30vw, 50vw" alt="" width="1024" height="1024" loading="lazy" aria-hidden="true">
+      <span class="badge">Save 30%</span>
+    </div>
+  </a>
+  <button type="button" class="btn btn--sm btn--wide quick" data-quick="monarch">Quick view</button>
+  </div>
+  <div class="card-body">
+    <div><a class="card-name" href="product-monarch.html">Monarch Premium Leather Belt</a><div class="card-meta">Belt · Tan</div><div class="card-dots"><span class="dot" style="--sw:#B0773F" title="Tan"></span></div><div class="card-rule"></div></div>
     <div class="price">Rs 2,800<s>Rs 4,000</s></div>
   </div>
-</a>
-<a class="card" href="product-rodeo.html" data-cursor="View">
-  <div class="media media--studio">
-    <img src="assets/products/rodeo-tan-1.jpg" alt="Rodeo Long Leather Wallet in tan" width="784" height="1353" loading="lazy">
-    <img class="alt" src="assets/products/rodeo-tan-2.jpg" alt="" width="843" height="1264" loading="lazy" aria-hidden="true">
-    <span class="badge">Long wallet</span>
-    <button type="button" class="btn btn--sm btn--wide quick" data-add="rodeo" data-colour="Tan">Add to cart</button>
+</article></div>
+    <div class="empty" data-empty><p class="h3">Nothing matches that yet.</p><p class="muted" style="margin-top:10px">Loosen a filter and the shelf fills up again.</p><p style="margin-top:24px"><button type="button" class="btn btn--ghost btn--sm" data-clear>Clear filters</button></p></div>
+  </div>
+</section>
+
+<section class="section-sm theme-dark" aria-labelledby="cross-title">
+  <div class="wrap">
+    <div class="between" style="margin-bottom:clamp(28px,4vw,48px)"><div><p class="label label-row" data-reveal="up" style="color:var(--c-saddle)">Complete the look</p><h2 class="h2" id="cross-title" data-lines style="margin-top:16px">A wallet to match</h2></div><a class="btn btn--ghost" href="wallets.html">All wallets</a></div>
+    <div class="product-grid" style="grid-template-columns:repeat(3,minmax(0,1fr))" data-stagger=".08">
+<article class="card" data-item data-id="kingsmann" data-colours="Brown,Black" data-style="Bifold" data-price="2600" data-index="0" data-name="Kingsmann Bifold Leather Wallet">
+  <div class="card-top">
+  <a class="card-link" href="product-kingsmann.html" data-cursor="View" aria-label="Kingsmann Bifold Leather Wallet">
+    <div class="media media--studio">
+      <img src="assets/products/kingsmann-brown-1.jpg" srcset="assets/products/kingsmann-brown-1-800.jpg 800w, assets/products/kingsmann-brown-1.jpg 1600w" sizes="(min-width: 1024px) 30vw, 50vw" alt="Kingsmann Bifold Leather Wallet in brown" width="1448" height="1086" loading="lazy">
+      <img class="alt" src="assets/products/kingsmann-brown-2.jpg" srcset="assets/products/kingsmann-brown-2-800.jpg 800w, assets/products/kingsmann-brown-2.jpg 1600w" sizes="(min-width: 1024px) 30vw, 50vw" alt="" width="1397" height="768" loading="lazy" aria-hidden="true">
+      <span class="badge">Save 35%</span>
+    </div>
+  </a>
+  <button type="button" class="btn btn--sm btn--wide quick" data-quick="kingsmann">Quick view</button>
   </div>
   <div class="card-body">
-    <div><div class="card-name">Rodeo Long Leather Wallet</div><div class="card-meta">Long · Tan / Black</div><div class="card-rule"></div></div>
-    <div class="price">Rs 3,500<s>Rs 4,999</s></div>
+    <div><a class="card-name" href="product-kingsmann.html">Kingsmann Bifold Leather Wallet</a><div class="card-meta">Bifold · Brown / Black</div><div class="card-dots"><span class="dot" style="--sw:#7B4A2B" title="Brown"></span><span class="dot" style="--sw:#1A1512" title="Black"></span></div><div class="card-rule"></div></div>
+    <div class="price">Rs 2,600<s>Rs 3,999</s></div>
   </div>
-</a>
-<a class="card" href="product-maverick.html" data-cursor="View">
-  <div class="media media--studio">
-    <img src="assets/products/maverick-brown-1.jpg" alt="Maverick Minimalist Leather Wallet in brown" width="1448" height="1086" loading="lazy">
-    <img class="alt" src="assets/products/maverick-brown-2.jpg" alt="" width="1448" height="1086" loading="lazy" aria-hidden="true">
-    
-    <button type="button" class="btn btn--sm btn--wide quick" data-add="maverick" data-colour="Brown">Add to cart</button>
+</article>
+<article class="card" data-item data-id="majestic" data-colours="Brown,Black" data-style="Trifold" data-price="2600" data-index="1" data-name="Majestic Trifold Leather Wallet">
+  <div class="card-top">
+  <a class="card-link" href="product-majestic.html" data-cursor="View" aria-label="Majestic Trifold Leather Wallet">
+    <div class="media media--studio">
+      <img src="assets/products/majestic-brown-1.jpg" srcset="assets/products/majestic-brown-1-800.jpg 800w, assets/products/majestic-brown-1.jpg 1600w" sizes="(min-width: 1024px) 30vw, 50vw" alt="Majestic Trifold Leather Wallet in brown" width="1193" height="896" loading="lazy">
+      <img class="alt" src="assets/products/majestic-brown-2.jpg" srcset="assets/products/majestic-brown-2-800.jpg 800w, assets/products/majestic-brown-2.jpg 1600w" sizes="(min-width: 1024px) 30vw, 50vw" alt="" width="1448" height="1086" loading="lazy" aria-hidden="true">
+      <span class="badge">Save 35%</span>
+    </div>
+  </a>
+  <button type="button" class="btn btn--sm btn--wide quick" data-quick="majestic">Quick view</button>
   </div>
   <div class="card-body">
-    <div><div class="card-name">Maverick Minimalist Leather Wallet</div><div class="card-meta">Minimalist · Brown / Black</div><div class="card-rule"></div></div>
+    <div><a class="card-name" href="product-majestic.html">Majestic Trifold Leather Wallet</a><div class="card-meta">Trifold · Brown / Black</div><div class="card-dots"><span class="dot" style="--sw:#7B4A2B" title="Brown"></span><span class="dot" style="--sw:#1A1512" title="Black"></span></div><div class="card-rule"></div></div>
+    <div class="price">Rs 2,600<s>Rs 3,999</s></div>
+  </div>
+</article>
+<article class="card" data-item data-id="maverick" data-colours="Brown,Black" data-style="Minimalist" data-price="1740" data-index="2" data-name="Maverick Minimalist Leather Wallet">
+  <div class="card-top">
+  <a class="card-link" href="product-maverick.html" data-cursor="View" aria-label="Maverick Minimalist Leather Wallet">
+    <div class="media media--studio">
+      <img src="assets/products/maverick-brown-1.jpg" srcset="assets/products/maverick-brown-1-800.jpg 800w, assets/products/maverick-brown-1.jpg 1600w" sizes="(min-width: 1024px) 30vw, 50vw" alt="Maverick Minimalist Leather Wallet in brown" width="1448" height="1086" loading="lazy">
+      <img class="alt" src="assets/products/maverick-brown-2.jpg" srcset="assets/products/maverick-brown-2-800.jpg 800w, assets/products/maverick-brown-2.jpg 1600w" sizes="(min-width: 1024px) 30vw, 50vw" alt="" width="1448" height="1086" loading="lazy" aria-hidden="true">
+      <span class="badge">Save 40%</span>
+    </div>
+  </a>
+  <button type="button" class="btn btn--sm btn--wide quick" data-quick="maverick">Quick view</button>
+  </div>
+  <div class="card-body">
+    <div><a class="card-name" href="product-maverick.html">Maverick Minimalist Leather Wallet</a><div class="card-meta">Minimalist · Brown / Black</div><div class="card-dots"><span class="dot" style="--sw:#7B4A2B" title="Brown"></span><span class="dot" style="--sw:#1A1512" title="Black"></span></div><div class="card-rule"></div></div>
     <div class="price">Rs 1,740<s>Rs 2,899</s></div>
   </div>
-</a></div>
-    <div class="ds-doors" style="margin-top:var(--section-sm)">
-      <a class="door" href="wallets.html" data-cursor="Wallets"><div class="media"><img src="assets/lifestyle/kingsmen-01.jpg" alt="Kingsmann bifold on sherpa" width="1200" height="1500" loading="lazy"></div><div class="door-body"><p class="label" style="color:var(--c-saddle)">01 · Seven styles</p><div class="door-title">Wallets</div><div class="door-rule"></div><span class="label">Shop wallets <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div></a>
-      <a class="door" href="belts.html" data-cursor="Belts"><div class="media"><img src="assets/lifestyle/ranger-open.jpg" alt="Tan belt buckle on wood" width="1800" height="1200" loading="lazy"></div><div class="door-body"><p class="label" style="color:var(--c-saddle)">02 · Four styles</p><div class="door-title">Belts</div><div class="door-rule"></div><span class="label">Shop belts <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div></a>
-    </div>
+</article></div>
   </div>
 </section>
 
-<section class="ds-section" id="content">
-  <div class="wrap">
-    <div class="ds-head"><p class="label">07 · Content blocks</p><h2 class="h2">Accordion and trust strip</h2></div>
-    <div class="grid">
-      <div class="col-12 md:col-6">
-        <div class="acc">
-          <details open><summary>Product details<span class="plus"></span></summary><div class="acc-body"><p>Full grain hide, 3.5mm, cut in one piece. Solid brass buckle on a removable screw post, so you can change it without tools.</p></div></details>
-          <details><summary>Leather specification<span class="plus"></span></summary><div class="acc-body"><p>Vegetable tanned, 8 to 9 ounce weight. Edges bevelled, sanded and burnished four times, then sealed with beeswax.</p></div></details>
-          <details><summary>Care<span class="plus"></span></summary><div class="acc-body"><p>Wipe with a dry cloth. Condition twice a year. Keep it rolled, not folded, and let it dry away from heat if it gets wet.</p></div></details>
-          <details><summary>Delivery and returns<span class="plus"></span></summary><div class="acc-body"><p>Three to five working days across Pakistan. Cash on delivery available. Unworn returns accepted within 14 days.</p></div></details>
-        </div>
-      </div>
-      <div class="col-12 md:col-6">
-        <div class="trust" style="grid-template-columns:repeat(2,minmax(0,1fr))">
-          <div class="trust-item"><span class="t">Cash on delivery</span><span class="s">Pay at the door</span></div><div class="trust-item"><span class="t">3 to 5 days</span><span class="s">Across Pakistan</span></div><div class="trust-item"><span class="t">14-day returns</span><span class="s">Unworn pieces</span></div><div class="trust-item"><span class="t">Handwritten note</span><span class="s">Free, add at checkout</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
+<section class="trust-section" aria-label="Delivery, returns and service">
+  <div class="wrap"><div class="trust" data-stagger=".08"><div class="trust-item"><span class="t">Cash on delivery</span><span class="s">Pay at the door</span></div><div class="trust-item"><span class="t">3 to 5 days</span><span class="s">Across Pakistan</span></div><div class="trust-item"><span class="t">14-day returns</span><span class="s">Unworn pieces</span></div><div class="trust-item"><span class="t">Handwritten note</span><span class="s">Free, add at checkout</span></div></div></div>
 </section>
 
-<section class="ds-section" id="motion">
-  <div class="wrap">
-    <div class="ds-head"><p class="label">08 · Animation primitives</p><h2 class="h2">Slow, masked, never bouncy</h2><p class="muted body">All motion animates only transform, opacity and clip-path. Entrances fire once at <code>top 80%</code>. Reduced-motion users get plain fades and no pinning, scrubbing or parallax.</p></div>
-    <div class="grid">
-      <div class="col-12 md:col-6 demo-box" id="demo-lines">
-        <p class="label">Text reveal · SplitText lines, yPercent 100 → 0 in a mask</p>
-        <h3 class="h2" data-lines>Cut once. Worn for years, then handed down.</h3>
-        <button type="button" class="btn btn--sm btn--ghost replay" data-replay="lines">Replay</button>
-      </div>
-      <div class="col-12 md:col-6 demo-box" id="demo-img">
-        <p class="label">Image reveal · clip-path inset from a side + scale 1.15 → 1</p>
-        <div class="media ar-32 reveal-img" data-from="left"><img src="assets/lifestyle/onyx-02.jpg" alt="Black belt buckle with coffee beans" width="1200" height="1500" loading="lazy"></div>
-        <button type="button" class="btn btn--sm btn--ghost replay" data-replay="img">Replay</button>
-      </div>
-      <div class="col-12 md:col-6 demo-box" id="demo-fade">
-        <p class="label">Block reveal · opacity + 32px rise, staggered 0.08s</p>
-        <div data-stagger=".08" class="stack" style="--stack:12px"><p class="h4">One workshop.</p><p class="h4">One price.</p><p class="h4">No filler.</p><p class="h4">Repairs for life.</p></div>
-        <button type="button" class="btn btn--sm btn--ghost replay" data-replay="fade">Replay</button>
-      </div>
-      <div class="col-12 md:col-6 demo-box">
-        <p class="label">Cursor labels · hover these zones (desktop)</p>
-        <div class="cursor-zone" data-cursor="View">Hover → “View”</div>
-        <div class="cursor-zone" data-cursor="Drag">Hover → “Drag”</div>
-      </div>
-      <div class="col-12 demo-box">
-        <p class="label">Parallax · three speeds, scrub 0.8 (scroll to see)</p>
-        <div class="px-demo">
-          <div class="media" data-parallax=".15"><img src="assets/lifestyle/heritage-01.jpg" alt="Tan belt coiled on wood" width="1200" height="1500" loading="lazy"></div>
-          <div class="media" data-parallax=".35"><img src="assets/lifestyle/majestic-02.jpg" alt="Dark wallet on burlap" width="1200" height="1500" loading="lazy"></div>
-          <div class="media" data-parallax=".25"><img src="assets/lifestyle/ranger-02.jpg" alt="Tan belt tip with embossed stag" width="1200" height="1500" loading="lazy"></div>
-        </div>
-      </div>
-      <div class="col-12 demo-box" style="padding-inline:0;overflow:hidden">
-        <p class="label" style="padding-inline:clamp(20px,4vw,48px)">Marquee · 60px/s, pauses off-screen, speeds up with scroll velocity</p>
-        <div class="marquee" data-marquee data-speed="60" data-scrub><div class="track"><span class="label">100% crazy horse leather</span><span class="label" style="color:var(--accent-soft)">·</span><span class="label">Handmade in Pakistan</span><span class="label" style="color:var(--accent-soft)">·</span><span class="label">Saddle stitched</span><span class="label" style="color:var(--accent-soft)">·</span><span class="label">No PU, no rexine</span><span class="label" style="color:var(--accent-soft)">·</span><span class="label">Rs 1,740 to Rs 3,500</span><span class="label" style="color:var(--accent-soft)">·</span><span class="label">Delivered across Pakistan</span><span class="label" style="color:var(--accent-soft)">·</span><span class="label">Boxed for gifting</span><span class="label" style="color:var(--accent-soft)">·</span><span class="label">Full grain hide</span><span class="label" style="color:var(--accent-soft)">·</span><span class="label">Solid brass</span><span class="label" style="color:var(--accent-soft)">·</span><span class="label">Sizes 30 to 44</span><span class="label" style="color:var(--accent-soft)">·</span></div></div>
-      </div>
-      <div class="col-12 md:col-6 demo-box">
-        <p class="label">Page transition · curtain wipe (≤1.1s)</p>
-        <p class="muted small">Every internal link plays a curtain out, navigates, then the next page lifts the curtain on load. Try it:</p>
-        <p><a class="btn btn--ghost btn--sm" href="design-system.html">Reload through the curtain</a> <button type="button" class="btn btn--sm" data-replay="curtain">Preview without leaving</button></p>
-      </div>
-      <div class="col-12 md:col-6 demo-box">
-        <p class="label">Intro loader · ≤1.8s, once per session, skippable</p>
-        <div class="loader-demo"><div class="loader" id="loader-demo" aria-hidden="true"><div class="grain"></div><div class="mark"><img src="assets/brand/stagr-lockup-brass.png" alt="" width="538" height="392"></div><div class="count">000</div><div class="word">Nothing but leather</div><div class="bar"></div></div></div>
-        <button type="button" class="btn btn--sm btn--ghost replay" data-replay="loader">Replay</button>
-      </div>
+<div class="qv-backdrop" data-qv-close aria-hidden="true"></div>
+<div class="qv" role="dialog" aria-modal="true" aria-label="Quick view" aria-hidden="true" data-lenis-prevent>
+  <button type="button" class="btn btn--icon qv-close" data-qv-close aria-label="Close quick view"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <div class="qv-inner">
+    <div class="qv-media"><div class="media media--studio"><img data-qv-img src="" alt="" width="1448" height="1086"></div><div class="qv-thumbs" data-qv-thumbs></div></div>
+    <div class="qv-body">
+      <p class="label" data-qv-meta></p>
+      <h2 class="h3" data-qv-name></h2>
+      <p class="price h4" data-qv-price></p>
+      <p class="muted" data-qv-tagline></p>
+      <div><p class="label" style="margin-bottom:10px">Colour · <span data-qv-colour style="text-transform:none;letter-spacing:0"></span></p><div class="swatches" data-qv-swatches></div></div>
+      <div class="row" style="gap:12px"><button type="button" class="btn" data-qv-add>Add to cart</button><a class="btn btn--flat" data-qv-link href="#">Full details <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+      <p class="small muted">Cash on delivery · 3 to 5 days across Pakistan · 14-day returns</p>
     </div>
-    <div class="table-wrap" style="margin-top:48px"><table class="motion-table">
-      <thead><tr><th>Use</th><th>Ease</th><th>Duration</th><th>Stagger</th></tr></thead>
-      <tbody>
-        <tr><td>Micro-interactions (hover fills, pills, swatches)</td><td>power3.out / cubic-bezier(.22,1,.36,1)</td><td>0.3–0.5s</td><td>—</td></tr>
-        <tr><td>Entrances (lines, blocks, cards)</td><td>power3.out</td><td>0.9–1.2s</td><td>0.06–0.12s</td></tr>
-        <tr><td>Large image reveals</td><td>expo.out</td><td>1.4s</td><td>—</td></tr>
-        <tr><td>Menu, drawer, curtain, loader lift</td><td>power2.inOut / power3.inOut</td><td>0.6–1.1s</td><td>0.08s (menu links)</td></tr>
-        <tr><td>Scroll-driven (parallax, pinned story, marquee velocity)</td><td>none</td><td>scrub: 0.8</td><td>—</td></tr>
-        <tr><td>Hover image zoom</td><td>power3.out</td><td>0.8s · scale 1 → 1.05</td><td>—</td></tr>
-      </tbody>
-    </table></div>
   </div>
-</section>
-
-<section class="ds-section" id="chrome">
-  <div class="wrap">
-    <div class="ds-head"><p class="label">09 · Chrome</p><h2 class="h2">Header, split menu, bag, footer</h2><p class="muted body">All live on this page. The header turns solid after 24px of scroll and hides on fast downward scroll. The menu opens as two half-screen panels sliding from top and bottom, links stagger in, and it closes in reverse at 1.6× speed. The bag slides in from the right; try “Add to cart” on a card above.</p></div>
-    <div class="demo-row"><button type="button" class="btn" data-menu-open-demo>Open the menu</button><button type="button" class="btn btn--ghost" data-cart-open>Open the bag</button><button type="button" class="btn btn--ghost theme-toggle">Toggle theme</button></div>
-  </div>
-</section>
+</div>
 
 </main>
 
@@ -1043,45 +1023,79 @@ html.no-loader .loader{display:none}
 <script src="js/stagr.js"></script>
 <script>
 
+const COLLECTION = [{"id": "nova", "name": "Nova Double-Sided Leather Belt", "style": null, "tagline": "Two Sides. One Belt. Made for Every Style.", "price": 2394, "compareAtPrice": 3800, "colours": ["Black", "Brown"], "defaultColour": "Black", "images": [{"src": "assets/products/nova-black-1.jpg", "source": "products-images/v2/nova-1.jpg", "width": 1200, "height": 896, "colour": "black", "kind": "studio", "alt": "Nova Double-Sided Leather Belt in black", "srcSmall": "assets/products/nova-black-1-800.jpg"}, {"src": "assets/products/nova-black-2.jpg", "source": "products-images/v2/nova-2.jpg", "width": 1024, "height": 1024, "colour": "black", "kind": "studio", "alt": "Nova Double-Sided Leather Belt in black", "srcSmall": "assets/products/nova-black-2-800.jpg"}, {"src": "assets/products/nova-black-3.jpg", "source": "products-images/v2/nova-3.jpg", "width": 1200, "height": 896, "colour": "black", "kind": "studio", "alt": "Nova Double-Sided Leather Belt in black", "srcSmall": "assets/products/nova-black-3-800.jpg"}], "line": "belt"}, {"id": "outlaw", "name": "Outlaw Crazy Horse Leather Belt", "style": null, "tagline": "Rugged Character. Timeless Craftsmanship.", "price": 2765, "compareAtPrice": 3950, "colours": ["Brown"], "defaultColour": "Brown", "images": [{"src": "assets/products/outlaw-brown-1.jpg", "source": "products-images/v2/outlaw-1.jpg", "width": 1200, "height": 896, "colour": "brown", "kind": "studio", "alt": "Outlaw Crazy Horse Leather Belt in brown", "srcSmall": "assets/products/outlaw-brown-1-800.jpg"}, {"src": "assets/products/outlaw-brown-2.jpg", "source": "products-images/v2/outlaw-2.jpg", "width": 1024, "height": 1024, "colour": "brown", "kind": "studio", "alt": "Outlaw Crazy Horse Leather Belt in brown", "srcSmall": "assets/products/outlaw-brown-2-800.jpg"}], "line": "belt"}, {"id": "regent", "name": "Regent Premium Leather Belt", "style": null, "tagline": "Classic Elegance. Crafted to Last.", "price": 2730, "compareAtPrice": 3900, "colours": ["Black"], "defaultColour": "Black", "images": [{"src": "assets/products/regent-black-1.jpg", "source": "products-images/v2/regent-1.jpg", "width": 1200, "height": 896, "colour": "black", "kind": "studio", "alt": "Regent Premium Leather Belt in black", "srcSmall": "assets/products/regent-black-1-800.jpg"}, {"src": "assets/products/regent-black-2.jpg", "source": "products-images/v2/regent-2.jpg", "width": 1024, "height": 1024, "colour": "black", "kind": "studio", "alt": "Regent Premium Leather Belt in black", "srcSmall": "assets/products/regent-black-2-800.jpg"}], "line": "belt"}, {"id": "monarch", "name": "Monarch Premium Leather Belt", "style": null, "tagline": "Premium Character. Timeless Craftsmanship.", "price": 2800, "compareAtPrice": 4000, "colours": ["Tan"], "defaultColour": "Tan", "images": [{"src": "assets/products/monarch-tan-1.jpg", "source": "products-images/v2/monarch-1.jpg", "width": 1200, "height": 896, "colour": "tan", "kind": "studio", "alt": "Monarch Premium Leather Belt in tan", "srcSmall": "assets/products/monarch-tan-1-800.jpg"}, {"src": "assets/products/monarch-tan-2.jpg", "source": "products-images/v2/monarch-2.jpg", "width": 1024, "height": 1024, "colour": "tan", "kind": "studio", "alt": "Monarch Premium Leather Belt in tan", "srcSmall": "assets/products/monarch-tan-2-800.jpg"}], "line": "belt"}];
+const SWATCH = { Brown: "#7B4A2B", Black: "#1A1512", Tan: "#B0773F", Coffee: "#4A3024" };
 function initAnimations() {
-  const S = window.STAGR, G = S.gsap;
-  const seg = document.querySelector("[data-seg]"); if (seg) S.segmented(seg);
-  const demoMenu = document.querySelector("[data-menu-open-demo]"); demoMenu && demoMenu.addEventListener("click", S.openMenu);
-  document.querySelectorAll("form[data-newsletter]").forEach(f => f.addEventListener("submit", e => { e.preventDefault(); S.toast("You are on the list."); f.reset(); }));
-  if (!G || S.reduced) return;
+  const S = window.STAGR, G = S.gsap, ST = window.ScrollTrigger, Flip = window.Flip;
+  const q = (s, r) => (r || document).querySelector(s), qa = (s, r) => Array.prototype.slice.call((r || document).querySelectorAll(s));
+  const grid = q("[data-grid]"), cards = qa("[data-item]", grid), empty = q("[data-empty]");
+  const state = { colour: "", style: "", price: "", sort: "default" };
 
-  document.querySelectorAll("[data-replay]").forEach(btn => btn.addEventListener("click", () => {
-    const k = btn.dataset.replay;
-    if (k === "lines") {
-      const el = document.querySelector("#demo-lines [data-lines]");
-      G.fromTo(el.querySelectorAll(".line"), { yPercent: 105 }, { yPercent: 0, duration: 1.2, ease: S.ease.in, stagger: .09, overwrite: true });
-    }
-    if (k === "img") {
-      const img = document.querySelector("#demo-img img");
-      G.fromTo(img, { clipPath: "inset(0 100% 0 0)", scale: 1.15 }, { clipPath: "inset(0 0% 0 0)", scale: 1, duration: 1.4, ease: S.ease.big, overwrite: true });
-    }
-    if (k === "fade") {
-      G.fromTo("#demo-fade [data-stagger] > *", { opacity: 0, y: 32 }, { opacity: 1, y: 0, duration: 1, stagger: .08, ease: S.ease.in, overwrite: true });
-    }
-    if (k === "curtain") {
-      const c = document.querySelector(".curtain"), svg = c.querySelector("svg");
-      G.timeline().to(c, { y: "0%", duration: .7, ease: "power2.inOut" }).fromTo(svg, { opacity: 0, scale: .9 }, { opacity: 1, scale: 1, duration: .3 }, "-=.2").to(svg, { opacity: 0, duration: .2 }, "+=.3").to(c, { y: "-101%", duration: .8, ease: "power2.inOut" }).set(c, { y: "101%" });
-    }
-    if (k === "loader") {
-      const l = document.querySelector("#loader-demo"), n = { v: 0 };
-      const count = l.querySelector(".count"), bar = l.querySelector(".bar"), mark = l.querySelector(".mark"), word = l.querySelector(".word"), grain = l.querySelector(".grain");
-      l.hidden = false; G.set(l, { yPercent: 0 }); G.set([count, word, mark], { opacity: 1, y: 0 }); G.set(bar, { scaleX: 0 });
-      G.timeline()
-        .fromTo(grain, { xPercent: -4, yPercent: -2 }, { xPercent: 4, yPercent: 2, duration: 1.8, ease: "none" }, 0)
-        .fromTo(mark, { opacity: 0, scale: .92 }, { opacity: 1, scale: 1, duration: .9, ease: S.ease.big }, .05)
-        .fromTo(word, { opacity: 0 }, { opacity: 1, duration: .5 }, .3)
-        .to(n, { v: 100, duration: 1.3, ease: "power2.inOut", onUpdate: () => count.textContent = String(Math.round(n.v)).padStart(3, "0") }, .1)
-        .to(bar, { scaleX: 1, duration: 1.3, ease: "power2.inOut" }, .1)
-        .to([count, word, mark], { opacity: 0, y: -16, duration: .35, stagger: .04, ease: "power2.in" })
-        .to(l, { yPercent: -100, duration: .9, ease: "power3.inOut" }, "-=.1")
-        .set(l, { yPercent: 0, delay: .6 }).set([count, word, mark], { opacity: 1, y: 0 });
-    }
+  /* ---- sticky mini nav after the editorial header scrolls out ---- */
+  const mini = q(".mini-nav"), hero = q(".col-hero");
+  if (mini && hero) {
+    const check = () => { const r = hero.getBoundingClientRect(); const on = r.bottom < 0; mini.classList.toggle("is-on", on); mini.setAttribute("aria-hidden", String(!on)); };
+    window.addEventListener("scroll", check, { passive: true }); check();
+  }
+
+  /* ---- filters with Flip ---- */
+  const passes = c => {
+    const colours = c.dataset.colours.split(","), price = +c.dataset.price;
+    if (state.colour && colours.indexOf(state.colour) < 0) return false;
+    if (state.style && c.dataset.style !== state.style) return false;
+    if (state.price) { const [lo, hi] = state.price.split("-").map(Number); if (price < lo || price > hi) return false; }
+    return true;
+  };
+  const sorters = { default: (a, b) => +a.dataset.index - +b.dataset.index, "price-asc": (a, b) => +a.dataset.price - +b.dataset.price, "price-desc": (a, b) => +b.dataset.price - +a.dataset.price, name: (a, b) => a.dataset.name.localeCompare(b.dataset.name) };
+  const apply = () => {
+    const state0 = Flip && G && !S.reduced ? Flip.getState(cards) : null;
+    cards.slice().sort(sorters[state.sort] || sorters.default).forEach(c => grid.appendChild(c));
+    let n = 0;
+    cards.forEach(c => { const ok = passes(c); c.classList.toggle("is-hidden", !ok); if (ok) n++; });
+    qa("[data-count], [data-count-mini]").forEach(el => el.textContent = n);
+    empty.classList.toggle("is-on", n === 0);
+    const active = !!(state.colour || state.style || state.price);
+    qa("[data-clear]").forEach(b => b.classList.toggle("is-on", active));
+    if (state0) Flip.from(state0, { duration: .8, ease: "power3.out", stagger: .03, absolute: true, scale: true, onEnter: els => G.fromTo(els, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: .6, ease: "power3.out" }), onLeave: els => G.to(els, { opacity: 0, y: 16, duration: .35 }) });
+    ST && ST.refresh();
+  };
+  qa("[data-filter]").forEach(b => b.addEventListener("click", () => {
+    const k = b.dataset.filter, v = b.dataset.value;
+    state[k] = state[k] === v ? "" : v;
+    qa('[data-filter="' + k + '"]').forEach(x => x.setAttribute("aria-pressed", String(x.dataset.value === state[k])));
+    apply();
   }));
+  qa("[data-clear]").forEach(b => b.addEventListener("click", () => { state.colour = state.style = state.price = ""; qa("[data-filter]").forEach(x => x.setAttribute("aria-pressed", String(x.dataset.value === ""))); apply(); }));
+  const sort = q("[data-sort]"); sort && sort.addEventListener("change", () => { state.sort = sort.value; apply(); });
+
+  /* ---- quick view ---- */
+  const qv = q(".qv"), qvb = q(".qv-backdrop"); let qvOpen = false, last = null, cur = null, colour = "";
+  const fmt = S.fmt;
+  const renderQv = () => {
+    const p = cur; const imgs = p.images.filter(i => i.colour.toLowerCase() === colour.toLowerCase());
+    const main = q("[data-qv-img]", qv); main.src = imgs[0].src; main.alt = imgs[0].alt;
+    q("[data-qv-thumbs]", qv).innerHTML = imgs.map((im, i) => '<button type="button" aria-pressed="' + (i === 0) + '" aria-label="View ' + (i + 1) + '"><img src="' + im.srcSmall + '" alt="" width="200" height="150"></button>').join("");
+    qa("[data-qv-thumbs] button", qv).forEach((b, i) => b.addEventListener("click", () => { qa("[data-qv-thumbs] button", qv).forEach(x => x.setAttribute("aria-pressed", "false")); b.setAttribute("aria-pressed", "true"); if (G && !S.reduced) G.fromTo(main, { opacity: 0 }, { opacity: 1, duration: .4 }); main.src = imgs[i].src; }));
+    q("[data-qv-colour]", qv).textContent = colour;
+    q("[data-qv-swatches]", qv).innerHTML = p.colours.map(c => '<label class="swatch" style="--sw:' + (SWATCH[c] || "#7B4A2B") + '"><input type="radio" name="qv-colour" value="' + c + '"' + (c === colour ? " checked" : "") + '><span class="sw"></span><span class="sr-only">' + c + '</span></label>').join("");
+    qa("[data-qv-swatches] input", qv).forEach(r => r.addEventListener("change", () => { colour = r.value; renderQv(); }));
+    q("[data-qv-add]", qv).onclick = () => { S.addToCart(p.id, colour, null, 1); closeQv(); };
+  };
+  const openQv = id => {
+    cur = COLLECTION.find(p => p.id === id); if (!cur || !qv) return; colour = cur.defaultColour; last = document.activeElement;
+    q("[data-qv-meta]", qv).textContent = (cur.style || "Belt") + " · Crazy horse leather";
+    q("[data-qv-name]", qv).textContent = cur.name;
+    q("[data-qv-price]", qv).innerHTML = fmt(cur.price) + (cur.compareAtPrice ? "<s>" + fmt(cur.compareAtPrice) + "</s>" : "");
+    q("[data-qv-tagline]", qv).textContent = cur.tagline;
+    q("[data-qv-link]", qv).href = "product-" + cur.id + ".html";
+    renderQv();
+    qv.classList.add("is-open"); qvb.classList.add("is-open"); qv.setAttribute("aria-hidden", "false"); qvOpen = true; S.lock(true);
+    setTimeout(() => q(".qv-close", qv).focus(), 300);
+  };
+  const closeQv = () => { if (!qvOpen) return; qv.classList.remove("is-open"); qvb.classList.remove("is-open"); qv.setAttribute("aria-hidden", "true"); qvOpen = false; S.lock(false); last && last.focus && last.focus(); };
+  S.closeLightbox = closeQv;
+  document.addEventListener("click", e => { const b = e.target.closest("[data-quick]"); if (b) { e.preventDefault(); openQv(b.dataset.quick); } });
+  qa("[data-qv-close]").forEach(b => b.addEventListener("click", closeQv));
 }
 STAGR.onReady.push(initAnimations);
 
