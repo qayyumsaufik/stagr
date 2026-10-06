@@ -24,6 +24,9 @@ def render(ctx):
         f["colours"] = " / ".join(sorted({c for p in items for c in p["colours"]}, key=lambda c: ["Brown", "Tan", "Black"].index(c) if c in ["Brown", "Tan", "Black"] else 9))
         f["count"] = len(items)
         f["names"] = ", ".join(p["name"].split(" ")[0] for p in items)
+    belt_for = {"bifold": "nova", "trifold": "outlaw", "minimal": "regent", "long": "monarch", "belts": "nova"}
+    for f in families:
+        f["belt"] = cut(belt_for[f["key"]])
 
     def panel(f, i, mobile=False):
         rows = [("Leather", "Crazy horse"), ("Colours", f["colours"]), ("From", fmt(f["from"])), ("Pieces", f'{f["count"]} · {f["names"]}')]
@@ -39,13 +42,13 @@ def render(ctx):
 </div>'''
 
     panels = "".join(panel(f, i) for i, f in enumerate(families))
-    stage_cuts = "".join(f'<div class="cut rcut" data-range-cut="{i}"><img src="{f["cutout"]["src"]}" alt="{f["name"]} {f["tag"].lower()} in {f["cutout"]["colour"].lower()} crazy horse leather" width="900" height="900" draggable="false" decoding="async"></div>' for i, f in enumerate(families))
+    stage_cuts = "".join(f'<div class="cut rcut" data-range-cut="{i}"><div class="pair{" belts" if f["key"] == "belts" else ""}"><img class="p-belt" src="{f["belt"]["src"]}" alt="" width="900" height="900" draggable="false" decoding="async"><img class="p-wallet" src="{f["cutout"]["src"]}" alt="{f["name"]} {f["tag"].lower()} in {f["cutout"]["colour"].lower()} crazy horse leather" width="900" height="900" draggable="false" decoding="async"></div></div>' for i, f in enumerate(families))
     stage_blooms = "".join(f'<div class="bloom" data-range-bloom="{i}" style="--bloom:{f["bloom"]};opacity:{1 if i == 0 else 0}" data-bloom></div>' for i, f in enumerate(families))
     stage_ghosts = "".join(f'<span class="ghost" data-range-ghost="{i}" style="opacity:{1 if i == 0 else 0}">{f["num"]}</span>' for i, f in enumerate(families))
     dots = "".join(f'<button type="button" data-range-dot="{i}" aria-label="Show {f["tag"]}" style="color:{"var(--fg)" if i == 0 else "var(--fg-2)"}">{f["num"]}</button>' for i, f in enumerate(families))
     mcards = "".join(f'''
 <article class="mcard" data-mcard>
-  <div class="cut mcut"><div class="bloom" style="--bloom:{f["bloom"]}" data-bloom></div><img src="{f["cutout"]["small"]}" alt="" width="600" height="600" loading="lazy" draggable="false"></div>
+  <div class="cut mcut"><div class="bloom" style="--bloom:{f["bloom"]}" data-bloom></div><div class="pair{" belts" if f["key"] == "belts" else ""}"><img class="p-belt" src="{f["belt"]["small"]}" alt="" width="600" height="600" loading="lazy" draggable="false"><img class="p-wallet" src="{f["cutout"]["small"]}" alt="" width="600" height="600" loading="lazy" draggable="false"></div></div>
   <div class="rp-head"><span class="pcard-num">STAGR.{f["num"]}</span><span class="label">{f["tag"]}</span></div>
   <h3 class="rp-name" data-mcard-title>{f["name"]}<span class="dotc">.</span></h3>
   <p class="serif-i muted rp-sub" data-card-item>{f["sub"]}</p>
@@ -66,6 +69,8 @@ def render(ctx):
         dict(name="Beeswax<br>edge", sub="Bevelled, sanded, burnished four times", desc=B["craft"]["steps"][3]["body"], rows=[("Passes", "Four, by hand"), ("Seal", "Beeswax"), ("Checked", "Before it is packed")], n=4, unit="passes on every edge", bar=1.0,
              svg='<path data-bot d="M22 6c6 8 10 13 10 19a10 10 0 0 1-20 0c0-6 4-11 10-19z"/><path data-bot d="M18 26a4 4 0 0 0 4 4"/>'),
     ]
+    inside_imgs = [cut("kingsmann"), cut("regal", 1), cut("monarch"), cut("regent")]
+    inside_stack = lambda size: "".join(f'<img data-inside-img="{i}" src="{im[size]}" alt="" width="900" height="900" draggable="false" decoding="async" style="opacity:{1 if i == 0 else 0}">' for i, im in enumerate(inside_imgs))
     pills = "".join(f'<button type="button" class="pill" data-inside-pill="{i}" aria-pressed="{str(i == 0).lower()}">{d["name"].replace("<br>", " ")}</button>' for i, d in enumerate(inside))
     lefts = "".join(f'''
 <div data-inside-left="{i}" {"hidden" if i else ""}>
@@ -150,7 +155,11 @@ def render(ctx):
 .hero-parallax { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; }
 .hero-stage { position: absolute; inset: 0; }
 .hero-float { position: absolute; left: 50%; top: 50%; width: min(52vh, 46vw); transform: translate(-50%, -50%); opacity: 0; }
-.hero-float img { width: 100%; height: auto; filter: drop-shadow(0 40px 60px rgba(0,0,0,.45)); will-change: transform; }
+.hero-float .pair { position: relative; width: 100%; aspect-ratio: 1; will-change: transform; }
+.pair img { position: absolute; height: auto; filter: drop-shadow(0 40px 60px rgba(0,0,0,.45)); }
+.pair .p-belt { left: -6%; top: 2%; width: 78%; transform: rotate(-8deg); }
+.pair .p-wallet { right: -4%; bottom: 4%; width: 72%; }
+.hero-float { width: min(60vh, 52vw); }
 .hero-support { position: absolute; inset: 0 auto 0 0; z-index: 10; width: min(100%, 34vw); display: flex; flex-direction: column; justify-content: center; padding-left: var(--gutter); }
 .hero-support .h3 { margin-top: 18px; max-width: 14ch; }
 .hero-support p { color: rgba(239,237,230,.78); margin-top: 24px; max-width: 42ch; }
@@ -170,7 +179,7 @@ def render(ctx):
 .hero-mobile .tag-line { font-family: var(--font-display); font-weight: 300; font-size: 26px; line-height: 1.1; margin-top: 16px; }
 .hero-mobile .mstage { position: relative; height: 52svh; margin-top: 8px; }
 .hero-mobile .mstage .bloom { --bloom-s: 70vw; }
-.hero-mobile .mstage .hero-float { opacity: 0; width: 70vw; }
+.hero-mobile .mstage .hero-float { opacity: 0; width: 84vw; }
 .hero-mobile .mmeta { padding: 0 20px 40px; font-size: 10px; letter-spacing: .24em; text-transform: uppercase; color: rgba(239,237,230,.5); }
 .hero-mobile .msupport { padding: 24px 20px 80px; }
 .hero-mobile .msupport .h3 { margin-top: 18px; }
@@ -189,7 +198,10 @@ def render(ctx):
 .rpanel { position: absolute; inset: auto 0; top: 50%; transform: translateY(-50%); }
 .range-stage { position: relative; height: 100%; min-height: 60vh; }
 .rcut { position: absolute; inset: 0; width: 100%; opacity: 0; }
-.rcut img { width: min(64vh, 36vw); filter: drop-shadow(0 40px 50px rgba(26,27,29,.25)); }
+.rcut .pair { position: relative; width: min(70vh, 40vw); aspect-ratio: 1; }
+.rcut .pair img { filter: drop-shadow(0 40px 50px rgba(26,27,29,.25)); }
+.pair.belts .p-belt { left: 0; top: 6%; width: 74%; transform: rotate(-10deg); }
+.pair.belts .p-wallet { right: 0; bottom: 2%; width: 66%; transform: rotate(6deg); }
 .range-dots { position: absolute; right: var(--gutter); bottom: 32px; z-index: 3; display: flex; gap: 18px; font-size: 12px; letter-spacing: .2em; }
 .range-dots button { color: inherit; transition: color .3s ease; }
 .range-count { font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--mist); font-variant-numeric: tabular-nums; }
@@ -199,9 +211,10 @@ def render(ctx):
 .mtrack { display: flex; gap: 5vw; overflow-x: auto; scroll-snap-type: x mandatory; padding: 24px 9vw 16px; scrollbar-width: none; }
 .mtrack::-webkit-scrollbar { display: none; }
 .mcard { flex: 0 0 82vw; scroll-snap-align: center; }
-.mcut { height: 54vw; }
+.mcut { height: 74vw; }
 .mcut .bloom { --bloom-s: 60vw; }
-.mcut img { width: 64%; filter: drop-shadow(0 20px 30px rgba(26,27,29,.22)); }
+.mcut .pair { position: relative; width: 78%; aspect-ratio: 1; }
+.mcut .pair img { filter: drop-shadow(0 20px 30px rgba(26,27,29,.22)); }
 .mcard .rp-name { font-size: 2.8rem; margin-top: 10px; opacity: 0; }
 .mcard [data-card-item] { opacity: 0; }
 .mdots { display: flex; justify-content: center; gap: 18px; font-size: 12px; letter-spacing: .2em; margin-top: 10px; }
@@ -221,8 +234,8 @@ def render(ctx):
 .inside-sci svg { width: 44px; height: 44px; flex: none; }
 .inside-stage { position: relative; display: grid; place-items: center; min-height: 52vh; }
 .inside-halo { position: absolute; inset: 0; margin: auto; width: 46vh; height: 46vh; transform: scale(1.6); border-radius: 50%; background: #D9B07A; opacity: .5; filter: blur(60px); }
-.inside-float { position: relative; z-index: 1; width: min(44vh, 30vw); }
-.inside-float img { width: 100%; height: auto; filter: drop-shadow(0 40px 60px rgba(0,0,0,.5)); }
+.inside-float { position: relative; z-index: 1; width: min(44vh, 30vw); aspect-ratio: 1; display: grid; place-items: center; }
+.inside-float img { position: absolute; width: 100%; height: auto; max-height: 100%; object-fit: contain; filter: drop-shadow(0 40px 60px rgba(0,0,0,.5)); }
 .inside-right { max-width: 420px; justify-self: end; width: 100%; }
 .inside-desc { margin-top: 14px; color: rgba(239,237,230,.8); max-width: 40ch; }
 .inside-bar { height: 1px; background: rgba(239,237,230,.15); margin-top: 10px; }
@@ -294,13 +307,17 @@ def render(ctx):
 '''
 
     hero_cut = cut("kingsmann")
+    hero_belt = cut("monarch")
+    def pair(w, bl, size="src", a=""):
+        return (f'<div class="pair"><img class="p-belt" src="{bl[size]}" alt="" width="900" height="900" draggable="false" decoding="async">'
+                f'<img class="p-wallet" src="{w[size]}" alt="{a}" width="900" height="900" draggable="false" decoding="async"></div>')
     body = f'''
 <section id="hero" class="hero on-ink" aria-label="Introduction">
   <div class="hero-clip" data-hero-clip>
     <div class="hero-dolly" data-hero-dolly>
       <div class="hero-parallax" data-hero-parallax><div class="bloom" style="--bloom:#D9B07A;--bloom-s:62vh" data-bloom></div></div>
     </div>
-    <div class="hero-stage desk-only"><div class="hero-float" data-hero-float><img src="{hero_cut["src"]}" alt="" width="900" height="900" draggable="false" decoding="async"></div></div>
+    <div class="hero-stage desk-only"><div class="hero-float" data-hero-float>{pair(hero_cut, hero_belt, "src", "Kingsmann bifold wallet and Monarch belt")}</div></div>
     <div class="hero-support desk-only" data-hero-support>
       <p class="label" data-support-item><b style="color:var(--bone)">01</b><span class="slash">/</span>The workshop</p>
       <h2 class="h3" data-support-item style="color:var(--bone)">{B["craft"]["heading"]}.</h2>
@@ -320,7 +337,7 @@ def render(ctx):
   <div class="hero-ring desk-only" data-hero-ring aria-hidden="true"></div>
   <div class="hero-mobile mob-only" data-hero-mobile>
     <div style="padding:0 20px"><h1 class="hero-title" data-hero-title-mobile><span class="sr-only">STAGR.</span><span data-letter aria-hidden="true">S</span><span data-letter aria-hidden="true">T</span><span data-letter aria-hidden="true">A</span><span data-letter aria-hidden="true">G</span><span data-letter aria-hidden="true">R</span><span data-letter aria-hidden="true" class="tdot"></span></h1><p class="tag-line">{B["hero"]["headline"][0]} {B["hero"]["headline"][1]}</p></div>
-    <div class="mstage"><div class="bloom" style="--bloom:#D9B07A" data-bloom></div><div class="hero-float" data-hero-float-mobile><img src="{hero_cut["small"]}" alt="" width="600" height="600" draggable="false" decoding="async"></div></div>
+    <div class="mstage"><div class="bloom" style="--bloom:#D9B07A" data-bloom></div><div class="hero-float" data-hero-float-mobile>{pair(hero_cut, hero_belt, "small", "Kingsmann bifold wallet and Monarch belt")}</div></div>
     <p class="mmeta">{B["origin"]}<br>Cash on delivery</p>
     <div class="msupport">
       <div data-reveal><p class="label"><b style="color:var(--bone)">01</b><span class="slash">/</span>The workshop</p></div>
@@ -357,14 +374,14 @@ def render(ctx):
     <div class="inside-head"><p class="label"><b style="color:var(--bone)">03</b><span class="slash">·</span>What every piece is made of</p><h2 class="inside-title" id="inside-title" data-inside-title>Inside.</h2><div class="inside-pills">{pills}</div></div>
     <div class="inside-grid">
       <div class="inside-left">{lefts}</div>
-      <div class="inside-stage" data-inside-stage><div class="inside-halo" data-inside-halo></div><div class="inside-float" data-inside-float><img src="{cut("regal")["src"]}" alt="" width="900" height="900" draggable="false" decoding="async"></div></div>
+      <div class="inside-stage" data-inside-stage><div class="inside-halo" data-inside-halo></div><div class="inside-float" data-inside-float>{inside_stack("src")}</div></div>
       <div class="inside-right">{rights}</div>
     </div>
     <p class="inside-foot">One hide. One workshop. Nothing else.</p>
   </div>
   <div class="inside-mobile mob-only" data-inside-mobile>
     <div style="padding:0 20px;text-align:center"><p class="label" data-reveal><b style="color:var(--bone)">03</b><span class="slash">·</span>What every piece is made of</p><h2 class="inside-title" data-inside-title-mobile style="opacity:1;margin-top:10px">Inside.</h2></div>
-    <div class="mstage"><div class="inside-halo" data-inside-halo-mobile></div><div class="inside-float"><img src="{cut("regal")["small"]}" alt="" width="600" height="600" draggable="false"></div></div>
+    <div class="mstage"><div class="inside-halo" data-inside-halo-mobile></div><div class="inside-float" data-inside-float-mobile>{inside_stack("small")}</div></div>
     <div class="deck" data-deck-track>{deck}</div>
     <div class="mdots">{"".join(f'<button type="button" data-deck-dot="{i}" style="color:{"var(--bone)" if i == 0 else "rgba(239,237,230,.35)"}">0{i + 1}</button>' for i in range(4))}</div>
     <p class="inside-foot" style="padding:24px 20px 0">One hide. One workshop. Nothing else.</p>
@@ -424,7 +441,7 @@ function initAnimations() {
   function initScrollHint() { const dot = $("[data-scroll-dot]"); if (!dot || !isRendered(dot)) return; if (reduced) { G.set(dot, { opacity: 1, y: 9 }); return; } G.timeline({ repeat: -1, repeatDelay: .5 }).set(dot, { y: 0, opacity: 0 }).to(dot, { opacity: 1, duration: .25 }).to(dot, { y: 19, duration: 1, ease: "power2.inOut" }, .1).to(dot, { opacity: 0, duration: .3, ease: "power1.in" }, .85); }
 
   function initHeroDesktop() {
-    const hero = $("#hero"), clip = $("[data-hero-clip]"), ring = $("[data-hero-ring]"), dolly = $("[data-hero-dolly]"), parallax = $("[data-hero-parallax]"), overlay = $("[data-hero-overlay]"), hint = $("[data-hero-scrollhint]"), support = $("[data-hero-support]"), wrap = $("[data-hero-float]"), img = $("img", wrap);
+    const hero = $("#hero"), clip = $("[data-hero-clip]"), ring = $("[data-hero-ring]"), dolly = $("[data-hero-dolly]"), parallax = $("[data-hero-parallax]"), overlay = $("[data-hero-overlay]"), hint = $("[data-hero-scrollhint]"), support = $("[data-hero-support]"), wrap = $("[data-hero-float]"), img = $(".pair", wrap);
     const BASE = 170, unit = () => window.innerHeight / 4.54;
     const w = { x: innerWidth / 2, y: .48 * innerHeight, entrance: 0, swell: 0, breath: 0, boost: 0, hasPointer: false };
     const lock = { v: 0 }, zoom = { v: 0 }, entrance = { v: 0 }, follow = { x: 0, y: 0, active: false }, bloomOff = { x: 0, y: 0 }, cs = { x: 0, y: 0, lean: 0 };
@@ -468,7 +485,7 @@ function initAnimations() {
     return function start() { G.set($$("[data-letter]", overlay), { opacity: 1, y: 0 }); startedAt = G.ticker.time; G.to(w, { entrance: 1, duration: 1.2, delay: .15, ease: "power2.inOut" }); G.to(entrance, { v: 1, duration: 1.6, ease: "power4.out" }); };
   }
   function initHeroMobile() {
-    const wrap = $("[data-hero-float-mobile]"), img = $("img", wrap), title = $("[data-hero-title-mobile]");
+    const wrap = $("[data-hero-float-mobile]"), img = $(".pair", wrap), title = $("[data-hero-title-mobile]");
     G.set(wrap, { opacity: 0 });
     return function start() { const letters = $$("[data-letter]", title); if (reduced) { G.set(letters, { opacity: 1 }); G.set(wrap, { opacity: 1 }); return; } G.fromTo(letters, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: .9, ease: "power2.out", stagger: .05 }); G.to(wrap, { opacity: 1, duration: 1.2 }); G.fromTo(img, { yPercent: -60, scale: .8, rotation: -14 }, { yPercent: 0, scale: 1, rotation: 0, duration: 1.6, ease: "power4.out", onComplete: () => G.to(img, { y: -8, duration: 3, yoyo: true, repeat: -1, ease: "sine.inOut" }) }); ST.refresh(); };
   }
@@ -506,20 +523,20 @@ function initAnimations() {
   }
 
   /* ================= 03 INSIDE ================= */
-  function turnPiece(img) { if (reduced) return; G.timeline({ overwrite: true }).to(img, { scaleX: .8, rotation: -3, duration: .22, ease: "power2.in" }).to(img, { scaleX: 1, rotation: 0, duration: .6, ease: "power3.out" }); }
+  function turnPiece(float, next) { const imgs = $$("[data-inside-img]", float); const show = () => imgs.forEach((im, i) => im.style.opacity = i === next ? 1 : 0); if (reduced) { show(); return; } G.timeline({ overwrite: true }).to(float, { scaleX: .8, rotation: -3, duration: .22, ease: "power2.in", onComplete: show }).to(float, { scaleX: 1, rotation: 0, duration: .6, ease: "power3.out" }); }
   function initInside() {
     const section = $("#inside"); if (!section) return;
     const colors = $$("[data-deck-track] article").map((el) => el.dataset.halo);
     if (isMobile) {
       const title = $("[data-inside-title-mobile]"); G.fromTo(title, { y: 22, opacity: 0 }, { y: 0, opacity: 1, duration: .9, ease: "power2.out", scrollTrigger: { trigger: section, start: "top 75%", once: true } });
-      const halo = $("[data-inside-halo-mobile]"), img = $(".inside-mobile .inside-float img"), track = $("[data-deck-track]"), dots = $$("[data-deck-dot]"), titles = $$("[data-deck-title]", track); let split = null, pending = true;
+      const halo = $("[data-inside-halo-mobile]"), img = $("[data-inside-float-mobile]"), track = $("[data-deck-track]"), dots = $$("[data-deck-dot]"), titles = $$("[data-deck-title]", track); let split = null, pending = true;
       const reveal = (i) => { const t = titles[i], items = $$("[data-deck-item]", t.closest("article")); if (reduced) { G.set([t, ...items], { opacity: 1 }); return; } if (split) split.revert(); split = window.SplitText.create(t, { type: "words,chars", mask: "words", onSplit: (self) => { G.set(t, { opacity: 1 }); return G.fromTo(self.chars, { yPercent: 108 }, { yPercent: 0, duration: .5, ease: "power2.out", stagger: .02, overwrite: "auto" }); } }); G.fromTo(items, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: .5, ease: "power2.out", stagger: .07, delay: .08, overwrite: "auto" }); };
       ST.create({ trigger: track, start: "top 85%", once: true, onEnter: () => { if (!pending) return; pending = false; reveal(0); } });
-      S.watchCarousel(track, (next, prev) => { pending = false; dots.forEach((d, i) => d.style.color = i === next ? "var(--bone)" : "rgba(239,237,230,.35)"); G.to(halo, { backgroundColor: colors[next], duration: .5, overwrite: "auto" }); turnPiece(img); const old = titles[prev]; G.to([old, ...$$("[data-deck-item]", old.closest("article"))], { opacity: 0, duration: .12, overwrite: "auto" }); reveal(next); });
+      S.watchCarousel(track, (next, prev) => { pending = false; dots.forEach((d, i) => d.style.color = i === next ? "var(--bone)" : "rgba(239,237,230,.35)"); G.to(halo, { backgroundColor: colors[next], duration: .5, overwrite: "auto" }); turnPiece(img, next); const old = titles[prev]; G.to([old, ...$$("[data-deck-item]", old.closest("article"))], { opacity: 0, duration: .12, overwrite: "auto" }); reveal(next); });
       dots.forEach((d, i) => d.addEventListener("click", () => S.scrollCarouselTo(track, i)));
       return;
     }
-    const title = $("[data-inside-title]"), halo = $("[data-inside-halo]"), img = $("[data-inside-float] img"), pills = $$("[data-inside-pill]"), lefts = $$("[data-inside-left]"), rights = $$("[data-inside-right]");
+    const title = $("[data-inside-title]"), halo = $("[data-inside-halo]"), img = $("[data-inside-float]"), pills = $$("[data-inside-pill]"), lefts = $$("[data-inside-left]"), rights = $$("[data-inside-right]");
     window.SplitText.create(title, { type: "chars", onSplit: (self) => G.fromTo(self.chars, { yPercent: 22, opacity: 0 }, { yPercent: 0, opacity: 1, duration: .8, ease: "power2.out", stagger: .022, scrollTrigger: { trigger: section, start: "top 75%", once: true } }) }); G.set(title, { opacity: 1 });
     let active = 0, shown = 0, swapping = false, nameSplit = null;
     const parts = (i) => [$("[data-inside-name]", lefts[i]), $("[data-inside-sci]", lefts[i]), rights[i]];
@@ -536,7 +553,7 @@ function initAnimations() {
       const c = { v: 0 }; G.to(c, { v: parseFloat(dose.dataset.insideDose), duration: .8, delay: .25, ease: "power2.out", onUpdate: () => dose.textContent = String(Math.round(c.v)) });
     };
     const swap = () => { if (shown === active || swapping) return; swapping = true; G.to(parts(shown), { opacity: 0, y: -26, duration: .22, ease: "power3.in", overwrite: "auto", onComplete: () => { lefts[shown].hidden = true; rights[shown].hidden = true; shown = active; lefts[shown].hidden = false; rights[shown].hidden = false; show(shown); swapping = false; swap(); } }); };
-    const setActive = (next) => { if (next === active) return; active = next; stylePills(); G.to(halo, { backgroundColor: colors[next], duration: .5, overwrite: "auto" }); turnPiece(img); swap(); };
+    const setActive = (next) => { if (next === active) return; active = next; stylePills(); G.to(halo, { backgroundColor: colors[next], duration: .5, overwrite: "auto" }); turnPiece(img, next); swap(); };
     const trigger = ST.create({ trigger: section, start: "top top", end: () => "+=" + 4 * innerHeight, pin: true, pinSpacing: true, scrub: 1, snap: { snapTo: [0, .25, .5, .75, 1], duration: { min: .2, max: .5 }, ease: "power2.inOut", directional: false, delay: .1 }, invalidateOnRefresh: true, onUpdate: (self) => setActive(clamp(Math.floor(4 * self.progress - 1e-4), 0, 3)) });
     pills.forEach((p, i) => p.addEventListener("click", () => S.scrollToProgress(trigger, .25 * i, 1)));
     G.set(parts(0), { opacity: 0 }); ST.create({ trigger: section, start: "top 60%", once: true, onEnter: () => show(0) });
