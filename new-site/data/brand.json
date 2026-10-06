@@ -1,0 +1,534 @@
+{
+  "$schema": "stagr brand v1",
+  "name": "Stagr",
+  "domain": "stagr.pk",
+  "tagline": "Nothing but leather",
+  "descriptor": "Handmade crazy horse leather belts and wallets.",
+  "since": {
+    "value": "Handcrafted since 2025",
+    "flag": "The about-page quote footer says 'Stagr, 2016' while the home page says 'Handcrafted since 2025'. Please confirm the founding year."
+  },
+  "origin": "Handmade in Pakistan",
+  "logos": {
+    "lockupBeige": {
+      "src": "assets/brand/stagr-lockup-beige.png",
+      "source": "stagr-lockup-beige.png",
+      "width": 538,
+      "height": 392
+    },
+    "lockupBrass": {
+      "src": "assets/brand/stagr-lockup-brass.png",
+      "source": "stagr-lockup-brass.png",
+      "width": 538,
+      "height": 392
+    },
+    "lockupDark": {
+      "src": "assets/brand/stagr-lockup-dark.png",
+      "source": "stagr-lockup-dark.png",
+      "width": 538,
+      "height": 392
+    },
+    "markBeige": {
+      "src": "assets/brand/stagr-mark-beige.png",
+      "source": "stagr-mark-beige.png",
+      "width": 538,
+      "height": 202
+    },
+    "markBrass": {
+      "src": "assets/brand/stagr-mark-brass.png",
+      "source": "stagr-mark-brass.png",
+      "width": 538,
+      "height": 202
+    },
+    "markDark": {
+      "src": "assets/brand/stagr-mark-dark.png",
+      "source": "stagr-mark-dark.png",
+      "width": 538,
+      "height": 202
+    },
+    "lockupWhiteOnNavy": {
+      "src": "assets/brand/stagr-logo-white-on-navy.png",
+      "source": "uploads/stagr_logo_white_color.png",
+      "width": 560,
+      "height": 442
+    },
+    "note": "Lockup = antler monogram + 'stagr' wordmark; mark = antlers only. Beige (#E3D9C6), brass (#B8873F) and dark (#14100E) variants exist as transparent PNGs. The JPG set in stagr-logo-jpg/ is the same artwork on flat backgrounds."
+  },
+  "hero": {
+    "eyebrow": "Crazy horse leather · Stitched by hand",
+    "headline": [
+      "Carried daily.",
+      "Made slowly."
+    ],
+    "sub": "Belts and wallets cut from full hides by local artisans. Pay cash on delivery, anywhere in Pakistan.",
+    "ctas": [
+      "Shop belts",
+      "Shop wallets"
+    ],
+    "alternates": [
+      {
+        "eyebrow": "Handcrafted since 2025",
+        "headline": "The Art of Leather",
+        "sub": "Belts and wallets cut from crazy horse leather and stitched by hand. The leather darkens and softens the longer you carry it."
+      },
+      {
+        "eyebrow": "The bridle collection",
+        "headline": "Nothing but leather",
+        "sub": "Cut from full grain hide, finished by hand in small runs."
+      },
+      {
+        "eyebrow": "New season, 2026",
+        "headline": "Cut once. Worn for years",
+        "sub": "Brass buckles, burnished edges, one row of saddle stitch."
+      },
+      {
+        "eyebrow": "Corporate and personal gifting",
+        "headline": "A gift with weight",
+        "sub": "Boxed sets for the office, boxed pairs for everyone else."
+      },
+      {
+        "headline": "Nothing but leather",
+        "sub": "Every hide is cut in one workshop. You get the piece, not the story around it."
+      }
+    ]
+  },
+  "craft": {
+    "heading": "Crazy horse leather, stitched by hand",
+    "body": "Every piece is cut from full hides by local artisans. The waxed surface marks and darkens with use, so no two pieces age the same way.",
+    "steps": [
+      {
+        "n": "01",
+        "title": "The material",
+        "body": "We buy whole hides and reject about a third. What is left is graded by hand for grain, thickness and stretch."
+      },
+      {
+        "n": "02",
+        "title": "The cutting",
+        "body": "Straps are cut along the spine where the hide is tightest, so a belt holds its shape instead of curling."
+      },
+      {
+        "n": "03",
+        "title": "The stitching",
+        "body": "One row of saddle stitch, two needles, waxed linen thread. It cannot unravel the way a machine seam can."
+      },
+      {
+        "n": "04",
+        "title": "The finish",
+        "body": "Edges bevelled, sanded, burnished four times, sealed with beeswax. Then the buckle goes on and it is checked."
+      }
+    ],
+    "flag": "The brief asks for leather selection → cutting → stitching → edge finishing imagery. No photographs of the workshop or of these stages exist in the repo; only finished-product photos. Step imagery will have to use product macro shots unless you supply workshop photos."
+  },
+  "about": {
+    "eyebrow": "About Stagr",
+    "headline": "We cut leather, not corners",
+    "intro": "We cut in Pakistan, from hides we choose ourselves. One workshop, a small bench, no subcontracting.",
+    "sections": [
+      {
+        "title": "The name",
+        "body": "Stagr takes its name from the stag. An antler is a record of the years behind it, thickened and scarred and branched, and none of it is covered up. We ask the same of leather. It should show its age rather than hide it."
+      },
+      {
+        "title": "The workshop",
+        "body": "We cut in Pakistan, from hides we choose ourselves. One workshop, a small bench, no subcontracting. A belt leaves us when it is right, not when the week ends."
+      },
+      {
+        "title": "The price",
+        "body": "Prices run from Rs 1,740 to Rs 3,500. That is the whole range, and it is the same for a gift of one or an order of a hundred."
+      }
+    ],
+    "howItIsMadeTitle": "How it is made",
+    "valuesTitle": "What we hold to",
+    "values": [
+      {
+        "n": "01",
+        "title": "One workshop",
+        "body": "Nothing is subcontracted. If something is wrong, the person who made it fixes it."
+      },
+      {
+        "n": "02",
+        "title": "One price",
+        "body": "The same rate for a single gift or an order of a hundred, minus the volume tier."
+      },
+      {
+        "n": "03",
+        "title": "No filler",
+        "body": "No bonded leather, no split hide, no plated buckles dressed up as brass."
+      },
+      {
+        "n": "04",
+        "title": "Repairs",
+        "body": "Bring it back at any age. We re-stitch and re-burnish for the cost of the thread."
+      }
+    ],
+    "quote": "A belt should outlast the suit it was bought for. Everything we do follows from that.",
+    "quoteAttribution": "Stagr, 2016"
+  },
+  "seoCopy": {
+    "title": "Handmade Crazy Horse Leather Wallets – Timeless Quality for Men",
+    "paragraphs": [
+      "Welcome to Stagr, where premium craftsmanship meets rugged elegance. We specialize in crafting handmade wallets using high-grade crazy horse leather — known for its distinctive vintage look and unmatched durability. Our collection includes classic bifold wallets, sleek minimalist wallets, spacious long wallets, and practical leather card holders, all tailored for men who appreciate quality and style.",
+      "Explore Our Signature Leather Wallets Collection: Each wallet at Stagr is carefully handcrafted by local artisans using 100% genuine crazy horse leather. Whether you prefer the compact design of a minimalist wallet or the full functionality of a bifold or long wallet, we have a leather accessory designed to fit your needs. Our card holders are perfect for those seeking a lightweight yet stylish option.",
+      "Thoughtful Gifts, Crafted with Purpose: Looking for a meaningful gift? Our leather wallets for men make a perfect choice. Each product is elegantly packaged and ideal for birthdays, anniversaries, corporate giveaways, and festive gifting. We also offer corporate gift preparation for businesses looking to deliver premium value to clients or teams — explore our gifting page for tailored solutions."
+    ],
+    "whyChoose": [
+      "100% crazy horse leather – durable, stylish, and full of character",
+      "Locally handcrafted with precision and pride",
+      "Range of styles: bifold, trifold, long, card holders, and minimalist wallets",
+      "Customizable with monograms, embossing, and more",
+      "Elegant gift-ready packaging for all orders"
+    ],
+    "closing": "Join hundreds of satisfied customers who trust Stagr for their everyday wallets and special gifts. We are proud to deliver quality and heritage through every piece we craft.",
+    "flag": "This copy mentions 'leather card holders' as a product type, but no card holder exists in the catalogue (the Maverick is the closest). Suggest dropping that phrase."
+  },
+  "ticker": [
+    "100% crazy horse leather",
+    "Handmade in Pakistan",
+    "Saddle stitched",
+    "No PU, no rexine",
+    "Rs 1,740 to Rs 3,500",
+    "Delivered across Pakistan",
+    "Boxed for gifting",
+    "Full grain hide",
+    "Solid brass",
+    "Sizes 30 to 44"
+  ],
+  "trust": {
+    "items": [
+      {
+        "title": "Cash on delivery",
+        "sub": "Pay at the door"
+      },
+      {
+        "title": "3 to 5 days",
+        "sub": "Across Pakistan"
+      },
+      {
+        "title": "14-day returns",
+        "sub": "Unworn pieces"
+      },
+      {
+        "title": "Handwritten note",
+        "sub": "Free, add at checkout"
+      }
+    ]
+  },
+  "shipping": {
+    "region": "Pakistan only",
+    "deliveryTime": "3 to 5 working days across Pakistan",
+    "deliveryFee": 350,
+    "freeDeliveryThreshold": 5000,
+    "freeDeliveryCopy": "Delivery is on us.",
+    "progressCopy": "You are Rs {remaining} from free delivery.",
+    "footerLine": "Delivery Pakistan wide, 3 to 5 working days.",
+    "flag": "Rs 350 delivery fee and Rs 5,000 free-delivery threshold come from the old checkout code (const FREE = 5000; delivery = 350). Please confirm they are real."
+  },
+  "payment": {
+    "methods": [
+      "Cash on delivery"
+    ],
+    "copy": "Pay the full amount in cash when the parcel arrives. Nothing is taken up front, and you can check the piece before you hand anything over.",
+    "note": "Please keep the exact amount ready. Our couriers do not carry change.",
+    "ctaCopy": "Buy now, cash on delivery",
+    "flag": "The old site had cash on delivery as the ONLY payment method; the earliest prototype mentioned 'pay now and save 15 percent' but that was dropped. Checkout button will be a COD order form."
+  },
+  "returns": {
+    "window": "14 days",
+    "condition": "Unworn pieces",
+    "copy": "Unworn returns accepted within 14 days.",
+    "faqCopy": "Details are on our Returns & Refunds page. For help with an order, contact us on WhatsApp.",
+    "flag": "No Returns & Refunds page text exists beyond these lines."
+  },
+  "warranty": {
+    "copy": null,
+    "repairs": "Bring it back at any age. We re-stitch and re-burnish for the cost of the thread.",
+    "flag": "PLACEHOLDER NEEDED: no warranty term is stated anywhere on the old pages. The 'Repairs' value is the closest statement. The trust strip will show 'Repairs for life' only if you approve; otherwise a placeholder is flagged."
+  },
+  "handwrittenNote": {
+    "eyebrow": "Complimentary",
+    "title": "A handwritten note, in every order",
+    "body": "Add a message at checkout and we write it by hand on a card, packed inside the box. It costs nothing extra.",
+    "checkoutCopy": "We write your message by hand on a card and pack it with the order.",
+    "maxChars": 160
+  },
+  "customisation": "Many pieces can be personalised with monograms or embossing. Message us on WhatsApp with what you have in mind.",
+  "gifting": {
+    "eyebrow": "Corporate and bulk",
+    "title": "Bulk orders, prepared for you",
+    "body": "We prepare orders for companies, teams and events: client gifts, staff gifts and festive giving. Tell us what you need and we will come back with a quote.",
+    "points": [
+      {
+        "title": "Minimum 10 pieces",
+        "body": "Belts, wallets or a mix, prepared as one consignment."
+      },
+      {
+        "title": "Embossing and monograms",
+        "body": "Your logo or initials pressed into the leather."
+      },
+      {
+        "title": "Gift-ready packaging",
+        "body": "Each piece boxed, with a handwritten or printed note."
+      },
+      {
+        "title": "Delivered across Pakistan",
+        "body": "To one office or to several addresses."
+      }
+    ],
+    "formFields": [
+      "Full name",
+      "Company",
+      "Email",
+      "Phone",
+      "Quantity",
+      "Needed by",
+      "Products (Belts / Wallets / Both)",
+      "Anything else"
+    ],
+    "thanks": "We have your request and will reply within one working day with a quote.",
+    "giftSets": [
+      {
+        "name": "The Monarch Pair",
+        "contents": "Monarch belt and a Kingsmann wallet, boxed with a hand written card.",
+        "price": 5400
+      },
+      {
+        "name": "The Upbuck Box",
+        "contents": "An Upbuck long wallet in its Stagr box, with a hand written card.",
+        "price": 3400
+      },
+      {
+        "name": "The Office Ten",
+        "contents": "Ten belts, one consignment, one invoice.",
+        "price": 15500
+      },
+      {
+        "name": "The Small Gift",
+        "contents": "A Purefold minimalist wallet, boxed and noted.",
+        "price": 1800
+      }
+    ],
+    "flag": "Gift sets existed only in the old page's data, on a gifting route that was later replaced by the bulk-order form. Not in the page list for the new site; kept for reference."
+  },
+  "faqs": [
+    {
+      "q": "What type of leather is used in your products?",
+      "a": "Every Stagr piece is made from 100% pure crazy horse leather: full grain cowhide treated with wax, which gives it its rugged look and a patina that deepens with use."
+    },
+    {
+      "q": "Do you offer corporate gifting services?",
+      "a": "Yes. We prepare boxed corporate gifts and bulk orders for teams and clients. Visit the Gifting page or message us on WhatsApp to get started."
+    },
+    {
+      "q": "How do you ensure product quality?",
+      "a": "Each wallet and belt is cut and stitched by hand by our artisans and checked before it is packed and sent."
+    },
+    {
+      "q": "Do you offer customization options?",
+      "a": "Yes. Many pieces can be personalised with monograms or embossing. Message us on WhatsApp with what you have in mind."
+    },
+    {
+      "q": "How should I care for my leather product?",
+      "a": "Keep it dry and away from direct heat. Wipe it with a soft cloth, and condition it now and then. Scuffs on crazy horse leather can often be rubbed out with your thumb."
+    },
+    {
+      "q": "Are your products available in stores?",
+      "a": "Stagr is sold online at stagr.pk, with delivery across Pakistan in 3 to 5 working days."
+    },
+    {
+      "q": "What is your return or exchange policy?",
+      "a": "Details are on our Returns & Refunds page. For help with an order, contact us on WhatsApp."
+    },
+    {
+      "q": "How can I stay updated on your new arrivals and deals?",
+      "a": "Join our newsletter at the bottom of the page and follow @stagr.pk on Instagram, Facebook and TikTok."
+    }
+  ],
+  "care": {
+    "short": "Keep it dry and away from direct heat. Wipe it with a soft cloth, and condition it now and then. Scuffs on crazy horse leather can often be rubbed out with your thumb.",
+    "accordion": "Wipe with a dry cloth. Condition twice a year. Keep it rolled, not folded, and let it dry away from heat if it gets wet."
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "headline": "Write to us. We answer.",
+    "workshop": {
+      "label": "The workshop",
+      "value": "12 Clifton Arcade, Block 5, Karachi"
+    },
+    "hours": {
+      "label": "Hours",
+      "value": "Monday to Saturday, 11am to 8pm"
+    },
+    "phone": {
+      "label": "Phone",
+      "value": "+92 21 3530 0000"
+    },
+    "whatsapp": {
+      "label": "WhatsApp",
+      "value": "+92 300 000 0000",
+      "link": "https://wa.me/920000000000"
+    },
+    "email": null,
+    "formFields": [
+      "Your name",
+      "Email",
+      "Phone",
+      "Message"
+    ],
+    "flag": "PLACEHOLDERS: phone '+92 21 3530 0000' and WhatsApp '+92 300 000 0000' end in zeros and are almost certainly dummy values from the mockup. The Clifton Arcade address and hours may also be placeholders. No email address exists. Please supply real contact details."
+  },
+  "social": {
+    "handle": "@stagr.pk",
+    "platforms": [
+      "Instagram",
+      "Facebook",
+      "TikTok",
+      "YouTube",
+      "WhatsApp"
+    ],
+    "links": {
+      "instagram": "https://instagram.com",
+      "facebook": "https://facebook.com",
+      "tiktok": "https://tiktok.com",
+      "youtube": "https://youtube.com",
+      "whatsapp": "https://wa.me/920000000000"
+    },
+    "flag": "All social links on the old site were bare domain placeholders. Real profile URLs needed."
+  },
+  "newsletter": {
+    "title": "Newsletter",
+    "body": "New cuts and gifting dates. Two emails a month.",
+    "cta": "Join",
+    "success": "You are on the list."
+  },
+  "footer": {
+    "columns": [
+      {
+        "title": "Shop",
+        "links": [
+          "Belts",
+          "Wallets",
+          "New in"
+        ]
+      },
+      {
+        "title": "Orders",
+        "links": [
+          "Corporate orders",
+          "Bulk orders",
+          "Handwritten notes"
+        ]
+      },
+      {
+        "title": "Help",
+        "links": [
+          "Track order",
+          "Size guide",
+          "Returns",
+          "Contact"
+        ]
+      },
+      {
+        "title": "Company",
+        "links": [
+          "Home",
+          "About",
+          "Stores",
+          "Careers"
+        ]
+      }
+    ],
+    "legal": [
+      "Privacy",
+      "Terms"
+    ],
+    "copyright": "© 2026 stagr.pk",
+    "altCopyright": "© 2026 Stagr. Nothing but leather.",
+    "flag": "Privacy, Terms, Stores and Careers pages have no copy on the old site."
+  },
+  "cart": {
+    "title": "Your bag",
+    "empty": "Your bag is empty. Start with a belt.",
+    "checkout": "Checkout",
+    "sub": "Cash on delivery, across Pakistan.",
+    "units": {
+      "one": "1 item",
+      "many": "{n} items"
+    }
+  },
+  "checkout": {
+    "steps": [
+      "Delivery",
+      "Review"
+    ],
+    "addressTitle": "Where should it go?",
+    "fields": [
+      "Full name",
+      "Phone",
+      "Email",
+      "Address",
+      "City",
+      "Postal code"
+    ],
+    "reviewTitle": "One last look.",
+    "placeOrder": "Place order",
+    "summaryEmpty": "Your bag is empty. Add a belt and the totals appear here.",
+    "totalNote": "Payable in cash when the parcel reaches you.",
+    "confirmation": {
+      "title": "Thank you. It is ours now.",
+      "body": "Order {id}. We have emailed the details and will write again when it leaves the bench.",
+      "cta": "Continue shopping"
+    }
+  },
+  "tracking": {
+    "title": "Where is it now?",
+    "steps": [
+      "Order placed",
+      "Packed",
+      "Dispatched",
+      "Delivered"
+    ],
+    "notFound": "We cannot find that order.",
+    "notFoundBody": "Check the number in your confirmation email, or write to us and we will look it up by name.",
+    "flag": "Order tracking was a mock (order DS-10428). Not in the new page list."
+  },
+  "notFound": {
+    "title": "404",
+    "body": "This page was never cut. The belts, however, are exactly where you left them.",
+    "cta": "Back to the shop"
+  },
+  "editorial": {
+    "unassigned": [
+      {
+        "eyebrow": "Signature",
+        "copy": "Cut from a single length of shell hide, then edge burnished four times. The buckle is cast brass, not plated, so it wears rather than flakes.",
+        "oldProduct": "Nova belt",
+        "flag": "'shell hide' contradicts the crazy-horse claim; treat as draft copy."
+      },
+      {
+        "eyebrow": "Everyday",
+        "copy": "A slim four card fold that stays flat in a jacket pocket. Full grain outside, calf lining inside, stitched by one pair of hands.",
+        "oldProduct": "Maverick (image was maverick-brown-2)",
+        "flag": "Describes a bifold, Maverick is a pouch-style minimalist."
+      },
+      {
+        "eyebrow": "Small leather",
+        "copy": "A long wallet with room for cards, notes and a zip pocket. Stitched by hand and finished at the edges.",
+        "oldProduct": "Regal (image was regal-brown-2)",
+        "flag": "Describes a long wallet, Regal is a bifold; fits Rodeo/Upbuck better."
+      }
+    ]
+  },
+  "media": {
+    "video": {
+      "path": "uploads/Recording 2026-09-29 163824.mp4",
+      "width": 450,
+      "height": 396,
+      "durationSeconds": 8.8,
+      "flag": "A 450×396 px, 8.8 s screen recording. Too small for a hero video; not used."
+    },
+    "rawPhotography": "uploads/DSC*.JPG (20, up to 7008×4672), uploads/KRW_*.JPG (20, 5400×3600), uploads/WhatsApp Image*.jpeg (30, ~1600 px), uploads/ub-*.jp(e)g and uploads/wallet*.jp(e)g (10, 4160–5400 px) are the uncropped originals of the products-images/*.jpg lifestyle set. The highest-resolution ones are the right source for full-bleed hero/parallax frames and will be copied and optimised at build time.",
+    "aiRenders": "uploads/all one post 1/** (68 files, ChatGPT/Gemini generated studio renders on white) are the source of the curated products-images/v2 set; each file exists twice (with and without a hash suffix). The new site uses the curated v2 set.",
+    "dukeStreet": "logo-lockup-*.png, logo-mark-*.png, logo-source.png (an 'SD / The Duke Street' monogram) and cover-plate*.png / post-plate.png (AI lifestyle images of a model with a bag) belong to the earlier 'Duke Street' brand name and are NOT used.",
+    "screenshots": "uploads/pasted-*.png (52) are screenshots of previous design iterations and reference sites; not assets."
+  }
+}
