@@ -11,7 +11,7 @@ def render(ctx):
     def card(p, badge=None):
         a, b = p["images"][0], p["images"][1]
         return f'''
-<a class="card" href="product.html?id={p["id"]}" data-cursor="View">
+<a class="card" href="product-{p["id"]}.html" data-cursor="View">
   <div class="media media--studio">
     <img src="{a["src"]}" alt="{a["alt"]}" width="{a["width"]}" height="{a["height"]}" loading="lazy">
     <img class="alt" src="{b["src"]}" alt="" width="{b["width"]}" height="{b["height"]}" loading="lazy" aria-hidden="true">

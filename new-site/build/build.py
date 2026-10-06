@@ -203,7 +203,7 @@ def chrome(ctx, page):
         <p class="small" style="margin-top:10px;color:rgba(246,242,236,.6)">{brand["newsletter"]["body"]}</p>
       </div>
       <div class="foot-col"><h4>Shop</h4><ul><li><a href="belts.html">Belts</a></li><li><a href="wallets.html">Wallets</a></li><li><a href="index.html#featured">Featured</a></li></ul></div>
-      <div class="foot-col"><h4>Help</h4><ul><li><a href="product.html#details">Size guide</a></li><li><a href="index.html#trust">Delivery &amp; returns</a></li><li><a href="{brand["contact"]["whatsapp"]["link"]}" target="_blank" rel="noopener">Contact on WhatsApp</a></li></ul></div>
+      <div class="foot-col"><h4>Help</h4><ul><li><a href="product-nova.html#details">Size guide</a></li><li><a href="index.html#trust">Delivery &amp; returns</a></li><li><a href="{brand["contact"]["whatsapp"]["link"]}" target="_blank" rel="noopener">Contact on WhatsApp</a></li></ul></div>
       <div class="foot-col"><h4>Company</h4><ul><li><a href="about.html">About</a></li><li><a href="about.html#craft">How it is made</a></li><li><a href="about.html#bulk">Bulk orders</a></li></ul></div>
       <div class="foot-col"><h4>Follow</h4><div class="socials">{socials}</div><p class="small" style="margin-top:14px;color:rgba(246,242,236,.6)">{brand["social"]["handle"]}</p></div>
     </div>
@@ -247,14 +247,16 @@ def main(only=None):
     with open(os.path.join(HERE, "base.css"), encoding="utf-8") as f:
         base_css = f.read()
     base_css += "\nhtml.is-entering .curtain{transform:none}\nhtml.no-loader .loader{display:none}\n.mark-icon{display:inline-block;width:34px;height:13px;background:currentColor;-webkit-mask:url(assets/brand/stagr-mark-dark.png) center/contain no-repeat;mask:url(assets/brand/stagr-mark-dark.png) center/contain no-repeat;vertical-align:middle}\n.logo{display:inline-flex;align-items:center;gap:10px}\n.wordmark{font-family:var(--font-display);font-size:1.5rem;letter-spacing:-.01em;line-height:1;font-variation-settings:\"opsz\" 48}\n"
+    products_doc = load_json("products.json")
     ctx = {
-        "products": load_json("products.json")["products"],
+        "products": products_doc["products"],
+        "products_doc": products_doc,
         "brand": load_json("brand.json"),
         "base_css": base_css,
         "icon": ICON,
         "esc": esc,
     }
-    pages = sys.argv[1:] or ["design_system", "index", "wallets", "belts", "product", "about"]
+    pages = sys.argv[1:] or ["design_system", "index", "collection", "product", "about"]
     for name in pages:
         path = os.path.join(HERE, "pages", name + ".py")
         if not os.path.exists(path):
