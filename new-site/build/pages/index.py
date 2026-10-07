@@ -118,9 +118,7 @@ def render(ctx):
     mq_outline = "".join(f'<span class="outline">{t}</span><span class="mq-dot">·</span>' for t in list(reversed(ticker)) * 2)
 
     # ---------------- 06 shop ----------------
-    TAGS = {"kingsmann": ["new", "best"], "nova": ["new", "best"], "rodeo": ["new", "gift"], "maverick": ["new", "under"],
-            "majestic": ["best"], "monarch": ["best", "gift"], "outlaw": ["best"], "upbuck": ["gift"], "regal": ["gift", "under"],
-            "purefold": ["under", "gift"], "regent": ["new"]}
+    TAGS = ctx["tags"]
     cards = "".join(ctx["pcard"](ctx, p, i, tags=" ".join(TAGS.get(p["id"], [])), quick=False, reveal=False) for i, p in enumerate(P))
     trust = B["trust"]["items"]
 

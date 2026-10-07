@@ -103,6 +103,11 @@ def pcard(ctx, p, i, tags="", quick=True, reveal=True, compact=False):
 </article>'''
 
 
+# curated merchandising tags (there is no sales data yet); used by the home tabs and the shop badges
+TAGS = {"kingsmann": ["new", "best"], "nova": ["new", "best"], "rodeo": ["new", "gift"], "maverick": ["new", "under"],
+        "majestic": ["best"], "monarch": ["best", "gift"], "outlaw": ["best"], "upbuck": ["gift"], "regal": ["gift", "under"],
+        "purefold": ["under", "gift"], "regent": ["new"]}
+
 STYLE_GROUPS = [("Bifold", ["kingsmann", "regal"]), ("Trifold", ["majestic"]), ("Minimalist", ["maverick", "purefold"]), ("Long", ["rodeo", "upbuck"])]
 
 
@@ -305,7 +310,7 @@ def main():
     with open(os.path.join(HERE, "base.css"), encoding="utf-8") as f:
         base_css = f.read()
     products_doc = load_json("products.json")
-    ctx = {"products": products_doc["products"], "products_doc": products_doc, "brand": load_json("brand.json"), "base_css": base_css, "icon": ICON, "esc": esc, "cutouts": cutouts_for, "bloom": BLOOM, "swatch": SWATCH, "pcard": pcard}
+    ctx = {"products": products_doc["products"], "products_doc": products_doc, "brand": load_json("brand.json"), "base_css": base_css, "icon": ICON, "esc": esc, "cutouts": cutouts_for, "bloom": BLOOM, "swatch": SWATCH, "pcard": pcard, "tags": TAGS}
     pages = sys.argv[1:] or ["index", "collection", "shop", "product", "about"]
     for name in pages:
         if not os.path.exists(os.path.join(HERE, "pages", name + ".py")):
