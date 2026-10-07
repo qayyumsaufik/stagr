@@ -83,6 +83,7 @@ def render(ctx):
   <p class="inside-desc">{d["desc"]}</p>
   <dl class="spec" style="margin-top:20px">{"".join(f'<div><dt>{k}</dt><dd>{v}</dd></div>' for k, v in d["rows"])}<div><dt>Measure</dt><dd><span class="num" style="font-size:1.1rem" data-inside-dose="{d["n"]}">0</span> <span class="small muted">{d["unit"]}</span></dd></div></dl>
   <div class="inside-bar"><i data-inside-bar="{d["bar"]}"></i></div>
+  <a class="btn btn--ghost btn--sm inside-cta" href="{"wallets.html" if i < 2 else "belts.html"}">Explore {"wallets" if i < 2 else "belts"} {I["arrow"]}</a>
 </div>''' for i, d in enumerate(inside))
     deck = "".join(f'''
 <article class="deck-card" data-halo="{["#D9B07A", "#C8976A", "#B8A58C", "#CDA373"][i]}">
@@ -91,6 +92,7 @@ def render(ctx):
   <p class="serif-i muted" data-deck-item>{d["sub"]}</p>
   <p class="inside-desc" data-deck-item>{d["desc"]}</p>
   <dl class="spec" data-deck-item style="margin-top:16px">{"".join(f'<div><dt>{k}</dt><dd>{v}</dd></div>' for k, v in d["rows"])}</dl>
+  <p data-deck-item style="margin-top:18px"><a class="btn btn--ghost btn--sm" href="{"wallets.html" if i < 2 else "belts.html"}">Explore {"wallets" if i < 2 else "belts"} {I["arrow"]}</a></p>
 </article>''' for i, d in enumerate(inside))
 
     # ---------------- 04 story: five chapters ----------------
@@ -217,12 +219,14 @@ def render(ctx):
 .inside-sci { margin-top: 14px; display: flex; align-items: center; gap: 14px; color: rgba(239,237,230,.6); }
 .inside-sci svg { width: 44px; height: 44px; flex: none; }
 .inside-stage { position: relative; display: grid; place-items: center; min-height: 52vh; }
-.inside-halo { position: absolute; inset: 0; margin: auto; width: 46vh; height: 46vh; transform: scale(1.6); border-radius: 50%; background: #D9B07A; opacity: .5; filter: blur(60px); }
-.inside-float { position: relative; z-index: 1; width: min(44vh, 30vw); aspect-ratio: 1; display: grid; place-items: center; }
+.inside-halo { position: absolute; inset: 0; margin: auto; width: 46vh; height: 46vh; transform: scale(1.6); border-radius: 50%; background: #D9B07A; opacity: .5; filter: blur(60px); pointer-events: none; }
+.inside-float { position: relative; z-index: 1; width: min(44vh, 30vw); aspect-ratio: 1; display: grid; place-items: center; pointer-events: none; }
+.inside-pills { position: relative; z-index: 2; }
 .inside-float img { position: absolute; width: 100%; height: auto; max-height: 100%; object-fit: contain; filter: drop-shadow(0 40px 60px rgba(0,0,0,.5)); }
 .inside-right { max-width: 420px; justify-self: end; width: 100%; }
 .inside-desc { margin-top: 14px; color: rgba(239,237,230,.8); max-width: 40ch; }
 .inside-bar { height: 1px; background: rgba(239,237,230,.15); margin-top: 10px; }
+.inside-cta { margin-top: 22px; }
 .inside-bar i { display: block; height: 100%; width: 100%; background: var(--accent); transform-origin: left; transform: scaleX(0); }
 .inside-foot { text-align: center; font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: rgba(239,237,230,.5); padding-top: 24px; }
 /* mobile deck */
@@ -553,8 +557,19 @@ function initAnimations() {
     };
     const swap = () => { if (shown === active || swapping) return; swapping = true; G.to(parts(shown), { opacity: 0, y: -26, duration: .22, ease: "power3.in", overwrite: "auto", onComplete: () => { lefts[shown].hidden = true; rights[shown].hidden = true; shown = active; lefts[shown].hidden = false; rights[shown].hidden = false; show(shown); swapping = false; swap(); } }); };
     const setActive = (next) => { if (next === active) return; active = next; stylePills(); G.to(halo, { backgroundColor: colors[next], duration: .5, overwrite: "auto" }); turnPiece(img, next); swap(); };
-    const trigger = ST.create({ trigger: section, start: "top top", end: () => "+=" + 4 * innerHeight, pin: true, pinSpacing: true, scrub: 1, snap: { snapTo: [0, .25, .5, .75, 1], duration: { min: .2, max: .5 }, ease: "power2.inOut", directional: false, delay: .1 }, invalidateOnRefresh: true, onUpdate: (self) => setActive(clamp(Math.floor(4 * self.progress - 1e-4), 0, 3)) });
-    pills.forEach((p, i) => p.addEventListener("click", () => S.scrollToProgress(trigger, .25 * i, 1)));
+    // 4 topics sit at progress 0, 1/3, 2/3, 1 (the snap points); the active one only changes once
+    // the scroll has moved clearly past the midpoint between two topics, so nothing flips on its own
+    const STEPS = 3; let scrolling = null;
+    const pick = (progress) => { const p = progress * STEPS; let next = active; while (next < STEPS && p > next + .5 + .1) next++; while (next > 0 && p < next - .5 - .1) next--; return next; };
+    const trigger = ST.create({ trigger: section, start: "top top", end: () => "+=" + 3 * innerHeight, pin: true, pinSpacing: true, scrub: .6, snap: { snapTo: (v) => scrolling !== null ? v : G.utils.snap(1 / STEPS, v), duration: { min: .25, max: .6 }, ease: "power2.inOut", directional: false, delay: .15, inertia: false }, invalidateOnRefresh: true, onUpdate: (self) => { if (scrolling !== null) return; setActive(pick(self.progress)); } });
+    // a tab click switches straight away and glides the page to that topic's stop
+    pills.forEach((p, i) => p.addEventListener("click", () => {
+      if (i === active) return; scrolling = i; setActive(i);
+      const y = trigger.start + (trigger.end - trigger.start) * i / STEPS, done = () => { scrolling = null; };
+      clearTimeout(pills._t);
+      if (S.lenis) S.lenis.scrollTo(y, { duration: .9, lock: true, force: true, onComplete: done }); else { window.scrollTo({ top: y, behavior: "smooth" }); }
+      pills._t = setTimeout(done, 1400);   // safety net if the glide is interrupted
+    }));
     G.set(parts(0), { opacity: 0 }); ST.create({ trigger: section, start: "top 60%", once: true, onEnter: () => show(0) });
     lefts.forEach((left) => { const hover = $("[data-inside-hover]", left); hover.addEventListener("pointerenter", () => { G.to(halo, { opacity: .7, scale: 1.75, duration: .6, overwrite: "auto" }); if (window.DrawSVGPlugin) G.fromTo($$("[data-bot]", left), { drawSVG: "0%" }, { drawSVG: "100%", duration: .7, ease: "power1.inOut", stagger: .06, overwrite: "auto" }); }); hover.addEventListener("pointerleave", () => G.to(halo, { opacity: .5, scale: 1.6, duration: .7, overwrite: "auto" })); if (!reduced) G.fromTo($("[data-inside-svg]", left), { rotation: -3.5, transformOrigin: "50% 50%" }, { rotation: 3.5, duration: 5, yoyo: true, repeat: -1, ease: "sine.inOut" }); });
     if (fine && !reduced) { const wrap = $("[data-inside-float]"); const sx = G.quickTo(wrap, "x", { duration: .9, ease: "power2.out" }), sy = G.quickTo(wrap, "y", { duration: .9, ease: "power2.out" }); section.addEventListener("pointermove", (e) => { sx((e.clientX / innerWidth - .5) * 22); sy((e.clientY / innerHeight - .5) * 12); }, { passive: true }); }

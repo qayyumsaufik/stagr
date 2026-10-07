@@ -187,23 +187,18 @@ def chrome(ctx, page):
 
 <nav class="nav{on_dark}" aria-label="Primary" data-nav>
   <div class="wrap nav-top">
-    <div class="nav-util desk-only"><a href="{B["contact"]["whatsapp"]["link"]}" target="_blank" rel="noopener" class="nav-underline">Contact us</a><a href="about.html#faq" class="nav-underline">Services</a></div>
     <button type="button" class="burger" data-menu-open aria-expanded="false" aria-controls="menu" aria-label="Open menu"><i></i><i></i></button>
-    <a class="brand" href="index.html" aria-label="Stagr, home">STAGR<span class="dot"></span></a>
-    <div class="right">
-      <a class="shop desk-only" href="{page.get("shop_href", "shop.html")}">Shop {ICON["arrow"]}</a>
-      <button type="button" class="icon-btn" data-cart-open aria-label="Open cart">{ICON["bag"]}<span class="cart-count" aria-hidden="true">0</span></button>
-    </div>
-  </div>
-  <div class="nav-bar desk-only">
-    <ul class="nav-main wrap" role="list">
+    <ul class="nav-main desk-only" role="list">
       <li data-mega="wallets"><a href="wallets.html" class="nav-underline{" is-active" if page.get("key") == "wallets" else ""}" aria-haspopup="true">Wallets</a></li>
       <li data-mega="belts"><a href="belts.html" class="nav-underline{" is-active" if page.get("key") == "belts" else ""}" aria-haspopup="true">Belts</a></li>
-      <li><a href="index.html#inside" class="nav-underline">Inside</a></li>
-      <li><a href="about.html" class="nav-underline{" is-active" if page.get("key") == "about" else ""}">The workshop</a></li>
       <li><a href="about.html#bulk" class="nav-underline">Bulk orders</a></li>
       <li><a href="shop.html" class="nav-underline{" is-active" if page.get("key") == "shop" else ""}">Shop</a></li>
     </ul>
+    <a class="brand" href="index.html" aria-label="Stagr, home">STAGR<span class="dot"></span></a>
+    <div class="right">
+      <a href="{B["contact"]["whatsapp"]["link"]}" target="_blank" rel="noopener" class="nav-contact nav-underline desk-only">Contact us</a>
+      <button type="button" class="icon-btn" data-cart-open aria-label="Open cart">{ICON["bag"]}<span class="cart-count" aria-hidden="true">0</span></button>
+    </div>
   </div>
   {mega("wallets", ctx)}{mega("belts", ctx)}
 </nav>
