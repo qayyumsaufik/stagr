@@ -140,6 +140,48 @@ def scard(ctx, p, i, quick=True):
 </article>'''
 
 
+heart = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-7.5-10A4.2 4.2 0 0 1 12 8.2a4.2 4.2 0 0 1 7.5 2.3c0 5.4-7.5 10-7.5 10z"/></svg>'
+def ccard(ctx, p, i):
+    """Catalogue card used on the home collection rail, the collection pages and the shop."""
+    SW = SWATCH; TAGS = ctx["tags"]
+    cuts = ctx["cutouts"](p); main = cuts[0]; same = [c for c in cuts if c["colour"] == main["colour"]]; alt = same[1] if len(same) > 1 else None
+    tags = TAGS.get(p["id"], []); fmt = lambda n: "Rs " + format(n, ",d")
+    off = round(100 - p["price"] / p["compareAtPrice"] * 100) if p.get("compareAtPrice") else 0
+    badges = (f'<span class="cc-badge cc-sale">Sale -{off}%</span>' if off else "") + (f'<span class="cc-badge cc-best">&#9733; Bestseller</span>' if "best" in tags else "") + (f'<span class="cc-badge cc-new">New in</span>' if "new" in tags and "best" not in tags else "")
+    swatches = "".join(f'<label class="cc-sw" title="{c}"><input type="radio" name="h-{p["id"]}" value="{c}" {"checked" if c == p["defaultColour"] else ""}><i style="--sw:{SW.get(c, "#6E4328")}"></i><span class="sr-only">{c}</span></label>' for c in p["colours"])
+    meta = " / ".join(p["colours"]) + (" <i>·</i> Sizes 30 to 44" if p["line"] == "belt" else "")
+    return f'''
+<article class="ccard{" has-alt" if alt else ""}" data-product="{p["id"]}" data-tags="{" ".join(tags)}" data-line="{p["line"]}" data-style="{p["style"] or "Belt"}" data-colours="{",".join(p["colours"])}" data-price="{p["price"]}" data-index="{i}" data-name="{p["name"]}">
+  <a class="cc-media" href="product-{p["id"]}.html" aria-label="{p["name"]}"><img class="main" src="{main["small"]}" alt="{p["name"]} in {main["colour"].lower()}" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="{(alt or main)["small"]}" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"><span class="cc-badges">{badges}</span></a>
+  <div class="cc-body">
+<p class="cc-price"><b>{fmt(p["price"])}</b>{f'<s>{fmt(p["compareAtPrice"])}</s>' if p.get("compareAtPrice") else ""}</p>
+<h3 class="cc-name"><a href="product-{p["id"]}.html">{p["name"]}</a></h3>
+<p class="cc-meta">{meta}</p>
+<div class="cc-opts opts" data-colour-opts>{swatches}</div>
+<p class="cc-stock"><i></i>In stock</p>
+<div class="cc-foot"><button type="button" class="cc-add" data-add="{p["id"]}" data-colour="{p["defaultColour"]}" {"data-size=34" if p["line"] == "belt" else ""}><span aria-hidden="true">+</span> Add to cart</button><button type="button" class="cc-wish" data-wish="{p["id"]}" aria-pressed="false" aria-label="Save {p["name"]}">{heart}</button></div>
+  </div>
+</article>'''
+
+
+def why(ctx):
+    """"Why people choose Stagr": centred serif heading, four points with line icons."""
+    return '''<section id="why" class="why on-bone" aria-labelledby="why-title">
+  <div class="wrap">
+    <div class="why-head">
+      <h2 class="explore-title" id="why-title" data-reveal>Why people choose Stagr</h2>
+      <p class="explore-sub" data-reveal data-delay=".1">One workshop, a small bench, no subcontracting. A belt leaves us when it is right, not when the week ends.</p>
+    </div>
+    <ul class="why-grid" role="list">
+      <li data-reveal><span class="why-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M12 4l9 16H3z"/></svg></span><div><b>Handcrafted since 2025</b><p>Every piece cut and stitched in Karachi.</p></div></li>
+      <li data-reveal data-delay=".08"><span class="why-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="1"/><path d="M3 11h18M8 7V4h8v3"/></svg></span><div><b>One price, any quantity</b><p>Rs 1,740 to Rs 3,500. The same for one or a hundred.</p></div></li>
+      <li data-reveal data-delay=".16"><span class="why-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="17" r="1.6"/><circle cx="17" cy="17" r="1.6"/></svg></span><div><b>Delivered across Pakistan</b><p>3 to 5 working days. Cash on delivery.</p></div></li>
+      <li data-reveal data-delay=".24"><span class="why-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4V5z"/></svg></span><div><b>People you can talk to</b><p>WhatsApp us. The person who made it answers.</p></div></li>
+    </ul>
+  </div>
+</section>'''
+
+
 STYLE_GROUPS = [("Bifold", ["kingsmann", "regal"]), ("Trifold", ["majestic"]), ("Minimalist", ["maverick", "purefold"]), ("Long", ["rodeo", "upbuck"])]
 
 
@@ -344,7 +386,7 @@ def main():
     with open(os.path.join(HERE, "base.css"), encoding="utf-8") as f:
         base_css = f.read()
     products_doc = load_json("products.json")
-    ctx = {"products": products_doc["products"], "products_doc": products_doc, "brand": load_json("brand.json"), "base_css": base_css, "icon": ICON, "esc": esc, "cutouts": cutouts_for, "bloom": BLOOM, "swatch": SWATCH, "pcard": pcard, "scard": scard, "tags": TAGS}
+    ctx = {"products": products_doc["products"], "products_doc": products_doc, "brand": load_json("brand.json"), "base_css": base_css, "icon": ICON, "esc": esc, "cutouts": cutouts_for, "bloom": BLOOM, "swatch": SWATCH, "pcard": pcard, "scard": scard, "ccard": ccard, "why": why, "tags": TAGS}
     pages = sys.argv[1:] or ["index", "collection", "shop", "product", "about"]
     for name in pages:
         if not os.path.exists(os.path.join(HERE, "pages", name + ".py")):
