@@ -286,7 +286,7 @@
   /* ---------------- grid filter swap: fade out, reorder, fade in (no layout tricks) ---------------- */
   S.swapGrid = (grid, mutate) => {
     const visible = $$("[data-product]", grid).filter((c) => !c.classList.contains("is-hidden"));
-    const finish = () => { const now = $$("[data-product]", grid).filter((c) => !c.classList.contains("is-hidden")); if (G && !reduced) G.fromTo(now, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: .45, ease: "power3.out", stagger: .04, overwrite: true, clearProps: "opacity,transform", onComplete: () => { grid.style.minHeight = ""; } }); else grid.style.minHeight = ""; if (window.ScrollTrigger) window.ScrollTrigger.refresh(); };
+    const finish = () => { const now = $$("[data-product]", grid).filter((c) => !c.classList.contains("is-hidden")); if (G && !reduced) G.fromTo(now, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: .45, ease: "power3.out", stagger: .04, overwrite: true, clearProps: "opacity,transform", onComplete: () => { grid.style.minHeight = ""; } }); else grid.style.minHeight = ""; if (window.ScrollTrigger) window.ScrollTrigger.refresh(); S.repaintRails && S.repaintRails(); };
     if (!G || reduced || !visible.length) { mutate(); finish(); return; }
     grid.style.minHeight = grid.offsetHeight + "px";   // keep the page from jumping while cards are out
     G.to(visible, { opacity: 0, y: -8, duration: .2, ease: "power2.in", stagger: .012, overwrite: true, onComplete: () => { G.set(visible, { clearProps: "opacity,transform" }); mutate(); finish(); } });
@@ -297,15 +297,16 @@
     if (rail._rail) return; rail._rail = true;
     const track = $("[data-rail-track]", rail), prev = $("[data-rail-prev]", rail), next = $("[data-rail-next]", rail), dots = $("[data-rail-dots]", rail);
     const items = () => [...track.children];
-    const step = () => { const c = track.children[0]; return c ? c.offsetWidth + parseFloat(getComputedStyle(track).gap || 0) : track.clientWidth; };
+    const step = () => { const c = [...track.children].find((el) => el.offsetParent !== null); return c ? c.offsetWidth + parseFloat(getComputedStyle(track).gap || 0) : track.clientWidth; };
     const pages = () => Math.max(1, Math.ceil((track.scrollWidth - track.clientWidth) / step()) + 1);
     const page = () => Math.round(track.scrollLeft / step());
     const paint = () => { const n = pages(), i = Math.min(page(), n - 1), overflow = track.scrollWidth > track.clientWidth + 4; rail.classList.toggle("has-overflow", overflow); if (prev) prev.disabled = i <= 0; if (next) next.disabled = i >= n - 1; if (dots) { if (dots.children.length !== n) dots.innerHTML = n > 1 ? Array.from({ length: n }, () => "<i></i>").join("") : ""; [...dots.children].forEach((d, k) => d.classList.toggle("is-on", k === i)); } };
     const go = (d) => track.scrollBy({ left: d * step(), behavior: reduced ? "auto" : "smooth" });
     prev && prev.addEventListener("click", () => go(-1)); next && next.addEventListener("click", () => go(1));
     track.addEventListener("scroll", paint, { passive: true }); window.addEventListener("resize", paint);
-    paint(); setTimeout(paint, 400); items();
+    paint(); setTimeout(paint, 400); items(); rail._paint = paint;
   }); };
+  S.repaintRails = () => $$("[data-rail]").forEach((r) => r._paint && r._paint());
 
 
   /* ---------------- quick view (dialog lives in the shared chrome) ---------------- */

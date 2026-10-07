@@ -405,9 +405,12 @@ def render(ctx):
 .ctab:hover { border-color: var(--accent-deep); }
 .ctab[aria-selected="true"] { background: var(--accent-deep); color: var(--bone); border-color: var(--accent-deep); }
 /* catalogue cards */
-.cc-grid { display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-@media (min-width: 768px) { .cc-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; } }
-@media (min-width: 1200px) { .cc-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; } }
+.cc-track { --rail-w: calc((100% - 12px) / 2); gap: 12px; padding-bottom: 6px; scroll-padding-left: 0; }
+@media (min-width: 768px) { .cc-track { --rail-w: calc((100% - 36px) / 3); gap: 18px; } }
+@media (min-width: 1200px) { .cc-track { --rail-w: calc((100% - 60px) / 4); gap: 20px; } }
+.cc-track > .ccard { flex: 0 0 var(--rail-w); scroll-snap-align: start; }
+.cc-foot { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 14px; }
+.rail:not(.has-overflow) .rail-nav { visibility: hidden; }
 .ccard { display: flex; flex-direction: column; background: #fff; border-radius: 16px; padding: 12px; box-shadow: 0 1px 2px rgba(26,27,29,.04), 0 10px 30px -18px rgba(26,27,29,.18); transition: transform .4s var(--ease-out), box-shadow .4s ease; }
 .ccard:hover { transform: translateY(-3px); box-shadow: 0 1px 2px rgba(26,27,29,.04), 0 24px 40px -20px rgba(26,27,29,.28); }
 .ccard.is-hidden { display: none; }
@@ -534,11 +537,12 @@ def render(ctx):
         <button type="button" class="ctab" role="tab" aria-selected="false" data-tab="best">Bestsellers</button>
         <button type="button" class="ctab" role="tab" aria-selected="false" data-tab="gift">Gifting</button>
         <button type="button" class="ctab" role="tab" aria-selected="false" data-tab="under">Under Rs 2,000</button>
-        <button type="button" class="ctab" role="tab" aria-selected="false" data-tab="all">All</button>
       </div>
     </div>
-    <div class="cc-grid" data-shop-grid>{cards}</div>
-    <p class="small muted" style="margin-top:20px"><span data-shop-count></span> shown · <a class="link" href="shop.html">View all pieces</a></p>
+    <div class="rail" data-rail>
+      <div class="rail-track cc-track" data-rail-track data-shop-grid>{cards}</div>
+    <div class="cc-foot"><p class="small muted"><span data-shop-count></span> shown · <a class="link" href="shop.html">View all pieces</a></p><div class="rail-nav" data-rail-nav><button type="button" class="rail-btn" data-rail-prev aria-label="Previous" style="transform:scaleX(-1)">{I["arrow"]}</button><button type="button" class="rail-btn" data-rail-next aria-label="Next">{I["arrow"]}</button></div></div>
+    </div>
 </section>
 
 <section id="inside" class="inside on-ink" aria-labelledby="inside-title">
@@ -793,7 +797,7 @@ function initAnimations() {
     const grid = $("[data-shop-grid]"), cards = $$("[data-product]", grid), tabs = $$(".ctab"), countEl = $("[data-shop-count]");
     const filter = (tab) => { let n = 0; cards.forEach((c) => { const ok = tab === "all" || c.dataset.tags.split(" ").indexOf(tab) >= 0; c.classList.toggle("is-hidden", !ok); if (ok) n++; }); if (countEl) countEl.textContent = n + (n === 1 ? " piece" : " pieces"); };
     let current = "new";
-    tabs.forEach((t) => t.addEventListener("click", () => { if (t.dataset.tab === current) return; current = t.dataset.tab; tabs.forEach((x) => x.setAttribute("aria-selected", String(x === t))); S.swapGrid(grid, () => filter(current)); }));
+    tabs.forEach((t) => t.addEventListener("click", () => { if (t.dataset.tab === current) return; current = t.dataset.tab; tabs.forEach((x) => x.setAttribute("aria-selected", String(x === t))); grid.scrollTo({ left: 0, behavior: "auto" }); S.swapGrid(grid, () => filter(current)); }));
     filter("new");
     S.initCards(section);
   }
