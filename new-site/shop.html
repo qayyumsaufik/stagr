@@ -307,6 +307,7 @@ address { font-style: normal; }
 .nav .burger { display: grid; gap: 5px; place-content: center; width: 44px; height: 44px; justify-self: start; }
 .nav .burger i { display: block; width: 20px; height: 1.5px; background: currentColor; }
 @media (min-width: 1024px) { .nav .burger { display: none; } }
+@media (max-width: 1023px) { .nav .nav-main, .nav .nav-contact { display: none !important; } }
 .nav .nav-main { display: flex; justify-content: flex-start; gap: 32px; font-size: .8125rem; letter-spacing: .14em; text-transform: uppercase; }
 .nav .nav-main > li { position: relative; display: flex; align-items: center; height: var(--nav-top); }
 .nav .nav-main a { color: var(--fg-2); transition: color .3s ease; padding: 4px 0; }

@@ -307,6 +307,7 @@ address { font-style: normal; }
 .nav .burger { display: grid; gap: 5px; place-content: center; width: 44px; height: 44px; justify-self: start; }
 .nav .burger i { display: block; width: 20px; height: 1.5px; background: currentColor; }
 @media (min-width: 1024px) { .nav .burger { display: none; } }
+@media (max-width: 1023px) { .nav .nav-main, .nav .nav-contact { display: none !important; } }
 .nav .nav-main { display: flex; justify-content: flex-start; gap: 32px; font-size: .8125rem; letter-spacing: .14em; text-transform: uppercase; }
 .nav .nav-main > li { position: relative; display: flex; align-items: center; height: var(--nav-top); }
 .nav .nav-main a { color: var(--fg-2); transition: color .3s ease; padding: 4px 0; }
@@ -521,37 +522,101 @@ html.is-entering .fade { opacity: 1; }
 .rp-copy { margin-top: 18px; max-width: 46ch; color: var(--fg-2); }
 .rp-spec { margin-top: 22px; max-width: 420px; }
 
-/* ---- 01 hero: full-bleed photo, copy bottom-left, note bottom-right ---- */
-.hero { position: relative; width: 100%; height: 100svh; min-height: 620px; overflow: hidden; background: var(--ink); color: var(--bone); display: flex; align-items: flex-end; }
-.hero-bg, .hero-bg img { position: absolute; inset: 0; width: 100%; height: 100%; }
-.hero-bg img { object-fit: cover; object-position: 50% 45%; transform: scale(1.08); will-change: transform; }
-.hero-shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(26,27,29,.42) 0%, rgba(26,27,29,0) 32%, rgba(26,27,29,0) 50%, rgba(26,27,29,.72) 100%), linear-gradient(90deg, rgba(26,27,29,.45) 0%, rgba(26,27,29,0) 55%); }
-.hero-grid { position: relative; z-index: 2; width: 100%; display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; padding-bottom: clamp(56px, 9vh, 104px); }
-.hero-copy { max-width: 620px; }
-.hero-kicker { font-size: .75rem; letter-spacing: .26em; text-transform: uppercase; color: rgba(239,237,230,.78); }
-.hero-h1 { margin-top: 16px; font-family: var(--font-wordmark); font-weight: 700; font-size: clamp(2.6rem, 1.2rem + 5.4vw, 6.2rem); line-height: .96; letter-spacing: .01em; text-transform: uppercase; }
-.hero-h1 .line, .hero-side-big .line { display: block; overflow: hidden; }
-.hero-h1 .line > span, .hero-side-big .line > span { display: inline-block; }
-.hero-sub { margin-top: 18px; max-width: 42ch; font-size: clamp(1rem, .95rem + .3vw, 1.2rem); line-height: 1.55; color: rgba(239,237,230,.82); }
-.hero-ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
-.hero-side { text-align: right; flex: 0 0 auto; }
-.hero-side-big { font-family: var(--font-wordmark); font-weight: 700; font-size: clamp(2rem, 1rem + 3.4vw, 4.2rem); line-height: .98; letter-spacing: .01em; text-transform: uppercase; }
-.hero-side-sub { margin-top: 12px; font-size: 1rem; color: rgba(239,237,230,.82); }
-.hero-meta { position: absolute; left: var(--gutter); bottom: 22px; z-index: 2; font-size: .6875rem; letter-spacing: .24em; text-transform: uppercase; color: rgba(239,237,230,.6); }
-.hero-meta span { margin: 0 8px; }
-.hero .btn--ghost { color: var(--bone); border-color: rgba(239,237,230,.5); }
+/* ---- 01 hero: belts left, wallets right, the words on the seam, bulk band beneath ---- */
+.hero { position: relative; background: var(--ink); color: var(--bone); padding-top: var(--nav-h); }
+.split { position: relative; display: grid; grid-template-columns: 1fr 1fr; height: calc(100svh - var(--nav-h) - 76px); min-height: 560px; max-height: 900px; }
+.half { position: relative; display: block; overflow: hidden; color: var(--bone); }
+.half + .half { border-left: 1px solid rgba(239,237,230,.28); }
+.half img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1.04); transition: transform 1.2s var(--ease-out); will-change: transform; }
+.half-belts img { object-position: 50% 50%; }
+.half-wallets img { object-position: 55% 55%; }
+.half:hover img { transform: scale(1.08); }
+.half::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(26,27,29,.35) 0%, rgba(26,27,29,0) 35%, rgba(26,27,29,0) 60%, rgba(26,27,29,.7) 100%); pointer-events: none; }
+.half-foot { position: absolute; left: clamp(20px, 2.4vw, 36px); right: clamp(20px, 2.4vw, 36px); bottom: clamp(20px, 2.6vw, 36px); z-index: 2; display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; }
+.half-title { font-family: var(--font-display); font-weight: 300; font-size: clamp(1.8rem, 1.2rem + 1.6vw, 2.8rem); line-height: 1; text-shadow: 0 2px 18px rgba(0,0,0,.4); }
+.half-meta { margin-top: 8px; font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(239,237,230,.78); }
+.half-meta span { margin: 0 6px; opacity: .6; }
+.half-arrow { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(239,237,230,.5); display: grid; place-items: center; background: rgba(26,27,29,.25); backdrop-filter: blur(6px); transition: background-color .3s ease, color .3s ease, border-color .3s ease, transform .4s var(--ease-out); }
+.half-arrow svg { width: 16px; height: 16px; }
+.half:hover .half-arrow { background: var(--bone); color: var(--ink); border-color: var(--bone); transform: translateX(3px); }
+.hero-centre { position: absolute; left: 50%; top: 50%; z-index: 3; transform: translate(-50%, -52%); width: min(560px, 80vw); text-align: center; pointer-events: none; }
+.hero-centre::before { content: ""; position: absolute; inset: -20% -30%; background: radial-gradient(ellipse at center, rgba(26,27,29,.55) 0%, rgba(26,27,29,.25) 45%, rgba(26,27,29,0) 72%); z-index: -1; }
+.hero-centre > * { pointer-events: auto; }
+.hero-kicker { font-size: .6875rem; letter-spacing: .3em; text-transform: uppercase; color: rgba(239,237,230,.8); }
+.hero-h1 { margin-top: 14px; font-family: var(--font-display); font-weight: 300; font-size: clamp(2.6rem, 1.4rem + 4.2vw, 5.6rem); line-height: .98; letter-spacing: -.01em; text-shadow: 0 2px 30px rgba(0,0,0,.45); }
+.hero-h1 .serif-i { font-family: var(--font-display); font-style: italic; }
+.hero-sub { margin: 18px auto 0; max-width: 40ch; font-size: clamp(.9375rem, .9rem + .25vw, 1.0625rem); line-height: 1.55; color: rgba(239,237,230,.88); text-shadow: 0 1px 14px rgba(0,0,0,.45); }
+.hero-ctas { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+.btn--tan { background: var(--accent-deep); border-color: var(--accent-deep); color: var(--bone); }
+.btn--tan:hover { background: var(--accent); border-color: var(--accent); color: var(--ink); }
+.hero .btn--ghost { color: var(--bone); border-color: rgba(239,237,230,.55); background: rgba(26,27,29,.2); backdrop-filter: blur(6px); }
 .hero .btn--ghost:hover { background: var(--bone); color: var(--ink); }
+/* bulk-order band */
+.bulk-band { position: relative; background: var(--accent-deep); color: var(--bone); overflow: hidden; }
+.bulk-band::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: clamp(60px, 7vw, 110px); background: var(--accent); clip-path: polygon(0 0, 100% 0, 55% 100%, 0 100%); opacity: .9; }
+.bulk-inner { position: relative; display: flex; align-items: center; gap: 16px; min-height: 76px; padding-top: 10px; padding-bottom: 10px; }
+.bulk-icon { width: 40px; height: 40px; border-radius: 50%; background: rgba(239,237,230,.14); display: grid; place-items: center; flex: 0 0 auto; margin-left: clamp(60px, 7vw, 110px); }
+.bulk-icon svg { width: 20px; height: 20px; }
+.bulk-text { flex: 1; display: grid; gap: 2px; font-size: .8125rem; color: rgba(239,237,230,.85); }
+.bulk-text b { font-weight: 500; font-size: 1rem; color: var(--bone); }
+.bulk-btn { flex: 0 0 auto; background: var(--bone); color: var(--ink); border-color: var(--bone); }
+.bulk-btn:hover { background: var(--ink); color: var(--bone); border-color: var(--ink); }
+
+/* ---- the three tiles under the hero: how it is made, bulk orders, a handwritten note ---- */
+.more { padding: 16px 0 0; background: var(--bone); color: var(--ink); }
+.bento { display: grid; gap: 12px; grid-template-columns: 1fr; }
+.tile { position: relative; display: block; overflow: hidden; border-radius: 8px; background: var(--ink); color: var(--bone); isolation: isolate; }
+.tile::before { content: ""; position: absolute; inset: 10px; border: 1px dashed rgba(239,237,230,.32); border-radius: 4px; z-index: 3; pointer-events: none; transition: inset .5s var(--ease-out), border-color .4s ease; }
+.tile:hover::before { inset: 14px; border-color: var(--accent); }
+.tile img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1.04); transition: transform 1.2s var(--ease-out); will-change: transform; }
+.tile:hover img { transform: scale(1.08); }
+.tile::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(26,27,29,.62) 0%, rgba(26,27,29,.28) 40%, rgba(26,27,29,.05) 70%); pointer-events: none; }
+.tile-copy { position: absolute; z-index: 2; left: clamp(22px, 3vw, 44px); right: clamp(22px, 3vw, 44px); top: clamp(22px, 3vw, 40px); }
+.ltag { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px 6px 9px; border-radius: 4px; background: rgba(26,27,29,.42); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); outline: 1px dashed rgba(239,237,230,.45); outline-offset: -4px; font-size: .625rem; letter-spacing: .2em; text-transform: uppercase; color: var(--bone); }
+.ltag .rivet { width: 7px; height: 7px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #E8C48E, #8B5A2B 70%); box-shadow: 0 0 0 1px rgba(0,0,0,.25); }
+.tile-h1 { margin-top: 16px; font-family: var(--font-display); font-weight: 300; font-size: clamp(2rem, 1.1rem + 2.6vw, 3.8rem); line-height: 1.02; letter-spacing: -.01em; text-shadow: 0 2px 28px rgba(26,27,29,.3); }
+.tile-h1 .serif-i { font-family: var(--font-display); font-style: italic; }
+.tile-sub { margin-top: 14px; max-width: 38ch; font-size: clamp(.875rem, .85rem + .2vw, 1rem); line-height: 1.55; color: rgba(239,237,230,.88); text-shadow: 0 1px 12px rgba(0,0,0,.35); }
+.tile-btn { margin-top: 20px; background: var(--bone); color: var(--ink); border-color: var(--bone); }
+.tile:hover .tile-btn { background: var(--accent); border-color: var(--accent); }
+.tile-h2 { margin-top: 12px; font-family: var(--font-display); font-weight: 300; font-size: clamp(1.6rem, 1rem + 1.6vw, 2.4rem); line-height: 1.05; text-shadow: 0 2px 20px rgba(26,27,29,.3); }
+.tile-side .tile-sub { margin-top: 10px; max-width: 34ch; }
+.tile-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: inherit; }
+.tile-link svg { width: 13px; height: 13px; transition: transform .4s var(--ease-out); }
+.tile:hover .tile-link svg { transform: translateX(4px); }
+.tile-main { aspect-ratio: 4 / 5; }
+.tile-main img { object-position: 50% 70%; }
+.tile-side { aspect-ratio: 16 / 10; }
+.tile-bulk img { object-position: 50% 100%; object-fit: cover; }
+.tile-note img { object-position: 50% 40%; }
 .pair img { position: absolute; height: auto; filter: drop-shadow(0 40px 60px rgba(0,0,0,.45)); }
 .pair .p-belt { left: -6%; top: 2%; width: 78%; transform: rotate(-8deg); }
 .pair .p-wallet { right: -4%; bottom: 4%; width: 72%; }
-@media (max-width: 1023px) { .hero-side { display: none; } }
+@media (max-width: 1023px) {
+  .bento { grid-template-columns: 1fr 1fr; }
+  .tile-main { grid-column: 1 / -1; aspect-ratio: 16 / 10; }
+  .tile-side { aspect-ratio: 4 / 5; }
+}
 @media (max-width: 767px) {
-  .hero { min-height: 560px; }
-  .hero-bg img { object-position: 50% 40%; }
-  .hero-shade { background: linear-gradient(180deg, rgba(26,27,29,.5) 0%, rgba(26,27,29,.05) 30%, rgba(26,27,29,.1) 45%, rgba(26,27,29,.82) 100%); }
-  .hero-grid { padding-bottom: 84px; }
-  .hero-ctas .btn { flex: 1 1 auto; justify-content: center; }
-  .hero-meta { bottom: 18px; }
+  .split { grid-template-columns: 1fr; height: auto; min-height: 0; max-height: none; }
+  .hero-centre { position: relative; order: -1; left: auto; top: auto; transform: none; width: auto; padding: 44px var(--gutter) 28px; }
+  .hero-centre::before { display: none; }
+  .half { aspect-ratio: 16 / 10; }
+  .half + .half { border-left: 0; border-top: 1px solid rgba(239,237,230,.28); }
+  .half-arrow { width: 40px; height: 40px; }
+  .bulk-inner { flex-wrap: wrap; padding-top: 16px; padding-bottom: 16px; }
+  .bulk-icon { margin-left: 0; }
+  .bulk-band::before { display: none; }
+  .bulk-btn { width: 100%; }
+  .bento { grid-template-columns: 1fr; gap: 10px; }
+  .tile-main { aspect-ratio: 4 / 5; }
+  .tile-side { aspect-ratio: 4 / 3; }
+}
+@media (min-width: 1024px) {
+  .more { padding: 14px 0 0; }
+  .bento { grid-template-columns: 56fr 44fr; grid-template-rows: 1fr 1fr; gap: 14px; height: calc(100svh - 32px); min-height: 640px; max-height: 920px; }
+  .tile { aspect-ratio: auto !important; }
+  .tile-main { grid-row: 1 / 3; }
 }
 
 /* ---- 02 range (pinned on desktop) ---- */
@@ -736,24 +801,51 @@ html.is-entering .fade { opacity: 1; }
 <main id="main">
 
 <section id="hero" class="hero on-ink" aria-label="Introduction">
-  <picture class="hero-bg">
-    <source media="(max-width: 767px)" srcset="assets/hero/hero-belts-portrait.jpg">
-    <img data-hero-img src="assets/hero/hero-belts-1600.jpg" srcset="assets/hero/hero-belts-900.jpg 900w, assets/hero/hero-belts-1600.jpg 1600w, assets/hero/hero-belts-2400.jpg 2400w" sizes="100vw" alt="Four Stagr belts laid on a walnut bench" width="2400" height="1600" fetchpriority="high" decoding="async">
-  </picture>
-  <div class="hero-shade" aria-hidden="true"></div>
-  <div class="wrap hero-grid">
-    <div class="hero-copy">
-      <p class="hero-kicker" data-hero-item>Crazy horse leather · Stitched by hand</p>
-      <h1 class="hero-h1" data-hero-h1><span class="line">Carried daily.</span><span class="line">Made slowly.</span></h1>
-      <p class="hero-sub" data-hero-item>Belts and wallets cut from full hides by local artisans. Pay cash on delivery, anywhere in Pakistan.</p>
-      <div class="hero-ctas" data-hero-item><a class="btn" href="wallets.html">Shop wallets <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="btn btn--ghost" href="belts.html">Shop belts <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
-    </div>
-    <div class="hero-side" data-hero-side>
-      <p class="hero-side-big"><span class="line">Cash on</span><span class="line">delivery</span></p>
-      <p class="hero-side-sub">Across Pakistan, 3 to 5 working days.</p>
+  <div class="split">
+    <a class="half half-belts" href="belts.html" data-half aria-label="Shop belts">
+      <img data-half-img src="assets/hero/hero-belts-1600.jpg" srcset="assets/hero/hero-belts-900.jpg 900w, assets/hero/hero-belts-1600.jpg 1600w, assets/hero/hero-belts-2400.jpg 2400w" sizes="(min-width: 768px) 50vw, 100vw" alt="Four Stagr belts laid on a walnut bench" width="2400" height="1600" fetchpriority="high" decoding="async">
+      <div class="half-foot"><div><h2 class="half-title" data-half-item>Belts<span class="dotc">.</span></h2><p class="half-meta" data-half-item>4 pieces <span aria-hidden="true">·</span> from Rs 2,394</p></div><span class="half-arrow" data-half-item><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+    </a>
+    <a class="half half-wallets" href="wallets.html" data-half aria-label="Shop wallets">
+      <img data-half-img src="assets/hero/hero-wallets-800.jpg" srcset="assets/hero/hero-wallets-800.jpg 800w, assets/hero/hero-wallets.jpg 1500w" sizes="(min-width: 768px) 50vw, 100vw" alt="Three Stagr wallets under a warm light" width="1500" height="1100" fetchpriority="high" decoding="async">
+      <div class="half-foot"><div><h2 class="half-title" data-half-item>Wallets<span class="dotc">.</span></h2><p class="half-meta" data-half-item>7 pieces <span aria-hidden="true">·</span> from Rs 1,740</p></div><span class="half-arrow" data-half-item><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+    </a>
+    <div class="hero-centre" data-hero-centre>
+      <p class="hero-kicker" data-hero-item>Nothing but leather</p>
+      <h1 class="hero-h1" data-hero-item><span class="serif-i">Carried daily.</span><br>Made slowly.</h1>
+      <p class="hero-sub" data-hero-item>Belts and wallets cut from full crazy horse hides and stitched by hand. Cash on delivery, anywhere in Pakistan.</p>
+      <div class="hero-ctas" data-hero-item><a class="btn btn--tan" href="belts.html">Shop belts</a><a class="btn btn--ghost" href="wallets.html">Shop wallets</a></div>
     </div>
   </div>
-  <p class="hero-meta" data-hero-item>Handmade in Pakistan <span aria-hidden="true">·</span> 100% crazy horse leather</p>
+  <div class="bulk-band" data-bulk-band>
+    <div class="wrap bulk-inner">
+      <span class="bulk-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M3 8l9-4 9 4-9 4-9-4z"/><path d="M3 8v8l9 4 9-4V8"/><path d="M12 12v8"/></svg></span>
+      <p class="bulk-text"><b>Buying for a team? Meet Stagr bulk orders.</b><span>Ten pieces or more, embossed with your logo, boxed with a handwritten card.</span></p>
+      <a class="btn btn--sm bulk-btn" href="about.html#bulk">Get a quote <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    </div>
+  </div>
+</section>
+
+<section id="more" class="more on-bone" aria-label="How it is made, bulk orders and the handwritten note">
+  <div class="wrap bento">
+    <a class="tile tile-main" href="about.html#craft" data-reveal aria-label="How it is made">
+      <img src="assets/lifestyle/kingsmen-02-800.jpg" srcset="assets/lifestyle/kingsmen-02-800.jpg 800w, assets/lifestyle/kingsmen-02.jpg 1200w" sizes="(min-width: 1024px) 56vw, 100vw" alt="Close-up of the saddle stitching on a Stagr bifold" width="1200" height="1500" loading="lazy" decoding="async">
+      <div class="tile-copy">
+        <span class="ltag"><i class="rivet"></i>How it is made</span>
+        <h2 class="tile-h1"><span class="serif-i">Cut, skived,</span><br>stitched by hand.</h2>
+        <p class="tile-sub">Every piece is cut from full hides by local artisans. The waxed surface marks and darkens with use, so no two pieces age the same way.</p>
+        <span class="btn btn--sm tile-btn">See the process <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </div>
+    </a>
+    <a class="tile tile-side tile-bulk" href="about.html#bulk" data-reveal data-delay=".1" aria-label="Bulk orders">
+      <img src="assets/hero/tile-bulk-800.jpg" srcset="assets/hero/tile-bulk-800.jpg 800w, assets/hero/tile-bulk.jpg 1500w" sizes="(min-width: 1024px) 44vw, 100vw" alt="Eight Stagr wallets laid out in two rows for a team order" width="1500" height="1000" loading="lazy" decoding="async">
+      <div class="tile-copy"><span class="ltag"><i class="rivet"></i>Corporate and bulk</span><h2 class="tile-h2">Bulk orders<span class="dotc">.</span></h2><p class="tile-sub">Belts, wallets or a mix, prepared as one consignment. Your logo or initials pressed into the leather.</p><span class="tile-link">Get a quote <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+    </a>
+    <a class="tile tile-side tile-note" href="about.html#faq" data-reveal data-delay=".2" aria-label="A handwritten note">
+      <img src="assets/lifestyle/majestic-01-800.jpg" srcset="assets/lifestyle/majestic-01-800.jpg 800w, assets/lifestyle/majestic-01.jpg 1200w" sizes="(min-width: 1024px) 44vw, 100vw" alt="A Stagr trifold wallet open on its gift box" width="1200" height="1500" loading="lazy" decoding="async">
+      <div class="tile-copy"><span class="ltag"><i class="rivet"></i>Complimentary</span><h2 class="tile-h2">A handwritten note<span class="dotc">.</span></h2><p class="tile-sub">Add a message at checkout and we write it by hand on a card, packed inside the box. It costs nothing extra.</p><span class="tile-link">Add one at checkout <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
+    </a>
+  </div>
 </section>
 
 <section id="range" class="range on-bone" aria-labelledby="range-title">
@@ -1245,18 +1337,17 @@ function initAnimations() {
   function initScrollHint() { const dot = $("[data-scroll-dot]"); if (!dot || !isRendered(dot)) return; if (reduced) { G.set(dot, { opacity: 1, y: 9 }); return; } G.timeline({ repeat: -1, repeatDelay: .5 }).set(dot, { y: 0, opacity: 0 }).to(dot, { opacity: 1, duration: .25 }).to(dot, { y: 19, duration: 1, ease: "power2.inOut" }, .1).to(dot, { opacity: 0, duration: .3, ease: "power1.in" }, .85); }
 
   function initHero() {
-    const hero = $("#hero"), img = $("[data-hero-img]", hero), items = $$("[data-hero-item]", hero), side = $("[data-hero-side]", hero);
-    const lines = $$(".hero-h1 .line, .hero-side-big .line", hero).map((l) => { const span = document.createElement("span"); span.textContent = l.textContent; l.textContent = ""; l.appendChild(span); return span; });
+    const halves = $$("[data-half]"), imgs = $$("[data-half-img]"), feet = $$("[data-half-item]"), items = $$("[data-hero-item]"), band = $("[data-bulk-band]");
     if (reduced) return function start() {};
-    G.set(lines, { yPercent: 110 }); G.set(items, { y: 18, opacity: 0 }); if (side) G.set(side, { opacity: 0 });
+    G.set(halves[0], { xPercent: -6, opacity: 0 }); G.set(halves[1], { xPercent: 6, opacity: 0 });
+    G.set([...items, ...feet], { y: 16, opacity: 0 }); if (band) G.set(band, { y: 24, opacity: 0 });
     return function start() {
       const tl = G.timeline({ defaults: { ease: "power3.out" } });
-      tl.fromTo(img, { scale: 1.14 }, { scale: 1.08, duration: 2.6, ease: "power2.out" }, 0)
-        .to(items[0], { y: 0, opacity: 1, duration: .6 }, .1)
-        .to(lines.slice(0, 2), { yPercent: 0, duration: .9, stagger: .1 }, .2)
-        .to(items.slice(1), { y: 0, opacity: 1, duration: .6, stagger: .1 }, .6)
-        .to(side, { opacity: 1, duration: .4 }, .8)
-        .to(lines.slice(2), { yPercent: 0, duration: .8, stagger: .1 }, .85);
+      tl.to(halves, { xPercent: 0, opacity: 1, duration: 1.1, clearProps: "transform" }, 0)
+        .fromTo(imgs, { scale: 1.14 }, { scale: 1.04, duration: 2.4, ease: "power2.out", clearProps: "transform" }, 0)
+        .to(items, { y: 0, opacity: 1, duration: .7, stagger: .08, clearProps: "transform" }, .45)
+        .to(feet, { y: 0, opacity: 1, duration: .6, stagger: .05, clearProps: "transform" }, .8)
+        .to(band, { y: 0, opacity: 1, duration: .6, clearProps: "transform" }, .9);
     };
   }
 
@@ -1392,7 +1483,7 @@ function initAnimations() {
 
   /* ================= boot (top to bottom so pinned blocks measure in order) ================= */
   const startHero = initHero();
-  initScrollHint(); S.initReveals($("#hero"));
+  initScrollHint(); S.initReveals($("#hero")); S.initReveals($("#more"));
   if (isMobile) initRangeMobile(); else initRangeDesktop();
   S.initReveals($("#range"));
   initInside();
