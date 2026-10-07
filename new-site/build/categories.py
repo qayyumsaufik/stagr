@@ -34,3 +34,19 @@ for key, (f, fx, fy, zoom) in PICKS.items():
         o = c.copy(); o.thumbnail((w, w), Image.LANCZOS)
         o.save(f"{OUT}/{key}{'' if w == 900 else '-500'}.jpg", quality=84, optimize=True, progressive=True)
     print(key, c.size)
+
+# ---- the three feature tiles under the collection (light cards, photo fills the right/bottom) ----
+TILES = {
+    "tile-made":  (f"{SRC}/Kignsman/WhatsApp Image 2025-03-11 at 10.20.41 AM (1).jpeg", .6, .5, .9),   # tools + two bifolds on stone
+    "tile-bulk":  (f"{SRC}/Kignsman/wallet.jpeg", .55, .5, 1.0),                                         # open bifold with cards, tools
+    "tile-note":  (f"{SRC}/Regal/KRW_1441.JPG", .5, .6, .9),                                            # wallet on its gift box
+}
+for key, (f, fx, fy, zoom) in TILES.items():
+    im = load(f); W, H = im.size
+    short = min(H, W * 2 / 3) * zoom; ch = int(short); cw = int(short * 3 / 2)
+    x0 = int(min(max(fx * W - cw / 2, 0), W - cw)); y0 = int(min(max(fy * H - ch / 2, 0), H - ch))
+    c = im.crop((x0, y0, x0 + cw, y0 + ch))
+    for w in (1400, 800):
+        o = c.copy(); o.thumbnail((w, w), Image.LANCZOS)
+        o.save(f"{SITE}/assets/hero/{key}{'' if w == 1400 else '-800'}.jpg", quality=84, optimize=True, progressive=True)
+    print(key, c.size)
