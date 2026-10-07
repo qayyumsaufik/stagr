@@ -178,6 +178,28 @@ def render(ctx):
 .bulk-btn:hover { background: var(--ink); color: var(--bone); border-color: var(--ink); }
 
 /* ---- the three tiles under the hero: how it is made, bulk orders, a handwritten note ---- */
+/* ---- explore by category ---- */
+.explore { padding: clamp(40px, 6vw, 80px) 0 clamp(16px, 2vw, 24px); background: var(--bone); color: var(--ink); }
+.explore-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; margin-bottom: clamp(20px, 3vw, 32px); }
+.explore-title { font-family: var(--font-wordmark); font-weight: 600; font-size: clamp(1.9rem, 1.2rem + 2.2vw, 3rem); line-height: 1.02; letter-spacing: -.01em; }
+.explore-sub { margin-top: 12px; color: var(--fg-2); font-size: .9375rem; }
+.explore-right { display: flex; flex-direction: column; align-items: flex-end; gap: 16px; }
+.explore-tabs { display: inline-flex; padding: 4px; border-radius: 999px; background: rgba(26,27,29,.06); }
+.explore-tabs button { min-height: 36px; padding: 0 18px; border-radius: 999px; font-size: .8125rem; font-weight: 500; color: var(--fg-2); transition: background-color .3s ease, color .3s ease; }
+.explore-tabs button[aria-selected="true"] { background: var(--ink); color: var(--bone); }
+.explore-all { display: inline-flex; align-items: center; gap: 8px; font-size: .8125rem; font-weight: 500; color: var(--accent-deep); }
+.explore-all svg { width: 14px; height: 14px; transition: transform .3s var(--ease-out); }
+.explore-all:hover svg { transform: translateX(3px); }
+.explore-grid { display: grid; gap: 14px; grid-template-columns: repeat(5, minmax(0, 1fr)); }
+.explore-grid[hidden] { display: none; }
+.ex-card { display: grid; justify-items: center; text-align: center; gap: 4px; color: var(--ink); }
+.ex-media { position: relative; display: block; width: 100%; aspect-ratio: 3 / 2; border-radius: 8px; overflow: hidden; background: var(--ink); margin-bottom: 10px; }
+.ex-media img { width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.02); transition: transform .9s var(--ease-out); }
+.ex-card:hover .ex-media img { transform: scale(1.08); }
+.ex-card b { font-weight: 600; font-size: .9375rem; }
+.ex-card span:last-child { font-size: .8125rem; color: var(--fg-2); }
+@media (max-width: 1023px) { .explore-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 639px) { .explore-head { flex-direction: column; align-items: flex-start; } .explore-right { align-items: flex-start; flex-direction: row; align-items: center; gap: 14px; flex-wrap: wrap; } .explore-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; } .ex-card b { font-size: .875rem; } }
 .more { padding: 16px 0 0; background: var(--bone); color: var(--ink); }
 .bento { display: grid; gap: 12px; grid-template-columns: 1fr; }
 .tile { position: relative; display: block; overflow: hidden; border-radius: 8px; background: var(--ink); color: var(--bone); isolation: isolate; }
@@ -402,6 +424,34 @@ def render(ctx):
       <span class="bulk-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M3 8l9-4 9 4-9 4-9-4z"/><path d="M3 8v8l9 4 9-4V8"/><path d="M12 12v8"/></svg></span>
       <p class="bulk-text"><b>Buying for a team? Meet Stagr bulk orders.</b><span>Ten pieces or more, embossed with your logo, boxed with a handwritten card.</span></p>
       <a class="btn btn--sm bulk-btn" href="about.html#bulk">Get a quote {I["arrow"]}</a>
+    </div>
+  </div>
+</section>
+
+<section id="explore" class="explore on-bone" aria-labelledby="explore-title">
+  <div class="wrap">
+    <div class="explore-head">
+      <div><h2 class="explore-title" id="explore-title" data-reveal>Explore pieces<br>by category</h2><p class="explore-sub" data-reveal data-delay=".1">Start with the right cut. Everything else follows.</p></div>
+      <div class="explore-right" data-reveal data-delay=".15">
+        <div class="explore-tabs" role="tablist" aria-label="Line"><button type="button" role="tab" aria-selected="true" data-ex-tab="wallet">Wallets</button><button type="button" role="tab" aria-selected="false" data-ex-tab="belt">Belts</button></div>
+        <a class="explore-all" data-ex-all href="shop.html?line=wallets">View all pieces {I["arrow"]}</a>
+      </div>
+    </div>
+    <div class="explore-grid" data-ex-grid="wallet" role="tabpanel">
+      {"".join(f'<a class="ex-card" href="{h}"><span class="ex-media"><img src="assets/categories/{k}-500.jpg" srcset="assets/categories/{k}-500.jpg 500w, assets/categories/{k}.jpg 900w" sizes="(min-width: 1024px) 18vw, (min-width: 640px) 30vw, 46vw" alt="{alt}" width="900" height="600" loading="lazy"></span><b>{t}</b><span>{sub}</span></a>' for k, h, t, sub, alt in [
+        ("all-wallets", "wallets.html", "All wallets", "Seven styles, two colours", "A Stagr bifold open beside the tools that made it"),
+        ("bifold", "wallets.html#bifold", "Bifold wallets", "The everyday fold", "Two Regal bifolds on a sheepskin"),
+        ("trifold", "wallets.html#trifold", "Trifold wallets", "Three folds, one hide", "A Majestic trifold open on its gift box"),
+        ("minimalist", "wallets.html#minimalist", "Minimalist", "For a front pocket", "A Maverick card holder with a tan belt behind"),
+        ("long", "wallets.html#long", "Long wallets", "Cards, notes, a snap", "A Rodeo long wallet open beside its box")]) }
+    </div>
+    <div class="explore-grid" data-ex-grid="belt" role="tabpanel" hidden>
+      {"".join(f'<a class="ex-card" href="{h}"><span class="ex-media"><img src="assets/categories/{k}-500.jpg" srcset="assets/categories/{k}-500.jpg 500w, assets/categories/{k}.jpg 900w" sizes="(min-width: 1024px) 18vw, (min-width: 640px) 30vw, 46vw" alt="{alt}" width="900" height="600" loading="lazy"></span><b>{t}</b><span>{sub}</span></a>' for k, h, t, sub, alt in [
+        ("all-belts", "belts.html", "All belts", "Classic and double-sided", "Four Stagr belts laid on walnut"),
+        ("nova", "belts.html#nova", "Nova", "Two sides, one belt", "The Nova belt with its swivel buckle"),
+        ("outlaw", "belts.html#outlaw", "Outlaw", "Rugged, brass buckle", "The Outlaw belt coiled among coffee beans"),
+        ("regent", "belts.html#regent", "Regent", "Black, cut in one piece", "The Regent belt coiled on a walnut bench"),
+        ("monarch", "belts.html#monarch", "Monarch", "Tan, deepens with wear", "The Monarch belt coiled among shells and coffee beans")]) }
     </div>
   </div>
 </section>
@@ -692,7 +742,18 @@ function initAnimations() {
 
   /* ================= boot (top to bottom so pinned blocks measure in order) ================= */
   const startHero = initHero();
-  initScrollHint(); S.initReveals($("#hero")); S.initReveals($("#more"));
+  initScrollHint(); S.initReveals($("#hero")); S.initReveals($("#explore")); S.initReveals($("#more"));
+  (function initExplore() {
+    const tabs = $$("[data-ex-tab]"), grids = $$("[data-ex-grid]"), all = $("[data-ex-all]"); if (!tabs.length) return;
+    tabs.forEach((t) => t.addEventListener("click", () => {
+      const key = t.dataset.exTab; if (t.getAttribute("aria-selected") === "true") return;
+      tabs.forEach((x) => x.setAttribute("aria-selected", String(x === t)));
+      if (all) all.href = "shop.html?line=" + key + "s";
+      const show = grids.find((g) => g.dataset.exGrid === key), hide = grids.find((g) => !g.hidden);
+      const swap = () => { hide.hidden = true; show.hidden = false; if (reduced) return; G.fromTo($$(".ex-card", show), { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: .45, ease: "power3.out", stagger: .05, clearProps: "opacity,transform" }); ST.refresh(); };
+      if (reduced || !hide) swap(); else G.to($$(".ex-card", hide), { opacity: 0, y: -8, duration: .2, ease: "power2.in", stagger: .02, overwrite: true, onComplete: () => { G.set($$(".ex-card", hide), { clearProps: "opacity,transform" }); swap(); } });
+    }));
+  })();
   if (isMobile) initRangeMobile(); else initRangeDesktop();
   S.initReveals($("#range"));
   initInside();
