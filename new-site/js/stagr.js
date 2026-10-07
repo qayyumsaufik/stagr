@@ -83,16 +83,9 @@
   let menuOpen = false;
   function initNav() {
     const nav = $(".nav"); if (!nav) return;
-    const hero = $("#hero"), menu = $(".menu");
-    let last = 0;
-    const update = () => {
-      const y = window.scrollY || 0;
-      const scrolled = y > 80, overHero = !!hero && hero.getBoundingClientRect().bottom > 100;
-      nav.classList.toggle("is-solid", scrolled || isMobile);
-      nav.classList.toggle("is-hidden", hero ? (overHero && !menuOpen && !isMobile) : (y > 600 && y - last > 6));
-      if (!hero && last - y > 4) nav.classList.remove("is-hidden");
-      last = y;
-    };
+    const menu = $(".menu");
+    // The bar never hides: it only turns solid once the page has scrolled.
+    const update = () => { nav.classList.toggle("is-solid", (window.scrollY || 0) > 40 || isMobile); };
     update(); window.addEventListener("scroll", update, { passive: true });
     const setMenu = (open) => { if (!menu || open === menuOpen) return; menuOpen = open; menu.classList.toggle("is-open", open); menu.setAttribute("aria-hidden", String(!open)); $$("[data-menu-open]").forEach((b) => b.setAttribute("aria-expanded", String(open))); open ? S.lock("menu") : S.unlock("menu"); update(); if (open) setTimeout(() => { const f = $("[data-menu-close]", menu); f && f.focus(); }, 300); };
     S.openMenu = () => setMenu(true); S.closeMenu = () => setMenu(false);
@@ -263,7 +256,46 @@
 
   /* ---------------- boot ---------------- */
   function boot() {
-    initNav(); initCursor(); initCart(); initForms(); initFade(); S.initBlooms(); S.magnetic(document);
+
+  /* ---------------- shop cards: colour radio swaps the cutout ---------------- */
+  S.initCards = (root) => { $$("[data-product]", root || document).forEach((card) => { if (card._cards) return; card._cards = true; const btn = $("[data-add]", card); $$("[data-colour-opts] input", card).forEach((r) => r.addEventListener("change", () => { if (btn) btn.dataset.colour = r.value; const p = S.product(card.dataset.product); const im = p && p.cutouts.find((c) => c.colour.toLowerCase() === r.value.toLowerCase()); const main = $("img.main", card); if (im && main) { if (G) G.fromTo(main, { opacity: 0 }, { opacity: 1, duration: .4 }); main.src = im.small; } })); }); };
+
+  /* ---------------- quick view (dialog lives in the shared chrome) ---------------- */
+  function initQuickView() {
+    const qv = $(".qv"), qvb = $(".qv-backdrop"); if (!qv) return;
+    let open = false, last = null, cur = null, colour = "", size = null;
+    const SW = { Brown: "#6E4328", Black: "#1A1512", Tan: "#B0773F", Coffee: "#4A3024" };
+    const fade = (el) => { if (G) G.fromTo(el, { opacity: 0 }, { opacity: 1, duration: .4 }); };
+    const render = () => {
+      const p = cur, imgs = p.cutouts.filter((c) => c.colour.toLowerCase() === colour.toLowerCase());
+      const main = $("[data-qv-img]", qv); main.src = imgs[0].src; main.alt = p.name + " in " + colour;
+      $("[data-qv-thumbs]", qv).innerHTML = imgs.map((im, i) => '<button type="button" aria-pressed="' + (i === 0) + '" aria-label="View ' + (i + 1) + '"><img src="' + im.small + '" alt="" width="100" height="100"></button>').join("");
+      $$("[data-qv-thumbs] button", qv).forEach((b, i) => b.addEventListener("click", () => { $$("[data-qv-thumbs] button", qv).forEach((x) => x.setAttribute("aria-pressed", "false")); b.setAttribute("aria-pressed", "true"); fade(main); main.src = imgs[i].src; }));
+      $("[data-qv-colour]", qv).textContent = colour;
+      $("[data-qv-opts]", qv).innerHTML = p.colours.map((c) => '<label class="opt"><input type="radio" name="qv-colour" value="' + c + '"' + (c === colour ? " checked" : "") + '><span class="sw" style="--sw:' + (SW[c] || "#6E4328") + '"></span>' + c + "</label>").join("");
+      $$("[data-qv-opts] input", qv).forEach((r) => r.addEventListener("change", () => { colour = r.value; render(); }));
+      const sz = $("[data-qv-sizes]", qv);
+      if (p.sizes) { sz.hidden = false; $("[data-qv-size]", qv).textContent = size; $("[data-qv-size-opts]", qv).innerHTML = p.sizes.options.map((s) => '<label class="opt"><input type="radio" name="qv-size" value="' + s + '"' + (s === size ? " checked" : "") + ">" + s + "</label>").join(""); $$("[data-qv-size-opts] input", qv).forEach((r) => r.addEventListener("change", () => { size = +r.value; $("[data-qv-size]", qv).textContent = size; })); } else sz.hidden = true;
+      $("[data-qv-add]", qv).onclick = () => { S.addToCart(p.id, colour, size, 1); closeQv(); };
+    };
+    const openQv = (id) => {
+      cur = S.product(id); if (!cur) return; colour = cur.defaultColour; size = cur.sizes ? (cur.sizes.options[2] || cur.sizes.options[0]) : null; last = document.activeElement;
+      $("[data-qv-num]", qv).textContent = "STAGR." + String(DATA.products.indexOf(cur) + 1).padStart(2, "0");
+      $("[data-qv-meta]", qv).textContent = cur.style || "Belt";
+      $("[data-qv-name]", qv).innerHTML = esc(cur.name.split(" ")[0]) + '<span class="dotc">.</span>';
+      $("[data-qv-sub]", qv).textContent = cur.name; $("[data-qv-tagline]", qv).textContent = cur.tagline;
+      $("[data-qv-price]", qv).innerHTML = S.fmt(cur.price) + (cur.compareAtPrice ? '<s class="small muted" style="margin-left:.5em">' + S.fmt(cur.compareAtPrice) + "</s>" : "");
+      $("[data-qv-link]", qv).href = "product-" + cur.id + ".html";
+      render(); qv.classList.add("is-open"); qvb.classList.add("is-open"); qv.setAttribute("aria-hidden", "false"); open = true; S.lock("qv");
+      setTimeout(() => $(".qv-close", qv).focus(), 300);
+    };
+    const closeQv = () => { if (!open) return; qv.classList.remove("is-open"); qvb.classList.remove("is-open"); qv.setAttribute("aria-hidden", "true"); open = false; S.unlock("qv"); last && last.focus && last.focus(); };
+    S.closeOverlay = closeQv; S.openQuickView = openQv;
+    document.addEventListener("click", (e) => { const b = e.target.closest("[data-quick]"); if (b) { e.preventDefault(); openQv(b.dataset.quick); } });
+    $$("[data-qv-close]").forEach((b) => b.addEventListener("click", closeQv));
+  }
+
+    initNav(); initQuickView(); S.initCards(document); initCursor(); initCart(); initForms(); initFade(); S.initBlooms(); S.magnetic(document);
     S.onReady.forEach((f) => { try { f(); } catch (e) { console.error(e); } });
     if (ST) { ST.sort(); ST.refresh(); window.addEventListener("load", () => ST.refresh()); }
     initLoader(() => { S.onLoaderDone.forEach((f) => { try { f(); } catch (e) { console.error(e); } }); ST && ST.refresh(); const h = location.hash; if (h && h !== "#top" && $(h)) setTimeout(() => S.scrollTo(h), 900); });

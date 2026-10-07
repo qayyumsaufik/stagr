@@ -128,7 +128,7 @@ def mega(line, ctx):
     <div class="wrap">
       <div class="mega-tabs" role="tablist">{tabs_html}</div>
       {rows}
-      <p class="mega-all"><a class="link" href="{line}.html">View all {line}</a></p>
+      <p class="mega-all"><a class="link" href="shop.html?line={line}">View all {line}</a></p>
     </div>
   </div>'''
 
@@ -138,7 +138,7 @@ def chrome(ctx, page):
     on_dark = " on-dark" if page.get("header_dark") else ""
     nav_links = page.get("nav") or [("Wallets", "wallets.html"), ("Belts", "belts.html"), ("Story", "about.html")]
     links = "".join(f'<a href="{h}" class="nav-underline">{t}</a>' for t, h in nav_links)
-    menu_links = [("Home", "index.html"), ("Wallets", "wallets.html"), ("Belts", "belts.html"), ("Story", "about.html"), ("Shop", "index.html#shop")]
+    menu_links = [("Home", "index.html"), ("Wallets", "wallets.html"), ("Belts", "belts.html"), ("Story", "about.html"), ("Shop", "shop.html")]
     menu = "".join(f'<a class="menu-link" href="{h}"><sup>0{i + 1}</sup>{t}</a>' for i, (t, h) in enumerate(menu_links))
     socials = "".join(f'<a href="{B["social"]["links"][k]}" aria-label="{n}" target="_blank" rel="noopener">{ICON[i]}</a>' for k, n, i in [("instagram", "Instagram", "insta"), ("facebook", "Facebook", "fb"), ("tiktok", "TikTok", "tiktok"), ("whatsapp", "WhatsApp", "wa")])
     loader = ""
@@ -184,7 +184,7 @@ def chrome(ctx, page):
     <button type="button" class="burger" data-menu-open aria-expanded="false" aria-controls="menu" aria-label="Open menu"><i></i><i></i></button>
     <a class="brand" href="index.html" aria-label="Stagr, home">STAGR<span class="dot"></span></a>
     <div class="right">
-      <a class="shop desk-only" href="{page.get("shop_href", "index.html#shop")}">Shop {ICON["arrow"]}</a>
+      <a class="shop desk-only" href="{page.get("shop_href", "shop.html")}">Shop {ICON["arrow"]}</a>
       <button type="button" class="icon-btn" data-cart-open aria-label="Open cart">{ICON["bag"]}<span class="cart-count" aria-hidden="true">0</span></button>
     </div>
   </div>
@@ -195,7 +195,7 @@ def chrome(ctx, page):
       <li><a href="index.html#inside" class="nav-underline">Inside</a></li>
       <li><a href="about.html" class="nav-underline{" is-active" if page.get("key") == "about" else ""}">The workshop</a></li>
       <li><a href="about.html#bulk" class="nav-underline">Bulk orders</a></li>
-      <li><a href="index.html#shop" class="nav-underline">Shop</a></li>
+      <li><a href="shop.html" class="nav-underline{" is-active" if page.get("key") == "shop" else ""}">Shop</a></li>
     </ul>
   </div>
   {mega("wallets", ctx)}{mega("belts", ctx)}
@@ -212,6 +212,25 @@ def chrome(ctx, page):
 {page["body"]}
 </main>
 
+<div class="qv-backdrop" data-qv-close aria-hidden="true"></div>
+<div class="qv" role="dialog" aria-modal="true" aria-label="Quick view" aria-hidden="true" data-lenis-prevent>
+  <button type="button" class="icon-btn qv-close" data-qv-close aria-label="Close quick view">{ICON["close"]}</button>
+  <div class="qv-inner">
+    <div class="qv-media"><div class="bloom" style="--bloom:#D9B07A" data-bloom></div><img data-qv-img src="" alt="" width="900" height="900"><div class="qv-thumbs" data-qv-thumbs></div></div>
+    <div class="qv-body">
+      <div class="pcard-head" style="margin-top:0"><span class="pcard-num" data-qv-num></span><span class="label" data-qv-meta></span></div>
+      <h2 class="h2" data-qv-name></h2>
+      <p class="serif-i muted" data-qv-sub></p>
+      <p class="muted" data-qv-tagline></p>
+      <div><p class="label" style="margin-bottom:10px">Colour · <span data-qv-colour style="text-transform:none;letter-spacing:0"></span></p><div class="opts" data-qv-opts></div></div>
+      <div data-qv-sizes hidden><p class="label" style="margin-bottom:10px">Size · <span data-qv-size style="text-transform:none;letter-spacing:0"></span></p><div class="opts" data-qv-size-opts></div></div>
+      <div class="pcard-price"><span><span class="num" style="font-size:1.6rem" data-qv-price></span></span><a class="pcard-link" data-qv-link href="#">Full details {ICON["arrow"]}</a></div>
+      <button type="button" class="btn btn--wide" data-qv-add>Add to cart</button>
+      <p class="small muted">Cash on delivery · 3 to 5 days across Pakistan · 14-day returns</p>
+    </div>
+  </div>
+</div>
+
 <footer class="footer">
   <div class="wrap">
     <div class="news">
@@ -220,7 +239,7 @@ def chrome(ctx, page):
     </div>
     <div class="cols">
       <div><span class="brand wordmark" style="font-size:1.25rem">STAGR<span class="dot"></span></span><p class="small muted" style="margin-top:14px;max-width:28ch">{B["descriptor"]} {B["origin"]}.</p><div class="socials" style="margin-top:18px">{socials}</div></div>
-      <div><h4>Site</h4><ul><li><a href="index.html#range">Range</a></li><li><a href="index.html#inside">Inside</a></li><li><a href="about.html">Story</a></li><li><a href="index.html#shop">Shop</a></li></ul></div>
+      <div><h4>Site</h4><ul><li><a href="index.html#range">Range</a></li><li><a href="index.html#inside">Inside</a></li><li><a href="about.html">Story</a></li><li><a href="shop.html">Shop</a></li></ul></div>
       <div><h4>Shop</h4><ul><li><a href="wallets.html">Wallets</a></li><li><a href="belts.html">Belts</a></li><li><a href="about.html#bulk">Bulk orders</a></li><li><a href="{B["contact"]["whatsapp"]["link"]}" target="_blank" rel="noopener">WhatsApp</a></li></ul></div>
       <div><h4>Help</h4><ul><li><a href="index.html#delivery">Delivery &amp; returns</a></li><li><a href="about.html#faq">Questions</a></li><li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li></ul></div>
     </div>
@@ -285,7 +304,7 @@ def main():
         base_css = f.read()
     products_doc = load_json("products.json")
     ctx = {"products": products_doc["products"], "products_doc": products_doc, "brand": load_json("brand.json"), "base_css": base_css, "icon": ICON, "esc": esc, "cutouts": cutouts_for, "bloom": BLOOM, "swatch": SWATCH, "pcard": pcard}
-    pages = sys.argv[1:] or ["index", "collection", "product", "about"]
+    pages = sys.argv[1:] or ["index", "collection", "shop", "product", "about"]
     for name in pages:
         if not os.path.exists(os.path.join(HERE, "pages", name + ".py")):
             print("skip (no module):", name); continue

@@ -613,7 +613,7 @@ function initAnimations() {
     };
     tabs.forEach((t) => t.addEventListener("click", () => { tabs.forEach((x) => x.setAttribute("aria-selected", String(x === t))); apply(t.dataset.tab); }));
     apply("new");
-    $$("[data-product]").forEach((card) => { const btn = $("[data-add]", card); $$("[data-colour-opts] input", card).forEach((r) => r.addEventListener("change", () => { btn.dataset.colour = r.value; const p = S.product(card.dataset.product); const im = p.cutouts.find((c) => c.colour.toLowerCase() === r.value.toLowerCase()); if (im) { const main = $("img.main", card); G.fromTo(main, { opacity: 0 }, { opacity: 1, duration: .4 }); main.src = im.small; } })); });
+    S.initCards(section);
   }
 
   /* ================= boot (top to bottom so pinned blocks measure in order) ================= */
