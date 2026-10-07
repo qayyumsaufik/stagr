@@ -38,7 +38,7 @@ for key, (f, fx, fy, zoom) in PICKS.items():
 # ---- the three feature tiles under the collection (light cards, photo fills the right/bottom) ----
 TILES = {
     "tile-made":  (f"{SRC}/Kignsman/WhatsApp Image 2025-03-11 at 10.20.41 AM (1).jpeg", .6, .5, .9),   # tools + two bifolds on stone
-    "tile-bulk":  (f"{SRC}/Kignsman/wallet.jpeg", .55, .5, 1.0),                                         # open bifold with cards, tools
+    "tile-bulk":  (f"{W1}/DSC08953.JPG", .5, .55, 1.0),                                         # open bifold with cards, tools
     "tile-note":  (f"{SRC}/Regal/KRW_1441.JPG", .5, .6, .9),                                            # wallet on its gift box
 }
 for key, (f, fx, fy, zoom) in TILES.items():
