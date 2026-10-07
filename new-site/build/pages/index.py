@@ -121,7 +121,7 @@ def render(ctx):
 
     # ---------------- 06 shop ----------------
     TAGS = ctx["tags"]
-    cards = "".join(ctx["pcard"](ctx, p, i, tags=" ".join(TAGS.get(p["id"], [])), quick=False, reveal=False) for i, p in enumerate(P))
+    cards = "".join(ctx["scard"](ctx, p, i) for i, p in enumerate(P))
     trust = B["trust"]["items"]
 
     css = r'''
@@ -382,22 +382,23 @@ def render(ctx):
   </div>
 </section>
 
-<section id="story" class="story on-bone" aria-labelledby="story-title">
-  <div class="story-pin desk-only" data-story-pin>
-    <div class="story-intro" data-story-intro><p class="label"><b>04</b><span class="slash">/</span>Story</p><h2 class="h1" id="story-title" data-story-title>{B["about"]["headline"]}.</h2><p class="lead">{B["about"]["intro"]} {B["about"]["sections"][2]["body"].split(".")[0]}.</p><div class="scroll-hint" style="margin-top:36px" aria-hidden="true"><span class="t">Scroll</span></div></div>
-    <div class="story-stage" data-story-stage>{ghosts}{figures}{spanels}<div class="story-years"><div class="story-progress" data-story-progress></div>{years}</div></div>
-  </div>
-  <div class="story-mobile mob-only">
-    <div data-reveal><p class="label"><b>04</b><span class="slash">/</span>Story</p></div>
-    <h2 class="h1" data-text-reveal="lines" style="margin-top:12px">{B["about"]["headline"]}.</h2>
-    <p class="lead" data-illuminate style="margin-top:16px">{B["about"]["intro"]}</p>
-    <div class="mstory" data-mstory>
-      <div class="mstory-sticky">
-        <div class="mstory-stage">{mstory_ghosts}{mstory_figs}</div>
-        <div class="mstory-text">{mstory_panels}</div>
-        <div class="mstory-years">{myears}</div>
+<section id="shop" class="shop-sec on-bone" aria-labelledby="shop-title">
+  <div class="wrap">
+    <div data-reveal><p class="label"><b>04</b><span class="slash">/</span>Shop</p></div>
+    <div class="coll-head">
+      <h2 class="h2" id="shop-title" data-text-reveal="lines">The collection</h2>
+      <div class="coll-tabs" role="tablist" aria-label="Filter the collection" data-reveal data-delay=".15">
+        <button type="button" class="ctab" role="tab" aria-selected="true" data-tab="new">New in</button>
+        <button type="button" class="ctab" role="tab" aria-selected="false" data-tab="best">Bestsellers</button>
+        <button type="button" class="ctab" role="tab" aria-selected="false" data-tab="gift">Gifting</button>
+        <button type="button" class="ctab" role="tab" aria-selected="false" data-tab="under">Under Rs 2,000</button>
+        <button type="button" class="ctab" role="tab" aria-selected="false" data-tab="all">All</button>
       </div>
     </div>
+    <div class="sh-grid" data-shop-grid style="margin-top:32px">{cards}</div>
+    <p class="small muted" style="margin-top:24px"><span data-shop-count></span> · Cash on delivery, 3 to 5 working days anywhere in Pakistan.</p>
+    <div class="or-row" id="delivery"><span class="shop-rule" data-shop-rule style="transform-origin:right"></span><span class="label">How it reaches you</span><span class="shop-rule" data-shop-rule style="transform-origin:left"></span></div>
+    <div class="delivery">{"".join(f'<div data-reveal data-delay="{i * .1}"><h3>{t["title"]}</h3><p>{t["sub"]}</p></div>' for i, t in enumerate(trust))}</div>
   </div>
 </section>
 
@@ -413,23 +414,22 @@ def render(ctx):
   </div>
 </section>
 
-<section id="shop" class="shop-sec on-bone" aria-labelledby="shop-title">
-  <div class="wrap">
-    <div data-reveal><p class="label"><b>06</b><span class="slash">/</span>Shop</p></div>
-    <div class="coll-head">
-      <h2 class="h2" id="shop-title" data-text-reveal="lines">The collection</h2>
-      <div class="coll-tabs" role="tablist" aria-label="Filter the collection" data-reveal data-delay=".15">
-        <button type="button" class="ctab" role="tab" aria-selected="true" data-tab="new">New in</button>
-        <button type="button" class="ctab" role="tab" aria-selected="false" data-tab="best">Bestsellers</button>
-        <button type="button" class="ctab" role="tab" aria-selected="false" data-tab="gift">Gifting</button>
-        <button type="button" class="ctab" role="tab" aria-selected="false" data-tab="under">Under Rs 2,000</button>
-        <button type="button" class="ctab" role="tab" aria-selected="false" data-tab="all">All</button>
+<section id="story" class="story on-bone" aria-labelledby="story-title">
+  <div class="story-pin desk-only" data-story-pin>
+    <div class="story-intro" data-story-intro><p class="label"><b>06</b><span class="slash">/</span>Story</p><h2 class="h1" id="story-title" data-story-title>{B["about"]["headline"]}.</h2><p class="lead">{B["about"]["intro"]} {B["about"]["sections"][2]["body"].split(".")[0]}.</p><div class="scroll-hint" style="margin-top:36px" aria-hidden="true"><span class="t">Scroll</span></div></div>
+    <div class="story-stage" data-story-stage>{ghosts}{figures}{spanels}<div class="story-years"><div class="story-progress" data-story-progress></div>{years}</div></div>
+  </div>
+  <div class="story-mobile mob-only">
+    <div data-reveal><p class="label"><b>06</b><span class="slash">/</span>Story</p></div>
+    <h2 class="h1" data-text-reveal="lines" style="margin-top:12px">{B["about"]["headline"]}.</h2>
+    <p class="lead" data-illuminate style="margin-top:16px">{B["about"]["intro"]}</p>
+    <div class="mstory" data-mstory>
+      <div class="mstory-sticky">
+        <div class="mstory-stage">{mstory_ghosts}{mstory_figs}</div>
+        <div class="mstory-text">{mstory_panels}</div>
+        <div class="mstory-years">{myears}</div>
       </div>
     </div>
-    <div class="shop-grid" data-shop-grid>{cards}</div>
-    <p class="small muted" style="margin-top:24px"><span data-shop-count></span> · Cash on delivery, 3 to 5 working days anywhere in Pakistan.</p>
-    <div class="or-row" id="delivery"><span class="shop-rule" data-shop-rule style="transform-origin:right"></span><span class="label">How it reaches you</span><span class="shop-rule" data-shop-rule style="transform-origin:left"></span></div>
-    <div class="delivery">{"".join(f'<div data-reveal data-delay="{i * .1}"><h3>{t["title"]}</h3><p>{t["sub"]}</p></div>' for i, t in enumerate(trust))}</div>
   </div>
 </section>
 '''
@@ -629,10 +629,10 @@ function initAnimations() {
   if (isMobile) initRangeMobile(); else initRangeDesktop();
   S.initReveals($("#range"));
   initInside();
-  if (isMobile) initStoryMobile(); else initStoryDesktop();
-  S.initReveals($("#story"));
+  initShop(); S.initReveals($("#shop"));
   initPromise(); S.initReveals($("#promise"));
-  initShop(); S.initReveals($("#shop")); S.initReveals($("footer"));
+  if (isMobile) initStoryMobile(); else initStoryDesktop();
+  S.initReveals($("#story")); S.initReveals($("footer"));
   S.onLoaderDone.push(() => { startHero(); ST.refresh(); });
 }
 STAGR.onReady.push(initAnimations);
@@ -647,7 +647,7 @@ STAGR.onReady.push(initAnimations);
         "body": body,
         "js": js,
         "loader": True,
-        "header_dark": True,
+        "header_dark": False,
         "nav": [("Range", "#range"), ("Inside", "#inside"), ("Story", "#story"), ("Shop", "#shop")],
         "shop_href": "#shop",
     }

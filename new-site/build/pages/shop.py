@@ -47,31 +47,7 @@ def render(ctx):
     cats_html = "".join(f'<button type="button" class="sh-cat" role="tab" aria-selected="{str(c["key"] == "all").lower()}" data-cat="{c["key"]}" data-scope="{" ".join(c["scope"])}"><span class="sh-cat-ring"><img src="{cut(by[c["thumb"]])[0]["small"]}" alt="" width="300" height="300" loading="lazy"></span><span class="sh-cat-label">{c["label"]}</span></button>' for c in cats)
     cats_json = json.dumps([{k: v for k, v in c.items() if k in ("key", "line", "style", "ids")} for c in cats]).replace("</", "<\\/")
 
-    # ---- cards ----
-    def scard(p, i):
-        cuts = cut(p); main = cuts[0]
-        same = [c for c in cuts if c["colour"] == main["colour"]]
-        alt = same[1] if len(same) > 1 else None
-        tags = TAGS.get(p["id"], [])
-        badge = next((BADGE[t] for t in ("best", "new", "gift") if t in tags), "")
-        sw = "".join(f'<label class="opt opt--dot" title="{c}"><input type="radio" name="s-{p["id"]}" value="{c}" {"checked" if c == p["defaultColour"] else ""}><span class="sw" style="--sw:{SWATCH.get(c, "#6E4328")}"></span><span class="sr-only">{c}</span></label>' for c in p["colours"])
-        meta = "Sizes 30 to 44" if p["line"] == "belt" else "One size"
-        return f'''
-<article class="scard{" has-alt" if alt else ""}" data-product="{p["id"]}" data-tags="{" ".join(tags)}" data-line="{p["line"]}" data-style="{p["style"] or "Belt"}" data-colours="{",".join(p["colours"])}" data-price="{p["price"]}" data-index="{i}" data-name="{p["name"]}">
-  <a class="scard-media" href="product-{p["id"]}.html" data-cursor-label="View" aria-label="{p["name"]}"><div class="bloom" style="--bloom:{ctx["bloom"].get(p["style"]) or "#C9B290"}" data-bloom></div><img class="main" src="{main["small"]}" alt="{p["name"]} in {main["colour"].lower()}" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="{(alt or main)["small"]}" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
-  <button type="button" class="scard-wish" data-wish="{p["id"]}" aria-pressed="false" aria-label="Save {p["name"]}">{heart}</button>
-  {f'<span class="scard-badge">{badge}</span>' if badge else ""}
-  <button type="button" class="scard-quick" data-quick="{p["id"]}">Quick view</button>
-  <div class="scard-body">
-    <h3 class="scard-name"><a href="product-{p["id"]}.html">{p["name"].split(" ")[0]}<span class="dotc">.</span></a></h3>
-    <p class="scard-style">{p["style"] or "Belt"} · STAGR.{str(i + 1).zfill(2)}</p>
-    <div class="scard-swatches opts" data-colour-opts>{sw}<span class="scard-ncol">{len(p["colours"])} colour{"s" if len(p["colours"]) > 1 else ""}</span></div>
-    <p class="scard-meta">{meta} <span aria-hidden="true">|</span> Cash on delivery</p>
-    <p class="scard-price"><b>{fmt(p["price"])}</b>{f'<s>{fmt(p["compareAtPrice"])}</s>' if p.get("compareAtPrice") else ""}</p>
-    <button type="button" class="btn btn--sm btn--wide" data-add="{p["id"]}" data-colour="{p["defaultColour"]}" {"data-size=34" if p["line"] == "belt" else ""}>Add to cart</button>
-  </div>
-</article>'''
-    cards = "".join(scard(p, i) for i, p in enumerate(P))
+    cards = "".join(ctx["scard"](ctx, p, i) for i, p in enumerate(P))
 
     # ---- filter option lists (used twice: in the dropdowns and in the drawer) ----
     def opt(group, value, label, swatch=None):
@@ -167,45 +143,6 @@ def render(ctx):
 .sh-swatch-label { position: absolute; left: 0; right: 0; bottom: -18px; font-size: .625rem; text-align: center; color: var(--fg-2); }
 /* grid */
 .sh-grid-wrap { padding: clamp(20px, 3vw, 32px) 0 var(--section-sm); }
-.sh-grid { display: grid; gap: 14px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-@media (min-width: 768px) { .sh-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; } }
-@media (min-width: 1200px) { .sh-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; } }
-.scard { position: relative; display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; transition: box-shadow .4s ease, transform .4s var(--ease-out); }
-.scard:hover { box-shadow: 0 18px 40px rgba(26,27,29,.1); transform: translateY(-2px); }
-.scard.is-hidden { display: none; }
-.scard-media { position: relative; aspect-ratio: 1; display: grid; place-items: center; overflow: hidden; background: rgba(26,27,29,.02); }
-.scard-media .bloom { --bloom-s: 70%; opacity: .7; }
-.scard-media img { position: relative; z-index: 1; width: 76%; height: auto; max-height: 84%; object-fit: contain; filter: drop-shadow(0 16px 20px rgba(26,27,29,.18)); transition: transform .6s var(--ease-out), opacity .4s ease; }
-.scard-media img.alt { position: absolute; inset: 0; margin: auto; opacity: 0; }
-.scard.has-alt:hover .scard-media img.main { opacity: 0; }
-.scard.has-alt:hover .scard-media img.alt { opacity: 1; }
-.scard-wish { position: absolute; top: 10px; left: 10px; z-index: 2; width: 36px; height: 36px; border-radius: 50%; background: var(--bg); border: 1px solid var(--line); display: grid; place-items: center; color: var(--fg); transition: color .3s ease, border-color .3s ease, transform .3s var(--ease-out); }
-.scard-wish svg { width: 18px; height: 18px; }
-.scard-wish:hover { border-color: var(--fg); transform: scale(1.06); }
-.scard-wish[aria-pressed="true"] { color: var(--accent-deep); border-color: var(--accent-deep); }
-.scard-wish[aria-pressed="true"] svg { fill: currentColor; }
-.scard-badge { position: absolute; top: 10px; right: 0; z-index: 2; padding: 6px 12px; background: var(--ink); color: var(--bone); font-size: .6875rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; border-radius: 6px 0 0 6px; }
-.scard-quick { position: absolute; z-index: 2; left: 50%; top: calc(50% + 34%); transform: translate(-50%, -50%); min-height: 36px; padding: 0 14px; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--bg); color: var(--fg); font-size: .6875rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; opacity: 0; transition: opacity .3s ease, background-color .3s ease, color .3s ease; }
-.scard-media { --h: 1; }
-.scard:hover .scard-quick, .scard:focus-within .scard-quick { opacity: 1; }
-.scard-quick:hover { background: var(--fg); color: var(--bg); border-color: var(--fg); }
-.scard-body { padding: 14px 14px 16px; display: grid; gap: 6px; justify-items: center; text-align: center; }
-.scard-name { font-family: var(--font-display); font-weight: 300; font-size: 1.35rem; line-height: 1.1; }
-.scard-style { font-size: .75rem; color: var(--fg-2); letter-spacing: .04em; }
-.scard-swatches { gap: 6px; align-items: center; margin-top: 4px; }
-.opt--dot { min-height: 0; width: 24px; height: 24px; padding: 0; border-radius: 50%; border: 1px solid transparent; display: grid; place-items: center; }
-.opt--dot .sw { width: 16px; height: 16px; }
-.opt--dot:hover { border-color: var(--fg); }
-.opt--dot:has(input:checked) { background: transparent; border-color: var(--fg); }
-.scard-ncol { font-size: .6875rem; color: var(--fg-2); margin-left: 4px; }
-.scard-meta { font-size: .75rem; color: var(--fg-2); }
-.scard-meta span { margin: 0 6px; opacity: .5; }
-.scard-price { margin-top: 2px; font-size: .9375rem; }
-.scard-price b { font-weight: 500; }
-.scard-price s { color: var(--fg-2); font-size: .8125rem; margin-left: 8px; }
-.scard-body .btn { margin-top: 8px; }
-.sh-empty { display: none; padding: 64px 0; text-align: center; }
-.sh-empty.is-on { display: block; }
 .delivery { display: grid; gap: 28px; padding: var(--section-sm) 0 0; border-top: 1px solid var(--line); margin-top: var(--section-sm); }
 @media (min-width: 768px) { .delivery { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .delivery h3 { font-family: var(--font-display); font-weight: 300; font-size: 1.5rem; }
@@ -218,11 +155,6 @@ def render(ctx):
   .sh-pills::-webkit-scrollbar { display: none; }
   .sh-pill:not([data-dd="sort"]) .sh-dd { display: none !important; }
   .sh-right { width: 100%; justify-content: space-between; }
-  .scard-body { padding: 12px 10px 14px; }
-  .scard-name { font-size: 1.15rem; }
-  .scard-meta { display: none; }
-  .scard-quick { display: none; }
-  .scard-body .btn { min-height: 36px; font-size: .6875rem; }
 }
 '''
 

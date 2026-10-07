@@ -108,6 +108,38 @@ TAGS = {"kingsmann": ["new", "best"], "nova": ["new", "best"], "rodeo": ["new", 
         "majestic": ["best"], "monarch": ["best", "gift"], "outlaw": ["best"], "upbuck": ["gift"], "regal": ["gift", "under"],
         "purefold": ["under", "gift"], "regent": ["new"]}
 
+BADGE = {"best": "Bestseller", "new": "New in", "gift": "Gift pick"}
+
+
+# ---- cards ----
+def scard(ctx, p, i, quick=True):
+    """Catalogue card (shop page and the home collection): badge, wishlist heart, swatches, price."""
+    cut = ctx["cutouts"]; TAGS = ctx["tags"]; fmt = lambda n: "Rs " + format(n, ",d")
+    heart = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-7.5-10A4.2 4.2 0 0 1 12 8.2a4.2 4.2 0 0 1 7.5 2.3c0 5.4-7.5 10-7.5 10z"/></svg>'
+    cuts = cut(p); main = cuts[0]
+    same = [c for c in cuts if c["colour"] == main["colour"]]
+    alt = same[1] if len(same) > 1 else None
+    tags = TAGS.get(p["id"], [])
+    badge = next((BADGE[t] for t in ("best", "new", "gift") if t in tags), "")
+    sw = "".join(f'<label class="opt opt--dot" title="{c}"><input type="radio" name="s-{p["id"]}" value="{c}" {"checked" if c == p["defaultColour"] else ""}><span class="sw" style="--sw:{SWATCH.get(c, "#6E4328")}"></span><span class="sr-only">{c}</span></label>' for c in p["colours"])
+    meta = "Sizes 30 to 44" if p["line"] == "belt" else "One size"
+    return f'''
+<article class="scard{" has-alt" if alt else ""}" data-product="{p["id"]}" data-tags="{" ".join(tags)}" data-line="{p["line"]}" data-style="{p["style"] or "Belt"}" data-colours="{",".join(p["colours"])}" data-price="{p["price"]}" data-index="{i}" data-name="{p["name"]}">
+  <a class="scard-media" href="product-{p["id"]}.html" data-cursor-label="View" aria-label="{p["name"]}"><div class="bloom" style="--bloom:{ctx["bloom"].get(p["style"]) or "#C9B290"}" data-bloom></div><img class="main" src="{main["small"]}" alt="{p["name"]} in {main["colour"].lower()}" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="{(alt or main)["small"]}" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
+  <button type="button" class="scard-wish" data-wish="{p["id"]}" aria-pressed="false" aria-label="Save {p["name"]}">{heart}</button>
+  {f'<span class="scard-badge">{badge}</span>' if badge else ""}
+  {f'<button type="button" class="scard-quick" data-quick="{p["id"]}">Quick view</button>' if quick else ""}
+  <div class="scard-body">
+    <h3 class="scard-name"><a href="product-{p["id"]}.html">{p["name"].split(" ")[0]}<span class="dotc">.</span></a></h3>
+    <p class="scard-style">{p["style"] or "Belt"} · STAGR.{str(i + 1).zfill(2)}</p>
+    <div class="scard-swatches opts" data-colour-opts>{sw}<span class="scard-ncol">{len(p["colours"])} colour{"s" if len(p["colours"]) > 1 else ""}</span></div>
+    <p class="scard-meta">{meta} <span aria-hidden="true">|</span> Cash on delivery</p>
+    <p class="scard-price"><b>{fmt(p["price"])}</b>{f'<s>{fmt(p["compareAtPrice"])}</s>' if p.get("compareAtPrice") else ""}</p>
+    <button type="button" class="btn btn--sm btn--wide" data-add="{p["id"]}" data-colour="{p["defaultColour"]}" {"data-size=34" if p["line"] == "belt" else ""}>Add to cart</button>
+  </div>
+</article>'''
+
+
 STYLE_GROUPS = [("Bifold", ["kingsmann", "regal"]), ("Trifold", ["majestic"]), ("Minimalist", ["maverick", "purefold"]), ("Long", ["rodeo", "upbuck"])]
 
 
@@ -305,7 +337,7 @@ def main():
     with open(os.path.join(HERE, "base.css"), encoding="utf-8") as f:
         base_css = f.read()
     products_doc = load_json("products.json")
-    ctx = {"products": products_doc["products"], "products_doc": products_doc, "brand": load_json("brand.json"), "base_css": base_css, "icon": ICON, "esc": esc, "cutouts": cutouts_for, "bloom": BLOOM, "swatch": SWATCH, "pcard": pcard, "tags": TAGS}
+    ctx = {"products": products_doc["products"], "products_doc": products_doc, "brand": load_json("brand.json"), "base_css": base_css, "icon": ICON, "esc": esc, "cutouts": cutouts_for, "bloom": BLOOM, "swatch": SWATCH, "pcard": pcard, "scard": scard, "tags": TAGS}
     pages = sys.argv[1:] or ["index", "collection", "shop", "product", "about"]
     for name in pages:
         if not os.path.exists(os.path.join(HERE, "pages", name + ".py")):

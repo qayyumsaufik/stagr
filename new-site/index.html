@@ -468,6 +468,48 @@ html.is-entering .fade { opacity: 1; }
 .qv-close { position: absolute; top: 10px; right: 10px; z-index: 3; }
 .dotc { color: var(--accent); }
 
+/* ---------- catalogue card + grid (shop page, home collection) ---------- */
+.sh-grid { display: grid; gap: 14px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 768px) { .sh-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; } }
+@media (min-width: 1200px) { .sh-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; } }
+.scard { position: relative; display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; transition: box-shadow .4s ease, transform .4s var(--ease-out); }
+.scard:hover { box-shadow: 0 18px 40px rgba(26,27,29,.1); transform: translateY(-2px); }
+.scard.is-hidden { display: none; }
+.scard-media { position: relative; aspect-ratio: 1; display: grid; place-items: center; overflow: hidden; background: rgba(26,27,29,.02); }
+.scard-media .bloom { --bloom-s: 70%; opacity: .7; }
+.scard-media img { position: relative; z-index: 1; width: 76%; height: auto; max-height: 84%; object-fit: contain; filter: drop-shadow(0 16px 20px rgba(26,27,29,.18)); transition: transform .6s var(--ease-out), opacity .4s ease; }
+.scard-media img.alt { position: absolute; inset: 0; margin: auto; opacity: 0; }
+.scard.has-alt:hover .scard-media img.main { opacity: 0; }
+.scard.has-alt:hover .scard-media img.alt { opacity: 1; }
+.scard-wish { position: absolute; top: 10px; left: 10px; z-index: 2; width: 36px; height: 36px; border-radius: 50%; background: var(--bg); border: 1px solid var(--line); display: grid; place-items: center; color: var(--fg); transition: color .3s ease, border-color .3s ease, transform .3s var(--ease-out); }
+.scard-wish svg { width: 18px; height: 18px; }
+.scard-wish:hover { border-color: var(--fg); transform: scale(1.06); }
+.scard-wish[aria-pressed="true"] { color: var(--accent-deep); border-color: var(--accent-deep); }
+.scard-wish[aria-pressed="true"] svg { fill: currentColor; }
+.scard-badge { position: absolute; top: 10px; right: 0; z-index: 2; padding: 6px 12px; background: var(--ink); color: var(--bone); font-size: .6875rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; border-radius: 6px 0 0 6px; }
+.scard-quick { position: absolute; z-index: 2; left: 50%; top: calc(50% + 34%); transform: translate(-50%, -50%); min-height: 36px; padding: 0 14px; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--bg); color: var(--fg); font-size: .6875rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; opacity: 0; transition: opacity .3s ease, background-color .3s ease, color .3s ease; }
+.scard-media { --h: 1; }
+.scard:hover .scard-quick, .scard:focus-within .scard-quick { opacity: 1; }
+.scard-quick:hover { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.scard-body { padding: 14px 14px 16px; display: grid; gap: 6px; justify-items: center; text-align: center; }
+.scard-name { font-family: var(--font-display); font-weight: 300; font-size: 1.35rem; line-height: 1.1; }
+.scard-style { font-size: .75rem; color: var(--fg-2); letter-spacing: .04em; }
+.scard-swatches { gap: 6px; align-items: center; margin-top: 4px; }
+.opt--dot { min-height: 0; width: 24px; height: 24px; padding: 0; border-radius: 50%; border: 1px solid transparent; display: grid; place-items: center; }
+.opt--dot .sw { width: 16px; height: 16px; }
+.opt--dot:hover { border-color: var(--fg); }
+.opt--dot:has(input:checked) { background: transparent; border-color: var(--fg); }
+.scard-ncol { font-size: .6875rem; color: var(--fg-2); margin-left: 4px; }
+.scard-meta { font-size: .75rem; color: var(--fg-2); }
+.scard-meta span { margin: 0 6px; opacity: .5; }
+.scard-price { margin-top: 2px; font-size: .9375rem; }
+.scard-price b { font-weight: 500; }
+.scard-price s { color: var(--fg-2); font-size: .8125rem; margin-left: 8px; }
+.scard-body .btn { margin-top: 8px; }
+.sh-empty { display: none; padding: 64px 0; text-align: center; }
+.sh-empty.is-on { display: block; }
+@media (max-width: 767px) { .scard-body { padding: 12px 10px 14px; } .scard-name { font-size: 1.15rem; } .scard-meta { display: none; } .scard-quick { display: none; } .scard-body .btn { min-height: 36px; font-size: .6875rem; } }
+
 /* ---------- page: STAGR. Carried daily. Made slowly. ---------- */
 
 /* ---- shared bits ---- */
@@ -658,7 +700,7 @@ html.is-entering .fade { opacity: 1; }
 <div class="fade" aria-hidden="true"></div>
 <div class="cursor" aria-hidden="true"><div class="ring"><span></span></div><div class="dot"></div></div>
 
-<nav class="nav on-dark" aria-label="Primary" data-nav>
+<nav class="nav" aria-label="Primary" data-nav>
   <div class="wrap nav-top">
     <button type="button" class="burger" data-menu-open aria-expanded="false" aria-controls="menu" aria-label="Open menu"><i></i><i></i></button>
     <ul class="nav-main desk-only" role="list">
@@ -936,22 +978,177 @@ html.is-entering .fade { opacity: 1; }
   </div>
 </section>
 
-<section id="story" class="story on-bone" aria-labelledby="story-title">
-  <div class="story-pin desk-only" data-story-pin>
-    <div class="story-intro" data-story-intro><p class="label"><b>04</b><span class="slash">/</span>Story</p><h2 class="h1" id="story-title" data-story-title>We cut leather, not corners.</h2><p class="lead">We cut in Pakistan, from hides we choose ourselves. One workshop, a small bench, no subcontracting. Prices run from Rs 1,740 to Rs 3,500.</p><div class="scroll-hint" style="margin-top:36px" aria-hidden="true"><span class="t">Scroll</span></div></div>
-    <div class="story-stage" data-story-stage><span class="ghost story-ghost" data-story-ghost="0" style="opacity:1">01</span><span class="ghost story-ghost" data-story-ghost="1" style="opacity:0">02</span><span class="ghost story-ghost" data-story-ghost="2" style="opacity:0">03</span><span class="ghost story-ghost" data-story-ghost="3" style="opacity:0">04</span><span class="ghost story-ghost" data-story-ghost="4" style="opacity:0">05</span><div class="story-figure" data-story-figure="0" style="opacity:1"><figure><div class="media ar-45"><img src="assets/lifestyle/ranger-02.jpg" srcset="assets/lifestyle/ranger-02-800.jpg 800w, assets/lifestyle/ranger-02.jpg 1600w" sizes="(min-width: 768px) 34vw, 86vw" alt="FIG. 01 · The stag, embossed in crazy horse leather" width="1200" height="1500" loading="lazy"></div><figcaption class="label" style="margin-top:12px;font-size:.75rem"><span style="color:var(--accent)">■</span> FIG. 01 · The stag, embossed in crazy horse leather</figcaption></figure></div><div class="story-figure" data-story-figure="1" style="opacity:0"><figure><div class="media ar-45"><img src="assets/lifestyle/ranger-flat.jpg" srcset="assets/lifestyle/ranger-flat-800.jpg 800w, assets/lifestyle/ranger-flat.jpg 1600w" sizes="(min-width: 768px) 34vw, 86vw" alt="FIG. 02 · Graded hide, embossed strap tip" width="1200" height="1500" loading="lazy"></div><figcaption class="label" style="margin-top:12px;font-size:.75rem"><span style="color:var(--accent)">■</span> FIG. 02 · Graded hide, embossed strap tip</figcaption></figure></div><div class="story-figure" data-story-figure="2" style="opacity:0"><figure><div class="media ar-45"><img src="assets/lifestyle/onyx-flat.jpg" srcset="assets/lifestyle/onyx-flat-800.jpg 800w, assets/lifestyle/onyx-flat.jpg 1600w" sizes="(min-width: 768px) 34vw, 86vw" alt="FIG. 03 · A cut strap, backlit" width="1200" height="1500" loading="lazy"></div><figcaption class="label" style="margin-top:12px;font-size:.75rem"><span style="color:var(--accent)">■</span> FIG. 03 · A cut strap, backlit</figcaption></figure></div><div class="story-figure" data-story-figure="3" style="opacity:0"><figure><div class="media ar-45"><img src="assets/lifestyle/kingsmen-02.jpg" srcset="assets/lifestyle/kingsmen-02-800.jpg 800w, assets/lifestyle/kingsmen-02.jpg 1600w" sizes="(min-width: 768px) 34vw, 86vw" alt="FIG. 04 · Saddle stitch on a wallet edge" width="1200" height="1500" loading="lazy"></div><figcaption class="label" style="margin-top:12px;font-size:.75rem"><span style="color:var(--accent)">■</span> FIG. 04 · Saddle stitch on a wallet edge</figcaption></figure></div><div class="story-figure" data-story-figure="4" style="opacity:0"><figure><div class="media ar-45"><img src="assets/lifestyle/monarch-01.jpg" srcset="assets/lifestyle/monarch-01-800.jpg 800w, assets/lifestyle/monarch-01.jpg 1600w" sizes="(min-width: 768px) 34vw, 86vw" alt="FIG. 05 · Finished belt, buckle on" width="1200" height="1500" loading="lazy"></div><figcaption class="label" style="margin-top:12px;font-size:.75rem"><span style="color:var(--accent)">■</span> FIG. 05 · Finished belt, buckle on</figcaption></figure></div><div class="story-panel" data-story-panel="0" ><p class="label" data-story-item>Chapter 01<span class="slash">·</span><b>The name</b></p><div class="rule" data-story-item style="margin-top:18px"></div><h3 class="h3" data-story-item style="margin-top:22px">The name.</h3><p class="body muted" data-story-item style="margin-top:16px">Stagr takes its name from the stag. An antler is a record of the years behind it, thickened and scarred and branched, and none of it is covered up. We ask the same of leather. It should show its age rather than hide it.</p></div><div class="story-panel" data-story-panel="1" hidden><p class="label" data-story-item>Chapter 02<span class="slash">·</span><b>The material</b></p><div class="rule" data-story-item style="margin-top:18px"></div><h3 class="h3" data-story-item style="margin-top:22px">The material.</h3><p class="body muted" data-story-item style="margin-top:16px">We buy whole hides and reject about a third. What is left is graded by hand for grain, thickness and stretch. We cut in Pakistan, from hides we choose ourselves. One workshop, a small bench, no subcontracting. A belt leaves us when it is right, not when the week ends.</p></div><div class="story-panel" data-story-panel="2" hidden><p class="label" data-story-item>Chapter 03<span class="slash">·</span><b>The cutting</b></p><div class="rule" data-story-item style="margin-top:18px"></div><h3 class="h3" data-story-item style="margin-top:22px">The cutting.</h3><p class="body muted" data-story-item style="margin-top:16px">Straps are cut along the spine where the hide is tightest, so a belt holds its shape instead of curling.</p></div><div class="story-panel" data-story-panel="3" hidden><p class="label" data-story-item>Chapter 04<span class="slash">·</span><b>The stitching</b></p><div class="rule" data-story-item style="margin-top:18px"></div><h3 class="h3" data-story-item style="margin-top:22px">The stitching.</h3><p class="body muted" data-story-item style="margin-top:16px">One row of saddle stitch, two needles, waxed linen thread. It cannot unravel the way a machine seam can.</p></div><div class="story-panel" data-story-panel="4" hidden><p class="label" data-story-item>Chapter 05<span class="slash">·</span><b>The finish</b></p><div class="rule" data-story-item style="margin-top:18px"></div><h3 class="h3" data-story-item style="margin-top:22px">The finish.</h3><p class="body muted" data-story-item style="margin-top:16px">Edges bevelled, sanded, burnished four times, sealed with beeswax. Then the buckle goes on and it is checked. Prices run from Rs 1,740 to Rs 3,500. That is the whole range, and it is the same for a gift of one or an order of a hundred.</p></div><div class="story-years"><div class="story-progress" data-story-progress></div><button type="button" data-story-year="0" style="color:var(--fg)">01</button><button type="button" data-story-year="1" style="color:var(--fg-2)">02</button><button type="button" data-story-year="2" style="color:var(--fg-2)">03</button><button type="button" data-story-year="3" style="color:var(--fg-2)">04</button><button type="button" data-story-year="4" style="color:var(--fg-2)">05</button></div></div>
-  </div>
-  <div class="story-mobile mob-only">
-    <div data-reveal><p class="label"><b>04</b><span class="slash">/</span>Story</p></div>
-    <h2 class="h1" data-text-reveal="lines" style="margin-top:12px">We cut leather, not corners.</h2>
-    <p class="lead" data-illuminate style="margin-top:16px">We cut in Pakistan, from hides we choose ourselves. One workshop, a small bench, no subcontracting.</p>
-    <div class="mstory" data-mstory>
-      <div class="mstory-sticky">
-        <div class="mstory-stage"><span class="ghost" data-mstory-ghost="0" style="opacity:1">01</span><span class="ghost" data-mstory-ghost="1" style="opacity:0">02</span><span class="ghost" data-mstory-ghost="2" style="opacity:0">03</span><span class="ghost" data-mstory-ghost="3" style="opacity:0">04</span><span class="ghost" data-mstory-ghost="4" style="opacity:0">05</span><div class="mstory-figure" data-mstory-figure="0"><img src="assets/lifestyle/ranger-02-800.jpg" alt="FIG. 01 · The stag, embossed in crazy horse leather" width="800" height="1000" loading="lazy"></div><div class="mstory-figure" data-mstory-figure="1"><img src="assets/lifestyle/ranger-flat-800.jpg" alt="FIG. 02 · Graded hide, embossed strap tip" width="800" height="1000" loading="lazy"></div><div class="mstory-figure" data-mstory-figure="2"><img src="assets/lifestyle/onyx-flat-800.jpg" alt="FIG. 03 · A cut strap, backlit" width="800" height="1000" loading="lazy"></div><div class="mstory-figure" data-mstory-figure="3"><img src="assets/lifestyle/kingsmen-02-800.jpg" alt="FIG. 04 · Saddle stitch on a wallet edge" width="800" height="1000" loading="lazy"></div><div class="mstory-figure" data-mstory-figure="4"><img src="assets/lifestyle/monarch-01-800.jpg" alt="FIG. 05 · Finished belt, buckle on" width="800" height="1000" loading="lazy"></div></div>
-        <div class="mstory-text"><div data-mstory-panel="0" ><p class="label">Chapter 01<span class="slash">·</span><b>The name</b></p><h3 class="h3" data-mstory-title style="margin-top:14px">The name.</h3><p class="body muted" data-mstory-text style="margin-top:14px">Stagr takes its name from the stag. An antler is a record of the years behind it, thickened and scarred and branched, and none of it is covered up. We ask the same of leather. It should show its age rather than hide it.</p></div><div data-mstory-panel="1" hidden><p class="label">Chapter 02<span class="slash">·</span><b>The material</b></p><h3 class="h3" data-mstory-title style="margin-top:14px">The material.</h3><p class="body muted" data-mstory-text style="margin-top:14px">We buy whole hides and reject about a third. What is left is graded by hand for grain, thickness and stretch. We cut in Pakistan, from hides we choose ourselves. One workshop, a small bench, no subcontracting. A belt leaves us when it is right, not when the week ends.</p></div><div data-mstory-panel="2" hidden><p class="label">Chapter 03<span class="slash">·</span><b>The cutting</b></p><h3 class="h3" data-mstory-title style="margin-top:14px">The cutting.</h3><p class="body muted" data-mstory-text style="margin-top:14px">Straps are cut along the spine where the hide is tightest, so a belt holds its shape instead of curling.</p></div><div data-mstory-panel="3" hidden><p class="label">Chapter 04<span class="slash">·</span><b>The stitching</b></p><h3 class="h3" data-mstory-title style="margin-top:14px">The stitching.</h3><p class="body muted" data-mstory-text style="margin-top:14px">One row of saddle stitch, two needles, waxed linen thread. It cannot unravel the way a machine seam can.</p></div><div data-mstory-panel="4" hidden><p class="label">Chapter 05<span class="slash">·</span><b>The finish</b></p><h3 class="h3" data-mstory-title style="margin-top:14px">The finish.</h3><p class="body muted" data-mstory-text style="margin-top:14px">Edges bevelled, sanded, burnished four times, sealed with beeswax. Then the buckle goes on and it is checked. Prices run from Rs 1,740 to Rs 3,500. That is the whole range, and it is the same for a gift of one or an order of a hundred.</p></div></div>
-        <div class="mstory-years"><button type="button" data-mstory-year="0" style="color:var(--fg)">01</button><button type="button" data-mstory-year="1" style="color:var(--fg-2)">02</button><button type="button" data-mstory-year="2" style="color:var(--fg-2)">03</button><button type="button" data-mstory-year="3" style="color:var(--fg-2)">04</button><button type="button" data-mstory-year="4" style="color:var(--fg-2)">05</button></div>
+<section id="shop" class="shop-sec on-bone" aria-labelledby="shop-title">
+  <div class="wrap">
+    <div data-reveal><p class="label"><b>04</b><span class="slash">/</span>Shop</p></div>
+    <div class="coll-head">
+      <h2 class="h2" id="shop-title" data-text-reveal="lines">The collection</h2>
+      <div class="coll-tabs" role="tablist" aria-label="Filter the collection" data-reveal data-delay=".15">
+        <button type="button" class="ctab" role="tab" aria-selected="true" data-tab="new">New in</button>
+        <button type="button" class="ctab" role="tab" aria-selected="false" data-tab="best">Bestsellers</button>
+        <button type="button" class="ctab" role="tab" aria-selected="false" data-tab="gift">Gifting</button>
+        <button type="button" class="ctab" role="tab" aria-selected="false" data-tab="under">Under Rs 2,000</button>
+        <button type="button" class="ctab" role="tab" aria-selected="false" data-tab="all">All</button>
       </div>
     </div>
+    <div class="sh-grid" data-shop-grid style="margin-top:32px">
+<article class="scard has-alt" data-product="nova" data-tags="new best" data-line="belt" data-style="Belt" data-colours="Black,Brown" data-price="2394" data-index="0" data-name="Nova Double-Sided Leather Belt">
+  <a class="scard-media" href="product-nova.html" data-cursor-label="View" aria-label="Nova Double-Sided Leather Belt"><div class="bloom" style="--bloom:#C9B290" data-bloom></div><img class="main" src="assets/cutouts/nova-1-600.webp" alt="Nova Double-Sided Leather Belt in black" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/nova-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
+  <button type="button" class="scard-wish" data-wish="nova" aria-pressed="false" aria-label="Save Nova Double-Sided Leather Belt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-7.5-10A4.2 4.2 0 0 1 12 8.2a4.2 4.2 0 0 1 7.5 2.3c0 5.4-7.5 10-7.5 10z"/></svg></button>
+  <span class="scard-badge">Bestseller</span>
+  <button type="button" class="scard-quick" data-quick="nova">Quick view</button>
+  <div class="scard-body">
+    <h3 class="scard-name"><a href="product-nova.html">Nova<span class="dotc">.</span></a></h3>
+    <p class="scard-style">Belt · STAGR.01</p>
+    <div class="scard-swatches opts" data-colour-opts><label class="opt opt--dot" title="Black"><input type="radio" name="s-nova" value="Black" checked><span class="sw" style="--sw:#1A1512"></span><span class="sr-only">Black</span></label><label class="opt opt--dot" title="Brown"><input type="radio" name="s-nova" value="Brown" ><span class="sw" style="--sw:#6E4328"></span><span class="sr-only">Brown</span></label><span class="scard-ncol">2 colours</span></div>
+    <p class="scard-meta">Sizes 30 to 44 <span aria-hidden="true">|</span> Cash on delivery</p>
+    <p class="scard-price"><b>Rs 2,394</b><s>Rs 3,800</s></p>
+    <button type="button" class="btn btn--sm btn--wide" data-add="nova" data-colour="Black" data-size=34>Add to cart</button>
+  </div>
+</article>
+<article class="scard has-alt" data-product="outlaw" data-tags="best" data-line="belt" data-style="Belt" data-colours="Brown" data-price="2765" data-index="1" data-name="Outlaw Crazy Horse Leather Belt">
+  <a class="scard-media" href="product-outlaw.html" data-cursor-label="View" aria-label="Outlaw Crazy Horse Leather Belt"><div class="bloom" style="--bloom:#C9B290" data-bloom></div><img class="main" src="assets/cutouts/outlaw-1-600.webp" alt="Outlaw Crazy Horse Leather Belt in brown" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/outlaw-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
+  <button type="button" class="scard-wish" data-wish="outlaw" aria-pressed="false" aria-label="Save Outlaw Crazy Horse Leather Belt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-7.5-10A4.2 4.2 0 0 1 12 8.2a4.2 4.2 0 0 1 7.5 2.3c0 5.4-7.5 10-7.5 10z"/></svg></button>
+  <span class="scard-badge">Bestseller</span>
+  <button type="button" class="scard-quick" data-quick="outlaw">Quick view</button>
+  <div class="scard-body">
+    <h3 class="scard-name"><a href="product-outlaw.html">Outlaw<span class="dotc">.</span></a></h3>
+    <p class="scard-style">Belt · STAGR.02</p>
+    <div class="scard-swatches opts" data-colour-opts><label class="opt opt--dot" title="Brown"><input type="radio" name="s-outlaw" value="Brown" checked><span class="sw" style="--sw:#6E4328"></span><span class="sr-only">Brown</span></label><span class="scard-ncol">1 colour</span></div>
+    <p class="scard-meta">Sizes 30 to 44 <span aria-hidden="true">|</span> Cash on delivery</p>
+    <p class="scard-price"><b>Rs 2,765</b><s>Rs 3,950</s></p>
+    <button type="button" class="btn btn--sm btn--wide" data-add="outlaw" data-colour="Brown" data-size=34>Add to cart</button>
+  </div>
+</article>
+<article class="scard has-alt" data-product="regent" data-tags="new" data-line="belt" data-style="Belt" data-colours="Black" data-price="2730" data-index="2" data-name="Regent Premium Leather Belt">
+  <a class="scard-media" href="product-regent.html" data-cursor-label="View" aria-label="Regent Premium Leather Belt"><div class="bloom" style="--bloom:#C9B290" data-bloom></div><img class="main" src="assets/cutouts/regent-1-600.webp" alt="Regent Premium Leather Belt in black" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/regent-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
+  <button type="button" class="scard-wish" data-wish="regent" aria-pressed="false" aria-label="Save Regent Premium Leather Belt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-7.5-10A4.2 4.2 0 0 1 12 8.2a4.2 4.2 0 0 1 7.5 2.3c0 5.4-7.5 10-7.5 10z"/></svg></button>
+  <span class="scard-badge">New in</span>
+  <button type="button" class="scard-quick" data-quick="regent">Quick view</button>
+  <div class="scard-body">
+    <h3 class="scard-name"><a href="product-regent.html">Regent<span class="dotc">.</span></a></h3>
+    <p class="scard-style">Belt · STAGR.03</p>
+    <div class="scard-swatches opts" data-colour-opts><label class="opt opt--dot" title="Black"><input type="radio" name="s-regent" value="Black" checked><span class="sw" style="--sw:#1A1512"></span><span class="sr-only">Black</span></label><span class="scard-ncol">1 colour</span></div>
+    <p class="scard-meta">Sizes 30 to 44 <span aria-hidden="true">|</span> Cash on delivery</p>
+    <p class="scard-price"><b>Rs 2,730</b><s>Rs 3,900</s></p>
+    <button type="button" class="btn btn--sm btn--wide" data-add="regent" data-colour="Black" data-size=34>Add to cart</button>
+  </div>
+</article>
+<article class="scard has-alt" data-product="monarch" data-tags="best gift" data-line="belt" data-style="Belt" data-colours="Tan" data-price="2800" data-index="3" data-name="Monarch Premium Leather Belt">
+  <a class="scard-media" href="product-monarch.html" data-cursor-label="View" aria-label="Monarch Premium Leather Belt"><div class="bloom" style="--bloom:#C9B290" data-bloom></div><img class="main" src="assets/cutouts/monarch-1-600.webp" alt="Monarch Premium Leather Belt in tan" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/monarch-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
+  <button type="button" class="scard-wish" data-wish="monarch" aria-pressed="false" aria-label="Save Monarch Premium Leather Belt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-7.5-10A4.2 4.2 0 0 1 12 8.2a4.2 4.2 0 0 1 7.5 2.3c0 5.4-7.5 10-7.5 10z"/></svg></button>
+  <span class="scard-badge">Bestseller</span>
+  <button type="button" class="scard-quick" data-quick="monarch">Quick view</button>
+  <div class="scard-body">
+    <h3 class="scard-name"><a href="product-monarch.html">Monarch<span class="dotc">.</span></a></h3>
+    <p class="scard-style">Belt · STAGR.04</p>
+    <div class="scard-swatches opts" data-colour-opts><label class="opt opt--dot" title="Tan"><input type="radio" name="s-monarch" value="Tan" checked><span class="sw" style="--sw:#B0773F"></span><span class="sr-only">Tan</span></label><span class="scard-ncol">1 colour</span></div>
+    <p class="scard-meta">Sizes 30 to 44 <span aria-hidden="true">|</span> Cash on delivery</p>
+    <p class="scard-price"><b>Rs 2,800</b><s>Rs 4,000</s></p>
+    <button type="button" class="btn btn--sm btn--wide" data-add="monarch" data-colour="Tan" data-size=34>Add to cart</button>
+  </div>
+</article>
+<article class="scard has-alt" data-product="kingsmann" data-tags="new best" data-line="wallet" data-style="Bifold" data-colours="Brown,Black" data-price="2600" data-index="4" data-name="Kingsmann Bifold Leather Wallet">
+  <a class="scard-media" href="product-kingsmann.html" data-cursor-label="View" aria-label="Kingsmann Bifold Leather Wallet"><div class="bloom" style="--bloom:#D9B07A" data-bloom></div><img class="main" src="assets/cutouts/kingsmann-brown-1-600.webp" alt="Kingsmann Bifold Leather Wallet in brown" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/kingsmann-brown-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
+  <button type="button" class="scard-wish" data-wish="kingsmann" aria-pressed="false" aria-label="Save Kingsmann Bifold Leather Wallet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-7.5-10A4.2 4.2 0 0 1 12 8.2a4.2 4.2 0 0 1 7.5 2.3c0 5.4-7.5 10-7.5 10z"/></svg></button>
+  <span class="scard-badge">Bestseller</span>
+  <button type="button" class="scard-quick" data-quick="kingsmann">Quick view</button>
+  <div class="scard-body">
+    <h3 class="scard-name"><a href="product-kingsmann.html">Kingsmann<span class="dotc">.</span></a></h3>
+    <p class="scard-style">Bifold · STAGR.05</p>
+    <div class="scard-swatches opts" data-colour-opts><label class="opt opt--dot" title="Brown"><input type="radio" name="s-kingsmann" value="Brown" checked><span class="sw" style="--sw:#6E4328"></span><span class="sr-only">Brown</span></label><label class="opt opt--dot" title="Black"><input type="radio" name="s-kingsmann" value="Black" ><span class="sw" style="--sw:#1A1512"></span><span class="sr-only">Black</span></label><span class="scard-ncol">2 colours</span></div>
+    <p class="scard-meta">One size <span aria-hidden="true">|</span> Cash on delivery</p>
+    <p class="scard-price"><b>Rs 2,600</b><s>Rs 3,999</s></p>
+    <button type="button" class="btn btn--sm btn--wide" data-add="kingsmann" data-colour="Brown" >Add to cart</button>
+  </div>
+</article>
+<article class="scard has-alt" data-product="majestic" data-tags="best" data-line="wallet" data-style="Trifold" data-colours="Brown,Black" data-price="2600" data-index="5" data-name="Majestic Trifold Leather Wallet">
+  <a class="scard-media" href="product-majestic.html" data-cursor-label="View" aria-label="Majestic Trifold Leather Wallet"><div class="bloom" style="--bloom:#CDA373" data-bloom></div><img class="main" src="assets/cutouts/majestic-brown-1-600.webp" alt="Majestic Trifold Leather Wallet in brown" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/majestic-brown-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
+  <button type="button" class="scard-wish" data-wish="majestic" aria-pressed="false" aria-label="Save Majestic Trifold Leather Wallet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-7.5-10A4.2 4.2 0 0 1 12 8.2a4.2 4.2 0 0 1 7.5 2.3c0 5.4-7.5 10-7.5 10z"/></svg></button>
+  <span class="scard-badge">Bestseller</span>
+  <button type="button" class="scard-quick" data-quick="majestic">Quick view</button>
+  <div class="scard-body">
+    <h3 class="scard-name"><a href="product-majestic.html">Majestic<span class="dotc">.</span></a></h3>
+    <p class="scard-style">Trifold · STAGR.06</p>
+    <div class="scard-swatches opts" data-colour-opts><label class="opt opt--dot" title="Brown"><input type="radio" name="s-majestic" value="Brown" checked><span class="sw" style="--sw:#6E4328"></span><span class="sr-only">Brown</span></label><label class="opt opt--dot" title="Black"><input type="radio" name="s-majestic" value="Black" ><span class="sw" style="--sw:#1A1512"></span><span class="sr-only">Black</span></label><span class="scard-ncol">2 colours</span></div>
+    <p class="scard-meta">One size <span aria-hidden="true">|</span> Cash on delivery</p>
+    <p class="scard-price"><b>Rs 2,600</b><s>Rs 3,999</s></p>
+    <button type="button" class="btn btn--sm btn--wide" data-add="majestic" data-colour="Brown" >Add to cart</button>
+  </div>
+</article>
+<article class="scard has-alt" data-product="maverick" data-tags="new under" data-line="wallet" data-style="Minimalist" data-colours="Brown,Black" data-price="1740" data-index="6" data-name="Maverick Minimalist Leather Wallet">
+  <a class="scard-media" href="product-maverick.html" data-cursor-label="View" aria-label="Maverick Minimalist Leather Wallet"><div class="bloom" style="--bloom:#DABF9A" data-bloom></div><img class="main" src="assets/cutouts/maverick-brown-1-600.webp" alt="Maverick Minimalist Leather Wallet in brown" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/maverick-brown-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
+  <button type="button" class="scard-wish" data-wish="maverick" aria-pressed="false" aria-label="Save Maverick Minimalist Leather Wallet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-7.5-10A4.2 4.2 0 0 1 12 8.2a4.2 4.2 0 0 1 7.5 2.3c0 5.4-7.5 10-7.5 10z"/></svg></button>
+  <span class="scard-badge">New in</span>
+  <button type="button" class="scard-quick" data-quick="maverick">Quick view</button>
+  <div class="scard-body">
+    <h3 class="scard-name"><a href="product-maverick.html">Maverick<span class="dotc">.</span></a></h3>
+    <p class="scard-style">Minimalist · STAGR.07</p>
+    <div class="scard-swatches opts" data-colour-opts><label class="opt opt--dot" title="Brown"><input type="radio" name="s-maverick" value="Brown" checked><span class="sw" style="--sw:#6E4328"></span><span class="sr-only">Brown</span></label><label class="opt opt--dot" title="Black"><input type="radio" name="s-maverick" value="Black" ><span class="sw" style="--sw:#1A1512"></span><span class="sr-only">Black</span></label><span class="scard-ncol">2 colours</span></div>
+    <p class="scard-meta">One size <span aria-hidden="true">|</span> Cash on delivery</p>
+    <p class="scard-price"><b>Rs 1,740</b><s>Rs 2,899</s></p>
+    <button type="button" class="btn btn--sm btn--wide" data-add="maverick" data-colour="Brown" >Add to cart</button>
+  </div>
+</article>
+<article class="scard has-alt" data-product="purefold" data-tags="under gift" data-line="wallet" data-style="Minimalist" data-colours="Brown,Black" data-price="1800" data-index="7" data-name="Purefold Minimalist Leather Wallet">
+  <a class="scard-media" href="product-purefold.html" data-cursor-label="View" aria-label="Purefold Minimalist Leather Wallet"><div class="bloom" style="--bloom:#DABF9A" data-bloom></div><img class="main" src="assets/cutouts/purefold-brown-1-600.webp" alt="Purefold Minimalist Leather Wallet in brown" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/purefold-brown-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
+  <button type="button" class="scard-wish" data-wish="purefold" aria-pressed="false" aria-label="Save Purefold Minimalist Leather Wallet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-7.5-10A4.2 4.2 0 0 1 12 8.2a4.2 4.2 0 0 1 7.5 2.3c0 5.4-7.5 10-7.5 10z"/></svg></button>
+  <span class="scard-badge">Gift pick</span>
+  <button type="button" class="scard-quick" data-quick="purefold">Quick view</button>
+  <div class="scard-body">
+    <h3 class="scard-name"><a href="product-purefold.html">Purefold<span class="dotc">.</span></a></h3>
+    <p class="scard-style">Minimalist · STAGR.08</p>
+    <div class="scard-swatches opts" data-colour-opts><label class="opt opt--dot" title="Brown"><input type="radio" name="s-purefold" value="Brown" checked><span class="sw" style="--sw:#6E4328"></span><span class="sr-only">Brown</span></label><label class="opt opt--dot" title="Black"><input type="radio" name="s-purefold" value="Black" ><span class="sw" style="--sw:#1A1512"></span><span class="sr-only">Black</span></label><span class="scard-ncol">2 colours</span></div>
+    <p class="scard-meta">One size <span aria-hidden="true">|</span> Cash on delivery</p>
+    <p class="scard-price"><b>Rs 1,800</b><s>Rs 2,999</s></p>
+    <button type="button" class="btn btn--sm btn--wide" data-add="purefold" data-colour="Brown" >Add to cart</button>
+  </div>
+</article>
+<article class="scard has-alt" data-product="rodeo" data-tags="new gift" data-line="wallet" data-style="Long" data-colours="Tan,Black" data-price="3500" data-index="8" data-name="Rodeo Long Leather Wallet">
+  <a class="scard-media" href="product-rodeo.html" data-cursor-label="View" aria-label="Rodeo Long Leather Wallet"><div class="bloom" style="--bloom:#C8976A" data-bloom></div><img class="main" src="assets/cutouts/rodeo-tan-1-600.webp" alt="Rodeo Long Leather Wallet in tan" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/rodeo-tan-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
+  <button type="button" class="scard-wish" data-wish="rodeo" aria-pressed="false" aria-label="Save Rodeo Long Leather Wallet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-7.5-10A4.2 4.2 0 0 1 12 8.2a4.2 4.2 0 0 1 7.5 2.3c0 5.4-7.5 10-7.5 10z"/></svg></button>
+  <span class="scard-badge">New in</span>
+  <button type="button" class="scard-quick" data-quick="rodeo">Quick view</button>
+  <div class="scard-body">
+    <h3 class="scard-name"><a href="product-rodeo.html">Rodeo<span class="dotc">.</span></a></h3>
+    <p class="scard-style">Long · STAGR.09</p>
+    <div class="scard-swatches opts" data-colour-opts><label class="opt opt--dot" title="Tan"><input type="radio" name="s-rodeo" value="Tan" checked><span class="sw" style="--sw:#B0773F"></span><span class="sr-only">Tan</span></label><label class="opt opt--dot" title="Black"><input type="radio" name="s-rodeo" value="Black" ><span class="sw" style="--sw:#1A1512"></span><span class="sr-only">Black</span></label><span class="scard-ncol">2 colours</span></div>
+    <p class="scard-meta">One size <span aria-hidden="true">|</span> Cash on delivery</p>
+    <p class="scard-price"><b>Rs 3,500</b><s>Rs 4,999</s></p>
+    <button type="button" class="btn btn--sm btn--wide" data-add="rodeo" data-colour="Tan" >Add to cart</button>
+  </div>
+</article>
+<article class="scard has-alt" data-product="regal" data-tags="gift under" data-line="wallet" data-style="Bifold" data-colours="Brown,Black" data-price="1950" data-index="9" data-name="Regal Bifold Leather Wallet">
+  <a class="scard-media" href="product-regal.html" data-cursor-label="View" aria-label="Regal Bifold Leather Wallet"><div class="bloom" style="--bloom:#D9B07A" data-bloom></div><img class="main" src="assets/cutouts/regal-brown-1-600.webp" alt="Regal Bifold Leather Wallet in brown" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/regal-brown-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
+  <button type="button" class="scard-wish" data-wish="regal" aria-pressed="false" aria-label="Save Regal Bifold Leather Wallet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-7.5-10A4.2 4.2 0 0 1 12 8.2a4.2 4.2 0 0 1 7.5 2.3c0 5.4-7.5 10-7.5 10z"/></svg></button>
+  <span class="scard-badge">Gift pick</span>
+  <button type="button" class="scard-quick" data-quick="regal">Quick view</button>
+  <div class="scard-body">
+    <h3 class="scard-name"><a href="product-regal.html">Regal<span class="dotc">.</span></a></h3>
+    <p class="scard-style">Bifold · STAGR.10</p>
+    <div class="scard-swatches opts" data-colour-opts><label class="opt opt--dot" title="Brown"><input type="radio" name="s-regal" value="Brown" checked><span class="sw" style="--sw:#6E4328"></span><span class="sr-only">Brown</span></label><label class="opt opt--dot" title="Black"><input type="radio" name="s-regal" value="Black" ><span class="sw" style="--sw:#1A1512"></span><span class="sr-only">Black</span></label><span class="scard-ncol">2 colours</span></div>
+    <p class="scard-meta">One size <span aria-hidden="true">|</span> Cash on delivery</p>
+    <p class="scard-price"><b>Rs 1,950</b><s>Rs 2,999</s></p>
+    <button type="button" class="btn btn--sm btn--wide" data-add="regal" data-colour="Brown" >Add to cart</button>
+  </div>
+</article>
+<article class="scard has-alt" data-product="upbuck" data-tags="gift" data-line="wallet" data-style="Long" data-colours="Brown,Black" data-price="3400" data-index="10" data-name="Upbuck Long Leather Wallet">
+  <a class="scard-media" href="product-upbuck.html" data-cursor-label="View" aria-label="Upbuck Long Leather Wallet"><div class="bloom" style="--bloom:#C8976A" data-bloom></div><img class="main" src="assets/cutouts/upbuck-brown-1-600.webp" alt="Upbuck Long Leather Wallet in brown" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/upbuck-brown-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
+  <button type="button" class="scard-wish" data-wish="upbuck" aria-pressed="false" aria-label="Save Upbuck Long Leather Wallet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-7.5-10A4.2 4.2 0 0 1 12 8.2a4.2 4.2 0 0 1 7.5 2.3c0 5.4-7.5 10-7.5 10z"/></svg></button>
+  <span class="scard-badge">Gift pick</span>
+  <button type="button" class="scard-quick" data-quick="upbuck">Quick view</button>
+  <div class="scard-body">
+    <h3 class="scard-name"><a href="product-upbuck.html">Upbuck<span class="dotc">.</span></a></h3>
+    <p class="scard-style">Long · STAGR.11</p>
+    <div class="scard-swatches opts" data-colour-opts><label class="opt opt--dot" title="Brown"><input type="radio" name="s-upbuck" value="Brown" checked><span class="sw" style="--sw:#6E4328"></span><span class="sr-only">Brown</span></label><label class="opt opt--dot" title="Black"><input type="radio" name="s-upbuck" value="Black" ><span class="sw" style="--sw:#1A1512"></span><span class="sr-only">Black</span></label><span class="scard-ncol">2 colours</span></div>
+    <p class="scard-meta">One size <span aria-hidden="true">|</span> Cash on delivery</p>
+    <p class="scard-price"><b>Rs 3,400</b><s>Rs 4,999</s></p>
+    <button type="button" class="btn btn--sm btn--wide" data-add="upbuck" data-colour="Brown" >Add to cart</button>
+  </div>
+</article></div>
+    <p class="small muted" style="margin-top:24px"><span data-shop-count></span> · Cash on delivery, 3 to 5 working days anywhere in Pakistan.</p>
+    <div class="or-row" id="delivery"><span class="shop-rule" data-shop-rule style="transform-origin:right"></span><span class="label">How it reaches you</span><span class="shop-rule" data-shop-rule style="transform-origin:left"></span></div>
+    <div class="delivery"><div data-reveal data-delay="0.0"><h3>Cash on delivery</h3><p>Pay at the door</p></div><div data-reveal data-delay="0.1"><h3>3 to 5 days</h3><p>Across Pakistan</p></div><div data-reveal data-delay="0.2"><h3>14-day returns</h3><p>Unworn pieces</p></div><div data-reveal data-delay="0.30000000000000004"><h3>Handwritten note</h3><p>Free, add at checkout</p></div></div>
   </div>
 </section>
 
@@ -967,155 +1164,22 @@ html.is-entering .fade { opacity: 1; }
   </div>
 </section>
 
-<section id="shop" class="shop-sec on-bone" aria-labelledby="shop-title">
-  <div class="wrap">
-    <div data-reveal><p class="label"><b>06</b><span class="slash">/</span>Shop</p></div>
-    <div class="coll-head">
-      <h2 class="h2" id="shop-title" data-text-reveal="lines">The collection</h2>
-      <div class="coll-tabs" role="tablist" aria-label="Filter the collection" data-reveal data-delay=".15">
-        <button type="button" class="ctab" role="tab" aria-selected="true" data-tab="new">New in</button>
-        <button type="button" class="ctab" role="tab" aria-selected="false" data-tab="best">Bestsellers</button>
-        <button type="button" class="ctab" role="tab" aria-selected="false" data-tab="gift">Gifting</button>
-        <button type="button" class="ctab" role="tab" aria-selected="false" data-tab="under">Under Rs 2,000</button>
-        <button type="button" class="ctab" role="tab" aria-selected="false" data-tab="all">All</button>
+<section id="story" class="story on-bone" aria-labelledby="story-title">
+  <div class="story-pin desk-only" data-story-pin>
+    <div class="story-intro" data-story-intro><p class="label"><b>06</b><span class="slash">/</span>Story</p><h2 class="h1" id="story-title" data-story-title>We cut leather, not corners.</h2><p class="lead">We cut in Pakistan, from hides we choose ourselves. One workshop, a small bench, no subcontracting. Prices run from Rs 1,740 to Rs 3,500.</p><div class="scroll-hint" style="margin-top:36px" aria-hidden="true"><span class="t">Scroll</span></div></div>
+    <div class="story-stage" data-story-stage><span class="ghost story-ghost" data-story-ghost="0" style="opacity:1">01</span><span class="ghost story-ghost" data-story-ghost="1" style="opacity:0">02</span><span class="ghost story-ghost" data-story-ghost="2" style="opacity:0">03</span><span class="ghost story-ghost" data-story-ghost="3" style="opacity:0">04</span><span class="ghost story-ghost" data-story-ghost="4" style="opacity:0">05</span><div class="story-figure" data-story-figure="0" style="opacity:1"><figure><div class="media ar-45"><img src="assets/lifestyle/ranger-02.jpg" srcset="assets/lifestyle/ranger-02-800.jpg 800w, assets/lifestyle/ranger-02.jpg 1600w" sizes="(min-width: 768px) 34vw, 86vw" alt="FIG. 01 · The stag, embossed in crazy horse leather" width="1200" height="1500" loading="lazy"></div><figcaption class="label" style="margin-top:12px;font-size:.75rem"><span style="color:var(--accent)">■</span> FIG. 01 · The stag, embossed in crazy horse leather</figcaption></figure></div><div class="story-figure" data-story-figure="1" style="opacity:0"><figure><div class="media ar-45"><img src="assets/lifestyle/ranger-flat.jpg" srcset="assets/lifestyle/ranger-flat-800.jpg 800w, assets/lifestyle/ranger-flat.jpg 1600w" sizes="(min-width: 768px) 34vw, 86vw" alt="FIG. 02 · Graded hide, embossed strap tip" width="1200" height="1500" loading="lazy"></div><figcaption class="label" style="margin-top:12px;font-size:.75rem"><span style="color:var(--accent)">■</span> FIG. 02 · Graded hide, embossed strap tip</figcaption></figure></div><div class="story-figure" data-story-figure="2" style="opacity:0"><figure><div class="media ar-45"><img src="assets/lifestyle/onyx-flat.jpg" srcset="assets/lifestyle/onyx-flat-800.jpg 800w, assets/lifestyle/onyx-flat.jpg 1600w" sizes="(min-width: 768px) 34vw, 86vw" alt="FIG. 03 · A cut strap, backlit" width="1200" height="1500" loading="lazy"></div><figcaption class="label" style="margin-top:12px;font-size:.75rem"><span style="color:var(--accent)">■</span> FIG. 03 · A cut strap, backlit</figcaption></figure></div><div class="story-figure" data-story-figure="3" style="opacity:0"><figure><div class="media ar-45"><img src="assets/lifestyle/kingsmen-02.jpg" srcset="assets/lifestyle/kingsmen-02-800.jpg 800w, assets/lifestyle/kingsmen-02.jpg 1600w" sizes="(min-width: 768px) 34vw, 86vw" alt="FIG. 04 · Saddle stitch on a wallet edge" width="1200" height="1500" loading="lazy"></div><figcaption class="label" style="margin-top:12px;font-size:.75rem"><span style="color:var(--accent)">■</span> FIG. 04 · Saddle stitch on a wallet edge</figcaption></figure></div><div class="story-figure" data-story-figure="4" style="opacity:0"><figure><div class="media ar-45"><img src="assets/lifestyle/monarch-01.jpg" srcset="assets/lifestyle/monarch-01-800.jpg 800w, assets/lifestyle/monarch-01.jpg 1600w" sizes="(min-width: 768px) 34vw, 86vw" alt="FIG. 05 · Finished belt, buckle on" width="1200" height="1500" loading="lazy"></div><figcaption class="label" style="margin-top:12px;font-size:.75rem"><span style="color:var(--accent)">■</span> FIG. 05 · Finished belt, buckle on</figcaption></figure></div><div class="story-panel" data-story-panel="0" ><p class="label" data-story-item>Chapter 01<span class="slash">·</span><b>The name</b></p><div class="rule" data-story-item style="margin-top:18px"></div><h3 class="h3" data-story-item style="margin-top:22px">The name.</h3><p class="body muted" data-story-item style="margin-top:16px">Stagr takes its name from the stag. An antler is a record of the years behind it, thickened and scarred and branched, and none of it is covered up. We ask the same of leather. It should show its age rather than hide it.</p></div><div class="story-panel" data-story-panel="1" hidden><p class="label" data-story-item>Chapter 02<span class="slash">·</span><b>The material</b></p><div class="rule" data-story-item style="margin-top:18px"></div><h3 class="h3" data-story-item style="margin-top:22px">The material.</h3><p class="body muted" data-story-item style="margin-top:16px">We buy whole hides and reject about a third. What is left is graded by hand for grain, thickness and stretch. We cut in Pakistan, from hides we choose ourselves. One workshop, a small bench, no subcontracting. A belt leaves us when it is right, not when the week ends.</p></div><div class="story-panel" data-story-panel="2" hidden><p class="label" data-story-item>Chapter 03<span class="slash">·</span><b>The cutting</b></p><div class="rule" data-story-item style="margin-top:18px"></div><h3 class="h3" data-story-item style="margin-top:22px">The cutting.</h3><p class="body muted" data-story-item style="margin-top:16px">Straps are cut along the spine where the hide is tightest, so a belt holds its shape instead of curling.</p></div><div class="story-panel" data-story-panel="3" hidden><p class="label" data-story-item>Chapter 04<span class="slash">·</span><b>The stitching</b></p><div class="rule" data-story-item style="margin-top:18px"></div><h3 class="h3" data-story-item style="margin-top:22px">The stitching.</h3><p class="body muted" data-story-item style="margin-top:16px">One row of saddle stitch, two needles, waxed linen thread. It cannot unravel the way a machine seam can.</p></div><div class="story-panel" data-story-panel="4" hidden><p class="label" data-story-item>Chapter 05<span class="slash">·</span><b>The finish</b></p><div class="rule" data-story-item style="margin-top:18px"></div><h3 class="h3" data-story-item style="margin-top:22px">The finish.</h3><p class="body muted" data-story-item style="margin-top:16px">Edges bevelled, sanded, burnished four times, sealed with beeswax. Then the buckle goes on and it is checked. Prices run from Rs 1,740 to Rs 3,500. That is the whole range, and it is the same for a gift of one or an order of a hundred.</p></div><div class="story-years"><div class="story-progress" data-story-progress></div><button type="button" data-story-year="0" style="color:var(--fg)">01</button><button type="button" data-story-year="1" style="color:var(--fg-2)">02</button><button type="button" data-story-year="2" style="color:var(--fg-2)">03</button><button type="button" data-story-year="3" style="color:var(--fg-2)">04</button><button type="button" data-story-year="4" style="color:var(--fg-2)">05</button></div></div>
+  </div>
+  <div class="story-mobile mob-only">
+    <div data-reveal><p class="label"><b>06</b><span class="slash">/</span>Story</p></div>
+    <h2 class="h1" data-text-reveal="lines" style="margin-top:12px">We cut leather, not corners.</h2>
+    <p class="lead" data-illuminate style="margin-top:16px">We cut in Pakistan, from hides we choose ourselves. One workshop, a small bench, no subcontracting.</p>
+    <div class="mstory" data-mstory>
+      <div class="mstory-sticky">
+        <div class="mstory-stage"><span class="ghost" data-mstory-ghost="0" style="opacity:1">01</span><span class="ghost" data-mstory-ghost="1" style="opacity:0">02</span><span class="ghost" data-mstory-ghost="2" style="opacity:0">03</span><span class="ghost" data-mstory-ghost="3" style="opacity:0">04</span><span class="ghost" data-mstory-ghost="4" style="opacity:0">05</span><div class="mstory-figure" data-mstory-figure="0"><img src="assets/lifestyle/ranger-02-800.jpg" alt="FIG. 01 · The stag, embossed in crazy horse leather" width="800" height="1000" loading="lazy"></div><div class="mstory-figure" data-mstory-figure="1"><img src="assets/lifestyle/ranger-flat-800.jpg" alt="FIG. 02 · Graded hide, embossed strap tip" width="800" height="1000" loading="lazy"></div><div class="mstory-figure" data-mstory-figure="2"><img src="assets/lifestyle/onyx-flat-800.jpg" alt="FIG. 03 · A cut strap, backlit" width="800" height="1000" loading="lazy"></div><div class="mstory-figure" data-mstory-figure="3"><img src="assets/lifestyle/kingsmen-02-800.jpg" alt="FIG. 04 · Saddle stitch on a wallet edge" width="800" height="1000" loading="lazy"></div><div class="mstory-figure" data-mstory-figure="4"><img src="assets/lifestyle/monarch-01-800.jpg" alt="FIG. 05 · Finished belt, buckle on" width="800" height="1000" loading="lazy"></div></div>
+        <div class="mstory-text"><div data-mstory-panel="0" ><p class="label">Chapter 01<span class="slash">·</span><b>The name</b></p><h3 class="h3" data-mstory-title style="margin-top:14px">The name.</h3><p class="body muted" data-mstory-text style="margin-top:14px">Stagr takes its name from the stag. An antler is a record of the years behind it, thickened and scarred and branched, and none of it is covered up. We ask the same of leather. It should show its age rather than hide it.</p></div><div data-mstory-panel="1" hidden><p class="label">Chapter 02<span class="slash">·</span><b>The material</b></p><h3 class="h3" data-mstory-title style="margin-top:14px">The material.</h3><p class="body muted" data-mstory-text style="margin-top:14px">We buy whole hides and reject about a third. What is left is graded by hand for grain, thickness and stretch. We cut in Pakistan, from hides we choose ourselves. One workshop, a small bench, no subcontracting. A belt leaves us when it is right, not when the week ends.</p></div><div data-mstory-panel="2" hidden><p class="label">Chapter 03<span class="slash">·</span><b>The cutting</b></p><h3 class="h3" data-mstory-title style="margin-top:14px">The cutting.</h3><p class="body muted" data-mstory-text style="margin-top:14px">Straps are cut along the spine where the hide is tightest, so a belt holds its shape instead of curling.</p></div><div data-mstory-panel="3" hidden><p class="label">Chapter 04<span class="slash">·</span><b>The stitching</b></p><h3 class="h3" data-mstory-title style="margin-top:14px">The stitching.</h3><p class="body muted" data-mstory-text style="margin-top:14px">One row of saddle stitch, two needles, waxed linen thread. It cannot unravel the way a machine seam can.</p></div><div data-mstory-panel="4" hidden><p class="label">Chapter 05<span class="slash">·</span><b>The finish</b></p><h3 class="h3" data-mstory-title style="margin-top:14px">The finish.</h3><p class="body muted" data-mstory-text style="margin-top:14px">Edges bevelled, sanded, burnished four times, sealed with beeswax. Then the buckle goes on and it is checked. Prices run from Rs 1,740 to Rs 3,500. That is the whole range, and it is the same for a gift of one or an order of a hundred.</p></div></div>
+        <div class="mstory-years"><button type="button" data-mstory-year="0" style="color:var(--fg)">01</button><button type="button" data-mstory-year="1" style="color:var(--fg-2)">02</button><button type="button" data-mstory-year="2" style="color:var(--fg-2)">03</button><button type="button" data-mstory-year="3" style="color:var(--fg-2)">04</button><button type="button" data-mstory-year="4" style="color:var(--fg-2)">05</button></div>
       </div>
     </div>
-    <div class="shop-grid" data-shop-grid>
-<article class="pcard has-alt" data-product="nova" data-tags="new best" data-line="belt" data-style="Belt" data-colours="Black,Brown" data-price="2394" data-index="0" data-name="Nova Double-Sided Leather Belt"  data-delay="0.0">
-  <a class="pcard-media" href="product-nova.html" data-cursor-label="View" aria-label="Nova Double-Sided Leather Belt"><div class="bloom" style="--bloom:#C9B290" data-bloom></div><img class="main" src="assets/cutouts/nova-1-600.webp" alt="Nova Double-Sided Leather Belt in black" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/nova-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
-  
-  <div class="pcard-head"><span class="pcard-num">STAGR.01</span><span class="label">Belt</span></div>
-  <h3 class="pcard-name"><a href="product-nova.html">Nova<span class="dotc">.</span></a></h3>
-  <p class="pcard-sub">Nova Double-Sided Leather Belt</p><p class="pcard-copy">Two Sides. One Belt. Made for Every Style.</p>
-  <div class="pcard-opts opts" data-colour-opts><label class="opt"><input type="radio" name="c-nova-0" value="Black" checked><span class="sw" style="--sw:#1A1512"></span>Black</label><label class="opt"><input type="radio" name="c-nova-0" value="Brown" ><span class="sw" style="--sw:#6E4328"></span>Brown</label></div>
-  <div class="pcard-foot">
-    <div class="pcard-price"><span><span class="num">Rs 2,394</span><s class="small muted" style="margin-left:.5em">Rs 3,800</s></span><a class="pcard-link" href="product-nova.html">View <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
-    <button type="button" class="btn btn--wide" data-add="nova" data-colour="Black" data-size=34>Add to cart</button>
-  </div>
-</article>
-<article class="pcard has-alt" data-product="outlaw" data-tags="best" data-line="belt" data-style="Belt" data-colours="Brown" data-price="2765" data-index="1" data-name="Outlaw Crazy Horse Leather Belt"  data-delay="0.12">
-  <a class="pcard-media" href="product-outlaw.html" data-cursor-label="View" aria-label="Outlaw Crazy Horse Leather Belt"><div class="bloom" style="--bloom:#C9B290" data-bloom></div><img class="main" src="assets/cutouts/outlaw-1-600.webp" alt="Outlaw Crazy Horse Leather Belt in brown" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/outlaw-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
-  
-  <div class="pcard-head"><span class="pcard-num">STAGR.02</span><span class="label">Belt</span></div>
-  <h3 class="pcard-name"><a href="product-outlaw.html">Outlaw<span class="dotc">.</span></a></h3>
-  <p class="pcard-sub">Outlaw Crazy Horse Leather Belt</p><p class="pcard-copy">Rugged Character. Timeless Craftsmanship.</p>
-  <div class="pcard-opts opts" data-colour-opts><label class="opt"><input type="radio" name="c-outlaw-1" value="Brown" checked><span class="sw" style="--sw:#6E4328"></span>Brown</label></div>
-  <div class="pcard-foot">
-    <div class="pcard-price"><span><span class="num">Rs 2,765</span><s class="small muted" style="margin-left:.5em">Rs 3,950</s></span><a class="pcard-link" href="product-outlaw.html">View <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
-    <button type="button" class="btn btn--wide" data-add="outlaw" data-colour="Brown" data-size=34>Add to cart</button>
-  </div>
-</article>
-<article class="pcard has-alt" data-product="regent" data-tags="new" data-line="belt" data-style="Belt" data-colours="Black" data-price="2730" data-index="2" data-name="Regent Premium Leather Belt"  data-delay="0.24">
-  <a class="pcard-media" href="product-regent.html" data-cursor-label="View" aria-label="Regent Premium Leather Belt"><div class="bloom" style="--bloom:#C9B290" data-bloom></div><img class="main" src="assets/cutouts/regent-1-600.webp" alt="Regent Premium Leather Belt in black" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/regent-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
-  
-  <div class="pcard-head"><span class="pcard-num">STAGR.03</span><span class="label">Belt</span></div>
-  <h3 class="pcard-name"><a href="product-regent.html">Regent<span class="dotc">.</span></a></h3>
-  <p class="pcard-sub">Regent Premium Leather Belt</p><p class="pcard-copy">Classic Elegance. Crafted to Last.</p>
-  <div class="pcard-opts opts" data-colour-opts><label class="opt"><input type="radio" name="c-regent-2" value="Black" checked><span class="sw" style="--sw:#1A1512"></span>Black</label></div>
-  <div class="pcard-foot">
-    <div class="pcard-price"><span><span class="num">Rs 2,730</span><s class="small muted" style="margin-left:.5em">Rs 3,900</s></span><a class="pcard-link" href="product-regent.html">View <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
-    <button type="button" class="btn btn--wide" data-add="regent" data-colour="Black" data-size=34>Add to cart</button>
-  </div>
-</article>
-<article class="pcard has-alt" data-product="monarch" data-tags="best gift" data-line="belt" data-style="Belt" data-colours="Tan" data-price="2800" data-index="3" data-name="Monarch Premium Leather Belt"  data-delay="0.0">
-  <a class="pcard-media" href="product-monarch.html" data-cursor-label="View" aria-label="Monarch Premium Leather Belt"><div class="bloom" style="--bloom:#C9B290" data-bloom></div><img class="main" src="assets/cutouts/monarch-1-600.webp" alt="Monarch Premium Leather Belt in tan" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/monarch-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
-  
-  <div class="pcard-head"><span class="pcard-num">STAGR.04</span><span class="label">Belt</span></div>
-  <h3 class="pcard-name"><a href="product-monarch.html">Monarch<span class="dotc">.</span></a></h3>
-  <p class="pcard-sub">Monarch Premium Leather Belt</p><p class="pcard-copy">Premium Character. Timeless Craftsmanship.</p>
-  <div class="pcard-opts opts" data-colour-opts><label class="opt"><input type="radio" name="c-monarch-3" value="Tan" checked><span class="sw" style="--sw:#B0773F"></span>Tan</label></div>
-  <div class="pcard-foot">
-    <div class="pcard-price"><span><span class="num">Rs 2,800</span><s class="small muted" style="margin-left:.5em">Rs 4,000</s></span><a class="pcard-link" href="product-monarch.html">View <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
-    <button type="button" class="btn btn--wide" data-add="monarch" data-colour="Tan" data-size=34>Add to cart</button>
-  </div>
-</article>
-<article class="pcard has-alt" data-product="kingsmann" data-tags="new best" data-line="wallet" data-style="Bifold" data-colours="Brown,Black" data-price="2600" data-index="4" data-name="Kingsmann Bifold Leather Wallet"  data-delay="0.12">
-  <a class="pcard-media" href="product-kingsmann.html" data-cursor-label="View" aria-label="Kingsmann Bifold Leather Wallet"><div class="bloom" style="--bloom:#D9B07A" data-bloom></div><img class="main" src="assets/cutouts/kingsmann-brown-1-600.webp" alt="Kingsmann Bifold Leather Wallet in brown" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/kingsmann-brown-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
-  
-  <div class="pcard-head"><span class="pcard-num">STAGR.05</span><span class="label">Bifold</span></div>
-  <h3 class="pcard-name"><a href="product-kingsmann.html">Kingsmann<span class="dotc">.</span></a></h3>
-  <p class="pcard-sub">Kingsmann Bifold Leather Wallet</p><p class="pcard-copy">Crafted for the Modern Gentleman</p>
-  <div class="pcard-opts opts" data-colour-opts><label class="opt"><input type="radio" name="c-kingsmann-4" value="Brown" checked><span class="sw" style="--sw:#6E4328"></span>Brown</label><label class="opt"><input type="radio" name="c-kingsmann-4" value="Black" ><span class="sw" style="--sw:#1A1512"></span>Black</label></div>
-  <div class="pcard-foot">
-    <div class="pcard-price"><span><span class="num">Rs 2,600</span><s class="small muted" style="margin-left:.5em">Rs 3,999</s></span><a class="pcard-link" href="product-kingsmann.html">View <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
-    <button type="button" class="btn btn--wide" data-add="kingsmann" data-colour="Brown" >Add to cart</button>
-  </div>
-</article>
-<article class="pcard has-alt" data-product="majestic" data-tags="best" data-line="wallet" data-style="Trifold" data-colours="Brown,Black" data-price="2600" data-index="5" data-name="Majestic Trifold Leather Wallet"  data-delay="0.24">
-  <a class="pcard-media" href="product-majestic.html" data-cursor-label="View" aria-label="Majestic Trifold Leather Wallet"><div class="bloom" style="--bloom:#CDA373" data-bloom></div><img class="main" src="assets/cutouts/majestic-brown-1-600.webp" alt="Majestic Trifold Leather Wallet in brown" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/majestic-brown-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
-  
-  <div class="pcard-head"><span class="pcard-num">STAGR.06</span><span class="label">Trifold</span></div>
-  <h3 class="pcard-name"><a href="product-majestic.html">Majestic<span class="dotc">.</span></a></h3>
-  <p class="pcard-sub">Majestic Trifold Leather Wallet</p><p class="pcard-copy">Timeless Craftsmanship</p>
-  <div class="pcard-opts opts" data-colour-opts><label class="opt"><input type="radio" name="c-majestic-5" value="Brown" checked><span class="sw" style="--sw:#6E4328"></span>Brown</label><label class="opt"><input type="radio" name="c-majestic-5" value="Black" ><span class="sw" style="--sw:#1A1512"></span>Black</label></div>
-  <div class="pcard-foot">
-    <div class="pcard-price"><span><span class="num">Rs 2,600</span><s class="small muted" style="margin-left:.5em">Rs 3,999</s></span><a class="pcard-link" href="product-majestic.html">View <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
-    <button type="button" class="btn btn--wide" data-add="majestic" data-colour="Brown" >Add to cart</button>
-  </div>
-</article>
-<article class="pcard has-alt" data-product="maverick" data-tags="new under" data-line="wallet" data-style="Minimalist" data-colours="Brown,Black" data-price="1740" data-index="6" data-name="Maverick Minimalist Leather Wallet"  data-delay="0.0">
-  <a class="pcard-media" href="product-maverick.html" data-cursor-label="View" aria-label="Maverick Minimalist Leather Wallet"><div class="bloom" style="--bloom:#DABF9A" data-bloom></div><img class="main" src="assets/cutouts/maverick-brown-1-600.webp" alt="Maverick Minimalist Leather Wallet in brown" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/maverick-brown-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
-  
-  <div class="pcard-head"><span class="pcard-num">STAGR.07</span><span class="label">Minimalist</span></div>
-  <h3 class="pcard-name"><a href="product-maverick.html">Maverick<span class="dotc">.</span></a></h3>
-  <p class="pcard-sub">Maverick Minimalist Leather Wallet</p><p class="pcard-copy">Where Function Meets Fashion</p>
-  <div class="pcard-opts opts" data-colour-opts><label class="opt"><input type="radio" name="c-maverick-6" value="Brown" checked><span class="sw" style="--sw:#6E4328"></span>Brown</label><label class="opt"><input type="radio" name="c-maverick-6" value="Black" ><span class="sw" style="--sw:#1A1512"></span>Black</label></div>
-  <div class="pcard-foot">
-    <div class="pcard-price"><span><span class="num">Rs 1,740</span><s class="small muted" style="margin-left:.5em">Rs 2,899</s></span><a class="pcard-link" href="product-maverick.html">View <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
-    <button type="button" class="btn btn--wide" data-add="maverick" data-colour="Brown" >Add to cart</button>
-  </div>
-</article>
-<article class="pcard has-alt" data-product="purefold" data-tags="under gift" data-line="wallet" data-style="Minimalist" data-colours="Brown,Black" data-price="1800" data-index="7" data-name="Purefold Minimalist Leather Wallet"  data-delay="0.12">
-  <a class="pcard-media" href="product-purefold.html" data-cursor-label="View" aria-label="Purefold Minimalist Leather Wallet"><div class="bloom" style="--bloom:#DABF9A" data-bloom></div><img class="main" src="assets/cutouts/purefold-brown-1-600.webp" alt="Purefold Minimalist Leather Wallet in brown" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/purefold-brown-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
-  
-  <div class="pcard-head"><span class="pcard-num">STAGR.08</span><span class="label">Minimalist</span></div>
-  <h3 class="pcard-name"><a href="product-purefold.html">Purefold<span class="dotc">.</span></a></h3>
-  <p class="pcard-sub">Purefold Minimalist Leather Wallet</p><p class="pcard-copy">Minimalism Perfected</p>
-  <div class="pcard-opts opts" data-colour-opts><label class="opt"><input type="radio" name="c-purefold-7" value="Brown" checked><span class="sw" style="--sw:#6E4328"></span>Brown</label><label class="opt"><input type="radio" name="c-purefold-7" value="Black" ><span class="sw" style="--sw:#1A1512"></span>Black</label></div>
-  <div class="pcard-foot">
-    <div class="pcard-price"><span><span class="num">Rs 1,800</span><s class="small muted" style="margin-left:.5em">Rs 2,999</s></span><a class="pcard-link" href="product-purefold.html">View <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
-    <button type="button" class="btn btn--wide" data-add="purefold" data-colour="Brown" >Add to cart</button>
-  </div>
-</article>
-<article class="pcard has-alt" data-product="rodeo" data-tags="new gift" data-line="wallet" data-style="Long" data-colours="Tan,Black" data-price="3500" data-index="8" data-name="Rodeo Long Leather Wallet"  data-delay="0.24">
-  <a class="pcard-media" href="product-rodeo.html" data-cursor-label="View" aria-label="Rodeo Long Leather Wallet"><div class="bloom" style="--bloom:#C8976A" data-bloom></div><img class="main" src="assets/cutouts/rodeo-tan-1-600.webp" alt="Rodeo Long Leather Wallet in tan" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/rodeo-tan-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
-  
-  <div class="pcard-head"><span class="pcard-num">STAGR.09</span><span class="label">Long</span></div>
-  <h3 class="pcard-name"><a href="product-rodeo.html">Rodeo<span class="dotc">.</span></a></h3>
-  <p class="pcard-sub">Rodeo Long Leather Wallet</p><p class="pcard-copy">Sleek Style, Endless Storage</p>
-  <div class="pcard-opts opts" data-colour-opts><label class="opt"><input type="radio" name="c-rodeo-8" value="Tan" checked><span class="sw" style="--sw:#B0773F"></span>Tan</label><label class="opt"><input type="radio" name="c-rodeo-8" value="Black" ><span class="sw" style="--sw:#1A1512"></span>Black</label></div>
-  <div class="pcard-foot">
-    <div class="pcard-price"><span><span class="num">Rs 3,500</span><s class="small muted" style="margin-left:.5em">Rs 4,999</s></span><a class="pcard-link" href="product-rodeo.html">View <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
-    <button type="button" class="btn btn--wide" data-add="rodeo" data-colour="Tan" >Add to cart</button>
-  </div>
-</article>
-<article class="pcard has-alt" data-product="regal" data-tags="gift under" data-line="wallet" data-style="Bifold" data-colours="Brown,Black" data-price="1950" data-index="9" data-name="Regal Bifold Leather Wallet"  data-delay="0.0">
-  <a class="pcard-media" href="product-regal.html" data-cursor-label="View" aria-label="Regal Bifold Leather Wallet"><div class="bloom" style="--bloom:#D9B07A" data-bloom></div><img class="main" src="assets/cutouts/regal-brown-1-600.webp" alt="Regal Bifold Leather Wallet in brown" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/regal-brown-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
-  
-  <div class="pcard-head"><span class="pcard-num">STAGR.10</span><span class="label">Bifold</span></div>
-  <h3 class="pcard-name"><a href="product-regal.html">Regal<span class="dotc">.</span></a></h3>
-  <p class="pcard-sub">Regal Bifold Leather Wallet</p><p class="pcard-copy">A Fold Above the Rest</p>
-  <div class="pcard-opts opts" data-colour-opts><label class="opt"><input type="radio" name="c-regal-9" value="Brown" checked><span class="sw" style="--sw:#6E4328"></span>Brown</label><label class="opt"><input type="radio" name="c-regal-9" value="Black" ><span class="sw" style="--sw:#1A1512"></span>Black</label></div>
-  <div class="pcard-foot">
-    <div class="pcard-price"><span><span class="num">Rs 1,950</span><s class="small muted" style="margin-left:.5em">Rs 2,999</s></span><a class="pcard-link" href="product-regal.html">View <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
-    <button type="button" class="btn btn--wide" data-add="regal" data-colour="Brown" >Add to cart</button>
-  </div>
-</article>
-<article class="pcard has-alt" data-product="upbuck" data-tags="gift" data-line="wallet" data-style="Long" data-colours="Brown,Black" data-price="3400" data-index="10" data-name="Upbuck Long Leather Wallet"  data-delay="0.12">
-  <a class="pcard-media" href="product-upbuck.html" data-cursor-label="View" aria-label="Upbuck Long Leather Wallet"><div class="bloom" style="--bloom:#C8976A" data-bloom></div><img class="main" src="assets/cutouts/upbuck-brown-1-600.webp" alt="Upbuck Long Leather Wallet in brown" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/upbuck-brown-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
-  
-  <div class="pcard-head"><span class="pcard-num">STAGR.11</span><span class="label">Long</span></div>
-  <h3 class="pcard-name"><a href="product-upbuck.html">Upbuck<span class="dotc">.</span></a></h3>
-  <p class="pcard-sub">Upbuck Long Leather Wallet</p><p class="pcard-copy">Chic Storage for the Savvy</p>
-  <div class="pcard-opts opts" data-colour-opts><label class="opt"><input type="radio" name="c-upbuck-10" value="Brown" checked><span class="sw" style="--sw:#6E4328"></span>Brown</label><label class="opt"><input type="radio" name="c-upbuck-10" value="Black" ><span class="sw" style="--sw:#1A1512"></span>Black</label></div>
-  <div class="pcard-foot">
-    <div class="pcard-price"><span><span class="num">Rs 3,400</span><s class="small muted" style="margin-left:.5em">Rs 4,999</s></span><a class="pcard-link" href="product-upbuck.html">View <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
-    <button type="button" class="btn btn--wide" data-add="upbuck" data-colour="Brown" >Add to cart</button>
-  </div>
-</article></div>
-    <p class="small muted" style="margin-top:24px"><span data-shop-count></span> · Cash on delivery, 3 to 5 working days anywhere in Pakistan.</p>
-    <div class="or-row" id="delivery"><span class="shop-rule" data-shop-rule style="transform-origin:right"></span><span class="label">How it reaches you</span><span class="shop-rule" data-shop-rule style="transform-origin:left"></span></div>
-    <div class="delivery"><div data-reveal data-delay="0.0"><h3>Cash on delivery</h3><p>Pay at the door</p></div><div data-reveal data-delay="0.1"><h3>3 to 5 days</h3><p>Across Pakistan</p></div><div data-reveal data-delay="0.2"><h3>14-day returns</h3><p>Unworn pieces</p></div><div data-reveal data-delay="0.30000000000000004"><h3>Handwritten note</h3><p>Free, add at checkout</p></div></div>
   </div>
 </section>
 
@@ -1388,10 +1452,10 @@ function initAnimations() {
   if (isMobile) initRangeMobile(); else initRangeDesktop();
   S.initReveals($("#range"));
   initInside();
-  if (isMobile) initStoryMobile(); else initStoryDesktop();
-  S.initReveals($("#story"));
+  initShop(); S.initReveals($("#shop"));
   initPromise(); S.initReveals($("#promise"));
-  initShop(); S.initReveals($("#shop")); S.initReveals($("footer"));
+  if (isMobile) initStoryMobile(); else initStoryDesktop();
+  S.initReveals($("#story")); S.initReveals($("footer"));
   S.onLoaderDone.push(() => { startHero(); ST.refresh(); });
 }
 STAGR.onReady.push(initAnimations);
