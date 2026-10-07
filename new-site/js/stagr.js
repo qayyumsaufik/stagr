@@ -96,6 +96,18 @@
     update(); window.addEventListener("scroll", update, { passive: true });
     const setMenu = (open) => { if (!menu || open === menuOpen) return; menuOpen = open; menu.classList.toggle("is-open", open); menu.setAttribute("aria-hidden", String(!open)); $$("[data-menu-open]").forEach((b) => b.setAttribute("aria-expanded", String(open))); open ? S.lock("menu") : S.unlock("menu"); update(); if (open) setTimeout(() => { const f = $("[data-menu-close]", menu); f && f.focus(); }, 300); };
     S.openMenu = () => setMenu(true); S.closeMenu = () => setMenu(false);
+    // mega panels: open on hover/focus with a short delay, close on leave or Escape
+    let megaTimer = null, openPanel = null;
+    const panels = $$("[data-mega-panel]", nav);
+    const closeMega = () => { clearTimeout(megaTimer); if (!openPanel) return; openPanel.classList.remove("is-open"); openPanel.setAttribute("aria-hidden", "true"); $$("[data-mega]", nav).forEach((li) => li.classList.remove("is-open")); openPanel = null; nav.classList.remove("is-mega"); };
+    const openMega = (key) => { clearTimeout(megaTimer); const p = panels.find((x) => x.dataset.megaPanel === key); if (!p || p === openPanel) return; if (openPanel) { openPanel.classList.remove("is-open"); openPanel.setAttribute("aria-hidden", "true"); } openPanel = p; p.classList.add("is-open"); p.setAttribute("aria-hidden", "false"); $$("[data-mega]", nav).forEach((li) => li.classList.toggle("is-open", li.dataset.mega === key)); nav.classList.add("is-mega"); if (G && !reduced) G.fromTo($$(".mega-item, .mega-links a", p).filter((el) => el.offsetParent), { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: .45, stagger: .04, ease: "power2.out", overwrite: true }); };
+    $$("[data-mega]", nav).forEach((li) => { li.addEventListener("pointerenter", () => { clearTimeout(megaTimer); megaTimer = setTimeout(() => openMega(li.dataset.mega), 120); }); li.addEventListener("focusin", () => openMega(li.dataset.mega)); });
+    $$(".nav-main > li:not([data-mega])", nav).forEach((li) => li.addEventListener("pointerenter", () => { clearTimeout(megaTimer); megaTimer = setTimeout(closeMega, 150); }));
+    nav.addEventListener("pointerleave", () => { clearTimeout(megaTimer); megaTimer = setTimeout(closeMega, 200); });
+    panels.forEach((p) => { p.addEventListener("pointerenter", () => clearTimeout(megaTimer)); $$("[data-mega-tab-btn]", p).forEach((b) => b.addEventListener("click", () => { $$("[data-mega-tab-btn]", p).forEach((x) => x.setAttribute("aria-selected", String(x === b))); $$("[data-mega-tab]", p).forEach((r) => r.hidden = r.dataset.megaTab !== b.dataset.megaTabBtn); const row = $('[data-mega-tab="' + b.dataset.megaTabBtn + '"]', p); if (G && !reduced) G.fromTo($$(".mega-item, a", row), { y: 10, opacity: 0 }, { y: 0, opacity: 1, duration: .4, stagger: .04, ease: "power2.out", overwrite: true }); })); });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeMega(); });
+    document.addEventListener("focusin", (e) => { if (!nav.contains(e.target)) closeMega(); });
+    S.closeMega = closeMega;
     $$("[data-menu-open]").forEach((b) => b.addEventListener("click", () => setMenu(true)));
     $$("[data-menu-close]").forEach((b) => b.addEventListener("click", () => setMenu(false)));
     // in-page links glide with Lenis
@@ -157,13 +169,13 @@
       } else { tl.to(mark, { scale: 1.6, duration: 0.55, ease: "power2.in" }).to(loader, { opacity: 0, duration: 0.5, ease: "power1.inOut" }, "<"); }
     };
     const maybe = () => { if (minElapsed && assetsReady) reveal(); };
-    const sources = [...new Set($$("img").map((i) => i.getAttribute("src")).filter(Boolean))].slice(0, 24);
+    const sources = [...new Set($$("img").filter((i) => i.getAttribute("loading") !== "lazy" && isRendered(i)).map((i) => i.getAttribute("src")).filter(Boolean))].slice(0, 16);
     const total = sources.length + 1; let loaded = 0;
     const done = () => { loaded += 1; setProgress((loaded / total) * 100); if (loaded >= total) { assetsReady = true; maybe(); } };
     sources.forEach((src) => { const im = new Image(); im.onload = im.onerror = done; im.src = src; });
     (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(done, done);
     window.setTimeout(() => { minElapsed = true; maybe(); }, reduced ? 300 : 1800);
-    window.setTimeout(reveal, 6000);
+    window.setTimeout(reveal, 4000);
     $$(".skip-btn", loader).forEach((b) => b.addEventListener("click", reveal));
     document.addEventListener("keydown", function k(e) { if (e.key === "Escape") { reveal(); document.removeEventListener("keydown", k); } });
   }

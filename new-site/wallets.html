@@ -53,6 +53,7 @@
   --font-serif: "Tiempos Text", "Times New Roman", Georgia, serif;
 
   --nav-h: 72px;
+  --nav-top: 72px;
   --gutter: clamp(20px, 1rem + 3.4vw, 64px);
   --max: 1440px;
   --section: clamp(96px, 7rem + 5vw, 180px);
@@ -104,6 +105,7 @@ address { font-style: normal; }
 [hidden] { display: none !important; }
 @media (max-width: 767px) { .desk-only { display: none !important; } }
 @media (min-width: 768px) { .mob-only { display: none !important; } }
+@media (min-width: 1024px) { :root { --nav-h: 118px; } }
 
 /* ---------- typography ---------- */
 .wordmark { font-family: var(--font-wordmark); font-weight: 800; letter-spacing: -.03em; line-height: .8; text-transform: uppercase; }
@@ -268,29 +270,56 @@ address { font-style: normal; }
 .marquee .track > span { padding-right: clamp(28px, 4vw, 64px); }
 .marquee .outline { color: transparent; -webkit-text-stroke: 1px currentColor; }
 
-/* ---------- nav ---------- */
-.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; height: var(--nav-h); display: flex; align-items: center; transition: background-color .35s ease, border-color .35s ease, transform .5s var(--ease-out); border-bottom: 1px solid transparent; color: var(--fg); }
-.nav.is-solid { background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom-color: var(--line); }
+/* ---------- nav (two tiers + mega panels) ---------- */
+.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; transition: background-color .35s ease, border-color .35s ease, transform .5s var(--ease-out); border-bottom: 1px solid transparent; color: var(--fg); }
+.nav.is-solid, .nav.is-mega { background: color-mix(in srgb, var(--bg) 94%, transparent); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom-color: var(--line); }
 .nav.is-hidden { transform: translateY(-100%); }
-.nav.on-dark:not(.is-solid) { color: var(--bone); }
-.nav .wrap { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px; }
-.nav .brand { font-family: var(--font-wordmark); font-weight: 800; font-size: 1.25rem; letter-spacing: -.02em; display: inline-flex; align-items: baseline; }
+.nav.on-dark:not(.is-solid):not(.is-mega) { color: var(--bone); }
+.nav .nav-top { height: var(--nav-top); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px; }
+.nav .nav-util { display: flex; gap: 24px; font-size: .8125rem; letter-spacing: .12em; text-transform: uppercase; color: var(--fg-2); }
+.nav.on-dark:not(.is-solid):not(.is-mega) .nav-util, .nav.on-dark:not(.is-solid):not(.is-mega) .nav-main a { color: rgba(239,237,230,.75); }
+.nav .nav-util a:hover { color: inherit; }
+.nav .brand { font-family: var(--font-wordmark); font-weight: 800; font-size: 1.5rem; letter-spacing: -.02em; display: inline-flex; align-items: baseline; justify-self: center; }
 .nav .brand .dot { display: inline-block; width: .3em; height: .3em; background: var(--accent); margin-left: .12em; }
-.nav .links { display: none; gap: 32px; justify-self: center; font-size: .9375rem; }
-.nav .links a { color: var(--fg-2); transition: color .3s ease; }
-.nav.on-dark:not(.is-solid) .links a { color: rgba(239, 237, 230, .7); }
-.nav .links a:hover, .nav .links a.is-active { color: inherit; }
-@media (min-width: 1024px) { .nav .links { display: flex; } }
 .nav .right { display: flex; align-items: center; justify-content: flex-end; gap: 4px; }
 .nav .shop { display: inline-flex; align-items: center; gap: 6px; font-weight: 500; font-size: .9375rem; margin-right: 8px; }
 .nav .shop svg { width: 14px; height: 14px; transition: transform .3s var(--ease-out); }
 .nav .shop:hover svg { transform: translateX(3px); }
-.nav .burger { display: grid; gap: 5px; place-content: center; width: 44px; height: 44px; }
+.nav .burger { display: grid; gap: 5px; place-content: center; width: 44px; height: 44px; justify-self: start; }
 .nav .burger i { display: block; width: 20px; height: 1.5px; background: currentColor; }
 @media (min-width: 1024px) { .nav .burger { display: none; } }
+.nav .nav-bar { height: 46px; display: flex; align-items: center; }
+.nav .nav-main { display: flex; justify-content: center; gap: 36px; font-size: .8125rem; letter-spacing: .14em; text-transform: uppercase; }
+.nav .nav-main > li { position: relative; display: flex; align-items: center; height: 46px; }
+.nav .nav-main a { color: var(--fg-2); transition: color .3s ease; padding: 4px 0; }
+.nav .nav-main a:hover, .nav .nav-main a.is-active, .nav .nav-main li.is-open a { color: var(--fg); }
+.nav .nav-main .nav-underline::after { bottom: -2px; height: 2px; background: var(--accent-deep); }
 .cart-count { position: absolute; top: 4px; right: 2px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 8px; background: var(--ink); color: var(--bone); font-size: 10px; font-weight: 500; display: grid; place-items: center; transform: scale(0); transition: transform .3s var(--ease-out); }
-.nav.on-dark:not(.is-solid) .cart-count { background: var(--bone); color: var(--ink); }
+.nav.on-dark:not(.is-solid):not(.is-mega) .cart-count { background: var(--bone); color: var(--ink); }
 .cart-count.is-on { transform: scale(1); }
+/* mega panel */
+.mega { position: absolute; left: 0; right: 0; top: 100%; background: var(--bg); color: var(--fg); border-bottom: 1px solid var(--line); box-shadow: 0 30px 60px -30px rgba(26,27,29,.25); visibility: hidden; opacity: 0; transform: translateY(-6px); transition: opacity .3s ease, transform .4s var(--ease-out), visibility 0s linear .3s; padding: 20px 0 28px; }
+.mega.is-open { visibility: visible; opacity: 1; transform: none; transition-delay: 0s; }
+@media (max-width: 1023px) { .mega { display: none; } }
+.mega-tabs { display: flex; justify-content: center; gap: 0; border-bottom: 1px solid var(--line); margin-bottom: 28px; }
+.mega-tabs button { position: relative; padding: 12px 18px; font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: var(--fg-2); transition: color .3s ease; }
+.mega-tabs button + button::before { content: ""; position: absolute; left: 0; top: 14px; bottom: 14px; width: 1px; background: var(--line); }
+.mega-tabs button::after { content: ""; position: absolute; left: 18px; right: 18px; bottom: -1px; height: 2px; background: var(--accent-deep); transform: scaleX(0); transition: transform .35s var(--ease-out); }
+.mega-tabs button[aria-selected="true"] { color: var(--fg); }
+.mega-tabs button[aria-selected="true"]::after { transform: scaleX(1); }
+.mega-row { display: flex; justify-content: center; gap: clamp(16px, 2vw, 32px); flex-wrap: wrap; }
+.mega-item { display: grid; justify-items: center; gap: 12px; width: 132px; text-align: center; }
+.mega-thumb { width: 132px; height: 132px; display: grid; place-items: center; background: rgba(26,27,29,.045); transition: background-color .3s ease; }
+.mega-thumb img { width: 84%; height: auto; max-height: 84%; object-fit: contain; filter: drop-shadow(0 10px 14px rgba(26,27,29,.18)); transition: transform .5s var(--ease-out); }
+.mega-item:hover .mega-thumb { background: rgba(26,27,29,.08); }
+.mega-item:hover .mega-thumb img { transform: translateY(-4px) scale(1.04); }
+.mega-name { font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: var(--fg-2); }
+.mega-item:hover .mega-name { color: var(--fg); }
+.mega-links { gap: 12px 40px; }
+.mega-links a { font-family: var(--font-display); font-weight: 300; font-size: 1.25rem; text-decoration: none; }
+.mega-links a:hover { color: var(--accent-deep); }
+.mega-all { text-align: center; margin-top: 28px; font-family: var(--font-serif); font-size: 1rem; }
+.mega-all .link { text-underline-offset: .3em; }
 
 /* fullscreen menu */
 .menu { position: fixed; inset: 0; z-index: 60; background: var(--bg); color: var(--fg); opacity: 0; visibility: hidden; transition: opacity .35s ease, visibility 0s linear .35s; display: grid; grid-template-rows: var(--nav-h) 1fr auto; padding: 0 var(--gutter) 32px; }
@@ -301,6 +330,11 @@ address { font-style: normal; }
 .menu.is-open .menu-link { opacity: 1; transform: none; transition: opacity .5s ease, transform .6s var(--ease-out); }
 .menu.is-open .menu-link:nth-child(1) { transition-delay: .08s; } .menu.is-open .menu-link:nth-child(2) { transition-delay: .14s; } .menu.is-open .menu-link:nth-child(3) { transition-delay: .2s; } .menu.is-open .menu-link:nth-child(4) { transition-delay: .26s; } .menu.is-open .menu-link:nth-child(5) { transition-delay: .32s; }
 .menu-link sup { font-family: var(--font-sans); font-size: .75rem; letter-spacing: .14em; color: var(--accent); font-weight: 500; }
+.menu-sub { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 24px 0; border-top: 1px solid var(--line); }
+.menu-sub a { display: block; padding: 4px 0; color: var(--fg-2); }
+.menu-sub .label { margin-bottom: 8px; }
+@media (min-width: 1024px) { .menu-sub { display: none; } }
+.menu { grid-template-rows: var(--nav-top) 1fr auto auto; }
 .menu-foot { display: flex; flex-wrap: wrap; gap: 12px 28px; justify-content: space-between; font-size: .875rem; color: var(--fg-2); }
 
 /* ---------- cursor ---------- */
@@ -397,20 +431,62 @@ html.is-entering .fade { opacity: 1; }
 /* ---------- page: Wallets — STAGR. ---------- */
 
 .dotc { color: var(--accent); }
-/* ---- header ---- */
-.col-hero { position: relative; overflow: hidden; padding: calc(var(--nav-h) + clamp(32px, 6vw, 72px)) 0 clamp(32px, 5vw, 64px); }
-.col-hero .grid { align-items: center; }
-.col-hero .display { font-size: clamp(3.4rem, 2rem + 8vw, 9rem); line-height: .95; opacity: 0; }
-.col-hero .lead { margin-top: 22px; }
-.col-stage { position: relative; aspect-ratio: 1; display: grid; place-items: center; }
-.col-stage .bloom { --bloom-s: 90%; }
-.col-stage .ghost { font-size: clamp(10rem, 36vw, 24rem); }
-.col-stage .pair { position: relative; width: 92%; aspect-ratio: 1; }
-.col-stage .pair img { position: absolute; height: auto; filter: drop-shadow(0 30px 40px rgba(26,27,29,.22)); }
-.col-stage .p-a { left: 0; top: 4%; width: 70%; transform: rotate(-6deg); }
-.col-stage .p-b { right: 0; bottom: 2%; width: 64%; transform: rotate(5deg); }
-@media (max-width: 1023px) { .col-stage { max-width: 420px; margin: 24px auto 0; } }
-.col-facts { margin-top: 28px; max-width: 420px; }
+/* ---- showcase (Daniel Roth style) ---- */
+.showcase { position: relative; background: var(--ink); color: var(--bone); overflow: hidden; }
+.sc-pin { position: relative; height: 100vh; }
+.sc-photos { position: absolute; inset: 0; }
+.sc-photo { position: absolute; inset: 0; }
+.sc-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 30% 50%; transform: scale(1.08); will-change: transform; }
+.sc-photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, color-mix(in srgb, var(--tint) 55%, transparent), color-mix(in srgb, var(--tint) 20%, transparent) 60%, rgba(26,27,29,.35)); mix-blend-mode: multiply; }
+.sc-brand { position: absolute; left: var(--gutter); top: calc(var(--nav-h) + 16px); z-index: 3; font-size: .75rem; letter-spacing: .24em; text-transform: uppercase; color: rgba(239,237,230,.75); }
+.sc-panel-wrap { position: absolute; right: var(--gutter); top: calc(var(--nav-h) + 8px); bottom: 32px; width: min(44vw, 640px); background: var(--bone); color: var(--ink); display: grid; grid-template-rows: auto 1fr auto; padding: clamp(24px, 3vw, 44px); overflow: hidden; }
+.sc-panel { position: absolute; inset: 0; padding: clamp(24px, 3vw, 44px); display: grid; grid-template-rows: auto 1fr auto; }
+.sc-title { font-family: var(--font-display); font-weight: 300; font-size: clamp(2.4rem, 1.6rem + 3vw, 4.6rem); line-height: 1; letter-spacing: .02em; text-transform: uppercase; text-align: center; }
+.sc-kicker { text-align: center; margin-top: 12px; }
+.sc-variants { position: absolute; right: clamp(24px, 3vw, 44px); top: 50%; transform: translateY(-50%); text-align: right; display: grid; gap: 10px; font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; }
+.sc-variants button, .sc-variants a { color: var(--fg-2); transition: color .3s ease; position: relative; }
+.sc-variants button.is-on, .sc-variants a:hover, .sc-variants button:hover { color: var(--ink); }
+.sc-variants button.is-on::after { content: ""; position: absolute; left: 0; right: 0; bottom: -3px; height: 1px; background: var(--ink); }
+.sc-count { position: absolute; left: clamp(24px, 3vw, 44px); top: 50%; transform: translateY(-50%); font-size: .75rem; letter-spacing: .2em; color: var(--mist); font-variant-numeric: tabular-nums; }
+.sc-stage { position: absolute; left: 50%; top: 50%; width: min(44%, 280px); aspect-ratio: 1; transform: translate(-50%, -52%); display: grid; place-items: center; }
+.sc-cut { position: absolute; inset: 0; display: grid; place-items: center; }
+.sc-cut img { width: 100%; height: auto; max-height: 100%; object-fit: contain; filter: drop-shadow(0 30px 40px rgba(26,27,29,.28)); }
+.sc-line { align-self: end; font-size: .8125rem; letter-spacing: .12em; text-transform: uppercase; line-height: 1.7; color: var(--mist); max-width: 24ch; }
+.sc-cta { position: absolute; right: clamp(24px, 3vw, 44px); bottom: clamp(24px, 3vw, 44px); }
+.sc-dots { position: absolute; left: var(--gutter); bottom: 32px; z-index: 3; display: flex; gap: 16px; font-size: 12px; letter-spacing: .2em; color: rgba(239,237,230,.6); }
+.sc-dots button { color: inherit !important; opacity: .55; transition: opacity .3s ease; }
+.sc-dots button.is-on { opacity: 1; }
+.sc-hint { position: absolute; left: 50%; bottom: 32px; transform: translateX(-50%); z-index: 3; }
+.sc-hint .t { color: rgba(239,237,230,.6); }
+.sc-hint .mouse { border-color: rgba(239,237,230,.4); }
+@media (max-width: 1023px) {
+  .sc-pin { height: auto; }
+  .sc-photos { position: relative; height: 54svh; margin-top: var(--nav-top); }
+  .sc-panel-wrap { position: relative; right: auto; top: auto; bottom: auto; width: auto; margin: -40px 20px 0; padding: 24px 20px; display: block; min-height: 0; z-index: 2; }
+  .sc-panel { position: static; padding: 0; display: block; }
+  .sc-stage { position: relative; left: auto; top: auto; transform: none; width: 60%; margin: 16px auto; }
+  .sc-variants { position: static; transform: none; text-align: left; display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 12px; }
+  .sc-count { position: static; transform: none; display: block; margin-top: 8px; }
+  .sc-line { margin-top: 18px; }
+  .sc-cta { position: static; margin-top: 18px; }
+  .sc-brand, .sc-hint { display: none; }
+  .sc-dots { position: static; justify-content: center; padding: 20px 0 8px; color: rgba(239,237,230,.6); }
+  .sc-mobile-track { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 0 20px 24px; scrollbar-width: none; }
+  .sc-mobile-track::-webkit-scrollbar { display: none; }
+  .sc-mcard { flex: 0 0 86vw; scroll-snap-align: center; background: var(--bone); color: var(--ink); padding: 24px 20px; display: grid; gap: 12px; }
+  .sc-mcut { width: 60%; margin: 0 auto; }
+  .sc-mcut img { width: 100%; height: auto; filter: drop-shadow(0 20px 30px rgba(26,27,29,.25)); }
+  .sc-mcard .sc-title { font-size: 2.2rem; }
+  .sc-mcard .sc-variants { justify-content: center; }
+  .sc-mcard .sc-line { text-align: center; max-width: none; }
+  .sc-mcard .btn { justify-self: center; }
+}
+
+/* ---- intro line under the showcase ---- */
+.col-intro { padding: var(--section-sm) 0 clamp(24px, 4vw, 48px); }
+.col-intro .display { font-size: clamp(2.6rem, 1.6rem + 4vw, 5.5rem); line-height: 1; }
+.col-intro .lead { margin-top: 18px; }
+.col-facts { max-width: 420px; }
 
 /* ---- filter bar ---- */
 .filters { position: sticky; top: var(--nav-h); z-index: 30; background: color-mix(in srgb, var(--bg) 94%, transparent); backdrop-filter: blur(14px); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 12px 0; }
@@ -426,15 +502,6 @@ html.is-entering .fade { opacity: 1; }
 @media (min-width: 1024px) { .filters .wrap { grid-template-columns: 1fr auto; align-items: center; } .filter-meta { justify-content: flex-end; } }
 @media (max-width: 767px) { .filters { position: static; } .filter-groups { overflow-x: auto; flex-wrap: nowrap; scrollbar-width: none; margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); } .filter-groups::-webkit-scrollbar { display: none; } .filter-group { flex-wrap: nowrap; } }
 
-/* ---- sticky mini nav (replaces the main nav after the header scrolls out) ---- */
-.mini-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 55; height: var(--nav-h); background: color-mix(in srgb, var(--bg) 94%, transparent); backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); transform: translateY(-100%); transition: transform .5s var(--ease-out); display: flex; align-items: center; }
-.mini-nav.is-on { transform: none; }
-.mini-nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-.mini-nav .mn-title { font-family: var(--font-display); font-weight: 300; font-size: 1.4rem; display: flex; align-items: baseline; gap: 10px; }
-.mini-nav .mn-title .small { color: var(--fg-2); }
-.mini-nav .mn-actions { display: flex; gap: 8px; align-items: center; }
-@media (max-width: 767px) { .mini-nav { display: none; } }
-
 /* ---- grid ---- */
 .catalog { padding: clamp(32px, 5vw, 64px) 0 var(--section-sm); }
 .shop-grid { display: grid; gap: 16px; grid-template-columns: 1fr; }
@@ -443,12 +510,8 @@ html.is-entering .fade { opacity: 1; }
 .pcard.is-hidden { display: none; }
 .empty { display: none; padding: 64px 0; text-align: center; }
 .empty.is-on { display: block; }
-
-/* ---- cross-sell ---- */
 .cross { padding: var(--section-sm) 0; }
 .cross .between { margin-bottom: 32px; }
-
-/* ---- delivery ---- */
 .delivery { display: grid; gap: 28px; padding: var(--section-sm) 0; border-top: 1px solid var(--line); }
 @media (min-width: 768px) { .delivery { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .delivery h3 { font-family: var(--font-display); font-weight: 300; font-size: 1.5rem; }
@@ -478,17 +541,48 @@ html.is-entering .fade { opacity: 1; }
 <body id="top" data-page="wallets">
 <a class="skip" href="#main">Skip to content</a>
 
+<div class="loader" role="status" aria-live="polite" aria-label="Loading">
+  <div class="pills" aria-hidden="true"><span class="pop" style="--x:14%;--y:20%">100% crazy horse leather</span><span class="pop light" style="--x:68%;--y:16%">Handmade in Pakistan</span><span class="pop" style="--x:8%;--y:58%">Saddle stitched</span><span class="pop" style="--x:70%;--y:74%">Cash on delivery</span><span class="pop light" style="--x:40%;--y:80%">Rs 1,740 to Rs 3,500</span><span class="pop light" style="--x:30%;--y:36%">Solid brass</span></div>
+  <div class="mark" aria-hidden="true"><span class="word">STAGR</span><span class="ldot"></span></div>
+  <div class="count" aria-hidden="true">000</div>
+  <button type="button" class="skip-btn">Skip</button>
+</div>
 <div class="fade" aria-hidden="true"></div>
 <div class="cursor" aria-hidden="true"><div class="ring"><span></span></div><div class="dot"></div></div>
 
-<nav class="nav" aria-label="Primary">
-  <div class="wrap">
+<nav class="nav on-dark" aria-label="Primary" data-nav>
+  <div class="wrap nav-top">
+    <div class="nav-util desk-only"><a href="https://wa.me/920000000000" target="_blank" rel="noopener" class="nav-underline">Contact us</a><a href="about.html#faq" class="nav-underline">Services</a></div>
+    <button type="button" class="burger" data-menu-open aria-expanded="false" aria-controls="menu" aria-label="Open menu"><i></i><i></i></button>
     <a class="brand" href="index.html" aria-label="Stagr, home">STAGR<span class="dot"></span></a>
-    <div class="links"><a href="wallets.html" class="nav-underline">Wallets</a><a href="belts.html" class="nav-underline">Belts</a><a href="about.html" class="nav-underline">Story</a></div>
     <div class="right">
-      <a class="shop" href="#filters">Shop <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <a class="shop desk-only" href="#filters">Shop <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
       <button type="button" class="icon-btn" data-cart-open aria-label="Open cart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span class="cart-count" aria-hidden="true">0</span></button>
-      <button type="button" class="burger" data-menu-open aria-expanded="false" aria-controls="menu" aria-label="Open menu"><i></i><i></i></button>
+    </div>
+  </div>
+  <div class="nav-bar desk-only">
+    <ul class="nav-main wrap" role="list">
+      <li data-mega="wallets"><a href="wallets.html" class="nav-underline is-active" aria-haspopup="true">Wallets</a></li>
+      <li data-mega="belts"><a href="belts.html" class="nav-underline" aria-haspopup="true">Belts</a></li>
+      <li><a href="index.html#inside" class="nav-underline">Inside</a></li>
+      <li><a href="about.html" class="nav-underline">The workshop</a></li>
+      <li><a href="about.html#bulk" class="nav-underline">Bulk orders</a></li>
+      <li><a href="index.html#shop" class="nav-underline">Shop</a></li>
+    </ul>
+  </div>
+  
+  <div class="mega" data-mega-panel="wallets" aria-hidden="true">
+    <div class="wrap">
+      <div class="mega-tabs" role="tablist"><button type="button" role="tab" aria-selected="true" data-mega-tab-btn="collections">Collections</button><button type="button" role="tab" aria-selected="false" data-mega-tab-btn="style">By style</button><button type="button" role="tab" aria-selected="false" data-mega-tab-btn="care">Care and sizing</button></div>
+      <div class="mega-row" data-mega-tab="collections"><a class="mega-item" href="product-kingsmann.html"><span class="mega-thumb"><img src="assets/cutouts/kingsmann-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Kingsmann</span></a><a class="mega-item" href="product-majestic.html"><span class="mega-thumb"><img src="assets/cutouts/majestic-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Majestic</span></a><a class="mega-item" href="product-maverick.html"><span class="mega-thumb"><img src="assets/cutouts/maverick-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Maverick</span></a><a class="mega-item" href="product-purefold.html"><span class="mega-thumb"><img src="assets/cutouts/purefold-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Purefold</span></a><a class="mega-item" href="product-rodeo.html"><span class="mega-thumb"><img src="assets/cutouts/rodeo-tan-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Rodeo</span></a><a class="mega-item" href="product-regal.html"><span class="mega-thumb"><img src="assets/cutouts/regal-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Regal</span></a><a class="mega-item" href="product-upbuck.html"><span class="mega-thumb"><img src="assets/cutouts/upbuck-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Upbuck</span></a></div><div class="mega-row" data-mega-tab="style" hidden><a class="mega-item" href="wallets.html#bifold"><span class="mega-thumb"><img src="assets/cutouts/kingsmann-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Bifold</span></a><a class="mega-item" href="wallets.html#trifold"><span class="mega-thumb"><img src="assets/cutouts/majestic-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Trifold</span></a><a class="mega-item" href="wallets.html#minimalist"><span class="mega-thumb"><img src="assets/cutouts/maverick-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Minimalist</span></a><a class="mega-item" href="wallets.html#long"><span class="mega-thumb"><img src="assets/cutouts/rodeo-tan-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Long</span></a></div><div class="mega-row mega-links" data-mega-tab="care" hidden><a class=link href=about.html#craft>How it is made</a><a class=link href=about.html#faq>Leather care</a><a class=link href=about.html#faq>Size guide</a><a class=link href=index.html#delivery>Delivery and returns</a><a class=link href=about.html#bulk>Bulk orders</a></div>
+      <p class="mega-all"><a class="link" href="wallets.html">View all wallets</a></p>
+    </div>
+  </div>
+  <div class="mega" data-mega-panel="belts" aria-hidden="true">
+    <div class="wrap">
+      <div class="mega-tabs" role="tablist"><button type="button" role="tab" aria-selected="true" data-mega-tab-btn="collections">Collections</button><button type="button" role="tab" aria-selected="false" data-mega-tab-btn="style">By style</button><button type="button" role="tab" aria-selected="false" data-mega-tab-btn="care">Care and sizing</button></div>
+      <div class="mega-row" data-mega-tab="collections"><a class="mega-item" href="product-nova.html"><span class="mega-thumb"><img src="assets/cutouts/nova-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Nova</span></a><a class="mega-item" href="product-outlaw.html"><span class="mega-thumb"><img src="assets/cutouts/outlaw-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Outlaw</span></a><a class="mega-item" href="product-regent.html"><span class="mega-thumb"><img src="assets/cutouts/regent-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Regent</span></a><a class="mega-item" href="product-monarch.html"><span class="mega-thumb"><img src="assets/cutouts/monarch-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Monarch</span></a></div><div class="mega-row" data-mega-tab="style" hidden><a class="mega-item" href="belts.html#classic"><span class="mega-thumb"><img src="assets/cutouts/outlaw-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Classic</span></a><a class="mega-item" href="belts.html#double-sided"><span class="mega-thumb"><img src="assets/cutouts/nova-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Double-sided</span></a><a class="mega-item" href="belts.html?colour=Tan"><span class="mega-thumb"><img src="assets/cutouts/monarch-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Tan</span></a><a class="mega-item" href="belts.html?colour=Black"><span class="mega-thumb"><img src="assets/cutouts/regent-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Black</span></a></div><div class="mega-row mega-links" data-mega-tab="care" hidden><a class=link href=about.html#craft>How it is made</a><a class=link href=about.html#faq>Leather care</a><a class=link href=product-nova.html#details>Size guide</a><a class=link href=index.html#delivery>Delivery and returns</a><a class=link href=about.html#bulk>Bulk orders</a></div>
+      <p class="mega-all"><a class="link" href="belts.html">View all belts</a></p>
     </div>
   </div>
 </nav>
@@ -496,31 +590,93 @@ html.is-entering .fade { opacity: 1; }
 <div class="menu" id="menu" aria-hidden="true">
   <div class="menu-top"><span class="brand wordmark" style="font-size:1.25rem">STAGR<span class="dot"></span></span><button type="button" class="icon-btn" data-menu-close aria-label="Close menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
   <div class="menu-links"><a class="menu-link" href="index.html"><sup>01</sup>Home</a><a class="menu-link" href="wallets.html"><sup>02</sup>Wallets</a><a class="menu-link" href="belts.html"><sup>03</sup>Belts</a><a class="menu-link" href="about.html"><sup>04</sup>Story</a><a class="menu-link" href="index.html#shop"><sup>05</sup>Shop</a></div>
+  <div class="menu-sub desk-hide"><div><p class="label">Wallets</p><a href="product-kingsmann.html">Kingsmann</a><a href="product-majestic.html">Majestic</a><a href="product-maverick.html">Maverick</a><a href="product-purefold.html">Purefold</a><a href="product-rodeo.html">Rodeo</a><a href="product-regal.html">Regal</a><a href="product-upbuck.html">Upbuck</a></div><div><p class="label">Belts</p><a href="product-nova.html">Nova</a><a href="product-outlaw.html">Outlaw</a><a href="product-regent.html">Regent</a><a href="product-monarch.html">Monarch</a></div></div>
   <div class="menu-foot"><span>stagr.pk · Handmade in Pakistan</span><span><a href="https://wa.me/920000000000" target="_blank" rel="noopener">WhatsApp</a> &nbsp;·&nbsp; <a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a> &nbsp;·&nbsp; <button type="button" class="theme-toggle" aria-pressed="false">Dark mode</button></span></div>
 </div>
 
 <main id="main">
 
-<section class="col-hero on-bone" aria-labelledby="col-title" data-col-hero>
-  <div class="wrap grid">
-    <div class="col-12 lg:col-6">
-      <p class="label" data-reveal><b>01</b><span class="slash">/</span>Wallets · 7 styles</p>
-      <h1 class="display" id="col-title" data-col-title style="margin-top:14px">Wallets<span class="dotc">.</span></h1>
-      <p class="lead" data-reveal data-delay=".3">Folded, skived and stitched by hand. Slim enough for a jacket, lined in calf.</p>
-      <dl class="spec col-facts" data-reveal data-delay=".4"><div><dt>Leather</dt><dd>Crazy horse, full grain</dd></div><div><dt>Pieces</dt><dd>7 styles</dd></div><div><dt>Colours</dt><dd>Brown / Tan / Black</dd></div><div><dt>From</dt><dd>Rs 1,740</dd></div></dl>
+<section class="showcase on-ink" aria-label="Wallets collections" data-showcase>
+  <div class="sc-pin" data-sc-pin>
+    <div class="sc-photos" data-sc-photos><div class="sc-photo" data-sc-photo="0" style="opacity:1;--tint:#6B3F2A"><img src="assets/lifestyle/kingsmen-01.jpg" srcset="assets/lifestyle/kingsmen-01-800.jpg 800w, assets/lifestyle/kingsmen-01.jpg 1600w" sizes="(min-width: 1024px) 60vw, 100vw" alt="" width="1200" height="1500" fetchpriority=high></div><div class="sc-photo" data-sc-photo="1" style="opacity:0;--tint:#4A3A33"><img src="assets/lifestyle/majestic-01.jpg" srcset="assets/lifestyle/majestic-01-800.jpg 800w, assets/lifestyle/majestic-01.jpg 1600w" sizes="(min-width: 1024px) 60vw, 100vw" alt="" width="1200" height="1500" loading=lazy></div><div class="sc-photo" data-sc-photo="2" style="opacity:0;--tint:#7A5A3A"><img src="assets/lifestyle/maverick-01.jpg" srcset="assets/lifestyle/maverick-01-800.jpg 800w, assets/lifestyle/maverick-01.jpg 1600w" sizes="(min-width: 1024px) 60vw, 100vw" alt="" width="1200" height="1500" loading=lazy></div><div class="sc-photo" data-sc-photo="3" style="opacity:0;--tint:#8B4A1F"><img src="assets/lifestyle/rodeo-01.jpg" srcset="assets/lifestyle/rodeo-01-800.jpg 800w, assets/lifestyle/rodeo-01.jpg 1600w" sizes="(min-width: 1024px) 60vw, 100vw" alt="" width="1200" height="1500" loading=lazy></div></div>
+    <p class="sc-brand">Handmade in Pakistan · Crazy horse leather</p>
+    <div class="sc-panel-wrap on-bone desk-only" data-sc-panelwrap>
+      
+<div class="sc-panel" data-sc-panel="0" >
+  <h2 class="sc-title" data-sc-title>Bifold</h2>
+  <p class="label sc-kicker" data-sc-item>Collection · from Rs 1,950</p>
+  <ul class="sc-variants" data-sc-variants><li><button type="button" class="is-on" data-sc-variant="assets/cutouts/kingsmann-brown-1.webp" data-sc-href="product-kingsmann.html" data-sc-item>Kingsmann Brown</button></li><li><button type="button" class="" data-sc-variant="assets/cutouts/kingsmann-black-1.webp" data-sc-href="product-kingsmann.html" data-sc-item>Kingsmann Black</button></li><li><button type="button" class="" data-sc-variant="assets/cutouts/regal-brown-1.webp" data-sc-href="product-regal.html" data-sc-item>Regal Brown</button></li><li><button type="button" class="" data-sc-variant="assets/cutouts/regal-black-1.webp" data-sc-href="product-regal.html" data-sc-item>Regal Black</button></li></ul>
+  <p class="sc-line" data-sc-item>A fold that stays flat<br>in a jacket pocket</p>
+  <a class="btn sc-cta" data-sc-item data-sc-cta href="product-kingsmann.html">Discover the collection <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+</div>
+<div class="sc-panel" data-sc-panel="1" hidden>
+  <h2 class="sc-title" data-sc-title>Trifold</h2>
+  <p class="label sc-kicker" data-sc-item>Collection · from Rs 2,600</p>
+  <ul class="sc-variants" data-sc-variants><li><button type="button" class="is-on" data-sc-variant="assets/cutouts/majestic-brown-1.webp" data-sc-href="product-majestic.html" data-sc-item>Brown</button></li><li><button type="button" class="" data-sc-variant="assets/cutouts/majestic-black-1.webp" data-sc-href="product-majestic.html" data-sc-item>Black</button></li></ul>
+  <p class="sc-line" data-sc-item>Three folds, one row<br>of saddle stitch</p>
+  <a class="btn sc-cta" data-sc-item data-sc-cta href="product-majestic.html">Discover the collection <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+</div>
+<div class="sc-panel" data-sc-panel="2" hidden>
+  <h2 class="sc-title" data-sc-title>Minimalist</h2>
+  <p class="label sc-kicker" data-sc-item>Collection · from Rs 1,740</p>
+  <ul class="sc-variants" data-sc-variants><li><button type="button" class="is-on" data-sc-variant="assets/cutouts/maverick-brown-1.webp" data-sc-href="product-maverick.html" data-sc-item>Maverick Brown</button></li><li><button type="button" class="" data-sc-variant="assets/cutouts/maverick-black-1.webp" data-sc-href="product-maverick.html" data-sc-item>Maverick Black</button></li><li><button type="button" class="" data-sc-variant="assets/cutouts/purefold-brown-1.webp" data-sc-href="product-purefold.html" data-sc-item>Purefold Brown</button></li><li><button type="button" class="" data-sc-variant="assets/cutouts/purefold-black-1.webp" data-sc-href="product-purefold.html" data-sc-item>Purefold Black</button></li></ul>
+  <p class="sc-line" data-sc-item>The slim ones,<br>for a front pocket</p>
+  <a class="btn sc-cta" data-sc-item data-sc-cta href="product-maverick.html">Discover the collection <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+</div>
+<div class="sc-panel" data-sc-panel="3" hidden>
+  <h2 class="sc-title" data-sc-title>Long</h2>
+  <p class="label sc-kicker" data-sc-item>Collection · from Rs 3,400</p>
+  <ul class="sc-variants" data-sc-variants><li><button type="button" class="is-on" data-sc-variant="assets/cutouts/rodeo-tan-1.webp" data-sc-href="product-rodeo.html" data-sc-item>Rodeo Tan</button></li><li><button type="button" class="" data-sc-variant="assets/cutouts/rodeo-black-1.webp" data-sc-href="product-rodeo.html" data-sc-item>Rodeo Black</button></li><li><button type="button" class="" data-sc-variant="assets/cutouts/upbuck-brown-1.webp" data-sc-href="product-upbuck.html" data-sc-item>Upbuck Brown</button></li><li><button type="button" class="" data-sc-variant="assets/cutouts/upbuck-black-1.webp" data-sc-href="product-upbuck.html" data-sc-item>Upbuck Black</button></li></ul>
+  <p class="sc-line" data-sc-item>Cards, notes and<br>a snap closure</p>
+  <a class="btn sc-cta" data-sc-item data-sc-cta href="product-rodeo.html">Discover the collection <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+</div>
+      <span class="sc-count" data-sc-count>01 – 04</span>
+      <div class="sc-stage" data-sc-stage><div class="sc-cut" data-sc-cut="0" style="opacity:1"><img data-sc-cut-img src="assets/cutouts/kingsmann-brown-1.webp" alt="Bifold wallet" width="900" height="900" decoding="async"></div><div class="sc-cut" data-sc-cut="1" style="opacity:0"><img data-sc-cut-img src="assets/cutouts/majestic-brown-1.webp" alt="Trifold wallet" width="900" height="900" decoding="async"></div><div class="sc-cut" data-sc-cut="2" style="opacity:0"><img data-sc-cut-img src="assets/cutouts/maverick-brown-1.webp" alt="Minimalist wallet" width="900" height="900" decoding="async"></div><div class="sc-cut" data-sc-cut="3" style="opacity:0"><img data-sc-cut-img src="assets/cutouts/rodeo-tan-1.webp" alt="Long wallet" width="900" height="900" decoding="async"></div></div>
     </div>
-    <div class="col-12 lg:col-5 lg:start-8">
-      <div class="col-stage" data-col-stage><div class="bloom" style="--bloom:#D9B07A" data-bloom></div><span class="ghost">01</span><div class="pair"><img class="p-a" src="assets/cutouts/kingsmann-brown-1.webp" alt="" width="900" height="900" decoding="async"><img class="p-b" src="assets/cutouts/rodeo-tan-1.webp" alt="" width="900" height="900" decoding="async"></div></div>
-    </div>
+    <div class="sc-mobile-track mob-only" data-sc-mtrack>
+<article class="sc-mcard on-bone" data-sc-mcard="0">
+  <div class="sc-mcut"><img src="assets/cutouts/kingsmann-brown-1-600.webp" alt="" width="600" height="600" loading="lazy"></div>
+  <h2 class="sc-title" data-sc-mtitle>Bifold</h2>
+  <p class="label" data-sc-mitem>Collection · from Rs 1,950</p>
+  <ul class="sc-variants" data-sc-mitem><li><a href="product-kingsmann.html">Kingsmann Brown</a></li><li><a href="product-kingsmann.html">Kingsmann Black</a></li><li><a href="product-regal.html">Regal Brown</a></li><li><a href="product-regal.html">Regal Black</a></li></ul>
+  <p class="sc-line" data-sc-mitem>A fold that stays flat<br>in a jacket pocket</p>
+  <a class="btn" data-sc-mitem href="product-kingsmann.html">Discover <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+</article>
+<article class="sc-mcard on-bone" data-sc-mcard="1">
+  <div class="sc-mcut"><img src="assets/cutouts/majestic-brown-1-600.webp" alt="" width="600" height="600" loading="lazy"></div>
+  <h2 class="sc-title" data-sc-mtitle>Trifold</h2>
+  <p class="label" data-sc-mitem>Collection · from Rs 2,600</p>
+  <ul class="sc-variants" data-sc-mitem><li><a href="product-majestic.html">Brown</a></li><li><a href="product-majestic.html">Black</a></li></ul>
+  <p class="sc-line" data-sc-mitem>Three folds, one row<br>of saddle stitch</p>
+  <a class="btn" data-sc-mitem href="product-majestic.html">Discover <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+</article>
+<article class="sc-mcard on-bone" data-sc-mcard="2">
+  <div class="sc-mcut"><img src="assets/cutouts/maverick-brown-1-600.webp" alt="" width="600" height="600" loading="lazy"></div>
+  <h2 class="sc-title" data-sc-mtitle>Minimalist</h2>
+  <p class="label" data-sc-mitem>Collection · from Rs 1,740</p>
+  <ul class="sc-variants" data-sc-mitem><li><a href="product-maverick.html">Maverick Brown</a></li><li><a href="product-maverick.html">Maverick Black</a></li><li><a href="product-purefold.html">Purefold Brown</a></li><li><a href="product-purefold.html">Purefold Black</a></li></ul>
+  <p class="sc-line" data-sc-mitem>The slim ones,<br>for a front pocket</p>
+  <a class="btn" data-sc-mitem href="product-maverick.html">Discover <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+</article>
+<article class="sc-mcard on-bone" data-sc-mcard="3">
+  <div class="sc-mcut"><img src="assets/cutouts/rodeo-tan-1-600.webp" alt="" width="600" height="600" loading="lazy"></div>
+  <h2 class="sc-title" data-sc-mtitle>Long</h2>
+  <p class="label" data-sc-mitem>Collection · from Rs 3,400</p>
+  <ul class="sc-variants" data-sc-mitem><li><a href="product-rodeo.html">Rodeo Tan</a></li><li><a href="product-rodeo.html">Rodeo Black</a></li><li><a href="product-upbuck.html">Upbuck Brown</a></li><li><a href="product-upbuck.html">Upbuck Black</a></li></ul>
+  <p class="sc-line" data-sc-mitem>Cards, notes and<br>a snap closure</p>
+  <a class="btn" data-sc-mitem href="product-rodeo.html">Discover <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+</article></div>
+    <div class="sc-dots"><button type="button" data-sc-dot="0" aria-label="Show Bifold" style="color:var(--ink)">01</button><button type="button" data-sc-dot="1" aria-label="Show Trifold" style="color:var(--mist)">02</button><button type="button" data-sc-dot="2" aria-label="Show Minimalist" style="color:var(--mist)">03</button><button type="button" data-sc-dot="3" aria-label="Show Long" style="color:var(--mist)">04</button></div>
+    <div class="scroll-hint sc-hint desk-only" aria-hidden="true"><span class="t">Scroll</span><span class="mouse"><i data-scroll-dot></i></span></div>
   </div>
 </section>
 
-<div class="mini-nav" aria-hidden="true">
-  <div class="wrap">
-    <a class="mn-title" href="#top">Wallets <span class="small" data-count-mini>7</span></a>
-    <div class="mn-actions"><button type="button" class="btn btn--ghost btn--sm" data-scroll-to="#filters">Filters</button><a class="btn btn--ghost btn--sm" href="belts.html">Belts</a><button type="button" class="icon-btn" data-cart-open aria-label="Open cart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span class="cart-count" aria-hidden="true">0</span></button></div>
+<section class="col-intro on-bone" id="bifold" aria-labelledby="col-title">
+  <div class="wrap grid" style="align-items:end">
+    <div class="col-12 lg:col-7"><p class="label" data-reveal><b>01</b><span class="slash">/</span>All wallets · 7 styles</p><h1 class="display" id="col-title" data-text-reveal="chars" style="margin-top:14px">Wallets<span class="dotc">.</span></h1><p class="lead" data-reveal data-delay=".2">Folded, skived and stitched by hand. Slim enough for a jacket, lined in calf.</p></div>
+    <dl class="col-12 lg:col-4 lg:start-9 spec col-facts" data-reveal data-delay=".3"><div><dt>Leather</dt><dd>Crazy horse, full grain</dd></div><div><dt>Pieces</dt><dd>7 styles</dd></div><div><dt>Colours</dt><dd>Brown / Tan / Black</dd></div><div><dt>From</dt><dd>Rs 1,740</dd></div></dl>
   </div>
-</div>
+</section>
 
 <section class="filters" id="filters" aria-label="Filter and sort">
   <div class="wrap">
@@ -761,47 +917,83 @@ html.is-entering .fade { opacity: 1; }
 const COLLECTION = [{"id": "kingsmann", "name": "Kingsmann Bifold Leather Wallet", "style": "Bifold", "tagline": "Crafted for the Modern Gentleman", "price": 2600, "compareAtPrice": 3999, "colours": ["Brown", "Black"], "defaultColour": "Brown", "line": "wallet", "sizes": null, "cutouts": [{"colour": "Brown", "src": "assets/cutouts/kingsmann-brown-1.webp", "small": "assets/cutouts/kingsmann-brown-1-600.webp"}, {"colour": "Brown", "src": "assets/cutouts/kingsmann-brown-2.webp", "small": "assets/cutouts/kingsmann-brown-2-600.webp"}, {"colour": "Black", "src": "assets/cutouts/kingsmann-black-1.webp", "small": "assets/cutouts/kingsmann-black-1-600.webp"}, {"colour": "Black", "src": "assets/cutouts/kingsmann-black-2.webp", "small": "assets/cutouts/kingsmann-black-2-600.webp"}]}, {"id": "majestic", "name": "Majestic Trifold Leather Wallet", "style": "Trifold", "tagline": "Timeless Craftsmanship", "price": 2600, "compareAtPrice": 3999, "colours": ["Brown", "Black"], "defaultColour": "Brown", "line": "wallet", "sizes": null, "cutouts": [{"colour": "Brown", "src": "assets/cutouts/majestic-brown-1.webp", "small": "assets/cutouts/majestic-brown-1-600.webp"}, {"colour": "Brown", "src": "assets/cutouts/majestic-brown-2.webp", "small": "assets/cutouts/majestic-brown-2-600.webp"}, {"colour": "Black", "src": "assets/cutouts/majestic-black-1.webp", "small": "assets/cutouts/majestic-black-1-600.webp"}, {"colour": "Black", "src": "assets/cutouts/majestic-black-2.webp", "small": "assets/cutouts/majestic-black-2-600.webp"}]}, {"id": "maverick", "name": "Maverick Minimalist Leather Wallet", "style": "Minimalist", "tagline": "Where Function Meets Fashion", "price": 1740, "compareAtPrice": 2899, "colours": ["Brown", "Black"], "defaultColour": "Brown", "line": "wallet", "sizes": null, "cutouts": [{"colour": "Brown", "src": "assets/cutouts/maverick-brown-1.webp", "small": "assets/cutouts/maverick-brown-1-600.webp"}, {"colour": "Brown", "src": "assets/cutouts/maverick-brown-2.webp", "small": "assets/cutouts/maverick-brown-2-600.webp"}, {"colour": "Black", "src": "assets/cutouts/maverick-black-1.webp", "small": "assets/cutouts/maverick-black-1-600.webp"}, {"colour": "Black", "src": "assets/cutouts/maverick-black-2.webp", "small": "assets/cutouts/maverick-black-2-600.webp"}]}, {"id": "purefold", "name": "Purefold Minimalist Leather Wallet", "style": "Minimalist", "tagline": "Minimalism Perfected", "price": 1800, "compareAtPrice": 2999, "colours": ["Brown", "Black"], "defaultColour": "Brown", "line": "wallet", "sizes": null, "cutouts": [{"colour": "Brown", "src": "assets/cutouts/purefold-brown-1.webp", "small": "assets/cutouts/purefold-brown-1-600.webp"}, {"colour": "Brown", "src": "assets/cutouts/purefold-brown-2.webp", "small": "assets/cutouts/purefold-brown-2-600.webp"}, {"colour": "Black", "src": "assets/cutouts/purefold-black-1.webp", "small": "assets/cutouts/purefold-black-1-600.webp"}, {"colour": "Black", "src": "assets/cutouts/purefold-black-2.webp", "small": "assets/cutouts/purefold-black-2-600.webp"}]}, {"id": "rodeo", "name": "Rodeo Long Leather Wallet", "style": "Long", "tagline": "Sleek Style, Endless Storage", "price": 3500, "compareAtPrice": 4999, "colours": ["Tan", "Black"], "defaultColour": "Tan", "line": "wallet", "sizes": null, "cutouts": [{"colour": "Tan", "src": "assets/cutouts/rodeo-tan-1.webp", "small": "assets/cutouts/rodeo-tan-1-600.webp"}, {"colour": "Tan", "src": "assets/cutouts/rodeo-tan-2.webp", "small": "assets/cutouts/rodeo-tan-2-600.webp"}, {"colour": "Black", "src": "assets/cutouts/rodeo-black-1.webp", "small": "assets/cutouts/rodeo-black-1-600.webp"}, {"colour": "Black", "src": "assets/cutouts/rodeo-black-2.webp", "small": "assets/cutouts/rodeo-black-2-600.webp"}]}, {"id": "regal", "name": "Regal Bifold Leather Wallet", "style": "Bifold", "tagline": "A Fold Above the Rest", "price": 1950, "compareAtPrice": 2999, "colours": ["Brown", "Black"], "defaultColour": "Brown", "line": "wallet", "sizes": null, "cutouts": [{"colour": "Brown", "src": "assets/cutouts/regal-brown-1.webp", "small": "assets/cutouts/regal-brown-1-600.webp"}, {"colour": "Brown", "src": "assets/cutouts/regal-brown-2.webp", "small": "assets/cutouts/regal-brown-2-600.webp"}, {"colour": "Black", "src": "assets/cutouts/regal-black-1.webp", "small": "assets/cutouts/regal-black-1-600.webp"}, {"colour": "Black", "src": "assets/cutouts/regal-black-2.webp", "small": "assets/cutouts/regal-black-2-600.webp"}]}, {"id": "upbuck", "name": "Upbuck Long Leather Wallet", "style": "Long", "tagline": "Chic Storage for the Savvy", "price": 3400, "compareAtPrice": 4999, "colours": ["Brown", "Black"], "defaultColour": "Brown", "line": "wallet", "sizes": null, "cutouts": [{"colour": "Brown", "src": "assets/cutouts/upbuck-brown-1.webp", "small": "assets/cutouts/upbuck-brown-1-600.webp"}, {"colour": "Brown", "src": "assets/cutouts/upbuck-brown-2.webp", "small": "assets/cutouts/upbuck-brown-2-600.webp"}, {"colour": "Black", "src": "assets/cutouts/upbuck-black-1.webp", "small": "assets/cutouts/upbuck-black-1-600.webp"}, {"colour": "Black", "src": "assets/cutouts/upbuck-black-2.webp", "small": "assets/cutouts/upbuck-black-2-600.webp"}]}];
 const SWATCH = { Brown: "#6E4328", Black: "#1A1512", Tan: "#B0773F", Coffee: "#4A3024" };
 function initAnimations() {
-  const S = window.STAGR, G = S.gsap, ST = window.ScrollTrigger, Flip = window.Flip, $ = S.$, $$ = S.$$, reduced = S.reduced;
+  const S = window.STAGR, G = S.gsap, ST = window.ScrollTrigger, Flip = window.Flip, $ = S.$, $$ = S.$$, reduced = S.reduced, isMobile = S.isMobile, clamp = S.clamp;
   if (!G) return;
+
+  /* ================= showcase ================= */
+  const pin = $("[data-sc-pin]"), photos = $$("[data-sc-photo]"), panels = $$("[data-sc-panel]"), cuts = $$("[data-sc-cut]"), dots = $$("[data-sc-dot]"), count = $("[data-sc-count]"), stage = $("[data-sc-stage]");
+  const n = photos.length; let active = 0, shown = 0, swapping = false, titleSplit = null;
+  const pad = (i) => "0" + (i + 1);
+  const bindVariants = (panel, i) => {
+    const img = $("img", cuts[i]), cta = $("[data-sc-cta]", panel);
+    $$("[data-sc-variant]", panel).forEach((b) => b.addEventListener("click", () => { $$("[data-sc-variant]", panel).forEach((x) => x.classList.toggle("is-on", x === b)); if (cta) cta.href = b.dataset.scHref; if (img.getAttribute("src") === b.dataset.scVariant) return; G.to(img, { opacity: 0, x: -14, duration: .2, ease: "power2.in", onComplete: () => { img.src = b.dataset.scVariant; G.fromTo(img, { opacity: 0, x: 18 }, { opacity: 1, x: 0, duration: .5, ease: "power3.out" }); } }); }));
+  };
+  const showPanel = (i) => {
+    const panel = panels[i];
+    G.fromTo($$("[data-sc-item]", panel), { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: .45, ease: "power2.out", stagger: .05, delay: .08, overwrite: "auto" });
+    if (titleSplit) titleSplit.revert(); titleSplit = null;
+    if (!reduced) titleSplit = S.charRise($("[data-sc-title]", panel), { from: 110, to: { duration: .6, stagger: .03, overwrite: "auto" } });
+  };
+  const swap = () => { if (shown === active || swapping) return; swapping = true; G.to(panels[shown], { y: -18, opacity: 0, duration: .22, ease: "power3.in", onComplete: () => { panels[shown].hidden = true; shown = active; panels[shown].hidden = false; G.set(panels[shown], { y: 0, opacity: 1 }); showPanel(shown); swapping = false; swap(); } }); };
+  const setActive = (next) => {
+    if (next === active) return; const fwd = next > active; active = next;
+    photos.forEach((ph, i) => { G.to(ph, { opacity: i === next ? 1 : 0, duration: .9, ease: "power2.inOut", overwrite: "auto" }); if (i === next) G.fromTo($("img", ph), { scale: 1.16, xPercent: fwd ? 2 : -2 }, { scale: 1.08, xPercent: 0, duration: 1.6, ease: "power3.out", overwrite: "auto" }); });
+    cuts.forEach((c, i) => { if (i === next) G.fromTo(c, { opacity: 0, x: fwd ? 60 : -60, rotation: fwd ? 6 : -6, scale: .9 }, { opacity: 1, x: 0, rotation: 0, scale: 1, duration: .8, ease: "power3.out", delay: .1, overwrite: "auto" }); else G.to(c, { opacity: 0, x: fwd ? -40 : 40, scale: .92, duration: .4, ease: "power2.in", overwrite: "auto" }); });
+    dots.forEach((d, i) => d.classList.toggle("is-on", i === next));
+    if (count) count.textContent = pad(next) + " – " + pad(n - 1);
+    if (!isMobile) swap();
+  };
+  dots.forEach((d, i) => d.classList.toggle("is-on", i === 0));
+  if (count) count.textContent = "01 – " + pad(n - 1);
+  if (!isMobile) {
+    panels.forEach(bindVariants);
+    G.set($$("[data-sc-item]", panels[0]), { opacity: 0 });
+    const trigger = ST.create({ trigger: pin, start: "top top", end: () => "+=" + (n * innerHeight), pin: true, pinSpacing: true, scrub: 1, snap: { snapTo: Array.from({ length: n }, (_, i) => i / (n - 1)), duration: { min: .25, max: .55 }, ease: "power2.inOut", directional: false, delay: .1 }, invalidateOnRefresh: true, refreshPriority: 2,
+      onUpdate: (self) => { const step = 1 / (n - 1); let next = active; while (next < n - 1 && self.progress > (next + .5) * step + .04) next++; while (next > 0 && self.progress < (next - .5) * step - .04) next--; setActive(next); } });
+    dots.forEach((d, i) => d.addEventListener("click", () => S.scrollToProgress(trigger, i / (n - 1), 1)));
+    // entrance (after loader)
+    const wrap = $("[data-sc-panelwrap]");
+    G.set(wrap, { opacity: 0, x: 40 });
+    S.onLoaderDone.push(() => { G.to(wrap, { opacity: 1, x: 0, duration: 1, ease: "power3.out", delay: .1 }); G.fromTo($("img", photos[0]), { scale: 1.2 }, { scale: 1.08, duration: 2, ease: "power3.out" }); showPanel(0); G.fromTo(cuts[0], { opacity: 0, y: 30, scale: .9 }, { opacity: 1, y: 0, scale: 1, duration: 1, ease: "power3.out", delay: .35 }); if (!reduced) G.to($("img", cuts[0]), { y: -8, duration: 3.2, yoyo: true, repeat: -1, ease: "sine.inOut", delay: 1.4 }); });
+    const dot = $("[data-scroll-dot]"); if (dot && !reduced) G.timeline({ repeat: -1, repeatDelay: .5 }).set(dot, { y: 0, opacity: 0 }).to(dot, { opacity: 1, duration: .25 }).to(dot, { y: 19, duration: 1, ease: "power2.inOut" }, .1).to(dot, { opacity: 0, duration: .3 }, .85);
+  } else {
+    const track = $("[data-sc-mtrack]"), titles = $$("[data-sc-mtitle]", track); let split = null;
+    const reveal = (i) => { const t = titles[i], items = $$("[data-sc-mitem]", t.closest("article")); if (reduced) { G.set([t, ...items], { opacity: 1 }); return; } if (split) split.revert(); split = S.charRise(t, { from: 108, to: { duration: .55, stagger: .03, overwrite: "auto" } }); G.set(t, { opacity: 1 }); G.fromTo(items, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: .45, ease: "power2.out", stagger: .05, delay: .1, overwrite: "auto" }); };
+    titles.forEach((t, i) => { if (i) G.set([t, ...$$("[data-sc-mitem]", t.closest("article"))], { opacity: 0 }); });
+    S.onLoaderDone.push(() => reveal(0));
+    S.watchCarousel(track, (next, prev) => { setActive(next); const old = titles[prev]; G.to([old, ...$$("[data-sc-mitem]", old.closest("article"))], { opacity: 0, duration: .12, overwrite: "auto" }); reveal(next); });
+    dots.forEach((d, i) => d.addEventListener("click", () => S.scrollCarouselTo(track, i)));
+  }
+
+  /* ================= intro + reveals ================= */
+  S.initReveals($(".col-intro")); S.initReveals($(".catalog")); S.initReveals($(".cross"));
+
+  /* ================= filters with Flip ================= */
   const grid = $("[data-grid]"), cards = $$("[data-product]", grid), empty = $("[data-empty]");
   const state = { colour: "", style: "", price: "", sort: "default" };
-
-  /* ---- header entrance ---- */
-  const title = $("[data-col-title]"), stage = $("[data-col-stage]");
-  const ready = document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve();
-  ready.then(() => { S.charRise(title, { to: { duration: .8, stagger: .04, delay: .1 } }); G.set(title, { opacity: 1 }); });
-  G.fromTo(stage, { opacity: 0, y: 40, scale: .94 }, { opacity: 1, y: 0, scale: 1, duration: 1.2, ease: "power3.out", delay: .25 });
-  G.fromTo($$(".pair img", stage), { y: 30, rotation: 0 }, { y: 0, duration: 1.4, ease: "power3.out", stagger: .12, delay: .3, clearProps: "y" });
-  if (!reduced) $$(".pair img", stage).forEach((im, i) => G.to(im, { y: i ? 8 : -8, duration: 3.2 + i, yoyo: true, repeat: -1, ease: "sine.inOut", delay: 1.8 }));
-  S.initReveals($("[data-col-hero]")); S.initReveals($(".catalog")); S.initReveals($(".cross"));
-
-  /* ---- sticky mini nav ---- */
-  const mini = $(".mini-nav"), hero = $("[data-col-hero]"), nav = $(".nav");
-  const check = () => { const on = hero.getBoundingClientRect().bottom < 0; mini.classList.toggle("is-on", on); mini.setAttribute("aria-hidden", String(!on)); nav.classList.toggle("is-hidden", on); };
-  window.addEventListener("scroll", check, { passive: true }); check();
-
-  /* ---- filters with Flip ---- */
+  const qs = new URLSearchParams(location.search); if (qs.get("colour")) state.colour = qs.get("colour"); if (qs.get("style")) state.style = qs.get("style");
   const passes = (c) => { const cols = c.dataset.colours.split(","), price = +c.dataset.price; if (state.colour && cols.indexOf(state.colour) < 0) return false; if (state.style && c.dataset.style !== state.style) return false; if (state.price) { const [lo, hi] = state.price.split("-").map(Number); if (price < lo || price > hi) return false; } return true; };
   const sorters = { default: (a, b) => +a.dataset.index - +b.dataset.index, "price-asc": (a, b) => +a.dataset.price - +b.dataset.price, "price-desc": (a, b) => +b.dataset.price - +a.dataset.price, name: (a, b) => a.dataset.name.localeCompare(b.dataset.name) };
-  const apply = () => {
-    const st = Flip && !reduced ? Flip.getState(cards) : null;
+  const apply = (animate) => {
+    const st = animate && Flip && !reduced ? Flip.getState(cards) : null;
     cards.slice().sort(sorters[state.sort] || sorters.default).forEach((c) => grid.appendChild(c));
-    let n = 0; cards.forEach((c) => { const ok = passes(c); c.classList.toggle("is-hidden", !ok); if (ok) n++; });
-    $$("[data-count], [data-count-mini]").forEach((el) => el.textContent = n);
-    empty.classList.toggle("is-on", n === 0);
+    let k = 0; cards.forEach((c) => { const ok = passes(c); c.classList.toggle("is-hidden", !ok); if (ok) k++; });
+    $$("[data-count]").forEach((el) => el.textContent = k);
+    empty.classList.toggle("is-on", k === 0);
     $$("[data-clear]").forEach((b) => b.classList.toggle("is-on", !!(state.colour || state.style || state.price)));
+    ["colour", "style", "price"].forEach((key) => $$('[data-filter="' + key + '"]').forEach((x) => x.setAttribute("aria-pressed", String(x.dataset.value === state[key]))));
     if (st) Flip.from(st, { duration: .7, ease: "power3.out", stagger: .03, absolute: true, scale: true, onEnter: (els) => G.fromTo(els, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: .5, ease: "power2.out" }), onLeave: (els) => G.to(els, { opacity: 0, y: 12, duration: .3 }) });
     ST.refresh();
   };
-  $$("[data-filter]").forEach((b) => b.addEventListener("click", () => { const k = b.dataset.filter, v = b.dataset.value; state[k] = state[k] === v ? "" : v; $$('[data-filter="' + k + '"]').forEach((x) => x.setAttribute("aria-pressed", String(x.dataset.value === state[k]))); apply(); }));
-  $$("[data-clear]").forEach((b) => b.addEventListener("click", () => { state.colour = state.style = state.price = ""; $$("[data-filter]").forEach((x) => x.setAttribute("aria-pressed", String(x.dataset.value === ""))); apply(); }));
-  const sort = $("[data-sort]"); sort && sort.addEventListener("change", () => { state.sort = sort.value; apply(); });
-  $$("[data-scroll-to]").forEach((b) => b.addEventListener("click", () => S.scrollTo(b.dataset.scrollTo)));
+  $$("[data-filter]").forEach((b) => b.addEventListener("click", () => { const k = b.dataset.filter, v = b.dataset.value; state[k] = state[k] === v ? "" : v; apply(true); }));
+  $$("[data-clear]").forEach((b) => b.addEventListener("click", () => { state.colour = state.style = state.price = ""; apply(true); }));
+  const sort = $("[data-sort]"); sort && sort.addEventListener("change", () => { state.sort = sort.value; apply(true); });
+  if (state.colour || state.style) apply(false);
 
   /* ---- colour option swaps the card image ---- */
   cards.concat($$(".cross [data-product]")).forEach((card) => { const btn = $("[data-add]", card); $$("[data-colour-opts] input", card).forEach((r) => r.addEventListener("change", () => { btn.dataset.colour = r.value; const p = S.product(card.dataset.product); const im = p.cutouts.find((c) => c.colour.toLowerCase() === r.value.toLowerCase()); if (im) { const main = $("img.main", card); G.fromTo(main, { opacity: 0 }, { opacity: 1, duration: .4 }); main.src = im.small; } })); });
 
-  /* ---- quick view ---- */
+  /* ================= quick view ================= */
   const qv = $(".qv"), qvb = $(".qv-backdrop"); let open = false, last = null, cur = null, colour = "", size = null;
   const render = () => {
     const p = cur, imgs = p.cutouts.filter((c) => c.colour.toLowerCase() === colour.toLowerCase());

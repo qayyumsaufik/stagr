@@ -101,6 +101,38 @@ def pcard(ctx, p, i, tags="", quick=True, reveal=True):
 </article>'''
 
 
+STYLE_GROUPS = [("Bifold", ["kingsmann", "regal"]), ("Trifold", ["majestic"]), ("Minimalist", ["maverick", "purefold"]), ("Long", ["rodeo", "upbuck"])]
+
+
+def mega(line, ctx):
+    """Cartier-style drop panel for Wallets / Belts."""
+    P = {p["id"]: p for p in ctx["products"]}
+    items = [p for p in ctx["products"] if p["line"] == line[:-1]]
+    def thumb(p, label=None, href=None):
+        c = cutouts_for(p)[0]
+        return f'<a class="mega-item" href="{href or f"product-{p['id']}.html"}"><span class="mega-thumb"><img src="{c["small"]}" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">{label or p["name"].split(" ")[0]}</span></a>'
+    rows = thumb_rows = ""
+    if line == "wallets":
+        tabs = [("collections", "Collections"), ("style", "By style"), ("care", "Care and sizing")]
+        rows = f'<div class="mega-row" data-mega-tab="collections">{"".join(thumb(p) for p in items)}</div>'
+        rows += f'<div class="mega-row" data-mega-tab="style" hidden>{"".join(thumb(P[ids[0]], label, f"wallets.html#{name.lower()}") for name, ids in STYLE_GROUPS for label in [name])}</div>'
+    else:
+        tabs = [("collections", "Collections"), ("style", "By style"), ("care", "Care and sizing")]
+        rows = f'<div class="mega-row" data-mega-tab="collections">{"".join(thumb(p) for p in items)}</div>'
+        rows += f'<div class="mega-row" data-mega-tab="style" hidden>{thumb(P["outlaw"], "Classic", "belts.html#classic")}{thumb(P["nova"], "Double-sided", "belts.html#double-sided")}{thumb(P["monarch"], "Tan", "belts.html?colour=Tan")}{thumb(P["regent"], "Black", "belts.html?colour=Black")}</div>'
+    care = [("How it is made", "about.html#craft"), ("Leather care", "about.html#faq"), ("Size guide", "product-nova.html#details" if line == "belts" else "about.html#faq"), ("Delivery and returns", "index.html#delivery"), ("Bulk orders", "about.html#bulk")]
+    rows += f'<div class="mega-row mega-links" data-mega-tab="care" hidden>{"".join(f"<a class=link href={h}>{t}</a>" for t, h in care)}</div>'
+    tabs_html = "".join(f'<button type="button" role="tab" aria-selected="{str(i == 0).lower()}" data-mega-tab-btn="{k}">{t}</button>' for i, (k, t) in enumerate(tabs))
+    return f'''
+  <div class="mega" data-mega-panel="{line}" aria-hidden="true">
+    <div class="wrap">
+      <div class="mega-tabs" role="tablist">{tabs_html}</div>
+      {rows}
+      <p class="mega-all"><a class="link" href="{line}.html">View all {line}</a></p>
+    </div>
+  </div>'''
+
+
 def chrome(ctx, page):
     B = ctx["brand"]
     on_dark = " on-dark" if page.get("header_dark") else ""
@@ -110,7 +142,7 @@ def chrome(ctx, page):
     menu = "".join(f'<a class="menu-link" href="{h}"><sup>0{i + 1}</sup>{t}</a>' for i, (t, h) in enumerate(menu_links))
     socials = "".join(f'<a href="{B["social"]["links"][k]}" aria-label="{n}" target="_blank" rel="noopener">{ICON[i]}</a>' for k, n, i in [("instagram", "Instagram", "insta"), ("facebook", "Facebook", "fb"), ("tiktok", "TikTok", "tiktok"), ("whatsapp", "WhatsApp", "wa")])
     loader = ""
-    if page.get("loader"):
+    if page.get("loader", True):
         pills = [("14%", "20%", False), ("68%", "16%", True), ("8%", "58%", False), ("70%", "74%", False), ("40%", "80%", True), ("30%", "36%", True)]
         texts = ["100% crazy horse leather", "Handmade in Pakistan", "Saddle stitched", "Cash on delivery", "Rs 1,740 to Rs 3,500", "Solid brass"]
         pops = "".join(f'<span class="pop{" light" if l else ""}" style="--x:{x};--y:{y}">{t}</span>' for (x, y, l), t in zip(pills, texts))
@@ -146,21 +178,33 @@ def chrome(ctx, page):
 <div class="fade" aria-hidden="true"></div>
 <div class="cursor" aria-hidden="true"><div class="ring"><span></span></div><div class="dot"></div></div>
 
-<nav class="nav{on_dark}" aria-label="Primary">
-  <div class="wrap">
+<nav class="nav{on_dark}" aria-label="Primary" data-nav>
+  <div class="wrap nav-top">
+    <div class="nav-util desk-only"><a href="{B["contact"]["whatsapp"]["link"]}" target="_blank" rel="noopener" class="nav-underline">Contact us</a><a href="about.html#faq" class="nav-underline">Services</a></div>
+    <button type="button" class="burger" data-menu-open aria-expanded="false" aria-controls="menu" aria-label="Open menu"><i></i><i></i></button>
     <a class="brand" href="index.html" aria-label="Stagr, home">STAGR<span class="dot"></span></a>
-    <div class="links">{links}</div>
     <div class="right">
-      <a class="shop" href="{page.get("shop_href", "index.html#shop")}">Shop {ICON["arrow"]}</a>
+      <a class="shop desk-only" href="{page.get("shop_href", "index.html#shop")}">Shop {ICON["arrow"]}</a>
       <button type="button" class="icon-btn" data-cart-open aria-label="Open cart">{ICON["bag"]}<span class="cart-count" aria-hidden="true">0</span></button>
-      <button type="button" class="burger" data-menu-open aria-expanded="false" aria-controls="menu" aria-label="Open menu"><i></i><i></i></button>
     </div>
   </div>
+  <div class="nav-bar desk-only">
+    <ul class="nav-main wrap" role="list">
+      <li data-mega="wallets"><a href="wallets.html" class="nav-underline{" is-active" if page.get("key") == "wallets" else ""}" aria-haspopup="true">Wallets</a></li>
+      <li data-mega="belts"><a href="belts.html" class="nav-underline{" is-active" if page.get("key") == "belts" else ""}" aria-haspopup="true">Belts</a></li>
+      <li><a href="index.html#inside" class="nav-underline">Inside</a></li>
+      <li><a href="about.html" class="nav-underline{" is-active" if page.get("key") == "about" else ""}">The workshop</a></li>
+      <li><a href="about.html#bulk" class="nav-underline">Bulk orders</a></li>
+      <li><a href="index.html#shop" class="nav-underline">Shop</a></li>
+    </ul>
+  </div>
+  {mega("wallets", ctx)}{mega("belts", ctx)}
 </nav>
 
 <div class="menu" id="menu" aria-hidden="true">
   <div class="menu-top"><span class="brand wordmark" style="font-size:1.25rem">STAGR<span class="dot"></span></span><button type="button" class="icon-btn" data-menu-close aria-label="Close menu">{ICON["close"]}</button></div>
   <div class="menu-links">{menu}</div>
+  <div class="menu-sub desk-hide"><div><p class="label">Wallets</p>{"".join(f'<a href="product-{p["id"]}.html">{p["name"].split(" ")[0]}</a>' for p in ctx["products"] if p["line"] == "wallet")}</div><div><p class="label">Belts</p>{"".join(f'<a href="product-{p["id"]}.html">{p["name"].split(" ")[0]}</a>' for p in ctx["products"] if p["line"] == "belt")}</div></div>
   <div class="menu-foot"><span>{B["domain"]} · {B["origin"]}</span><span><a href="{B["contact"]["whatsapp"]["link"]}" target="_blank" rel="noopener">WhatsApp</a> &nbsp;·&nbsp; <a href="{B["social"]["links"]["instagram"]}" target="_blank" rel="noopener">Instagram</a> &nbsp;·&nbsp; <button type="button" class="theme-toggle" aria-pressed="false">Dark mode</button></span></div>
 </div>
 
