@@ -60,18 +60,17 @@ def render(ctx):
 
     # ---------------- 03 inside: what every piece is made of ----------------
     inside = [
-        dict(name="Crazy<br>horse", sub="Full grain cowhide, hot waxed", desc=B["faqs"][0]["a"], rows=[("Source", "Full grain cowhide"), ("Finish", "Wax, hand rubbed"), ("Ages", "Darkens with use")], n=100, unit="% of every piece", bar=1.0,
-             svg='<path data-bot d="M12 28c-6-6-4-16 4-20s16-2 20 4 6 14-2 18-16 4-22-2z"/><path data-bot d="M16 22c4-2 8-2 14 0"/>'),
-        dict(name="Saddle<br>stitch", sub="Two needles, waxed linen thread", desc=B["craft"]["steps"][2]["body"], rows=[("Thread", "Waxed linen"), ("Needles", "Two, one row"), ("Why", "Cannot unravel")], n=2, unit="needles, one seam", bar=0.5,
-             svg='<path data-bot d="M4 24l6-6 6 6 6-6 6 6 6-6 6 6"/><path data-bot d="M4 32l6-6 6 6 6-6 6 6 6-6 6 6"/>'),
-        dict(name="Solid<br>brass", sub="Buckle on a removable screw post", desc=B["faqs"][0]["a"].split(":")[0] and "Solid brass buckle on a removable screw post, so you can change it without tools. No plated buckles dressed up as brass.", rows=[("Metal", "Solid brass"), ("Post", "Removable screw"), ("Plating", "None")], n=0, unit="plating, ever", bar=0.0,
+        dict(tab="Belts", name="Cut along<br>the spine", sub="Belts · 4 pieces · Sizes 30 to 44", desc="Straps are cut where the hide is tightest, so a belt holds its shape instead of curling. Solid buckle on a removable screw post, so you can change it without tools.",
+             rows=[("Leather", "Full grain crazy horse"), ("Buckle", "Solid, on a screw post"), ("Sizes", "30 to 44")], point="Measure from the buckle bar, not the tip", n=4, unit="pieces", bar=4 / 11, href="belts.html", cta="Shop belts",
              svg='<rect data-bot x="8" y="12" width="28" height="20" rx="6"/><path data-bot d="M8 22h22"/><circle data-bot cx="30" cy="22" r="2"/>'),
-        dict(name="Beeswax<br>edge", sub="Bevelled, sanded, burnished four times", desc=B["craft"]["steps"][3]["body"], rows=[("Passes", "Four, by hand"), ("Seal", "Beeswax"), ("Checked", "Before it is packed")], n=4, unit="passes on every edge", bar=1.0,
-             svg='<path data-bot d="M22 6c6 8 10 13 10 19a10 10 0 0 1-20 0c0-6 4-11 10-19z"/><path data-bot d="M18 26a4 4 0 0 0 4 4"/>'),
+        dict(tab="Wallets", name="Folded,<br>skived, stitched", sub="Wallets · 7 pieces · Stitched by hand", desc="Bifolds, trifolds and long wallets that soften and darken with every carry. Skived at the folds so each one stays flat in a jacket pocket.",
+             rows=[("Leather", "Full grain crazy horse"), ("Stitch", "Saddle, waxed linen"), ("Styles", "Bifold, trifold, minimalist, long")], point="Choose the fold and the colour", n=7, unit="pieces", bar=7 / 11, href="wallets.html", cta="Shop wallets",
+             svg='<path data-bot d="M4 24l6-6 6 6 6-6 6 6 6-6 6 6"/><path data-bot d="M4 32l6-6 6 6 6-6 6 6 6-6 6 6"/>'),
     ]
-    inside_imgs = [cut("kingsmann"), cut("regal", 1), cut("monarch"), cut("regent")]
+    N_INSIDE = len(inside)
+    inside_imgs = [cut("monarch"), cut("kingsmann")]
     inside_stack = lambda size: "".join(f'<img data-inside-img="{i}" src="{im[size]}" alt="" width="900" height="900" draggable="false" decoding="async" style="opacity:{1 if i == 0 else 0}">' for i, im in enumerate(inside_imgs))
-    pills = "".join(f'<button type="button" class="pill" data-inside-pill="{i}" aria-pressed="{str(i == 0).lower()}">{d["name"].replace("<br>", " ")}</button>' for i, d in enumerate(inside))
+    pills = "".join(f'<button type="button" class="pill" data-inside-pill="{i}" aria-pressed="{str(i == 0).lower()}">{d["tab"]}</button>' for i, d in enumerate(inside))
     lefts = "".join(f'''
 <div data-inside-left="{i}" {"hidden" if i else ""}>
   <div data-inside-hover><h3 class="inside-name" data-inside-name>{d["name"]}</h3></div>
@@ -79,20 +78,22 @@ def render(ctx):
 </div>''' for i, d in enumerate(inside))
     rights = "".join(f'''
 <div data-inside-right="{i}" {"hidden" if i else ""}>
-  <p class="label"><b>0{i + 1}</b><span class="slash">/</span>04</p>
+  <p class="label"><b>0{i + 1}</b><span class="slash">/</span>0{N_INSIDE}</p>
   <p class="inside-desc">{d["desc"]}</p>
   <dl class="spec" style="margin-top:20px">{"".join(f'<div><dt>{k}</dt><dd>{v}</dd></div>' for k, v in d["rows"])}<div><dt>Measure</dt><dd><span class="num" style="font-size:1.1rem" data-inside-dose="{d["n"]}">0</span> <span class="small muted">{d["unit"]}</span></dd></div></dl>
   <div class="inside-bar"><i data-inside-bar="{d["bar"]}"></i></div>
-  <a class="btn btn--ghost btn--sm inside-cta" href="{"wallets.html" if i < 2 else "belts.html"}">Explore {"wallets" if i < 2 else "belts"} {I["arrow"]}</a>
+  <p class="inside-point"><span aria-hidden="true">+</span>{d["point"]}</p>
+  <a class="btn btn--tan inside-cta" href="{d["href"]}">{d["cta"]} {I["arrow"]}</a>
 </div>''' for i, d in enumerate(inside))
     deck = "".join(f'''
-<article class="deck-card" data-halo="{["#D9B07A", "#C8976A", "#B8A58C", "#CDA373"][i]}">
-  <p class="label"><b>0{i + 1}</b><span class="slash">/</span>04</p>
-  <h3 class="inside-name" data-deck-title style="margin-top:12px">{d["name"].replace("<br>", " ")}</h3>
+<article class="deck-card" data-halo="{["#CDA373", "#D9B07A"][i]}">
+  <p class="label"><b>0{i + 1}</b><span class="slash">/</span>0{N_INSIDE}</p>
+  <h3 class="inside-name" data-deck-title style="margin-top:12px">{d["tab"]}: {d["name"].replace("<br>", " ").lower()}</h3>
   <p class="serif-i muted" data-deck-item>{d["sub"]}</p>
   <p class="inside-desc" data-deck-item>{d["desc"]}</p>
   <dl class="spec" data-deck-item style="margin-top:16px">{"".join(f'<div><dt>{k}</dt><dd>{v}</dd></div>' for k, v in d["rows"])}</dl>
-  <p data-deck-item style="margin-top:18px"><a class="btn btn--ghost btn--sm" href="{"wallets.html" if i < 2 else "belts.html"}">Explore {"wallets" if i < 2 else "belts"} {I["arrow"]}</a></p>
+  <p class="inside-point" data-deck-item><span aria-hidden="true">+</span>{d["point"]}</p>
+  <p data-deck-item style="margin-top:18px"><a class="btn btn--tan btn--wide" href="{d["href"]}">{d["cta"]} {I["arrow"]}</a></p>
 </article>''' for i, d in enumerate(inside))
 
     # ---------------- 04 story: five chapters ----------------
@@ -149,7 +150,11 @@ def render(ctx):
 /* ---- shared bits ---- */
 .dotc { color: var(--accent); }
 .rp-name, .inside-name { font-family: var(--font-display); font-weight: 300; font-size: clamp(2.6rem, 2rem + 4vw, 5.6rem); line-height: 1; letter-spacing: -.02em; }
-.inside-name { font-family: var(--font-wordmark); font-weight: 800; font-size: clamp(1.9rem, 1.3rem + 2.4vw, 3.2rem); letter-spacing: -.01em; text-transform: uppercase; line-height: .95; }
+.inside-name { font-family: var(--font-wordmark); font-weight: 700; font-size: clamp(1.6rem, 1rem + 1.8vw, 2.5rem); letter-spacing: -.01em; line-height: 1.05; overflow-wrap: normal; word-break: keep-all; hyphens: none; }
+.inside-kicker { text-align: center; color: rgba(239,237,230,.7); }
+.inside-lead { margin: 14px auto 0; max-width: 46ch; text-align: center; color: rgba(239,237,230,.82); font-size: clamp(.9375rem, .9rem + .25vw, 1.0625rem); line-height: 1.55; }
+.on-ink .btn--tan { background: var(--accent-deep); border-color: var(--accent-deep); color: var(--bone); }
+.on-ink .btn--tan:hover { background: var(--accent); border-color: var(--accent); color: var(--ink); }
 .rp-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
 .rp-sub { margin-top: 10px; font-size: 1.05rem; }
 .rp-copy { margin-top: 18px; max-width: 46ch; color: var(--fg-2); }
@@ -316,11 +321,11 @@ def render(ctx):
 .inside { position: relative; background: var(--ink); color: var(--bone); overflow: hidden; }
 .inside-pin { min-height: 100vh; display: flex; flex-direction: column; padding: calc(var(--nav-h) + 12px) var(--gutter) 32px; }
 .inside-head { text-align: center; display: grid; justify-items: center; gap: 14px; }
-.inside-title { font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: clamp(2.6rem, 2rem + 3.4vw, 4.6rem); line-height: 1; opacity: 0; }
+.inside-title { font-family: var(--font-wordmark); font-weight: 700; font-size: clamp(2rem, 1.4rem + 2.4vw, 3.6rem); line-height: 1.02; letter-spacing: -.01em; color: var(--accent); opacity: 0; }
 .inside-pills { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
 .inside .pill { border-color: rgba(239,237,230,.35); color: var(--bone); opacity: .65; }
 .inside .pill[aria-pressed="true"] { background: var(--bone); color: var(--ink); border-color: var(--bone); opacity: 1; }
-.inside-grid { flex: 1; display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 4fr) minmax(0, 5fr); gap: 24px; align-items: center; }
+.inside-grid { flex: 1; display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 4fr) minmax(0, 4fr); gap: 24px; align-items: center; }
 .inside-left { min-width: 0; }
 .inside-sci { margin-top: 14px; display: flex; align-items: center; gap: 14px; color: rgba(239,237,230,.6); }
 .inside-sci svg { width: 44px; height: 44px; flex: none; }
@@ -332,7 +337,9 @@ def render(ctx):
 .inside-right { max-width: 420px; justify-self: end; width: 100%; }
 .inside-desc { margin-top: 14px; color: rgba(239,237,230,.8); max-width: 40ch; }
 .inside-bar { height: 1px; background: rgba(239,237,230,.15); margin-top: 10px; }
-.inside-cta { margin-top: 22px; }
+.inside-point { margin-top: 18px; padding-top: 14px; border-top: 1px solid rgba(239,237,230,.15); font-size: .9375rem; color: var(--bone); display: flex; gap: 10px; align-items: baseline; }
+.inside-point span { color: var(--accent); font-weight: 500; }
+.inside-cta { margin-top: 18px; width: 100%; justify-content: center; }
 .inside-bar i { display: block; height: 100%; width: 100%; background: var(--accent); transform-origin: left; transform: scaleX(0); }
 .inside-foot { text-align: center; font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: rgba(239,237,230,.5); padding-top: 24px; }
 /* mobile deck */
@@ -530,6 +537,25 @@ def render(ctx):
     <p class="small muted" style="margin-top:20px"><span data-shop-count></span> shown · <a class="link" href="shop.html">View all pieces</a></p>
 </section>
 
+<section id="inside" class="inside on-ink" aria-labelledby="inside-title">
+  <div class="inside-pin desk-only" data-inside-pin>
+    <div class="inside-head"><p class="label inside-kicker">Your hide. Our bench.</p><h2 class="inside-title" id="inside-title" data-inside-title>Two lines. One<br>great finish.</h2><p class="inside-lead">Every piece is cut from full hides by local artisans and saddle stitched by hand. Pick the line, then the cut.</p><div class="inside-pills">{pills}</div></div>
+    <div class="inside-grid">
+      <div class="inside-left">{lefts}</div>
+      <div class="inside-stage" data-inside-stage><div class="inside-halo" data-inside-halo></div><div class="inside-float" data-inside-float>{inside_stack("src")}</div></div>
+      <div class="inside-right">{rights}</div>
+    </div>
+    <p class="inside-foot">One hide. One workshop. Nothing else.</p>
+  </div>
+  <div class="inside-mobile mob-only" data-inside-mobile>
+    <div style="padding:0 20px;text-align:center"><p class="label inside-kicker" data-reveal>Your hide. Our bench.</p><h2 class="inside-title" data-inside-title-mobile style="opacity:1;margin-top:10px">Two lines. One<br>great finish.</h2><p class="inside-lead" data-reveal data-delay=".1">Every piece is cut from full hides by local artisans and saddle stitched by hand. Pick the line, then the cut.</p></div>
+    <div class="mstage"><div class="inside-halo" data-inside-halo-mobile></div><div class="inside-float" data-inside-float-mobile>{inside_stack("small")}</div></div>
+    <div class="deck" data-deck-track>{deck}</div>
+    <div class="mdots">{"".join(f'<button type="button" data-deck-dot="{i}" style="color:{"var(--bone)" if i == 0 else "rgba(239,237,230,.35)"}">0{i + 1}</button>' for i in range(N_INSIDE))}</div>
+    <p class="inside-foot" style="padding:24px 20px 0">One hide. One workshop. Nothing else.</p>
+  </div>
+</section>
+
 <section id="more" class="more on-bone" aria-label="How it is made, bulk orders and the handwritten note">
   <div class="wrap bento">
     <a class="tile tile-main" href="about.html#craft" data-reveal aria-label="How it is made">
@@ -552,46 +578,7 @@ def render(ctx):
   </div>
 </section>
 
-<section id="range" class="range on-bone" aria-labelledby="range-title">
-  <div class="range-pin desk-only" data-range-pin>
-    <div class="range-bg">{stage_blooms}</div>
-    <div class="range-head">
-      <div><p class="label" data-range-label><b>02</b><span class="slash">/</span>The range</p><h2 class="range-title" id="range-title" data-range-title-main>Five ways to carry.</h2></div>
-      <p class="range-count" data-range-count>1 / 5</p>
-    </div>
-    <div class="range-body">
-      <div class="range-text" data-range-text>{panels}</div>
-      <div class="range-stage" data-range-stage>{stage_ghosts}{stage_cuts}</div>
-    </div>
-    <div class="range-dots">{dots}</div>
-  </div>
-  <div class="range-mobile mob-only" data-range-mobile>
-    <div class="mhead"><div data-reveal><p class="label"><b>02</b><span class="slash">/</span>The range</p></div><h2 class="h2" data-text-reveal="lines" style="margin-top:12px">Five ways to carry.</h2><p class="label" data-reveal data-delay=".2" style="margin-top:14px;font-size:.75rem">Swipe to browse</p></div>
-    <div class="mtrack" data-mrange-track>{mcards}</div>
-    <div class="mdots">{mdots}</div>
-  </div>
-</section>
-
-<section id="inside" class="inside on-ink" aria-labelledby="inside-title">
-  <div class="inside-pin desk-only" data-inside-pin>
-    <div class="inside-head"><p class="label"><b style="color:var(--bone)">03</b><span class="slash">·</span>What every piece is made of</p><h2 class="inside-title" id="inside-title" data-inside-title>Inside.</h2><div class="inside-pills">{pills}</div></div>
-    <div class="inside-grid">
-      <div class="inside-left">{lefts}</div>
-      <div class="inside-stage" data-inside-stage><div class="inside-halo" data-inside-halo></div><div class="inside-float" data-inside-float>{inside_stack("src")}</div></div>
-      <div class="inside-right">{rights}</div>
-    </div>
-    <p class="inside-foot">One hide. One workshop. Nothing else.</p>
-  </div>
-  <div class="inside-mobile mob-only" data-inside-mobile>
-    <div style="padding:0 20px;text-align:center"><p class="label" data-reveal><b style="color:var(--bone)">03</b><span class="slash">·</span>What every piece is made of</p><h2 class="inside-title" data-inside-title-mobile style="opacity:1;margin-top:10px">Inside.</h2></div>
-    <div class="mstage"><div class="inside-halo" data-inside-halo-mobile></div><div class="inside-float" data-inside-float-mobile>{inside_stack("small")}</div></div>
-    <div class="deck" data-deck-track>{deck}</div>
-    <div class="mdots">{"".join(f'<button type="button" data-deck-dot="{i}" style="color:{"var(--bone)" if i == 0 else "rgba(239,237,230,.35)"}">0{i + 1}</button>' for i in range(4))}</div>
-    <p class="inside-foot" style="padding:24px 20px 0">One hide. One workshop. Nothing else.</p>
-  </div>
-</section>
-
-<section id="promise" class="promise on-ink" aria-labelledby="promise-title">
+<!-- range section hidden for now --><section id="promise" class="promise on-ink" aria-labelledby="promise-title">
   <div class="wrap">
     <div data-reveal><p class="label"><b style="color:var(--bone)">05</b><span class="slash">/</span>{B["about"]["valuesTitle"]}</p></div>
     <h2 class="promise-title" id="promise-title" data-text-reveal="lines">Quietly made.</h2>
@@ -671,7 +658,7 @@ function initAnimations() {
 
   /* ================= 02 RANGE ================= */
   function initRangeDesktop() {
-    const section = $("#range"), pin = $("[data-range-pin]"), title = $("[data-range-title-main]"), label = $("[data-range-label]"), count = $("[data-range-count]"), panels = $$("[data-range-panel]"), bgs = $$("[data-range-bloom]"), ghosts = $$("[data-range-ghost]"), cuts = $$("[data-range-cut]"), stage = $("[data-range-stage]"), dots = $$("[data-range-dot]");
+    const section = $("#range"); if (!section) return; const pin = $("[data-range-pin]"), title = $("[data-range-title-main]"), label = $("[data-range-label]"), count = $("[data-range-count]"), panels = $$("[data-range-panel]"), bgs = $$("[data-range-bloom]"), ghosts = $$("[data-range-ghost]"), cuts = $$("[data-range-cut]"), stage = $("[data-range-stage]"), dots = $$("[data-range-dot]");
     const n = panels.length, SIDE = [1, -1, 1, -1, 1], unit = () => stage.clientHeight / 3.509, deg = (r) => r * 180 / Math.PI;
     cuts.forEach((c, i) => G.set(c, i === 0 ? { x: 0, scale: 1, opacity: 1 } : { x: () => 3 * SIDE[i] * unit(), scale: .94, opacity: 0 }));
     G.fromTo(label, { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: .6, ease: "power2.out", scrollTrigger: { trigger: section, start: "top 80%", toggleActions: "play none none none" } });
@@ -735,9 +722,9 @@ function initAnimations() {
     const setActive = (next) => { if (next === active) return; active = next; stylePills(); G.to(halo, { backgroundColor: colors[next], duration: .5, overwrite: "auto" }); turnPiece(img, next); swap(); };
     // 4 topics sit at progress 0, 1/3, 2/3, 1 (the snap points); the active one only changes once
     // the scroll has moved clearly past the midpoint between two topics, so nothing flips on its own
-    const STEPS = 3; let scrolling = null;
+    const STEPS = lefts.length - 1; let scrolling = null;
     const pick = (progress) => { const p = progress * STEPS; let next = active; while (next < STEPS && p > next + .5 + .1) next++; while (next > 0 && p < next - .5 - .1) next--; return next; };
-    const trigger = ST.create({ trigger: section, start: "top top", end: () => "+=" + 3 * innerHeight, pin: true, pinSpacing: true, scrub: .6, snap: { snapTo: (v) => scrolling !== null ? v : G.utils.snap(1 / STEPS, v), duration: { min: .25, max: .6 }, ease: "power2.inOut", directional: false, delay: .15, inertia: false }, invalidateOnRefresh: true, onUpdate: (self) => { if (scrolling !== null) return; setActive(pick(self.progress)); } });
+    const trigger = ST.create({ trigger: section, start: "top top", end: () => "+=" + STEPS * innerHeight, pin: true, pinSpacing: true, scrub: .6, snap: { snapTo: (v) => scrolling !== null ? v : G.utils.snap(1 / STEPS, v), duration: { min: .25, max: .6 }, ease: "power2.inOut", directional: false, delay: .15, inertia: false }, invalidateOnRefresh: true, onUpdate: (self) => { if (scrolling !== null) return; setActive(pick(self.progress)); } });
     // a tab click switches straight away and glides the page to that topic's stop
     pills.forEach((p, i) => p.addEventListener("click", () => {
       if (i === active) return; scrolling = i; setActive(i);
@@ -801,7 +788,7 @@ function initAnimations() {
 
   /* ================= boot (top to bottom so pinned blocks measure in order) ================= */
   const startHero = initHero();
-  initScrollHint(); S.initReveals($("#hero")); S.initReveals($("#explore")); initShop(); S.initReveals($("#shop")); S.initReveals($("#more"));
+  initScrollHint(); S.initReveals($("#hero")); S.initReveals($("#explore")); initShop(); S.initReveals($("#shop")); initInside(); S.initReveals($("#more"));
   (function initExplore() {
     const tabs = $$("[data-ex-tab]"), grids = $$("[data-ex-grid]"), all = $("[data-ex-all]"); if (!tabs.length) return;
     tabs.forEach((t) => t.addEventListener("click", () => {
@@ -814,8 +801,6 @@ function initAnimations() {
     }));
   })();
   if (isMobile) initRangeMobile(); else initRangeDesktop();
-  S.initReveals($("#range"));
-  initInside();
   initPromise(); S.initReveals($("#promise"));
   if (isMobile) initStoryMobile(); else initStoryDesktop();
   S.initReveals($("#story")); S.initReveals($("#delivery-sec")); S.initReveals($("footer"));

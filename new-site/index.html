@@ -527,7 +527,11 @@ html.is-entering .fade { opacity: 1; }
 /* ---- shared bits ---- */
 .dotc { color: var(--accent); }
 .rp-name, .inside-name { font-family: var(--font-display); font-weight: 300; font-size: clamp(2.6rem, 2rem + 4vw, 5.6rem); line-height: 1; letter-spacing: -.02em; }
-.inside-name { font-family: var(--font-wordmark); font-weight: 800; font-size: clamp(1.9rem, 1.3rem + 2.4vw, 3.2rem); letter-spacing: -.01em; text-transform: uppercase; line-height: .95; }
+.inside-name { font-family: var(--font-wordmark); font-weight: 700; font-size: clamp(1.6rem, 1rem + 1.8vw, 2.5rem); letter-spacing: -.01em; line-height: 1.05; overflow-wrap: normal; word-break: keep-all; hyphens: none; }
+.inside-kicker { text-align: center; color: rgba(239,237,230,.7); }
+.inside-lead { margin: 14px auto 0; max-width: 46ch; text-align: center; color: rgba(239,237,230,.82); font-size: clamp(.9375rem, .9rem + .25vw, 1.0625rem); line-height: 1.55; }
+.on-ink .btn--tan { background: var(--accent-deep); border-color: var(--accent-deep); color: var(--bone); }
+.on-ink .btn--tan:hover { background: var(--accent); border-color: var(--accent); color: var(--ink); }
 .rp-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
 .rp-sub { margin-top: 10px; font-size: 1.05rem; }
 .rp-copy { margin-top: 18px; max-width: 46ch; color: var(--fg-2); }
@@ -694,11 +698,11 @@ html.is-entering .fade { opacity: 1; }
 .inside { position: relative; background: var(--ink); color: var(--bone); overflow: hidden; }
 .inside-pin { min-height: 100vh; display: flex; flex-direction: column; padding: calc(var(--nav-h) + 12px) var(--gutter) 32px; }
 .inside-head { text-align: center; display: grid; justify-items: center; gap: 14px; }
-.inside-title { font-family: var(--font-display); font-style: italic; font-weight: 300; font-size: clamp(2.6rem, 2rem + 3.4vw, 4.6rem); line-height: 1; opacity: 0; }
+.inside-title { font-family: var(--font-wordmark); font-weight: 700; font-size: clamp(2rem, 1.4rem + 2.4vw, 3.6rem); line-height: 1.02; letter-spacing: -.01em; color: var(--accent); opacity: 0; }
 .inside-pills { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
 .inside .pill { border-color: rgba(239,237,230,.35); color: var(--bone); opacity: .65; }
 .inside .pill[aria-pressed="true"] { background: var(--bone); color: var(--ink); border-color: var(--bone); opacity: 1; }
-.inside-grid { flex: 1; display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 4fr) minmax(0, 5fr); gap: 24px; align-items: center; }
+.inside-grid { flex: 1; display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 4fr) minmax(0, 4fr); gap: 24px; align-items: center; }
 .inside-left { min-width: 0; }
 .inside-sci { margin-top: 14px; display: flex; align-items: center; gap: 14px; color: rgba(239,237,230,.6); }
 .inside-sci svg { width: 44px; height: 44px; flex: none; }
@@ -710,7 +714,9 @@ html.is-entering .fade { opacity: 1; }
 .inside-right { max-width: 420px; justify-self: end; width: 100%; }
 .inside-desc { margin-top: 14px; color: rgba(239,237,230,.8); max-width: 40ch; }
 .inside-bar { height: 1px; background: rgba(239,237,230,.15); margin-top: 10px; }
-.inside-cta { margin-top: 22px; }
+.inside-point { margin-top: 18px; padding-top: 14px; border-top: 1px solid rgba(239,237,230,.15); font-size: .9375rem; color: var(--bone); display: flex; gap: 10px; align-items: baseline; }
+.inside-point span { color: var(--accent); font-weight: 500; }
+.inside-cta { margin-top: 18px; width: 100%; justify-content: center; }
 .inside-bar i { display: block; height: 100%; width: 100%; background: var(--accent); transform-origin: left; transform: scaleX(0); }
 .inside-foot { text-align: center; font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: rgba(239,237,230,.5); padding-top: 24px; }
 /* mobile deck */
@@ -1071,6 +1077,67 @@ html.is-entering .fade { opacity: 1; }
     <p class="small muted" style="margin-top:20px"><span data-shop-count></span> shown · <a class="link" href="shop.html">View all pieces</a></p>
 </section>
 
+<section id="inside" class="inside on-ink" aria-labelledby="inside-title">
+  <div class="inside-pin desk-only" data-inside-pin>
+    <div class="inside-head"><p class="label inside-kicker">Your hide. Our bench.</p><h2 class="inside-title" id="inside-title" data-inside-title>Two lines. One<br>great finish.</h2><p class="inside-lead">Every piece is cut from full hides by local artisans and saddle stitched by hand. Pick the line, then the cut.</p><div class="inside-pills"><button type="button" class="pill" data-inside-pill="0" aria-pressed="true">Belts</button><button type="button" class="pill" data-inside-pill="1" aria-pressed="false">Wallets</button></div></div>
+    <div class="inside-grid">
+      <div class="inside-left">
+<div data-inside-left="0" >
+  <div data-inside-hover><h3 class="inside-name" data-inside-name>Cut along<br>the spine</h3></div>
+  <div class="inside-sci" data-inside-sci><svg data-inside-svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" aria-hidden="true"><rect data-bot x="8" y="12" width="28" height="20" rx="6"/><path data-bot d="M8 22h22"/><circle data-bot cx="30" cy="22" r="2"/></svg><span class="serif-i">Belts · 4 pieces · Sizes 30 to 44</span></div>
+</div>
+<div data-inside-left="1" hidden>
+  <div data-inside-hover><h3 class="inside-name" data-inside-name>Folded,<br>skived, stitched</h3></div>
+  <div class="inside-sci" data-inside-sci><svg data-inside-svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" aria-hidden="true"><path data-bot d="M4 24l6-6 6 6 6-6 6 6 6-6 6 6"/><path data-bot d="M4 32l6-6 6 6 6-6 6 6 6-6 6 6"/></svg><span class="serif-i">Wallets · 7 pieces · Stitched by hand</span></div>
+</div></div>
+      <div class="inside-stage" data-inside-stage><div class="inside-halo" data-inside-halo></div><div class="inside-float" data-inside-float><img data-inside-img="0" src="assets/cutouts/monarch-1.webp" alt="" width="900" height="900" draggable="false" decoding="async" style="opacity:1"><img data-inside-img="1" src="assets/cutouts/kingsmann-brown-1.webp" alt="" width="900" height="900" draggable="false" decoding="async" style="opacity:0"></div></div>
+      <div class="inside-right">
+<div data-inside-right="0" >
+  <p class="label"><b>01</b><span class="slash">/</span>02</p>
+  <p class="inside-desc">Straps are cut where the hide is tightest, so a belt holds its shape instead of curling. Solid buckle on a removable screw post, so you can change it without tools.</p>
+  <dl class="spec" style="margin-top:20px"><div><dt>Leather</dt><dd>Full grain crazy horse</dd></div><div><dt>Buckle</dt><dd>Solid, on a screw post</dd></div><div><dt>Sizes</dt><dd>30 to 44</dd></div><div><dt>Measure</dt><dd><span class="num" style="font-size:1.1rem" data-inside-dose="4">0</span> <span class="small muted">pieces</span></dd></div></dl>
+  <div class="inside-bar"><i data-inside-bar="0.36363636363636365"></i></div>
+  <p class="inside-point"><span aria-hidden="true">+</span>Measure from the buckle bar, not the tip</p>
+  <a class="btn btn--tan inside-cta" href="belts.html">Shop belts <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+</div>
+<div data-inside-right="1" hidden>
+  <p class="label"><b>02</b><span class="slash">/</span>02</p>
+  <p class="inside-desc">Bifolds, trifolds and long wallets that soften and darken with every carry. Skived at the folds so each one stays flat in a jacket pocket.</p>
+  <dl class="spec" style="margin-top:20px"><div><dt>Leather</dt><dd>Full grain crazy horse</dd></div><div><dt>Stitch</dt><dd>Saddle, waxed linen</dd></div><div><dt>Styles</dt><dd>Bifold, trifold, minimalist, long</dd></div><div><dt>Measure</dt><dd><span class="num" style="font-size:1.1rem" data-inside-dose="7">0</span> <span class="small muted">pieces</span></dd></div></dl>
+  <div class="inside-bar"><i data-inside-bar="0.6363636363636364"></i></div>
+  <p class="inside-point"><span aria-hidden="true">+</span>Choose the fold and the colour</p>
+  <a class="btn btn--tan inside-cta" href="wallets.html">Shop wallets <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+</div></div>
+    </div>
+    <p class="inside-foot">One hide. One workshop. Nothing else.</p>
+  </div>
+  <div class="inside-mobile mob-only" data-inside-mobile>
+    <div style="padding:0 20px;text-align:center"><p class="label inside-kicker" data-reveal>Your hide. Our bench.</p><h2 class="inside-title" data-inside-title-mobile style="opacity:1;margin-top:10px">Two lines. One<br>great finish.</h2><p class="inside-lead" data-reveal data-delay=".1">Every piece is cut from full hides by local artisans and saddle stitched by hand. Pick the line, then the cut.</p></div>
+    <div class="mstage"><div class="inside-halo" data-inside-halo-mobile></div><div class="inside-float" data-inside-float-mobile><img data-inside-img="0" src="assets/cutouts/monarch-1-600.webp" alt="" width="900" height="900" draggable="false" decoding="async" style="opacity:1"><img data-inside-img="1" src="assets/cutouts/kingsmann-brown-1-600.webp" alt="" width="900" height="900" draggable="false" decoding="async" style="opacity:0"></div></div>
+    <div class="deck" data-deck-track>
+<article class="deck-card" data-halo="#CDA373">
+  <p class="label"><b>01</b><span class="slash">/</span>02</p>
+  <h3 class="inside-name" data-deck-title style="margin-top:12px">Belts: cut along the spine</h3>
+  <p class="serif-i muted" data-deck-item>Belts · 4 pieces · Sizes 30 to 44</p>
+  <p class="inside-desc" data-deck-item>Straps are cut where the hide is tightest, so a belt holds its shape instead of curling. Solid buckle on a removable screw post, so you can change it without tools.</p>
+  <dl class="spec" data-deck-item style="margin-top:16px"><div><dt>Leather</dt><dd>Full grain crazy horse</dd></div><div><dt>Buckle</dt><dd>Solid, on a screw post</dd></div><div><dt>Sizes</dt><dd>30 to 44</dd></div></dl>
+  <p class="inside-point" data-deck-item><span aria-hidden="true">+</span>Measure from the buckle bar, not the tip</p>
+  <p data-deck-item style="margin-top:18px"><a class="btn btn--tan btn--wide" href="belts.html">Shop belts <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
+</article>
+<article class="deck-card" data-halo="#D9B07A">
+  <p class="label"><b>02</b><span class="slash">/</span>02</p>
+  <h3 class="inside-name" data-deck-title style="margin-top:12px">Wallets: folded, skived, stitched</h3>
+  <p class="serif-i muted" data-deck-item>Wallets · 7 pieces · Stitched by hand</p>
+  <p class="inside-desc" data-deck-item>Bifolds, trifolds and long wallets that soften and darken with every carry. Skived at the folds so each one stays flat in a jacket pocket.</p>
+  <dl class="spec" data-deck-item style="margin-top:16px"><div><dt>Leather</dt><dd>Full grain crazy horse</dd></div><div><dt>Stitch</dt><dd>Saddle, waxed linen</dd></div><div><dt>Styles</dt><dd>Bifold, trifold, minimalist, long</dd></div></dl>
+  <p class="inside-point" data-deck-item><span aria-hidden="true">+</span>Choose the fold and the colour</p>
+  <p data-deck-item style="margin-top:18px"><a class="btn btn--tan btn--wide" href="wallets.html">Shop wallets <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
+</article></div>
+    <div class="mdots"><button type="button" data-deck-dot="0" style="color:var(--bone)">01</button><button type="button" data-deck-dot="1" style="color:rgba(239,237,230,.35)">02</button></div>
+    <p class="inside-foot" style="padding:24px 20px 0">One hide. One workshop. Nothing else.</p>
+  </div>
+</section>
+
 <section id="more" class="more on-bone" aria-label="How it is made, bulk orders and the handwritten note">
   <div class="wrap bento">
     <a class="tile tile-main" href="about.html#craft" data-reveal aria-label="How it is made">
@@ -1093,207 +1160,7 @@ html.is-entering .fade { opacity: 1; }
   </div>
 </section>
 
-<section id="range" class="range on-bone" aria-labelledby="range-title">
-  <div class="range-pin desk-only" data-range-pin>
-    <div class="range-bg"><div class="bloom" data-range-bloom="0" style="--bloom:#D9B07A;opacity:1" data-bloom></div><div class="bloom" data-range-bloom="1" style="--bloom:#CDA373;opacity:0" data-bloom></div><div class="bloom" data-range-bloom="2" style="--bloom:#DABF9A;opacity:0" data-bloom></div><div class="bloom" data-range-bloom="3" style="--bloom:#C8976A;opacity:0" data-bloom></div><div class="bloom" data-range-bloom="4" style="--bloom:#C9B290;opacity:0" data-bloom></div></div>
-    <div class="range-head">
-      <div><p class="label" data-range-label><b>02</b><span class="slash">/</span>The range</p><h2 class="range-title" id="range-title" data-range-title-main>Five ways to carry.</h2></div>
-      <p class="range-count" data-range-count>1 / 5</p>
-    </div>
-    <div class="range-body">
-      <div class="range-text" data-range-text>
-<div class="rpanel" data-range-panel="0" >
-  <div class="rp-head" data-stage-item><span class="pcard-num">STAGR.01</span><span class="label">Bifold</span></div>
-  <h3 class="rp-name" data-range-title>Kingsmann<span class="dotc">.</span></h3>
-  <p class="serif-i muted rp-sub" data-stage-item>Bifold · Kingsmann & Regal</p>
-  <p class="rp-copy" data-stage-item>Crafted for the Modern Gentleman Folded, skived and stitched by hand. Slim enough for a jacket, lined in calf.</p>
-  <dl class="spec rp-spec"><div data-stage-item><dt>Leather</dt><dd>Crazy horse</dd></div><div data-stage-item><dt>Colours</dt><dd>Brown / Black</dd></div><div data-stage-item><dt>From</dt><dd>Rs 1,950</dd></div><div data-stage-item><dt>Pieces</dt><dd>2 · Kingsmann, Regal</dd></div></dl>
-  <p data-stage-item style="margin-top:18px"><a class="btn btn--text" href="wallets.html">Shop bifold <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
-</div>
-<div class="rpanel" data-range-panel="1" hidden>
-  <div class="rp-head" data-stage-item><span class="pcard-num">STAGR.02</span><span class="label">Trifold</span></div>
-  <h3 class="rp-name" data-range-title>Majestic<span class="dotc">.</span></h3>
-  <p class="serif-i muted rp-sub" data-stage-item>Trifold · Majestic</p>
-  <p class="rp-copy" data-stage-item>Timeless Craftsmanship. Three folds, one row of saddle stitch, cut from a single hide.</p>
-  <dl class="spec rp-spec"><div data-stage-item><dt>Leather</dt><dd>Crazy horse</dd></div><div data-stage-item><dt>Colours</dt><dd>Brown / Black</dd></div><div data-stage-item><dt>From</dt><dd>Rs 2,600</dd></div><div data-stage-item><dt>Pieces</dt><dd>1 · Majestic</dd></div></dl>
-  <p data-stage-item style="margin-top:18px"><a class="btn btn--text" href="wallets.html">Shop trifold <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
-</div>
-<div class="rpanel" data-range-panel="2" hidden>
-  <div class="rp-head" data-stage-item><span class="pcard-num">STAGR.03</span><span class="label">Minimalist</span></div>
-  <h3 class="rp-name" data-range-title>Maverick<span class="dotc">.</span></h3>
-  <p class="serif-i muted rp-sub" data-stage-item>Minimalist · Maverick & Purefold</p>
-  <p class="rp-copy" data-stage-item>Where Function Meets Fashion. Minimalism Perfected. The slim ones, for a front pocket.</p>
-  <dl class="spec rp-spec"><div data-stage-item><dt>Leather</dt><dd>Crazy horse</dd></div><div data-stage-item><dt>Colours</dt><dd>Brown / Black</dd></div><div data-stage-item><dt>From</dt><dd>Rs 1,740</dd></div><div data-stage-item><dt>Pieces</dt><dd>2 · Maverick, Purefold</dd></div></dl>
-  <p data-stage-item style="margin-top:18px"><a class="btn btn--text" href="wallets.html">Shop minimalist <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
-</div>
-<div class="rpanel" data-range-panel="3" hidden>
-  <div class="rp-head" data-stage-item><span class="pcard-num">STAGR.04</span><span class="label">Long</span></div>
-  <h3 class="rp-name" data-range-title>Rodeo<span class="dotc">.</span></h3>
-  <p class="serif-i muted rp-sub" data-stage-item>Long · Rodeo & Upbuck</p>
-  <p class="rp-copy" data-stage-item>Sleek Style, Endless Storage. Chic Storage for the Savvy. Cards, notes and a snap closure.</p>
-  <dl class="spec rp-spec"><div data-stage-item><dt>Leather</dt><dd>Crazy horse</dd></div><div data-stage-item><dt>Colours</dt><dd>Brown / Tan / Black</dd></div><div data-stage-item><dt>From</dt><dd>Rs 3,400</dd></div><div data-stage-item><dt>Pieces</dt><dd>2 · Rodeo, Upbuck</dd></div></dl>
-  <p data-stage-item style="margin-top:18px"><a class="btn btn--text" href="wallets.html">Shop long <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
-</div>
-<div class="rpanel" data-range-panel="4" hidden>
-  <div class="rp-head" data-stage-item><span class="pcard-num">STAGR.05</span><span class="label">Belts</span></div>
-  <h3 class="rp-name" data-range-title>Monarch<span class="dotc">.</span></h3>
-  <p class="serif-i muted rp-sub" data-stage-item>Belts · Nova, Outlaw, Regent & Monarch</p>
-  <p class="rp-copy" data-stage-item>Handcrafted from 100% pure crazy horse leather, each belt pairs rugged durability with a rich patina that deepens over time.</p>
-  <dl class="spec rp-spec"><div data-stage-item><dt>Leather</dt><dd>Crazy horse</dd></div><div data-stage-item><dt>Colours</dt><dd>Brown / Tan / Black</dd></div><div data-stage-item><dt>From</dt><dd>Rs 2,394</dd></div><div data-stage-item><dt>Pieces</dt><dd>4 · Nova, Outlaw, Regent, Monarch</dd></div></dl>
-  <p data-stage-item style="margin-top:18px"><a class="btn btn--text" href="belts.html">Shop belts <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
-</div></div>
-      <div class="range-stage" data-range-stage><span class="ghost" data-range-ghost="0" style="opacity:1">01</span><span class="ghost" data-range-ghost="1" style="opacity:0">02</span><span class="ghost" data-range-ghost="2" style="opacity:0">03</span><span class="ghost" data-range-ghost="3" style="opacity:0">04</span><span class="ghost" data-range-ghost="4" style="opacity:0">05</span><div class="cut rcut" data-range-cut="0"><div class="pair"><img class="p-belt" src="assets/cutouts/nova-1.webp" alt="" width="900" height="900" draggable="false" decoding="async"><img class="p-wallet" src="assets/cutouts/kingsmann-brown-1.webp" alt="Kingsmann bifold in brown crazy horse leather" width="900" height="900" draggable="false" decoding="async"></div></div><div class="cut rcut" data-range-cut="1"><div class="pair"><img class="p-belt" src="assets/cutouts/outlaw-1.webp" alt="" width="900" height="900" draggable="false" decoding="async"><img class="p-wallet" src="assets/cutouts/majestic-brown-1.webp" alt="Majestic trifold in brown crazy horse leather" width="900" height="900" draggable="false" decoding="async"></div></div><div class="cut rcut" data-range-cut="2"><div class="pair"><img class="p-belt" src="assets/cutouts/regent-1.webp" alt="" width="900" height="900" draggable="false" decoding="async"><img class="p-wallet" src="assets/cutouts/maverick-brown-1.webp" alt="Maverick minimalist in brown crazy horse leather" width="900" height="900" draggable="false" decoding="async"></div></div><div class="cut rcut" data-range-cut="3"><div class="pair"><img class="p-belt" src="assets/cutouts/monarch-1.webp" alt="" width="900" height="900" draggable="false" decoding="async"><img class="p-wallet" src="assets/cutouts/rodeo-tan-1.webp" alt="Rodeo long in tan crazy horse leather" width="900" height="900" draggable="false" decoding="async"></div></div><div class="cut rcut" data-range-cut="4"><div class="pair belts"><img class="p-belt" src="assets/cutouts/nova-1.webp" alt="" width="900" height="900" draggable="false" decoding="async"><img class="p-wallet" src="assets/cutouts/monarch-1.webp" alt="Monarch belts in tan crazy horse leather" width="900" height="900" draggable="false" decoding="async"></div></div></div>
-    </div>
-    <div class="range-dots"><button type="button" data-range-dot="0" aria-label="Show Bifold" style="color:var(--fg)">01</button><button type="button" data-range-dot="1" aria-label="Show Trifold" style="color:var(--fg-2)">02</button><button type="button" data-range-dot="2" aria-label="Show Minimalist" style="color:var(--fg-2)">03</button><button type="button" data-range-dot="3" aria-label="Show Long" style="color:var(--fg-2)">04</button><button type="button" data-range-dot="4" aria-label="Show Belts" style="color:var(--fg-2)">05</button></div>
-  </div>
-  <div class="range-mobile mob-only" data-range-mobile>
-    <div class="mhead"><div data-reveal><p class="label"><b>02</b><span class="slash">/</span>The range</p></div><h2 class="h2" data-text-reveal="lines" style="margin-top:12px">Five ways to carry.</h2><p class="label" data-reveal data-delay=".2" style="margin-top:14px;font-size:.75rem">Swipe to browse</p></div>
-    <div class="mtrack" data-mrange-track>
-<article class="mcard" data-mcard>
-  <div class="cut mcut"><div class="bloom" style="--bloom:#D9B07A" data-bloom></div><div class="pair"><img class="p-belt" src="assets/cutouts/nova-1-600.webp" alt="" width="600" height="600" loading="lazy" draggable="false"><img class="p-wallet" src="assets/cutouts/kingsmann-brown-1-600.webp" alt="" width="600" height="600" loading="lazy" draggable="false"></div></div>
-  <div class="rp-head"><span class="pcard-num">STAGR.01</span><span class="label">Bifold</span></div>
-  <h3 class="rp-name" data-mcard-title>Kingsmann<span class="dotc">.</span></h3>
-  <p class="serif-i muted rp-sub" data-card-item>Bifold · Kingsmann & Regal</p>
-  <p class="rp-copy" data-card-item>Crafted for the Modern Gentleman Folded, skived and stitched by hand. Slim enough for a jacket, lined in calf.</p>
-  <dl class="spec rp-spec" data-card-item><div><dt>Leather</dt><dd>Crazy horse</dd></div><div><dt>Colours</dt><dd>Brown / Black</dd></div><div><dt>From</dt><dd>Rs 1,950</dd></div></dl>
-  <p data-card-item style="margin-top:14px"><a class="btn btn--text" href="wallets.html">Shop <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
-</article>
-<article class="mcard" data-mcard>
-  <div class="cut mcut"><div class="bloom" style="--bloom:#CDA373" data-bloom></div><div class="pair"><img class="p-belt" src="assets/cutouts/outlaw-1-600.webp" alt="" width="600" height="600" loading="lazy" draggable="false"><img class="p-wallet" src="assets/cutouts/majestic-brown-1-600.webp" alt="" width="600" height="600" loading="lazy" draggable="false"></div></div>
-  <div class="rp-head"><span class="pcard-num">STAGR.02</span><span class="label">Trifold</span></div>
-  <h3 class="rp-name" data-mcard-title>Majestic<span class="dotc">.</span></h3>
-  <p class="serif-i muted rp-sub" data-card-item>Trifold · Majestic</p>
-  <p class="rp-copy" data-card-item>Timeless Craftsmanship. Three folds, one row of saddle stitch, cut from a single hide.</p>
-  <dl class="spec rp-spec" data-card-item><div><dt>Leather</dt><dd>Crazy horse</dd></div><div><dt>Colours</dt><dd>Brown / Black</dd></div><div><dt>From</dt><dd>Rs 2,600</dd></div></dl>
-  <p data-card-item style="margin-top:14px"><a class="btn btn--text" href="wallets.html">Shop <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
-</article>
-<article class="mcard" data-mcard>
-  <div class="cut mcut"><div class="bloom" style="--bloom:#DABF9A" data-bloom></div><div class="pair"><img class="p-belt" src="assets/cutouts/regent-1-600.webp" alt="" width="600" height="600" loading="lazy" draggable="false"><img class="p-wallet" src="assets/cutouts/maverick-brown-1-600.webp" alt="" width="600" height="600" loading="lazy" draggable="false"></div></div>
-  <div class="rp-head"><span class="pcard-num">STAGR.03</span><span class="label">Minimalist</span></div>
-  <h3 class="rp-name" data-mcard-title>Maverick<span class="dotc">.</span></h3>
-  <p class="serif-i muted rp-sub" data-card-item>Minimalist · Maverick & Purefold</p>
-  <p class="rp-copy" data-card-item>Where Function Meets Fashion. Minimalism Perfected. The slim ones, for a front pocket.</p>
-  <dl class="spec rp-spec" data-card-item><div><dt>Leather</dt><dd>Crazy horse</dd></div><div><dt>Colours</dt><dd>Brown / Black</dd></div><div><dt>From</dt><dd>Rs 1,740</dd></div></dl>
-  <p data-card-item style="margin-top:14px"><a class="btn btn--text" href="wallets.html">Shop <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
-</article>
-<article class="mcard" data-mcard>
-  <div class="cut mcut"><div class="bloom" style="--bloom:#C8976A" data-bloom></div><div class="pair"><img class="p-belt" src="assets/cutouts/monarch-1-600.webp" alt="" width="600" height="600" loading="lazy" draggable="false"><img class="p-wallet" src="assets/cutouts/rodeo-tan-1-600.webp" alt="" width="600" height="600" loading="lazy" draggable="false"></div></div>
-  <div class="rp-head"><span class="pcard-num">STAGR.04</span><span class="label">Long</span></div>
-  <h3 class="rp-name" data-mcard-title>Rodeo<span class="dotc">.</span></h3>
-  <p class="serif-i muted rp-sub" data-card-item>Long · Rodeo & Upbuck</p>
-  <p class="rp-copy" data-card-item>Sleek Style, Endless Storage. Chic Storage for the Savvy. Cards, notes and a snap closure.</p>
-  <dl class="spec rp-spec" data-card-item><div><dt>Leather</dt><dd>Crazy horse</dd></div><div><dt>Colours</dt><dd>Brown / Tan / Black</dd></div><div><dt>From</dt><dd>Rs 3,400</dd></div></dl>
-  <p data-card-item style="margin-top:14px"><a class="btn btn--text" href="wallets.html">Shop <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
-</article>
-<article class="mcard" data-mcard>
-  <div class="cut mcut"><div class="bloom" style="--bloom:#C9B290" data-bloom></div><div class="pair belts"><img class="p-belt" src="assets/cutouts/nova-1-600.webp" alt="" width="600" height="600" loading="lazy" draggable="false"><img class="p-wallet" src="assets/cutouts/monarch-1-600.webp" alt="" width="600" height="600" loading="lazy" draggable="false"></div></div>
-  <div class="rp-head"><span class="pcard-num">STAGR.05</span><span class="label">Belts</span></div>
-  <h3 class="rp-name" data-mcard-title>Monarch<span class="dotc">.</span></h3>
-  <p class="serif-i muted rp-sub" data-card-item>Belts · Nova, Outlaw, Regent & Monarch</p>
-  <p class="rp-copy" data-card-item>Handcrafted from 100% pure crazy horse leather, each belt pairs rugged durability with a rich patina that deepens over time.</p>
-  <dl class="spec rp-spec" data-card-item><div><dt>Leather</dt><dd>Crazy horse</dd></div><div><dt>Colours</dt><dd>Brown / Tan / Black</dd></div><div><dt>From</dt><dd>Rs 2,394</dd></div></dl>
-  <p data-card-item style="margin-top:14px"><a class="btn btn--text" href="belts.html">Shop <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
-</article></div>
-    <div class="mdots"><button type="button" data-mrange-dot="0" style="color:var(--fg)">01</button><button type="button" data-mrange-dot="1" style="color:var(--fg-2)">02</button><button type="button" data-mrange-dot="2" style="color:var(--fg-2)">03</button><button type="button" data-mrange-dot="3" style="color:var(--fg-2)">04</button><button type="button" data-mrange-dot="4" style="color:var(--fg-2)">05</button></div>
-  </div>
-</section>
-
-<section id="inside" class="inside on-ink" aria-labelledby="inside-title">
-  <div class="inside-pin desk-only" data-inside-pin>
-    <div class="inside-head"><p class="label"><b style="color:var(--bone)">03</b><span class="slash">·</span>What every piece is made of</p><h2 class="inside-title" id="inside-title" data-inside-title>Inside.</h2><div class="inside-pills"><button type="button" class="pill" data-inside-pill="0" aria-pressed="true">Crazy horse</button><button type="button" class="pill" data-inside-pill="1" aria-pressed="false">Saddle stitch</button><button type="button" class="pill" data-inside-pill="2" aria-pressed="false">Solid brass</button><button type="button" class="pill" data-inside-pill="3" aria-pressed="false">Beeswax edge</button></div></div>
-    <div class="inside-grid">
-      <div class="inside-left">
-<div data-inside-left="0" >
-  <div data-inside-hover><h3 class="inside-name" data-inside-name>Crazy<br>horse</h3></div>
-  <div class="inside-sci" data-inside-sci><svg data-inside-svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" aria-hidden="true"><path data-bot d="M12 28c-6-6-4-16 4-20s16-2 20 4 6 14-2 18-16 4-22-2z"/><path data-bot d="M16 22c4-2 8-2 14 0"/></svg><span class="serif-i">Full grain cowhide, hot waxed</span></div>
-</div>
-<div data-inside-left="1" hidden>
-  <div data-inside-hover><h3 class="inside-name" data-inside-name>Saddle<br>stitch</h3></div>
-  <div class="inside-sci" data-inside-sci><svg data-inside-svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" aria-hidden="true"><path data-bot d="M4 24l6-6 6 6 6-6 6 6 6-6 6 6"/><path data-bot d="M4 32l6-6 6 6 6-6 6 6 6-6 6 6"/></svg><span class="serif-i">Two needles, waxed linen thread</span></div>
-</div>
-<div data-inside-left="2" hidden>
-  <div data-inside-hover><h3 class="inside-name" data-inside-name>Solid<br>brass</h3></div>
-  <div class="inside-sci" data-inside-sci><svg data-inside-svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" aria-hidden="true"><rect data-bot x="8" y="12" width="28" height="20" rx="6"/><path data-bot d="M8 22h22"/><circle data-bot cx="30" cy="22" r="2"/></svg><span class="serif-i">Buckle on a removable screw post</span></div>
-</div>
-<div data-inside-left="3" hidden>
-  <div data-inside-hover><h3 class="inside-name" data-inside-name>Beeswax<br>edge</h3></div>
-  <div class="inside-sci" data-inside-sci><svg data-inside-svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" aria-hidden="true"><path data-bot d="M22 6c6 8 10 13 10 19a10 10 0 0 1-20 0c0-6 4-11 10-19z"/><path data-bot d="M18 26a4 4 0 0 0 4 4"/></svg><span class="serif-i">Bevelled, sanded, burnished four times</span></div>
-</div></div>
-      <div class="inside-stage" data-inside-stage><div class="inside-halo" data-inside-halo></div><div class="inside-float" data-inside-float><img data-inside-img="0" src="assets/cutouts/kingsmann-brown-1.webp" alt="" width="900" height="900" draggable="false" decoding="async" style="opacity:1"><img data-inside-img="1" src="assets/cutouts/regal-brown-2.webp" alt="" width="900" height="900" draggable="false" decoding="async" style="opacity:0"><img data-inside-img="2" src="assets/cutouts/monarch-1.webp" alt="" width="900" height="900" draggable="false" decoding="async" style="opacity:0"><img data-inside-img="3" src="assets/cutouts/regent-1.webp" alt="" width="900" height="900" draggable="false" decoding="async" style="opacity:0"></div></div>
-      <div class="inside-right">
-<div data-inside-right="0" >
-  <p class="label"><b>01</b><span class="slash">/</span>04</p>
-  <p class="inside-desc">Every Stagr piece is made from 100% pure crazy horse leather: full grain cowhide treated with wax, which gives it its rugged look and a patina that deepens with use.</p>
-  <dl class="spec" style="margin-top:20px"><div><dt>Source</dt><dd>Full grain cowhide</dd></div><div><dt>Finish</dt><dd>Wax, hand rubbed</dd></div><div><dt>Ages</dt><dd>Darkens with use</dd></div><div><dt>Measure</dt><dd><span class="num" style="font-size:1.1rem" data-inside-dose="100">0</span> <span class="small muted">% of every piece</span></dd></div></dl>
-  <div class="inside-bar"><i data-inside-bar="1.0"></i></div>
-  <a class="btn btn--ghost btn--sm inside-cta" href="wallets.html">Explore wallets <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-</div>
-<div data-inside-right="1" hidden>
-  <p class="label"><b>02</b><span class="slash">/</span>04</p>
-  <p class="inside-desc">One row of saddle stitch, two needles, waxed linen thread. It cannot unravel the way a machine seam can.</p>
-  <dl class="spec" style="margin-top:20px"><div><dt>Thread</dt><dd>Waxed linen</dd></div><div><dt>Needles</dt><dd>Two, one row</dd></div><div><dt>Why</dt><dd>Cannot unravel</dd></div><div><dt>Measure</dt><dd><span class="num" style="font-size:1.1rem" data-inside-dose="2">0</span> <span class="small muted">needles, one seam</span></dd></div></dl>
-  <div class="inside-bar"><i data-inside-bar="0.5"></i></div>
-  <a class="btn btn--ghost btn--sm inside-cta" href="wallets.html">Explore wallets <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-</div>
-<div data-inside-right="2" hidden>
-  <p class="label"><b>03</b><span class="slash">/</span>04</p>
-  <p class="inside-desc">Solid brass buckle on a removable screw post, so you can change it without tools. No plated buckles dressed up as brass.</p>
-  <dl class="spec" style="margin-top:20px"><div><dt>Metal</dt><dd>Solid brass</dd></div><div><dt>Post</dt><dd>Removable screw</dd></div><div><dt>Plating</dt><dd>None</dd></div><div><dt>Measure</dt><dd><span class="num" style="font-size:1.1rem" data-inside-dose="0">0</span> <span class="small muted">plating, ever</span></dd></div></dl>
-  <div class="inside-bar"><i data-inside-bar="0.0"></i></div>
-  <a class="btn btn--ghost btn--sm inside-cta" href="belts.html">Explore belts <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-</div>
-<div data-inside-right="3" hidden>
-  <p class="label"><b>04</b><span class="slash">/</span>04</p>
-  <p class="inside-desc">Edges bevelled, sanded, burnished four times, sealed with beeswax. Then the buckle goes on and it is checked.</p>
-  <dl class="spec" style="margin-top:20px"><div><dt>Passes</dt><dd>Four, by hand</dd></div><div><dt>Seal</dt><dd>Beeswax</dd></div><div><dt>Checked</dt><dd>Before it is packed</dd></div><div><dt>Measure</dt><dd><span class="num" style="font-size:1.1rem" data-inside-dose="4">0</span> <span class="small muted">passes on every edge</span></dd></div></dl>
-  <div class="inside-bar"><i data-inside-bar="1.0"></i></div>
-  <a class="btn btn--ghost btn--sm inside-cta" href="belts.html">Explore belts <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-</div></div>
-    </div>
-    <p class="inside-foot">One hide. One workshop. Nothing else.</p>
-  </div>
-  <div class="inside-mobile mob-only" data-inside-mobile>
-    <div style="padding:0 20px;text-align:center"><p class="label" data-reveal><b style="color:var(--bone)">03</b><span class="slash">·</span>What every piece is made of</p><h2 class="inside-title" data-inside-title-mobile style="opacity:1;margin-top:10px">Inside.</h2></div>
-    <div class="mstage"><div class="inside-halo" data-inside-halo-mobile></div><div class="inside-float" data-inside-float-mobile><img data-inside-img="0" src="assets/cutouts/kingsmann-brown-1-600.webp" alt="" width="900" height="900" draggable="false" decoding="async" style="opacity:1"><img data-inside-img="1" src="assets/cutouts/regal-brown-2-600.webp" alt="" width="900" height="900" draggable="false" decoding="async" style="opacity:0"><img data-inside-img="2" src="assets/cutouts/monarch-1-600.webp" alt="" width="900" height="900" draggable="false" decoding="async" style="opacity:0"><img data-inside-img="3" src="assets/cutouts/regent-1-600.webp" alt="" width="900" height="900" draggable="false" decoding="async" style="opacity:0"></div></div>
-    <div class="deck" data-deck-track>
-<article class="deck-card" data-halo="#D9B07A">
-  <p class="label"><b>01</b><span class="slash">/</span>04</p>
-  <h3 class="inside-name" data-deck-title style="margin-top:12px">Crazy horse</h3>
-  <p class="serif-i muted" data-deck-item>Full grain cowhide, hot waxed</p>
-  <p class="inside-desc" data-deck-item>Every Stagr piece is made from 100% pure crazy horse leather: full grain cowhide treated with wax, which gives it its rugged look and a patina that deepens with use.</p>
-  <dl class="spec" data-deck-item style="margin-top:16px"><div><dt>Source</dt><dd>Full grain cowhide</dd></div><div><dt>Finish</dt><dd>Wax, hand rubbed</dd></div><div><dt>Ages</dt><dd>Darkens with use</dd></div></dl>
-  <p data-deck-item style="margin-top:18px"><a class="btn btn--ghost btn--sm" href="wallets.html">Explore wallets <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
-</article>
-<article class="deck-card" data-halo="#C8976A">
-  <p class="label"><b>02</b><span class="slash">/</span>04</p>
-  <h3 class="inside-name" data-deck-title style="margin-top:12px">Saddle stitch</h3>
-  <p class="serif-i muted" data-deck-item>Two needles, waxed linen thread</p>
-  <p class="inside-desc" data-deck-item>One row of saddle stitch, two needles, waxed linen thread. It cannot unravel the way a machine seam can.</p>
-  <dl class="spec" data-deck-item style="margin-top:16px"><div><dt>Thread</dt><dd>Waxed linen</dd></div><div><dt>Needles</dt><dd>Two, one row</dd></div><div><dt>Why</dt><dd>Cannot unravel</dd></div></dl>
-  <p data-deck-item style="margin-top:18px"><a class="btn btn--ghost btn--sm" href="wallets.html">Explore wallets <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
-</article>
-<article class="deck-card" data-halo="#B8A58C">
-  <p class="label"><b>03</b><span class="slash">/</span>04</p>
-  <h3 class="inside-name" data-deck-title style="margin-top:12px">Solid brass</h3>
-  <p class="serif-i muted" data-deck-item>Buckle on a removable screw post</p>
-  <p class="inside-desc" data-deck-item>Solid brass buckle on a removable screw post, so you can change it without tools. No plated buckles dressed up as brass.</p>
-  <dl class="spec" data-deck-item style="margin-top:16px"><div><dt>Metal</dt><dd>Solid brass</dd></div><div><dt>Post</dt><dd>Removable screw</dd></div><div><dt>Plating</dt><dd>None</dd></div></dl>
-  <p data-deck-item style="margin-top:18px"><a class="btn btn--ghost btn--sm" href="belts.html">Explore belts <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
-</article>
-<article class="deck-card" data-halo="#CDA373">
-  <p class="label"><b>04</b><span class="slash">/</span>04</p>
-  <h3 class="inside-name" data-deck-title style="margin-top:12px">Beeswax edge</h3>
-  <p class="serif-i muted" data-deck-item>Bevelled, sanded, burnished four times</p>
-  <p class="inside-desc" data-deck-item>Edges bevelled, sanded, burnished four times, sealed with beeswax. Then the buckle goes on and it is checked.</p>
-  <dl class="spec" data-deck-item style="margin-top:16px"><div><dt>Passes</dt><dd>Four, by hand</dd></div><div><dt>Seal</dt><dd>Beeswax</dd></div><div><dt>Checked</dt><dd>Before it is packed</dd></div></dl>
-  <p data-deck-item style="margin-top:18px"><a class="btn btn--ghost btn--sm" href="belts.html">Explore belts <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
-</article></div>
-    <div class="mdots"><button type="button" data-deck-dot="0" style="color:var(--bone)">01</button><button type="button" data-deck-dot="1" style="color:rgba(239,237,230,.35)">02</button><button type="button" data-deck-dot="2" style="color:rgba(239,237,230,.35)">03</button><button type="button" data-deck-dot="3" style="color:rgba(239,237,230,.35)">04</button></div>
-    <p class="inside-foot" style="padding:24px 20px 0">One hide. One workshop. Nothing else.</p>
-  </div>
-</section>
-
-<section id="promise" class="promise on-ink" aria-labelledby="promise-title">
+<!-- range section hidden for now --><section id="promise" class="promise on-ink" aria-labelledby="promise-title">
   <div class="wrap">
     <div data-reveal><p class="label"><b style="color:var(--bone)">05</b><span class="slash">/</span>What we hold to</p></div>
     <h2 class="promise-title" id="promise-title" data-text-reveal="lines">Quietly made.</h2>
@@ -1446,7 +1313,7 @@ function initAnimations() {
 
   /* ================= 02 RANGE ================= */
   function initRangeDesktop() {
-    const section = $("#range"), pin = $("[data-range-pin]"), title = $("[data-range-title-main]"), label = $("[data-range-label]"), count = $("[data-range-count]"), panels = $$("[data-range-panel]"), bgs = $$("[data-range-bloom]"), ghosts = $$("[data-range-ghost]"), cuts = $$("[data-range-cut]"), stage = $("[data-range-stage]"), dots = $$("[data-range-dot]");
+    const section = $("#range"); if (!section) return; const pin = $("[data-range-pin]"), title = $("[data-range-title-main]"), label = $("[data-range-label]"), count = $("[data-range-count]"), panels = $$("[data-range-panel]"), bgs = $$("[data-range-bloom]"), ghosts = $$("[data-range-ghost]"), cuts = $$("[data-range-cut]"), stage = $("[data-range-stage]"), dots = $$("[data-range-dot]");
     const n = panels.length, SIDE = [1, -1, 1, -1, 1], unit = () => stage.clientHeight / 3.509, deg = (r) => r * 180 / Math.PI;
     cuts.forEach((c, i) => G.set(c, i === 0 ? { x: 0, scale: 1, opacity: 1 } : { x: () => 3 * SIDE[i] * unit(), scale: .94, opacity: 0 }));
     G.fromTo(label, { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: .6, ease: "power2.out", scrollTrigger: { trigger: section, start: "top 80%", toggleActions: "play none none none" } });
@@ -1510,9 +1377,9 @@ function initAnimations() {
     const setActive = (next) => { if (next === active) return; active = next; stylePills(); G.to(halo, { backgroundColor: colors[next], duration: .5, overwrite: "auto" }); turnPiece(img, next); swap(); };
     // 4 topics sit at progress 0, 1/3, 2/3, 1 (the snap points); the active one only changes once
     // the scroll has moved clearly past the midpoint between two topics, so nothing flips on its own
-    const STEPS = 3; let scrolling = null;
+    const STEPS = lefts.length - 1; let scrolling = null;
     const pick = (progress) => { const p = progress * STEPS; let next = active; while (next < STEPS && p > next + .5 + .1) next++; while (next > 0 && p < next - .5 - .1) next--; return next; };
-    const trigger = ST.create({ trigger: section, start: "top top", end: () => "+=" + 3 * innerHeight, pin: true, pinSpacing: true, scrub: .6, snap: { snapTo: (v) => scrolling !== null ? v : G.utils.snap(1 / STEPS, v), duration: { min: .25, max: .6 }, ease: "power2.inOut", directional: false, delay: .15, inertia: false }, invalidateOnRefresh: true, onUpdate: (self) => { if (scrolling !== null) return; setActive(pick(self.progress)); } });
+    const trigger = ST.create({ trigger: section, start: "top top", end: () => "+=" + STEPS * innerHeight, pin: true, pinSpacing: true, scrub: .6, snap: { snapTo: (v) => scrolling !== null ? v : G.utils.snap(1 / STEPS, v), duration: { min: .25, max: .6 }, ease: "power2.inOut", directional: false, delay: .15, inertia: false }, invalidateOnRefresh: true, onUpdate: (self) => { if (scrolling !== null) return; setActive(pick(self.progress)); } });
     // a tab click switches straight away and glides the page to that topic's stop
     pills.forEach((p, i) => p.addEventListener("click", () => {
       if (i === active) return; scrolling = i; setActive(i);
@@ -1576,7 +1443,7 @@ function initAnimations() {
 
   /* ================= boot (top to bottom so pinned blocks measure in order) ================= */
   const startHero = initHero();
-  initScrollHint(); S.initReveals($("#hero")); S.initReveals($("#explore")); initShop(); S.initReveals($("#shop")); S.initReveals($("#more"));
+  initScrollHint(); S.initReveals($("#hero")); S.initReveals($("#explore")); initShop(); S.initReveals($("#shop")); initInside(); S.initReveals($("#more"));
   (function initExplore() {
     const tabs = $$("[data-ex-tab]"), grids = $$("[data-ex-grid]"), all = $("[data-ex-all]"); if (!tabs.length) return;
     tabs.forEach((t) => t.addEventListener("click", () => {
@@ -1589,8 +1456,6 @@ function initAnimations() {
     }));
   })();
   if (isMobile) initRangeMobile(); else initRangeDesktop();
-  S.initReveals($("#range"));
-  initInside();
   initPromise(); S.initReveals($("#promise"));
   if (isMobile) initStoryMobile(); else initStoryDesktop();
   S.initReveals($("#story")); S.initReveals($("#delivery-sec")); S.initReveals($("footer"));
