@@ -122,7 +122,7 @@ def render(ctx):
 
     js = r'''
 function initAnimations() {
-  const S = window.STAGR, G = S.gsap, ST = window.ScrollTrigger, Flip = window.Flip, $ = S.$, $$ = S.$$, reduced = S.reduced;
+  const S = window.STAGR, G = S.gsap, ST = window.ScrollTrigger, $ = S.$, $$ = S.$$, reduced = S.reduced;
   if (!G) return;
   S.initReveals($(".shop-hero")); S.initReveals($(".shop-more")); S.initReveals($("footer"));
 
@@ -143,17 +143,18 @@ function initAnimations() {
     const p = new URLSearchParams(); if (state.line) p.set("line", state.line + "s"); if (state.colour) p.set("colour", state.colour); if (state.style) p.set("style", state.style);
     const q = p.toString(); history.replaceState(null, "", location.pathname + (q ? "?" + q : ""));
   };
-  const apply = (animate) => {
-    const st = animate && Flip && !reduced ? Flip.getState(cards) : null;
+  const mutate = () => {
     cards.slice().sort(sorters[state.sort] || sorters.default).forEach((c) => grid.appendChild(c));
     let k = 0; cards.forEach((c) => { const ok = passes(c); c.classList.toggle("is-hidden", !ok); if (ok) k++; });
     $$("[data-count]").forEach((el) => el.textContent = k);
     empty.classList.toggle("is-on", k === 0);
+  };
+  const apply = (animate) => {
     $$("[data-clear]").forEach((b) => b.classList.toggle("is-on", !!(state.colour || state.style || state.price)));
     tabs.forEach((t) => t.setAttribute("aria-selected", String(t.dataset.line === state.line)));
     ["colour", "style", "price"].forEach((key) => $$('[data-filter="' + key + '"]').forEach((x) => x.setAttribute("aria-pressed", String(x.dataset.value === state[key]))));
-    if (st) Flip.from(st, { duration: .7, ease: "power3.out", stagger: .03, absolute: true, scale: true, onEnter: (els) => G.fromTo(els, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: .5, ease: "power2.out" }), onLeave: (els) => G.to(els, { opacity: 0, y: 12, duration: .3 }) });
-    ST.refresh(); sync();
+    if (animate) S.swapGrid(grid, mutate); else { mutate(); ST.refresh(); }
+    sync();
   };
   tabs.forEach((t) => t.addEventListener("click", () => { state.line = t.dataset.line; if (state.line === "belt" && state.style && state.style !== "Belt") state.style = ""; if (state.line === "wallet" && state.style === "Belt") state.style = ""; apply(true); }));
   $$("[data-filter]").forEach((b) => b.addEventListener("click", () => { const k = b.dataset.filter, v = b.dataset.value; state[k] = state[k] === v ? "" : v; apply(true); }));

@@ -237,8 +237,33 @@ address { font-style: normal; }
 .pcard-media .bloom { --bloom-s: 72%; opacity: .7; }
 .pcard-media img { position: relative; z-index: 1; width: 78%; height: auto; max-height: 86%; object-fit: contain; filter: drop-shadow(0 18px 22px rgba(26, 27, 29, .18)); transition: transform .6s var(--ease-out), opacity .4s ease; }
 .pcard-media img.alt { position: absolute; opacity: 0; }
-.pcard:hover .pcard-media img.main { opacity: 0; }
-.pcard:hover .pcard-media img.alt { opacity: 1; }
+.pcard.has-alt:hover .pcard-media img.main { opacity: 0; }
+.pcard.has-alt:hover .pcard-media img.alt { opacity: 1; }
+.pcard-media img.alt { position: absolute; inset: 0; margin: auto; }
+.pcard--compact { padding: clamp(14px, 1.6vw, 20px); }
+.pcard--compact .pcard-media { aspect-ratio: 5 / 4; }
+.pcard--compact .pcard-media img { width: 70%; }
+.pcard--compact .pcard-head { margin-top: 14px; }
+.pcard--compact .pcard-name { font-size: 1.35rem; }
+.pcard--compact .pcard-opts { margin-top: 12px; }
+.pcard--compact .pcard-foot { padding-top: 14px; grid-template-columns: 1fr auto; align-items: end; }
+.pcard--compact .pcard-price { border-top: 0; padding-top: 0; flex-direction: column; align-items: flex-start; gap: 4px; }
+.pcard--compact .pcard-price .num { font-size: 1.25rem; }
+.pcard--compact .pcard-price > span { display: flex; flex-direction: column; white-space: nowrap; }
+.pcard--compact .pcard-price s { margin-left: 0 !important; }
+/* horizontal rail of cards, one screen at a time */
+.rail { position: relative; }
+.rail-track { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; }
+.rail-track::-webkit-scrollbar { display: none; }
+.rail-track > * { flex: 0 0 var(--rail-w, 78vw); scroll-snap-align: start; min-height: 0; }
+.rail-nav { display: flex; gap: 8px; }
+.rail-btn { width: 44px; height: 44px; border: 1px solid var(--line-strong); border-radius: 50%; display: grid; place-items: center; color: var(--fg); transition: background-color .3s ease, color .3s ease, border-color .3s ease, opacity .3s ease; }
+.rail-btn:hover { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.rail-btn[disabled] { opacity: .3; pointer-events: none; }
+.rail-btn svg { width: 16px; height: 16px; }
+.rail-dots { display: flex; gap: 6px; }
+.rail-dots i { width: 18px; height: 2px; background: var(--line-strong); transition: background-color .3s ease; }
+.rail-dots i.is-on { background: var(--fg); }
 .pcard-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-top: 18px; }
 .pcard-num { font-family: var(--font-wordmark); font-weight: 800; font-size: .875rem; letter-spacing: -.01em; }
 .pcard-name { font-family: var(--font-display); font-weight: 300; font-size: 1.5rem; line-height: 1.1; margin-top: 6px; }
@@ -498,17 +523,23 @@ html.is-entering .fade { opacity: 1; }
 .col-intro .lead { margin-top: 18px; }
 .col-facts { max-width: 420px; }
 
-/* ---- one section per category ---- */
+/* ---- one section per category: fixed photo on the left, rail of cards on the right ---- */
 .cat { padding: clamp(32px, 5vw, 64px) 0; border-top: 1px solid var(--line); }
-.cat-head { display: grid; gap: 20px; margin-bottom: clamp(24px, 3vw, 40px); }
-.cat-meta { max-width: 360px; }
-@media (min-width: 1024px) { .cat-head { grid-template-columns: 1fr auto; align-items: end; } .cat-meta { min-width: 300px; } }
-.cat-grid { display: grid; gap: 16px; grid-template-columns: 1fr; }
-.cat-photo { position: relative; overflow: hidden; background: var(--ink); aspect-ratio: 4 / 5; }
-.cat-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 1.2s var(--ease-out); }
-.cat-photo:hover img { transform: scale(1.04); }
-@media (min-width: 640px) { .cat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .cat-photo { grid-column: span 2; aspect-ratio: 16 / 9; } }
-@media (min-width: 1024px) { .cat-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; } .cat-photo { grid-column: span var(--span, 1); aspect-ratio: auto; min-height: 100%; } .cat.is-flip .cat-photo { order: 9; } }
+.cat-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; margin-bottom: clamp(20px, 3vw, 32px); }
+.cat-head .h2 { max-width: 22ch; }
+.cat-row { display: grid; gap: 16px; grid-template-columns: 1fr; }
+.cat-photo { position: relative; overflow: hidden; background: var(--ink); aspect-ratio: 16 / 9; }
+.cat-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.cat-track { --rail-w: 78vw; }
+@media (min-width: 640px) { .cat-track { --rail-w: calc((100% - 16px) / 2); } }
+@media (min-width: 1024px) {
+  .cat-row { grid-template-columns: minmax(0, 3fr) minmax(0, 9fr); gap: 20px; align-items: stretch; }
+  .cat-photo { aspect-ratio: auto; min-height: 100%; }
+  .cat-track { --rail-w: calc((100% - 32px) / 3); min-width: 0; }
+}
+@media (min-width: 1440px) { .cat-track { --rail-w: calc((100% - 32px) / 3); } }
+.wrap:not(.has-overflow) .rail-nav { visibility: hidden; }
+@media (min-width: 1024px) { .cat--few .cat-row { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); } .cat--few .cat-track { --rail-w: calc((100% - 16px) / 2); } }
 
 /* ---- all + cross + delivery ---- */
 .all-band { padding: var(--section-sm) 0; border-top: 1px solid var(--line); text-align: center; }
@@ -608,103 +639,99 @@ html.is-entering .fade { opacity: 1; }
   </div>
 </section>
 
-<section class="cat on-bone" id="nova" aria-labelledby="cat-nova">
-  <div class="wrap">
+<section class="cat on-bone cat--few" id="nova" aria-labelledby="cat-nova">
+  <div class="wrap" data-rail>
     <div class="cat-head">
-      <div><p class="label" data-reveal><b>02</b><span class="slash">/</span>Nova belts</p><h2 class="h2" id="cat-nova" data-text-reveal="lines" style="margin-top:12px">Two sides. One belt. Made for every style.</h2></div>
-      <dl class="spec cat-meta" data-reveal data-delay=".15"><div><dt>Pieces</dt><dd>1</dd></div><div><dt>Colours</dt><dd>Black / Brown</dd></div><div><dt>From</dt><dd>Rs 2,394</dd></div></dl>
+      <div><p class="label" data-reveal><b>02</b><span class="slash">/</span>Nova belts · 1 style · from Rs 2,394</p><h2 class="h2" id="cat-nova" data-text-reveal="lines" style="margin-top:12px">Two sides. One belt. Made for every style.</h2></div>
+      <div class="rail-nav" data-reveal data-delay=".15"><button type="button" class="rail-btn" data-rail-prev aria-label="Previous" style="transform:scaleX(-1)"><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button><button type="button" class="rail-btn" data-rail-next aria-label="Next"><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
     </div>
-    <div class="cat-grid">
-      <figure class="cat-photo" style="--span:2" data-reveal><img src="assets/lifestyle/heritage-01.jpg" srcset="assets/lifestyle/heritage-01-800.jpg 800w, assets/lifestyle/heritage-01.jpg 1200w" sizes="(min-width: 1024px) 66vw, 100vw" alt="Nova Double-Sided Leather Belt, workshop photograph" width="1200" height="1500" loading="lazy"></figure>
-      
-<article class="pcard" data-product="nova" data-tags="" data-line="belt" data-style="Belt" data-colours="Black,Brown" data-price="2394" data-index="0" data-name="Nova Double-Sided Leather Belt" data-reveal data-delay="0.0">
+    <div class="cat-row">
+      <figure class="cat-photo" data-reveal><img src="assets/lifestyle/heritage-01.jpg" srcset="assets/lifestyle/heritage-01-800.jpg 800w, assets/lifestyle/heritage-01.jpg 1200w" sizes="(min-width: 1024px) 30vw, 100vw" alt="Nova Double-Sided Leather Belt, workshop photograph" width="1200" height="1500" loading="lazy"></figure>
+      <div class="rail-track cat-track" data-rail-track data-reveal data-delay=".1">
+<article class="pcard pcard--compact has-alt" data-product="nova" data-tags="" data-line="belt" data-style="Belt" data-colours="Black,Brown" data-price="2394" data-index="0" data-name="Nova Double-Sided Leather Belt" data-reveal data-delay="0.0">
   <a class="pcard-media" href="product-nova.html" data-cursor-label="View" aria-label="Nova Double-Sided Leather Belt"><div class="bloom" style="--bloom:#C9B290" data-bloom></div><img class="main" src="assets/cutouts/nova-1-600.webp" alt="Nova Double-Sided Leather Belt in black" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/nova-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
   <button type="button" class="pcard-quick" data-quick="nova">Quick view</button>
   <div class="pcard-head"><span class="pcard-num">STAGR.01</span><span class="label">Belt</span></div>
   <h3 class="pcard-name"><a href="product-nova.html">Nova<span class="dotc">.</span></a></h3>
-  <p class="pcard-sub">Nova Double-Sided Leather Belt</p>
-  <p class="pcard-copy">Two Sides. One Belt. Made for Every Style.</p>
+  
   <div class="pcard-opts opts" data-colour-opts><label class="opt"><input type="radio" name="c-nova-0" value="Black" checked><span class="sw" style="--sw:#1A1512"></span>Black</label><label class="opt"><input type="radio" name="c-nova-0" value="Brown" ><span class="sw" style="--sw:#6E4328"></span>Brown</label></div>
   <div class="pcard-foot">
     <div class="pcard-price"><span><span class="num">Rs 2,394</span><s class="small muted" style="margin-left:.5em">Rs 3,800</s></span><a class="pcard-link" href="product-nova.html">View <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
-    <button type="button" class="btn btn--wide" data-add="nova" data-colour="Black" data-size=34>Add to cart</button>
+    <button type="button" class="btn btn--sm" data-add="nova" data-colour="Black" data-size=34>Add to cart</button>
   </div>
-</article>
+</article></div>
     </div>
   </div>
 </section>
-<section class="cat on-bone is-flip" id="outlaw" aria-labelledby="cat-outlaw">
-  <div class="wrap">
+<section class="cat on-bone cat--few" id="outlaw" aria-labelledby="cat-outlaw">
+  <div class="wrap" data-rail>
     <div class="cat-head">
-      <div><p class="label" data-reveal><b>03</b><span class="slash">/</span>Outlaw belts</p><h2 class="h2" id="cat-outlaw" data-text-reveal="lines" style="margin-top:12px">Rugged character, timeless craftsmanship.</h2></div>
-      <dl class="spec cat-meta" data-reveal data-delay=".15"><div><dt>Pieces</dt><dd>1</dd></div><div><dt>Colours</dt><dd>Brown</dd></div><div><dt>From</dt><dd>Rs 2,765</dd></div></dl>
+      <div><p class="label" data-reveal><b>03</b><span class="slash">/</span>Outlaw belts · 1 style · from Rs 2,765</p><h2 class="h2" id="cat-outlaw" data-text-reveal="lines" style="margin-top:12px">Rugged character, timeless craftsmanship.</h2></div>
+      <div class="rail-nav" data-reveal data-delay=".15"><button type="button" class="rail-btn" data-rail-prev aria-label="Previous" style="transform:scaleX(-1)"><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button><button type="button" class="rail-btn" data-rail-next aria-label="Next"><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
     </div>
-    <div class="cat-grid">
-      <figure class="cat-photo" style="--span:2" data-reveal><img src="assets/lifestyle/ranger-01.jpg" srcset="assets/lifestyle/ranger-01-800.jpg 800w, assets/lifestyle/ranger-01.jpg 1200w" sizes="(min-width: 1024px) 66vw, 100vw" alt="Outlaw Crazy Horse Leather Belt, workshop photograph" width="1200" height="1500" loading="lazy"></figure>
-      
-<article class="pcard" data-product="outlaw" data-tags="" data-line="belt" data-style="Belt" data-colours="Brown" data-price="2765" data-index="1" data-name="Outlaw Crazy Horse Leather Belt" data-reveal data-delay="0.12">
+    <div class="cat-row">
+      <figure class="cat-photo" data-reveal><img src="assets/lifestyle/ranger-01.jpg" srcset="assets/lifestyle/ranger-01-800.jpg 800w, assets/lifestyle/ranger-01.jpg 1200w" sizes="(min-width: 1024px) 30vw, 100vw" alt="Outlaw Crazy Horse Leather Belt, workshop photograph" width="1200" height="1500" loading="lazy"></figure>
+      <div class="rail-track cat-track" data-rail-track data-reveal data-delay=".1">
+<article class="pcard pcard--compact has-alt" data-product="outlaw" data-tags="" data-line="belt" data-style="Belt" data-colours="Brown" data-price="2765" data-index="1" data-name="Outlaw Crazy Horse Leather Belt" data-reveal data-delay="0.12">
   <a class="pcard-media" href="product-outlaw.html" data-cursor-label="View" aria-label="Outlaw Crazy Horse Leather Belt"><div class="bloom" style="--bloom:#C9B290" data-bloom></div><img class="main" src="assets/cutouts/outlaw-1-600.webp" alt="Outlaw Crazy Horse Leather Belt in brown" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/outlaw-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
   <button type="button" class="pcard-quick" data-quick="outlaw">Quick view</button>
   <div class="pcard-head"><span class="pcard-num">STAGR.02</span><span class="label">Belt</span></div>
   <h3 class="pcard-name"><a href="product-outlaw.html">Outlaw<span class="dotc">.</span></a></h3>
-  <p class="pcard-sub">Outlaw Crazy Horse Leather Belt</p>
-  <p class="pcard-copy">Rugged Character. Timeless Craftsmanship.</p>
+  
   <div class="pcard-opts opts" data-colour-opts><label class="opt"><input type="radio" name="c-outlaw-1" value="Brown" checked><span class="sw" style="--sw:#6E4328"></span>Brown</label></div>
   <div class="pcard-foot">
     <div class="pcard-price"><span><span class="num">Rs 2,765</span><s class="small muted" style="margin-left:.5em">Rs 3,950</s></span><a class="pcard-link" href="product-outlaw.html">View <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
-    <button type="button" class="btn btn--wide" data-add="outlaw" data-colour="Brown" data-size=34>Add to cart</button>
+    <button type="button" class="btn btn--sm" data-add="outlaw" data-colour="Brown" data-size=34>Add to cart</button>
   </div>
-</article>
+</article></div>
     </div>
   </div>
 </section>
-<section class="cat on-bone" id="regent" aria-labelledby="cat-regent">
-  <div class="wrap">
+<section class="cat on-bone cat--few" id="regent" aria-labelledby="cat-regent">
+  <div class="wrap" data-rail>
     <div class="cat-head">
-      <div><p class="label" data-reveal><b>04</b><span class="slash">/</span>Regent belts</p><h2 class="h2" id="cat-regent" data-text-reveal="lines" style="margin-top:12px">Classic elegance, crafted to last.</h2></div>
-      <dl class="spec cat-meta" data-reveal data-delay=".15"><div><dt>Pieces</dt><dd>1</dd></div><div><dt>Colours</dt><dd>Black</dd></div><div><dt>From</dt><dd>Rs 2,730</dd></div></dl>
+      <div><p class="label" data-reveal><b>04</b><span class="slash">/</span>Regent belts · 1 style · from Rs 2,730</p><h2 class="h2" id="cat-regent" data-text-reveal="lines" style="margin-top:12px">Classic elegance, crafted to last.</h2></div>
+      <div class="rail-nav" data-reveal data-delay=".15"><button type="button" class="rail-btn" data-rail-prev aria-label="Previous" style="transform:scaleX(-1)"><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button><button type="button" class="rail-btn" data-rail-next aria-label="Next"><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
     </div>
-    <div class="cat-grid">
-      <figure class="cat-photo" style="--span:2" data-reveal><img src="assets/lifestyle/onyx-02.jpg" srcset="assets/lifestyle/onyx-02-800.jpg 800w, assets/lifestyle/onyx-02.jpg 1200w" sizes="(min-width: 1024px) 66vw, 100vw" alt="Regent Premium Leather Belt, workshop photograph" width="1200" height="1500" loading="lazy"></figure>
-      
-<article class="pcard" data-product="regent" data-tags="" data-line="belt" data-style="Belt" data-colours="Black" data-price="2730" data-index="2" data-name="Regent Premium Leather Belt" data-reveal data-delay="0.24">
+    <div class="cat-row">
+      <figure class="cat-photo" data-reveal><img src="assets/lifestyle/onyx-02.jpg" srcset="assets/lifestyle/onyx-02-800.jpg 800w, assets/lifestyle/onyx-02.jpg 1200w" sizes="(min-width: 1024px) 30vw, 100vw" alt="Regent Premium Leather Belt, workshop photograph" width="1200" height="1500" loading="lazy"></figure>
+      <div class="rail-track cat-track" data-rail-track data-reveal data-delay=".1">
+<article class="pcard pcard--compact has-alt" data-product="regent" data-tags="" data-line="belt" data-style="Belt" data-colours="Black" data-price="2730" data-index="2" data-name="Regent Premium Leather Belt" data-reveal data-delay="0.24">
   <a class="pcard-media" href="product-regent.html" data-cursor-label="View" aria-label="Regent Premium Leather Belt"><div class="bloom" style="--bloom:#C9B290" data-bloom></div><img class="main" src="assets/cutouts/regent-1-600.webp" alt="Regent Premium Leather Belt in black" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/regent-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
   <button type="button" class="pcard-quick" data-quick="regent">Quick view</button>
   <div class="pcard-head"><span class="pcard-num">STAGR.03</span><span class="label">Belt</span></div>
   <h3 class="pcard-name"><a href="product-regent.html">Regent<span class="dotc">.</span></a></h3>
-  <p class="pcard-sub">Regent Premium Leather Belt</p>
-  <p class="pcard-copy">Classic Elegance. Crafted to Last.</p>
+  
   <div class="pcard-opts opts" data-colour-opts><label class="opt"><input type="radio" name="c-regent-2" value="Black" checked><span class="sw" style="--sw:#1A1512"></span>Black</label></div>
   <div class="pcard-foot">
     <div class="pcard-price"><span><span class="num">Rs 2,730</span><s class="small muted" style="margin-left:.5em">Rs 3,900</s></span><a class="pcard-link" href="product-regent.html">View <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
-    <button type="button" class="btn btn--wide" data-add="regent" data-colour="Black" data-size=34>Add to cart</button>
+    <button type="button" class="btn btn--sm" data-add="regent" data-colour="Black" data-size=34>Add to cart</button>
   </div>
-</article>
+</article></div>
     </div>
   </div>
 </section>
-<section class="cat on-bone is-flip" id="monarch" aria-labelledby="cat-monarch">
-  <div class="wrap">
+<section class="cat on-bone cat--few" id="monarch" aria-labelledby="cat-monarch">
+  <div class="wrap" data-rail>
     <div class="cat-head">
-      <div><p class="label" data-reveal><b>05</b><span class="slash">/</span>Monarch belts</p><h2 class="h2" id="cat-monarch" data-text-reveal="lines" style="margin-top:12px">Premium character, a patina that deepens.</h2></div>
-      <dl class="spec cat-meta" data-reveal data-delay=".15"><div><dt>Pieces</dt><dd>1</dd></div><div><dt>Colours</dt><dd>Tan</dd></div><div><dt>From</dt><dd>Rs 2,800</dd></div></dl>
+      <div><p class="label" data-reveal><b>05</b><span class="slash">/</span>Monarch belts · 1 style · from Rs 2,800</p><h2 class="h2" id="cat-monarch" data-text-reveal="lines" style="margin-top:12px">Premium character, a patina that deepens.</h2></div>
+      <div class="rail-nav" data-reveal data-delay=".15"><button type="button" class="rail-btn" data-rail-prev aria-label="Previous" style="transform:scaleX(-1)"><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button><button type="button" class="rail-btn" data-rail-next aria-label="Next"><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
     </div>
-    <div class="cat-grid">
-      <figure class="cat-photo" style="--span:2" data-reveal><img src="assets/lifestyle/heritage-02.jpg" srcset="assets/lifestyle/heritage-02-800.jpg 800w, assets/lifestyle/heritage-02.jpg 1200w" sizes="(min-width: 1024px) 66vw, 100vw" alt="Monarch Premium Leather Belt, workshop photograph" width="1200" height="1500" loading="lazy"></figure>
-      
-<article class="pcard" data-product="monarch" data-tags="" data-line="belt" data-style="Belt" data-colours="Tan" data-price="2800" data-index="3" data-name="Monarch Premium Leather Belt" data-reveal data-delay="0.0">
+    <div class="cat-row">
+      <figure class="cat-photo" data-reveal><img src="assets/lifestyle/heritage-02.jpg" srcset="assets/lifestyle/heritage-02-800.jpg 800w, assets/lifestyle/heritage-02.jpg 1200w" sizes="(min-width: 1024px) 30vw, 100vw" alt="Monarch Premium Leather Belt, workshop photograph" width="1200" height="1500" loading="lazy"></figure>
+      <div class="rail-track cat-track" data-rail-track data-reveal data-delay=".1">
+<article class="pcard pcard--compact has-alt" data-product="monarch" data-tags="" data-line="belt" data-style="Belt" data-colours="Tan" data-price="2800" data-index="3" data-name="Monarch Premium Leather Belt" data-reveal data-delay="0.0">
   <a class="pcard-media" href="product-monarch.html" data-cursor-label="View" aria-label="Monarch Premium Leather Belt"><div class="bloom" style="--bloom:#C9B290" data-bloom></div><img class="main" src="assets/cutouts/monarch-1-600.webp" alt="Monarch Premium Leather Belt in tan" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/monarch-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
   <button type="button" class="pcard-quick" data-quick="monarch">Quick view</button>
   <div class="pcard-head"><span class="pcard-num">STAGR.04</span><span class="label">Belt</span></div>
   <h3 class="pcard-name"><a href="product-monarch.html">Monarch<span class="dotc">.</span></a></h3>
-  <p class="pcard-sub">Monarch Premium Leather Belt</p>
-  <p class="pcard-copy">Premium Character. Timeless Craftsmanship.</p>
+  
   <div class="pcard-opts opts" data-colour-opts><label class="opt"><input type="radio" name="c-monarch-3" value="Tan" checked><span class="sw" style="--sw:#B0773F"></span>Tan</label></div>
   <div class="pcard-foot">
     <div class="pcard-price"><span><span class="num">Rs 2,800</span><s class="small muted" style="margin-left:.5em">Rs 4,000</s></span><a class="pcard-link" href="product-monarch.html">View <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
-    <button type="button" class="btn btn--wide" data-add="monarch" data-colour="Tan" data-size=34>Add to cart</button>
+    <button type="button" class="btn btn--sm" data-add="monarch" data-colour="Tan" data-size=34>Add to cart</button>
   </div>
-</article>
+</article></div>
     </div>
   </div>
 </section>
@@ -721,39 +748,36 @@ html.is-entering .fade { opacity: 1; }
   <div class="wrap">
     <div class="between"><div><p class="label" data-reveal><b style="color:var(--bone)">07</b><span class="slash">/</span>Complete the look</p><h2 class="h2" id="cross-title" data-text-reveal="lines" style="margin-top:12px">A wallet to match.</h2></div><a class="btn btn--ghost" href="wallets.html" data-reveal>All wallets <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
     <div class="shop-grid">
-<article class="pcard" data-product="kingsmann" data-tags="" data-line="wallet" data-style="Bifold" data-colours="Brown,Black" data-price="2600" data-index="0" data-name="Kingsmann Bifold Leather Wallet" data-reveal data-delay="0.0">
+<article class="pcard has-alt" data-product="kingsmann" data-tags="" data-line="wallet" data-style="Bifold" data-colours="Brown,Black" data-price="2600" data-index="0" data-name="Kingsmann Bifold Leather Wallet" data-reveal data-delay="0.0">
   <a class="pcard-media" href="product-kingsmann.html" data-cursor-label="View" aria-label="Kingsmann Bifold Leather Wallet"><div class="bloom" style="--bloom:#D9B07A" data-bloom></div><img class="main" src="assets/cutouts/kingsmann-brown-1-600.webp" alt="Kingsmann Bifold Leather Wallet in brown" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/kingsmann-brown-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
   
   <div class="pcard-head"><span class="pcard-num">STAGR.01</span><span class="label">Bifold</span></div>
   <h3 class="pcard-name"><a href="product-kingsmann.html">Kingsmann<span class="dotc">.</span></a></h3>
-  <p class="pcard-sub">Kingsmann Bifold Leather Wallet</p>
-  <p class="pcard-copy">Crafted for the Modern Gentleman</p>
+  <p class="pcard-sub">Kingsmann Bifold Leather Wallet</p><p class="pcard-copy">Crafted for the Modern Gentleman</p>
   <div class="pcard-opts opts" data-colour-opts><label class="opt"><input type="radio" name="c-kingsmann-0" value="Brown" checked><span class="sw" style="--sw:#6E4328"></span>Brown</label><label class="opt"><input type="radio" name="c-kingsmann-0" value="Black" ><span class="sw" style="--sw:#1A1512"></span>Black</label></div>
   <div class="pcard-foot">
     <div class="pcard-price"><span><span class="num">Rs 2,600</span><s class="small muted" style="margin-left:.5em">Rs 3,999</s></span><a class="pcard-link" href="product-kingsmann.html">View <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
     <button type="button" class="btn btn--wide" data-add="kingsmann" data-colour="Brown" >Add to cart</button>
   </div>
 </article>
-<article class="pcard" data-product="majestic" data-tags="" data-line="wallet" data-style="Trifold" data-colours="Brown,Black" data-price="2600" data-index="1" data-name="Majestic Trifold Leather Wallet" data-reveal data-delay="0.12">
+<article class="pcard has-alt" data-product="majestic" data-tags="" data-line="wallet" data-style="Trifold" data-colours="Brown,Black" data-price="2600" data-index="1" data-name="Majestic Trifold Leather Wallet" data-reveal data-delay="0.12">
   <a class="pcard-media" href="product-majestic.html" data-cursor-label="View" aria-label="Majestic Trifold Leather Wallet"><div class="bloom" style="--bloom:#CDA373" data-bloom></div><img class="main" src="assets/cutouts/majestic-brown-1-600.webp" alt="Majestic Trifold Leather Wallet in brown" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/majestic-brown-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
   
   <div class="pcard-head"><span class="pcard-num">STAGR.02</span><span class="label">Trifold</span></div>
   <h3 class="pcard-name"><a href="product-majestic.html">Majestic<span class="dotc">.</span></a></h3>
-  <p class="pcard-sub">Majestic Trifold Leather Wallet</p>
-  <p class="pcard-copy">Timeless Craftsmanship</p>
+  <p class="pcard-sub">Majestic Trifold Leather Wallet</p><p class="pcard-copy">Timeless Craftsmanship</p>
   <div class="pcard-opts opts" data-colour-opts><label class="opt"><input type="radio" name="c-majestic-1" value="Brown" checked><span class="sw" style="--sw:#6E4328"></span>Brown</label><label class="opt"><input type="radio" name="c-majestic-1" value="Black" ><span class="sw" style="--sw:#1A1512"></span>Black</label></div>
   <div class="pcard-foot">
     <div class="pcard-price"><span><span class="num">Rs 2,600</span><s class="small muted" style="margin-left:.5em">Rs 3,999</s></span><a class="pcard-link" href="product-majestic.html">View <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
     <button type="button" class="btn btn--wide" data-add="majestic" data-colour="Brown" >Add to cart</button>
   </div>
 </article>
-<article class="pcard" data-product="maverick" data-tags="" data-line="wallet" data-style="Minimalist" data-colours="Brown,Black" data-price="1740" data-index="2" data-name="Maverick Minimalist Leather Wallet" data-reveal data-delay="0.24">
+<article class="pcard has-alt" data-product="maverick" data-tags="" data-line="wallet" data-style="Minimalist" data-colours="Brown,Black" data-price="1740" data-index="2" data-name="Maverick Minimalist Leather Wallet" data-reveal data-delay="0.24">
   <a class="pcard-media" href="product-maverick.html" data-cursor-label="View" aria-label="Maverick Minimalist Leather Wallet"><div class="bloom" style="--bloom:#DABF9A" data-bloom></div><img class="main" src="assets/cutouts/maverick-brown-1-600.webp" alt="Maverick Minimalist Leather Wallet in brown" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/maverick-brown-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
   
   <div class="pcard-head"><span class="pcard-num">STAGR.03</span><span class="label">Minimalist</span></div>
   <h3 class="pcard-name"><a href="product-maverick.html">Maverick<span class="dotc">.</span></a></h3>
-  <p class="pcard-sub">Maverick Minimalist Leather Wallet</p>
-  <p class="pcard-copy">Where Function Meets Fashion</p>
+  <p class="pcard-sub">Maverick Minimalist Leather Wallet</p><p class="pcard-copy">Where Function Meets Fashion</p>
   <div class="pcard-opts opts" data-colour-opts><label class="opt"><input type="radio" name="c-maverick-2" value="Brown" checked><span class="sw" style="--sw:#6E4328"></span>Brown</label><label class="opt"><input type="radio" name="c-maverick-2" value="Black" ><span class="sw" style="--sw:#1A1512"></span>Black</label></div>
   <div class="pcard-foot">
     <div class="pcard-price"><span><span class="num">Rs 1,740</span><s class="small muted" style="margin-left:.5em">Rs 2,899</s></span><a class="pcard-link" href="product-maverick.html">View <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
@@ -897,7 +921,8 @@ function initAnimations() {
 
   /* ================= everything below the fold ================= */
   $$(".col-intro, .cat, .all-band, .cross, footer").forEach((el) => S.initReveals(el));
-  $$(".cat-photo img").forEach((img) => { if (reduced) return; G.fromTo(img, { scale: 1.12 }, { scale: 1, ease: "none", scrollTrigger: { trigger: img.parentElement, start: "top bottom", end: "bottom top", scrub: true } }); });
+  $$(".cat-photo img").forEach((img) => { if (reduced) return; G.fromTo(img, { scale: 1.1 }, { scale: 1, ease: "none", scrollTrigger: { trigger: img.parentElement, start: "top bottom", end: "bottom top", scrub: true } }); });
+  S.initRails(document);
   // "Discover the collection" scrolls with Lenis
   cta && cta.addEventListener("click", (e) => { const target = $(cta.getAttribute("href")); if (!target) return; e.preventDefault(); S.scrollTo(target, 1.2); });
 }

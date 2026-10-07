@@ -77,26 +77,28 @@ ICON = {
 }
 
 
-def pcard(ctx, p, i, tags="", quick=True, reveal=True):
-    """Shop card: cutout on a bloom, number, name, colour options, price, add."""
+def pcard(ctx, p, i, tags="", quick=True, reveal=True, compact=False):
+    """Shop card: cutout on a bloom, number, name, colour options, price, add.
+    compact=True drops the italic sub-line and tagline for carousels."""
     I = ICON
     cuts = cutouts_for(p)
-    main = cuts[0]; alt = cuts[1] if len(cuts) > 1 else cuts[0]
+    main = cuts[0]
+    same = [c for c in cuts if c["colour"] == main["colour"]]
+    alt = same[1] if len(same) > 1 else None   # hover image: a second view of the same colour only
     fmt = lambda n: "Rs " + format(n, ",d")
     opts = "".join(f'<label class="opt"><input type="radio" name="c-{p["id"]}-{i}" value="{c}" {"checked" if c == p["defaultColour"] else ""}><span class="sw" style="--sw:{SWATCH.get(c, "#6E4328")}"></span>{c}</label>' for c in p["colours"])
     bloom = BLOOM.get(p.get("style")) or "#C9B290"
     return f'''
-<article class="pcard" data-product="{p["id"]}" data-tags="{tags}" data-line="{p["line"]}" data-style="{p["style"] or "Belt"}" data-colours="{",".join(p["colours"])}" data-price="{p["price"]}" data-index="{i}" data-name="{p["name"]}" {"data-reveal" if reveal else ""} data-delay="{(i % 3) * 0.12}">
-  <a class="pcard-media" href="product-{p["id"]}.html" data-cursor-label="View" aria-label="{p["name"]}"><div class="bloom" style="--bloom:{bloom}" data-bloom></div><img class="main" src="{main["small"]}" alt="{p["name"]} in {main["colour"].lower()}" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="{alt["small"]}" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
+<article class="pcard{" pcard--compact" if compact else ""}{" has-alt" if alt else ""}" data-product="{p["id"]}" data-tags="{tags}" data-line="{p["line"]}" data-style="{p["style"] or "Belt"}" data-colours="{",".join(p["colours"])}" data-price="{p["price"]}" data-index="{i}" data-name="{p["name"]}" {"data-reveal" if reveal else ""} data-delay="{(i % 3) * 0.12}">
+  <a class="pcard-media" href="product-{p["id"]}.html" data-cursor-label="View" aria-label="{p["name"]}"><div class="bloom" style="--bloom:{bloom}" data-bloom></div><img class="main" src="{main["small"]}" alt="{p["name"]} in {main["colour"].lower()}" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="{(alt or main)["small"]}" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
   {f'<button type="button" class="pcard-quick" data-quick="{p["id"]}">Quick view</button>' if quick else ""}
   <div class="pcard-head"><span class="pcard-num">STAGR.{str(i + 1).zfill(2)}</span><span class="label">{p["style"] or "Belt"}</span></div>
   <h3 class="pcard-name"><a href="product-{p["id"]}.html">{p["name"].split(" ")[0]}<span class="dotc">.</span></a></h3>
-  <p class="pcard-sub">{p["name"]}</p>
-  <p class="pcard-copy">{p["tagline"]}</p>
+  {"" if compact else f'<p class="pcard-sub">{p["name"]}</p><p class="pcard-copy">{p["tagline"]}</p>'}
   <div class="pcard-opts opts" data-colour-opts>{opts}</div>
   <div class="pcard-foot">
     <div class="pcard-price"><span><span class="num">{fmt(p["price"])}</span>{f'<s class="small muted" style="margin-left:.5em">{fmt(p["compareAtPrice"])}</s>' if p.get("compareAtPrice") else ""}</span><a class="pcard-link" href="product-{p["id"]}.html">View {I["arrow"]}</a></div>
-    <button type="button" class="btn btn--wide" data-add="{p["id"]}" data-colour="{p["defaultColour"]}" {"data-size=34" if p["line"] == "belt" else ""}>Add to cart</button>
+    <button type="button" class="btn{" btn--sm" if compact else " btn--wide"}" data-add="{p["id"]}" data-colour="{p["defaultColour"]}" {"data-size=34" if p["line"] == "belt" else ""}>Add to cart</button>
   </div>
 </article>'''
 

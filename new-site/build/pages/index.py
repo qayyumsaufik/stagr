@@ -603,16 +603,10 @@ function initAnimations() {
     const section = $("#shop"); if (!section) return;
     G.fromTo($$("[data-shop-rule]"), { scaleX: 0 }, { scaleX: 1, duration: .6, ease: "power3.out", scrollTrigger: { trigger: "[data-shop-rule]", start: "top 88%", toggleActions: "play none none none" } });
     const grid = $("[data-shop-grid]"), cards = $$("[data-product]", grid), tabs = $$(".ctab"), countEl = $("[data-shop-count]");
-    const apply = (tab) => {
-      const state = window.Flip && !reduced ? window.Flip.getState(cards) : null;
-      let n = 0;
-      cards.forEach((c) => { const ok = tab === "all" || c.dataset.tags.split(" ").indexOf(tab) >= 0; c.classList.toggle("is-hidden", !ok); if (ok) n++; });
-      if (countEl) countEl.textContent = n + (n === 1 ? " piece" : " pieces");
-      if (state) window.Flip.from(state, { duration: .7, ease: "power3.out", stagger: .03, absolute: true, scale: true, onEnter: (els) => G.fromTo(els, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: .5, ease: "power2.out" }), onLeave: (els) => G.to(els, { opacity: 0, y: 12, duration: .3 }) });
-      ST.refresh();
-    };
-    tabs.forEach((t) => t.addEventListener("click", () => { tabs.forEach((x) => x.setAttribute("aria-selected", String(x === t))); apply(t.dataset.tab); }));
-    apply("new");
+    const filter = (tab) => { let n = 0; cards.forEach((c) => { const ok = tab === "all" || c.dataset.tags.split(" ").indexOf(tab) >= 0; c.classList.toggle("is-hidden", !ok); if (ok) n++; }); if (countEl) countEl.textContent = n + (n === 1 ? " piece" : " pieces"); };
+    let current = "new";
+    tabs.forEach((t) => t.addEventListener("click", () => { if (t.dataset.tab === current) return; current = t.dataset.tab; tabs.forEach((x) => x.setAttribute("aria-selected", String(x === t))); S.swapGrid(grid, () => filter(current)); }));
+    filter("new");
     S.initCards(section);
   }
 

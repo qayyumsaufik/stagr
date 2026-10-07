@@ -258,7 +258,44 @@
   function boot() {
 
   /* ---------------- shop cards: colour radio swaps the cutout ---------------- */
-  S.initCards = (root) => { $$("[data-product]", root || document).forEach((card) => { if (card._cards) return; card._cards = true; const btn = $("[data-add]", card); $$("[data-colour-opts] input", card).forEach((r) => r.addEventListener("change", () => { if (btn) btn.dataset.colour = r.value; const p = S.product(card.dataset.product); const im = p && p.cutouts.find((c) => c.colour.toLowerCase() === r.value.toLowerCase()); const main = $("img.main", card); if (im && main) { if (G) G.fromTo(main, { opacity: 0 }, { opacity: 1, duration: .4 }); main.src = im.small; } })); }); };
+  S.initCards = (root) => { $$("[data-product]", root || document).forEach((card) => { if (card._cards) return; card._cards = true; const btn = $("[data-add]", card); $$("[data-colour-opts] input", card).forEach((r) => r.addEventListener("change", () => {
+    if (btn) btn.dataset.colour = r.value;
+    const p = S.product(card.dataset.product); if (!p) return;
+    const same = p.cutouts.filter((c) => c.colour.toLowerCase() === r.value.toLowerCase()); if (!same.length) return;
+    const main = $("img.main", card), alt = $("img.alt", card);
+    card.classList.toggle("has-alt", same.length > 1);
+    if (alt) alt.src = (same[1] || same[0]).small;
+    if (main.getAttribute("src") === same[0].small) return;
+    const swap = () => { main.src = same[0].small; };
+    if (!G || reduced) { swap(); return; }
+    // fade the old view out, swap the file, fade the new one in; leave no inline styles behind so hover keeps working
+    G.to(main, { opacity: 0, scale: .96, duration: .18, ease: "power2.in", overwrite: true, onComplete: () => { swap(); const show = () => G.fromTo(main, { opacity: 0, scale: .96 }, { opacity: 1, scale: 1, duration: .35, ease: "power2.out", overwrite: true, clearProps: "opacity,transform,scale" }); if (main.complete && main.naturalWidth) show(); else { main.onload = () => { main.onload = null; show(); }; } } });
+  })); }); };
+
+  /* ---------------- grid filter swap: fade out, reorder, fade in (no layout tricks) ---------------- */
+  S.swapGrid = (grid, mutate) => {
+    const visible = $$("[data-product]", grid).filter((c) => !c.classList.contains("is-hidden"));
+    const finish = () => { const now = $$("[data-product]", grid).filter((c) => !c.classList.contains("is-hidden")); if (G && !reduced) G.fromTo(now, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: .45, ease: "power3.out", stagger: .04, overwrite: true, clearProps: "opacity,transform", onComplete: () => { grid.style.minHeight = ""; } }); else grid.style.minHeight = ""; if (window.ScrollTrigger) window.ScrollTrigger.refresh(); };
+    if (!G || reduced || !visible.length) { mutate(); finish(); return; }
+    grid.style.minHeight = grid.offsetHeight + "px";   // keep the page from jumping while cards are out
+    G.to(visible, { opacity: 0, y: -8, duration: .2, ease: "power2.in", stagger: .012, overwrite: true, onComplete: () => { G.set(visible, { clearProps: "opacity,transform" }); mutate(); finish(); } });
+  };
+
+  /* ---------------- rail: horizontal card carousel with arrows and dots ---------------- */
+  S.initRails = (root) => { $$("[data-rail]", root || document).forEach((rail) => {
+    if (rail._rail) return; rail._rail = true;
+    const track = $("[data-rail-track]", rail), prev = $("[data-rail-prev]", rail), next = $("[data-rail-next]", rail), dots = $("[data-rail-dots]", rail);
+    const items = () => [...track.children];
+    const step = () => { const c = track.children[0]; return c ? c.offsetWidth + parseFloat(getComputedStyle(track).gap || 0) : track.clientWidth; };
+    const pages = () => Math.max(1, Math.ceil((track.scrollWidth - track.clientWidth) / step()) + 1);
+    const page = () => Math.round(track.scrollLeft / step());
+    const paint = () => { const n = pages(), i = Math.min(page(), n - 1), overflow = track.scrollWidth > track.clientWidth + 4; rail.classList.toggle("has-overflow", overflow); if (prev) prev.disabled = i <= 0; if (next) next.disabled = i >= n - 1; if (dots) { if (dots.children.length !== n) dots.innerHTML = n > 1 ? Array.from({ length: n }, () => "<i></i>").join("") : ""; [...dots.children].forEach((d, k) => d.classList.toggle("is-on", k === i)); } };
+    const go = (d) => track.scrollBy({ left: d * step(), behavior: reduced ? "auto" : "smooth" });
+    prev && prev.addEventListener("click", () => go(-1)); next && next.addEventListener("click", () => go(1));
+    track.addEventListener("scroll", paint, { passive: true }); window.addEventListener("resize", paint);
+    paint(); setTimeout(paint, 400); items();
+  }); };
+
 
   /* ---------------- quick view (dialog lives in the shared chrome) ---------------- */
   function initQuickView() {
@@ -295,7 +332,7 @@
     $$("[data-qv-close]").forEach((b) => b.addEventListener("click", closeQv));
   }
 
-    initNav(); initQuickView(); S.initCards(document); initCursor(); initCart(); initForms(); initFade(); S.initBlooms(); S.magnetic(document);
+    initNav(); initQuickView(); S.initCards(document); S.initRails(document); initCursor(); initCart(); initForms(); initFade(); S.initBlooms(); S.magnetic(document);
     S.onReady.forEach((f) => { try { f(); } catch (e) { console.error(e); } });
     if (ST) { ST.sort(); ST.refresh(); window.addEventListener("load", () => ST.refresh()); }
     initLoader(() => { S.onLoaderDone.forEach((f) => { try { f(); } catch (e) { console.error(e); } }); ST && ST.refresh(); const h = location.hash; if (h && h !== "#top" && $(h)) setTimeout(() => S.scrollTo(h), 900); });

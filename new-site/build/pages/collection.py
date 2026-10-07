@@ -68,19 +68,18 @@ def page(ctx, line):
 
     # ---- category sections ----
     def cat_section(i, g):
-        cards = "".join(ctx["pcard"](ctx, p, P.index(p)) for p in g["products"])
+        cards = "".join(ctx["pcard"](ctx, p, P.index(p), compact=True) for p in g["products"])
         im = g["photo2"]
-        span = max(1, 3 - g["count"])
         return f'''
-<section class="cat on-bone{" is-flip" if i % 2 else ""}" id="{g["key"]}" aria-labelledby="cat-{g["key"]}">
-  <div class="wrap">
+<section class="cat on-bone{" cat--few" if g["count"] <= 2 else ""}" id="{g["key"]}" aria-labelledby="cat-{g["key"]}">
+  <div class="wrap" data-rail>
     <div class="cat-head">
-      <div><p class="label" data-reveal><b>0{i + 2}</b><span class="slash">/</span>{g["name"]} {title.lower()}</p><h2 class="h2" id="cat-{g["key"]}" data-text-reveal="lines" style="margin-top:12px">{g["line1"]} {g["line2"]}.</h2></div>
-      <dl class="spec cat-meta" data-reveal data-delay=".15"><div><dt>Pieces</dt><dd>{g["count"]}</dd></div><div><dt>Colours</dt><dd>{" / ".join(g["colours"])}</dd></div><div><dt>From</dt><dd>{fmt(g["from"])}</dd></div></dl>
+      <div><p class="label" data-reveal><b>0{i + 2}</b><span class="slash">/</span>{g["name"]} {title.lower()} · {g["count"]} {"style" if g["count"] == 1 else "styles"} · from {fmt(g["from"])}</p><h2 class="h2" id="cat-{g["key"]}" data-text-reveal="lines" style="margin-top:12px">{g["line1"]} {g["line2"]}.</h2></div>
+      <div class="rail-nav" data-reveal data-delay=".15"><button type="button" class="rail-btn" data-rail-prev aria-label="Previous" style="transform:scaleX(-1)">{I["arrow"]}</button><button type="button" class="rail-btn" data-rail-next aria-label="Next">{I["arrow"]}</button></div>
     </div>
-    <div class="cat-grid">
-      <figure class="cat-photo" style="--span:{span}" data-reveal><img src="{im["src"]}" srcset="{im["srcSmall"]} 800w, {im["src"]} {im["width"]}w" sizes="(min-width: 1024px) {33 * span}vw, 100vw" alt="{im["alt"]}" width="{im["width"]}" height="{im["height"]}" loading="lazy"></figure>
-      {cards}
+    <div class="cat-row">
+      <figure class="cat-photo" data-reveal><img src="{im["src"]}" srcset="{im["srcSmall"]} 800w, {im["src"]} {im["width"]}w" sizes="(min-width: 1024px) 30vw, 100vw" alt="{im["alt"]}" width="{im["width"]}" height="{im["height"]}" loading="lazy"></figure>
+      <div class="rail-track cat-track" data-rail-track data-reveal data-delay=".1">{cards}</div>
     </div>
   </div>
 </section>'''
@@ -140,17 +139,23 @@ def page(ctx, line):
 .col-intro .lead { margin-top: 18px; }
 .col-facts { max-width: 420px; }
 
-/* ---- one section per category ---- */
+/* ---- one section per category: fixed photo on the left, rail of cards on the right ---- */
 .cat { padding: clamp(32px, 5vw, 64px) 0; border-top: 1px solid var(--line); }
-.cat-head { display: grid; gap: 20px; margin-bottom: clamp(24px, 3vw, 40px); }
-.cat-meta { max-width: 360px; }
-@media (min-width: 1024px) { .cat-head { grid-template-columns: 1fr auto; align-items: end; } .cat-meta { min-width: 300px; } }
-.cat-grid { display: grid; gap: 16px; grid-template-columns: 1fr; }
-.cat-photo { position: relative; overflow: hidden; background: var(--ink); aspect-ratio: 4 / 5; }
-.cat-photo img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 1.2s var(--ease-out); }
-.cat-photo:hover img { transform: scale(1.04); }
-@media (min-width: 640px) { .cat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .cat-photo { grid-column: span 2; aspect-ratio: 16 / 9; } }
-@media (min-width: 1024px) { .cat-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; } .cat-photo { grid-column: span var(--span, 1); aspect-ratio: auto; min-height: 100%; } .cat.is-flip .cat-photo { order: 9; } }
+.cat-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; margin-bottom: clamp(20px, 3vw, 32px); }
+.cat-head .h2 { max-width: 22ch; }
+.cat-row { display: grid; gap: 16px; grid-template-columns: 1fr; }
+.cat-photo { position: relative; overflow: hidden; background: var(--ink); aspect-ratio: 16 / 9; }
+.cat-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.cat-track { --rail-w: 78vw; }
+@media (min-width: 640px) { .cat-track { --rail-w: calc((100% - 16px) / 2); } }
+@media (min-width: 1024px) {
+  .cat-row { grid-template-columns: minmax(0, 3fr) minmax(0, 9fr); gap: 20px; align-items: stretch; }
+  .cat-photo { aspect-ratio: auto; min-height: 100%; }
+  .cat-track { --rail-w: calc((100% - 32px) / 3); min-width: 0; }
+}
+@media (min-width: 1440px) { .cat-track { --rail-w: calc((100% - 32px) / 3); } }
+.wrap:not(.has-overflow) .rail-nav { visibility: hidden; }
+@media (min-width: 1024px) { .cat--few .cat-row { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); } .cat--few .cat-track { --rail-w: calc((100% - 16px) / 2); } }
 
 /* ---- all + cross + delivery ---- */
 .all-band { padding: var(--section-sm) 0; border-top: 1px solid var(--line); text-align: center; }
@@ -269,7 +274,8 @@ function initAnimations() {
 
   /* ================= everything below the fold ================= */
   $$(".col-intro, .cat, .all-band, .cross, footer").forEach((el) => S.initReveals(el));
-  $$(".cat-photo img").forEach((img) => { if (reduced) return; G.fromTo(img, { scale: 1.12 }, { scale: 1, ease: "none", scrollTrigger: { trigger: img.parentElement, start: "top bottom", end: "bottom top", scrub: true } }); });
+  $$(".cat-photo img").forEach((img) => { if (reduced) return; G.fromTo(img, { scale: 1.1 }, { scale: 1, ease: "none", scrollTrigger: { trigger: img.parentElement, start: "top bottom", end: "bottom top", scrub: true } }); });
+  S.initRails(document);
   // "Discover the collection" scrolls with Lenis
   cta && cta.addEventListener("click", (e) => { const target = $(cta.getAttribute("href")); if (!target) return; e.preventDefault(); S.scrollTo(target, 1.2); });
 }
