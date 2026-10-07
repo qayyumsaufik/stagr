@@ -294,6 +294,17 @@ address { font-style: normal; }
 .marquee .track > span { padding-right: clamp(28px, 4vw, 64px); }
 .marquee .outline { color: transparent; -webkit-text-stroke: 1px currentColor; }
 
+/* ---------- top bar: scrolls away, the nav sits beneath it ---------- */
+.topbar { position: relative; z-index: 51; background: var(--accent-deep); color: var(--bone); font-size: .8125rem; }
+.topbar-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 40px; }
+.topbar-brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 500; color: var(--bone); }
+.topbar-badge { display: inline-grid; place-items: center; padding: 3px 9px; border-radius: 4px; background: var(--accent); color: var(--ink); font-weight: 600; font-size: .75rem; letter-spacing: .02em; }
+.topbar-note { display: inline-flex; align-items: center; gap: 8px; font-weight: 500; }
+.topbar-note svg, .topbar-contact svg { width: 16px; height: 16px; flex: 0 0 auto; }
+.topbar-dot { margin: 0 4px; opacity: .6; }
+.topbar-contact { display: inline-flex; align-items: center; gap: 8px; font-weight: 500; color: var(--bone); }
+.topbar-contact:hover, .topbar-brand:hover { color: var(--accent); }
+@media (max-width: 767px) { .topbar-inner { justify-content: center; min-height: 36px; font-size: .75rem; } .topbar-brand, .topbar-contact { display: none; } .topbar-note { text-align: center; } }
 /* ---------- nav (one line + mega panels) ---------- */
 .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; transition: background-color .35s ease, border-color .35s ease, transform .5s var(--ease-out); border-bottom: 1px solid transparent; color: var(--fg); }
 .nav.is-solid, .nav.is-mega { background: color-mix(in srgb, var(--bg) 94%, transparent); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom-color: var(--line); }
@@ -307,6 +318,7 @@ address { font-style: normal; }
 .nav .burger { display: grid; gap: 5px; place-content: center; width: 44px; height: 44px; justify-self: start; }
 .nav .burger i { display: block; width: 20px; height: 1.5px; background: currentColor; }
 @media (min-width: 1024px) { .nav .burger { display: none; } }
+@media (max-width: 1023px) { .nav .nav-main, .nav .nav-contact { display: none !important; } }
 .nav .nav-main { display: flex; justify-content: flex-start; gap: 32px; font-size: .8125rem; letter-spacing: .14em; text-transform: uppercase; }
 .nav .nav-main > li { position: relative; display: flex; align-items: center; height: var(--nav-top); }
 .nav .nav-main a { color: var(--fg-2); transition: color .3s ease; padding: 4px 0; }
@@ -620,6 +632,13 @@ html.is-entering .fade { opacity: 1; }
 <div class="fade" aria-hidden="true"></div>
 <div class="cursor" aria-hidden="true"><div class="ring"><span></span></div><div class="dot"></div></div>
 
+<div class="topbar" data-topbar>
+  <div class="wrap topbar-inner">
+    <a class="topbar-brand" href="index.html"><span class="topbar-badge">Stagr</span><span class="desk-only">stagr.pk</span></a>
+    <p class="topbar-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span class="desk-only">Cash on delivery <span class="topbar-dot" aria-hidden="true">·</span> 3 to 5 working days across Pakistan</span><span class="mob-only">Cash on delivery <span class="topbar-dot" aria-hidden="true">·</span> 3 to 5 days, Pakistan wide</span></p>
+    <a class="topbar-contact" href="https://wa.me/920000000000" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4V5z"/></svg><span>Contact us</span></a>
+  </div>
+</div>
 <nav class="nav" aria-label="Primary" data-nav>
   <div class="wrap nav-top">
     <button type="button" class="burger" data-menu-open aria-expanded="false" aria-controls="menu" aria-label="Open menu"><i></i><i></i></button>

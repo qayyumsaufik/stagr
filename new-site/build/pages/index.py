@@ -134,44 +134,107 @@ def render(ctx):
 .rp-copy { margin-top: 18px; max-width: 46ch; color: var(--fg-2); }
 .rp-spec { margin-top: 22px; max-width: 420px; }
 
-/* ---- 01 hero (desktop: pointer window; mobile: dark stage) ---- */
-.hero { position: relative; width: 100%; min-height: 100svh; overflow: hidden; background: var(--ink); color: var(--bone); }
-.hero-clip { position: absolute; inset: 0; background: var(--ink); z-index: 20; clip-path: circle(0px at 50% 48%); }
-.hero-dolly { position: absolute; inset: 0; will-change: transform; }
-.hero-parallax { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; }
-.hero-stage { position: absolute; inset: 0; }
-.hero-float { position: absolute; left: 50%; top: 50%; width: min(52vh, 46vw); transform: translate(-50%, -50%); opacity: 0; }
-.hero-float .pair { position: relative; width: 100%; aspect-ratio: 1; will-change: transform; }
+/* ---- 01 hero: belts left, wallets right, the words on the seam, bulk band beneath ---- */
+.hero { position: relative; background: var(--ink); color: var(--bone); }
+.slider { position: relative; height: calc(100svh - 76px); min-height: 620px; max-height: 980px; overflow: hidden; }
+.slide { position: absolute; inset: 0; display: flex; align-items: flex-end; opacity: 0; visibility: hidden; }
+.slide.is-on { opacity: 1; visibility: visible; }
+.slide img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 55%; transform: scale(1.04); will-change: transform; }
+.slide::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(26,27,29,.55) 0%, rgba(26,27,29,0) 28%, rgba(26,27,29,0) 45%, rgba(26,27,29,.78) 100%), linear-gradient(90deg, rgba(26,27,29,.5) 0%, rgba(26,27,29,0) 60%); pointer-events: none; }
+.slide-copy { position: relative; z-index: 2; width: 100%; padding-bottom: clamp(84px, 11vh, 120px); max-width: none; }
+.slide-copy > * { max-width: 760px; }
+.hero-kicker { font-size: .6875rem; letter-spacing: .3em; text-transform: uppercase; color: rgba(239,237,230,.8); }
+.hero-kicker span { margin: 0 6px; opacity: .6; }
+.hero-h1 { margin-top: 14px; font-family: var(--font-display); font-weight: 500; font-size: clamp(2.8rem, 1.2rem + 5.4vw, 6.8rem); line-height: 1; letter-spacing: 0; text-shadow: 0 2px 30px rgba(0,0,0,.45); }
+.hero-h1 .serif-i { font-family: var(--font-display); font-style: normal; }
+.hero-sub { margin-top: 18px; max-width: 44ch; font-size: clamp(.9375rem, .9rem + .25vw, 1.0625rem); line-height: 1.55; color: rgba(239,237,230,.88); text-shadow: 0 1px 14px rgba(0,0,0,.45); }
+.hero-ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+.btn--tan { background: var(--accent-deep); border-color: var(--accent-deep); color: var(--bone); }
+.btn--tan:hover { background: var(--accent); border-color: var(--accent); color: var(--ink); }
+.hero .btn--ghost { color: var(--bone); border-color: rgba(239,237,230,.55); background: rgba(26,27,29,.2); backdrop-filter: blur(6px); }
+.hero .btn--ghost:hover { background: var(--bone); color: var(--ink); }
+.slider-ui { position: absolute; left: 0; right: 0; bottom: clamp(22px, 3vh, 36px); z-index: 3; display: flex; justify-content: space-between; align-items: center; gap: 16px; pointer-events: none; }
+.slider-ui > * { pointer-events: auto; }
+.slider-dots { display: flex; gap: 10px; }
+.slider-dots button { width: 56px; height: 20px; display: grid; align-items: center; }
+.slider-dots i { display: block; height: 2px; background: rgba(239,237,230,.35); position: relative; overflow: hidden; }
+.slider-dots i::after { content: ""; position: absolute; inset: 0; background: var(--bone); transform: scaleX(var(--p, 0)); transform-origin: left; }
+.slider-dots button[aria-selected="true"] i { background: rgba(239,237,230,.35); }
+.slider-nav { display: flex; align-items: center; gap: 10px; }
+.slider-count { font-size: .75rem; letter-spacing: .2em; color: rgba(239,237,230,.75); margin-right: 8px; font-variant-numeric: tabular-nums; }
+.slider-count b { font-weight: 500; color: var(--bone); }
+.half-arrow { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(239,237,230,.5); display: grid; place-items: center; color: var(--bone); background: rgba(26,27,29,.25); backdrop-filter: blur(6px); transition: background-color .3s ease, color .3s ease, border-color .3s ease; }
+.half-arrow svg { width: 16px; height: 16px; }
+.half-arrow:hover { background: var(--bone); color: var(--ink); border-color: var(--bone); }
+/* bulk-order band */
+.bulk-band { position: relative; background: var(--accent-deep); color: var(--bone); overflow: hidden; }
+.bulk-band::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: clamp(60px, 7vw, 110px); background: var(--accent); clip-path: polygon(0 0, 100% 0, 55% 100%, 0 100%); opacity: .9; }
+.bulk-inner { position: relative; display: flex; align-items: center; gap: 16px; min-height: 76px; padding-top: 10px; padding-bottom: 10px; }
+.bulk-icon { width: 40px; height: 40px; border-radius: 50%; background: rgba(239,237,230,.14); display: grid; place-items: center; flex: 0 0 auto; margin-left: clamp(60px, 7vw, 110px); }
+.bulk-icon svg { width: 20px; height: 20px; }
+.bulk-text { flex: 1; display: grid; gap: 2px; font-size: .8125rem; color: rgba(239,237,230,.85); }
+.bulk-text b { font-weight: 500; font-size: 1rem; color: var(--bone); }
+.bulk-btn { flex: 0 0 auto; background: var(--bone); color: var(--ink); border-color: var(--bone); }
+.bulk-btn:hover { background: var(--ink); color: var(--bone); border-color: var(--ink); }
+
+/* ---- the three tiles under the hero: how it is made, bulk orders, a handwritten note ---- */
+.more { padding: 16px 0 0; background: var(--bone); color: var(--ink); }
+.bento { display: grid; gap: 12px; grid-template-columns: 1fr; }
+.tile { position: relative; display: block; overflow: hidden; border-radius: 8px; background: var(--ink); color: var(--bone); isolation: isolate; }
+.tile::before { content: ""; position: absolute; inset: 10px; border: 1px dashed rgba(239,237,230,.32); border-radius: 4px; z-index: 3; pointer-events: none; transition: inset .5s var(--ease-out), border-color .4s ease; }
+.tile:hover::before { inset: 14px; border-color: var(--accent); }
+.tile img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1.04); transition: transform 1.2s var(--ease-out); will-change: transform; }
+.tile:hover img { transform: scale(1.08); }
+.tile::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(26,27,29,.62) 0%, rgba(26,27,29,.28) 40%, rgba(26,27,29,.05) 70%); pointer-events: none; }
+.tile-copy { position: absolute; z-index: 2; left: clamp(22px, 3vw, 44px); right: clamp(22px, 3vw, 44px); top: clamp(22px, 3vw, 40px); }
+.ltag { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px 6px 9px; border-radius: 4px; background: rgba(26,27,29,.42); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); outline: 1px dashed rgba(239,237,230,.45); outline-offset: -4px; font-size: .625rem; letter-spacing: .2em; text-transform: uppercase; color: var(--bone); }
+.ltag .rivet { width: 7px; height: 7px; border-radius: 50%; background: radial-gradient(circle at 35% 35%, #E8C48E, #8B5A2B 70%); box-shadow: 0 0 0 1px rgba(0,0,0,.25); }
+.tile-h1 { margin-top: 16px; font-family: var(--font-display); font-weight: 300; font-size: clamp(2rem, 1.1rem + 2.6vw, 3.8rem); line-height: 1.02; letter-spacing: -.01em; text-shadow: 0 2px 28px rgba(26,27,29,.3); }
+.tile-h1 .serif-i { font-family: var(--font-display); font-style: italic; }
+.tile-sub { margin-top: 14px; max-width: 38ch; font-size: clamp(.875rem, .85rem + .2vw, 1rem); line-height: 1.55; color: rgba(239,237,230,.88); text-shadow: 0 1px 12px rgba(0,0,0,.35); }
+.tile-btn { margin-top: 20px; background: var(--bone); color: var(--ink); border-color: var(--bone); }
+.tile:hover .tile-btn { background: var(--accent); border-color: var(--accent); }
+.tile-h2 { margin-top: 12px; font-family: var(--font-display); font-weight: 300; font-size: clamp(1.6rem, 1rem + 1.6vw, 2.4rem); line-height: 1.05; text-shadow: 0 2px 20px rgba(26,27,29,.3); }
+.tile-side .tile-sub { margin-top: 10px; max-width: 34ch; }
+.tile-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: inherit; }
+.tile-link svg { width: 13px; height: 13px; transition: transform .4s var(--ease-out); }
+.tile:hover .tile-link svg { transform: translateX(4px); }
+.tile-main { aspect-ratio: 4 / 5; }
+.tile-main img { object-position: 50% 70%; }
+.tile-side { aspect-ratio: 16 / 10; }
+.tile-bulk img { object-position: 50% 100%; object-fit: cover; }
+.tile-note img { object-position: 50% 40%; }
 .pair img { position: absolute; height: auto; filter: drop-shadow(0 40px 60px rgba(0,0,0,.45)); }
 .pair .p-belt { left: -6%; top: 2%; width: 78%; transform: rotate(-8deg); }
 .pair .p-wallet { right: -4%; bottom: 4%; width: 72%; }
-.hero-float { width: min(60vh, 52vw); }
-.hero-support { position: absolute; inset: 0 auto 0 0; z-index: 10; width: min(100%, 34vw); display: flex; flex-direction: column; justify-content: center; padding-left: var(--gutter); }
-.hero-support .h3 { margin-top: 18px; max-width: 14ch; }
-.hero-support p { color: rgba(239,237,230,.78); margin-top: 24px; max-width: 42ch; }
-.hero-support .stats { margin-top: 28px; display: flex; gap: 20px; align-items: baseline; font-size: .8125rem; color: rgba(239,237,230,.6); }
-.hero-support .stats .num { color: var(--bone); font-size: 1.1rem; }
-.hero-overlay { position: absolute; inset: 0; z-index: 10; background: var(--bone); color: var(--ink); pointer-events: none; display: flex; flex-direction: column; }
-.hero-overlay .title-wrap { flex: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-.hero-title { font-family: var(--font-wordmark); font-weight: 800; font-size: 23vw; line-height: .78; letter-spacing: -.03em; white-space: nowrap; }
-.hero-title [data-letter] { display: inline-block; opacity: 0; }
-.hero-title .tdot { display: inline-block; width: .18em; height: .18em; background: var(--accent); margin-left: .05em; }
-.hero-bottom { position: absolute; left: 0; right: 0; bottom: 0; display: flex; align-items: flex-end; justify-content: space-between; padding: 0 var(--gutter) 40px; gap: 24px; }
-.hero-bottom .tag-line { font-family: var(--font-display); font-weight: 300; font-size: clamp(17px, 1.5vw, 24px); line-height: 1.15; letter-spacing: -.01em; }
-.hero-bottom .meta { text-align: right; font-size: 11px; letter-spacing: .24em; text-transform: uppercase; line-height: 1.8; color: var(--mist); }
-.hero-ring { position: absolute; top: 0; left: 0; z-index: 30; pointer-events: none; width: 459px; height: 459px; border-radius: 50%; background: radial-gradient(circle, transparent 56%, rgba(26,27,29,.1) 70%, transparent 84%); opacity: 0; transform: translate3d(-1000px, -1000px, 0); will-change: transform, opacity; }
-.hero-mobile { position: relative; z-index: 10; display: flex; flex-direction: column; padding-top: calc(var(--nav-h) + 20px); }
-.hero-mobile .hero-title { font-size: 19vw; line-height: .82; }
-.hero-mobile .tag-line { font-family: var(--font-display); font-weight: 300; font-size: 26px; line-height: 1.1; margin-top: 16px; }
-.hero-mobile .mstage { position: relative; height: 52svh; margin-top: 8px; }
-.hero-mobile .mstage .bloom { --bloom-s: 70vw; }
-.hero-mobile .mstage .hero-float { opacity: 0; width: 84vw; }
-.hero-mobile .mmeta { padding: 0 20px 40px; font-size: 10px; letter-spacing: .24em; text-transform: uppercase; color: rgba(239,237,230,.5); }
-.hero-mobile .msupport { padding: 24px 20px 80px; }
-.hero-mobile .msupport .h3 { margin-top: 18px; }
-.hero-mobile .msupport p.sup { margin-top: 22px; color: var(--bone); max-width: 44ch; }
-.hero-mobile .stats { margin-top: 24px; display: flex; gap: 18px; font-size: .75rem; color: rgba(239,237,230,.6); }
-.hero-mobile .stats .num { color: var(--bone); font-size: 1rem; }
+@media (max-width: 1023px) {
+  .bento { grid-template-columns: 1fr 1fr; }
+  .tile-main { grid-column: 1 / -1; aspect-ratio: 16 / 10; }
+  .tile-side { aspect-ratio: 4 / 5; }
+}
+@media (max-width: 767px) {
+  .slider { height: 100svh; min-height: 580px; max-height: 820px; }
+  .slide img { object-position: 50% 40%; }
+  .slide::after { background: linear-gradient(180deg, rgba(26,27,29,.6) 0%, rgba(26,27,29,.05) 30%, rgba(26,27,29,.15) 48%, rgba(26,27,29,.86) 100%); }
+  .slide-copy { padding-bottom: 92px; }
+  .hero-ctas .btn { flex: 1 1 auto; justify-content: center; }
+  .slider-ui { bottom: 22px; }
+  .slider-count { display: none; }
+  .half-arrow { width: 40px; height: 40px; }
+  .bulk-inner { flex-wrap: wrap; padding-top: 16px; padding-bottom: 16px; }
+  .bulk-icon { margin-left: 0; }
+  .bulk-band::before { display: none; }
+  .bulk-btn { width: 100%; }
+  .bento { grid-template-columns: 1fr; gap: 10px; }
+  .tile-main { aspect-ratio: 4 / 5; }
+  .tile-side { aspect-ratio: 4 / 3; }
+}
+@media (min-width: 1024px) {
+  .more { padding: 14px 0 0; }
+  .bento { grid-template-columns: 56fr 44fr; grid-template-rows: 1fr 1fr; gap: 14px; height: calc(100svh - 32px); min-height: 640px; max-height: 920px; }
+  .tile { aspect-ratio: auto !important; }
+  .tile-main { grid-row: 1 / 3; }
+}
 
 /* ---- 02 range (pinned on desktop) ---- */
 .range { position: relative; background: var(--bone); color: var(--ink); overflow: hidden; }
@@ -300,6 +363,9 @@ def render(ctx):
 .or-row .label { white-space: nowrap; }
 '''
 
+    belts = [p for p in P if p["line"] == "belt"]; wallets = [p for p in P if p["line"] == "wallet"]
+    n_belts, n_wallets = len(belts), len(wallets); min_belt, min_wallet = min(p["price"] for p in belts), min(p["price"] for p in wallets)
+    fmt = lambda n: "Rs " + format(n, ",d")
     hero_cut = cut("kingsmann")
     hero_belt = cut("monarch")
     def pair(w, bl, size="src", a=""):
@@ -307,39 +373,58 @@ def render(ctx):
                 f'<img class="p-wallet" src="{w[size]}" alt="{a}" width="900" height="900" draggable="false" decoding="async"></div>')
     body = f'''
 <section id="hero" class="hero on-ink" aria-label="Introduction">
-  <div class="hero-clip" data-hero-clip>
-    <div class="hero-dolly" data-hero-dolly>
-      <div class="hero-parallax" data-hero-parallax><div class="bloom" style="--bloom:#D9B07A;--bloom-s:62vh" data-bloom></div></div>
+  <div class="slider" data-slider aria-roledescription="carousel" aria-label="Belts and wallets">
+    <div class="slide is-on" data-slide="0" aria-roledescription="slide" aria-label="1 of 2">
+      <picture><source media="(max-width: 767px)" srcset="assets/hero/slide-wallet-portrait.jpg"><img data-slide-img src="assets/hero/slide-wallet-1600.jpg" srcset="assets/hero/slide-wallet-900.jpg 900w, assets/hero/slide-wallet-1600.jpg 1600w, assets/hero/slide-wallet-2000.jpg 2000w" sizes="100vw" alt="A Stagr long wallet open beside its gift box and a tan belt" width="2000" height="1333" fetchpriority="high" decoding="async"></picture>
+      <div class="wrap slide-copy">
+        <p class="hero-kicker" data-slide-item>Wallets <span aria-hidden="true">·</span> {n_wallets} pieces, from {fmt(min_wallet)}</p>
+        <h1 class="hero-h1" data-slide-item><span class="serif-i">Folded, skived,</span><br>stitched by hand.</h1>
+        <p class="hero-sub" data-slide-item>Bifolds, trifolds and long wallets, boxed with a handwritten note. Cash on delivery across Pakistan.</p>
+        <div class="hero-ctas" data-slide-item><a class="btn btn--tan" href="wallets.html">Shop wallets {I["arrow"]}</a><a class="btn btn--ghost" href="shop.html">Everything</a></div>
+      </div>
     </div>
-    <div class="hero-stage desk-only"><div class="hero-float" data-hero-float>{pair(hero_cut, hero_belt, "src", "Kingsmann bifold wallet and Monarch belt")}</div></div>
-    <div class="hero-support desk-only" data-hero-support>
-      <p class="label" data-support-item><b style="color:var(--bone)">01</b><span class="slash">/</span>The workshop</p>
-      <h2 class="h3" data-support-item style="color:var(--bone)">{B["craft"]["heading"]}.</h2>
-      <div class="rule" data-support-rule></div>
-      <p data-support-item>{B["craft"]["body"]}</p>
-      <div class="stats" data-support-item><span><span class="num">100</span> % crazy horse</span><span aria-hidden="true">·</span><span><span class="num">11</span> pieces</span><span aria-hidden="true">·</span><span><span class="num">3–5</span> days delivery</span></div>
+    <div class="slide" data-slide="1" aria-roledescription="slide" aria-label="2 of 2" aria-hidden="true">
+      <picture><source media="(max-width: 767px)" srcset="assets/hero/slide-belts-portrait.jpg"><img data-slide-img src="assets/hero/slide-belts-1600.jpg" srcset="assets/hero/slide-belts-900.jpg 900w, assets/hero/slide-belts-1600.jpg 1600w, assets/hero/slide-belts-2400.jpg 2400w" sizes="100vw" alt="Four Stagr belts laid on a walnut bench" width="2400" height="1474" loading="lazy" decoding="async"></picture>
+      <div class="wrap slide-copy">
+        <p class="hero-kicker" data-slide-item>Belts <span aria-hidden="true">·</span> {n_belts} pieces, from {fmt(min_belt)}</p>
+        <h2 class="hero-h1" data-slide-item><span class="serif-i">{B["hero"]["headline"][0]}</span><br>{B["hero"]["headline"][1]}</h2>
+        <p class="hero-sub" data-slide-item>Full-grain crazy horse, cut in one piece, with a solid buckle on a screw post. Sizes 30 to 44.</p>
+        <div class="hero-ctas" data-slide-item><a class="btn btn--tan" href="belts.html">Shop belts {I["arrow"]}</a><a class="btn btn--ghost" href="shop.html">Everything</a></div>
+      </div>
+    </div>
+    <div class="wrap slider-ui">
+      <div class="slider-dots" role="tablist" aria-label="Choose slide"><button type="button" role="tab" aria-selected="true" data-slide-dot="0" aria-label="Wallets"><i></i></button><button type="button" role="tab" aria-selected="false" data-slide-dot="1" aria-label="Belts"><i></i></button></div>
+      <div class="slider-nav"><span class="slider-count"><b data-slide-n>01</b> / 02</span><button type="button" class="half-arrow" data-slide-prev aria-label="Previous slide" style="transform:scaleX(-1)">{I["arrow"]}</button><button type="button" class="half-arrow" data-slide-next aria-label="Next slide">{I["arrow"]}</button></div>
     </div>
   </div>
-  <div class="hero-overlay desk-only" data-hero-overlay>
-    <div class="title-wrap"><h1 class="hero-title" data-hero-title><span class="sr-only">STAGR.</span><span data-letter aria-hidden="true">S</span><span data-letter aria-hidden="true">T</span><span data-letter aria-hidden="true">A</span><span data-letter aria-hidden="true">G</span><span data-letter aria-hidden="true">R</span><span data-letter aria-hidden="true" class="tdot"></span></h1></div>
-    <div class="hero-bottom">
-      <p class="tag-line">{B["hero"]["headline"][0]}<br>{B["hero"]["headline"][1]}</p>
-      <div class="scroll-hint" data-hero-scrollhint aria-hidden="true"><span class="t">Scroll</span><span class="mouse"><i data-scroll-dot></i></span></div>
-      <p class="meta">{B["origin"]}<br>Cash on delivery</p>
+  <div class="bulk-band" data-bulk-band>
+    <div class="wrap bulk-inner">
+      <span class="bulk-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M3 8l9-4 9 4-9 4-9-4z"/><path d="M3 8v8l9 4 9-4V8"/><path d="M12 12v8"/></svg></span>
+      <p class="bulk-text"><b>Buying for a team? Meet Stagr bulk orders.</b><span>Ten pieces or more, embossed with your logo, boxed with a handwritten card.</span></p>
+      <a class="btn btn--sm bulk-btn" href="about.html#bulk">Get a quote {I["arrow"]}</a>
     </div>
   </div>
-  <div class="hero-ring desk-only" data-hero-ring aria-hidden="true"></div>
-  <div class="hero-mobile mob-only" data-hero-mobile>
-    <div style="padding:0 20px"><h1 class="hero-title" data-hero-title-mobile><span class="sr-only">STAGR.</span><span data-letter aria-hidden="true">S</span><span data-letter aria-hidden="true">T</span><span data-letter aria-hidden="true">A</span><span data-letter aria-hidden="true">G</span><span data-letter aria-hidden="true">R</span><span data-letter aria-hidden="true" class="tdot"></span></h1><p class="tag-line">{B["hero"]["headline"][0]} {B["hero"]["headline"][1]}</p></div>
-    <div class="mstage"><div class="bloom" style="--bloom:#D9B07A" data-bloom></div><div class="hero-float" data-hero-float-mobile>{pair(hero_cut, hero_belt, "small", "Kingsmann bifold wallet and Monarch belt")}</div></div>
-    <p class="mmeta">{B["origin"]}<br>Cash on delivery</p>
-    <div class="msupport">
-      <div data-reveal><p class="label"><b style="color:var(--bone)">01</b><span class="slash">/</span>The workshop</p></div>
-      <h2 class="h3" data-text-reveal="lines">{B["craft"]["heading"]}.</h2>
-      <div data-reveal data-delay=".15"><div class="rule" style="margin-top:22px"></div></div>
-      <p class="sup" data-illuminate>{B["craft"]["body"]}</p>
-      <div data-reveal data-delay=".25"><div class="stats"><span><span class="num">100</span> % crazy horse</span><span>·</span><span><span class="num">11</span> pieces</span><span>·</span><span><span class="num">3–5</span> days</span></div></div>
-    </div>
+</section>
+
+<section id="more" class="more on-bone" aria-label="How it is made, bulk orders and the handwritten note">
+  <div class="wrap bento">
+    <a class="tile tile-main" href="about.html#craft" data-reveal aria-label="How it is made">
+      <img src="assets/lifestyle/kingsmen-02-800.jpg" srcset="assets/lifestyle/kingsmen-02-800.jpg 800w, assets/lifestyle/kingsmen-02.jpg 1200w" sizes="(min-width: 1024px) 56vw, 100vw" alt="Close-up of the saddle stitching on a Stagr bifold" width="1200" height="1500" loading="lazy" decoding="async">
+      <div class="tile-copy">
+        <span class="ltag"><i class="rivet"></i>How it is made</span>
+        <h2 class="tile-h1"><span class="serif-i">Cut, skived,</span><br>stitched by hand.</h2>
+        <p class="tile-sub">{B["craft"]["body"]}</p>
+        <span class="btn btn--sm tile-btn">See the process {I["arrow"]}</span>
+      </div>
+    </a>
+    <a class="tile tile-side tile-bulk" href="about.html#bulk" data-reveal data-delay=".1" aria-label="Bulk orders">
+      <img src="assets/hero/tile-bulk-800.jpg" srcset="assets/hero/tile-bulk-800.jpg 800w, assets/hero/tile-bulk.jpg 1500w" sizes="(min-width: 1024px) 44vw, 100vw" alt="Eight Stagr wallets laid out in two rows for a team order" width="1500" height="1000" loading="lazy" decoding="async">
+      <div class="tile-copy"><span class="ltag"><i class="rivet"></i>{B["gifting"]["eyebrow"]}</span><h2 class="tile-h2">Bulk orders<span class="dotc">.</span></h2><p class="tile-sub">{B["gifting"]["points"][0]["body"]} {B["gifting"]["points"][1]["body"]}</p><span class="tile-link">Get a quote {I["arrow"]}</span></div>
+    </a>
+    <a class="tile tile-side tile-note" href="about.html#faq" data-reveal data-delay=".2" aria-label="A handwritten note">
+      <img src="assets/lifestyle/majestic-01-800.jpg" srcset="assets/lifestyle/majestic-01-800.jpg 800w, assets/lifestyle/majestic-01.jpg 1200w" sizes="(min-width: 1024px) 44vw, 100vw" alt="A Stagr trifold wallet open on its gift box" width="1200" height="1500" loading="lazy" decoding="async">
+      <div class="tile-copy"><span class="ltag"><i class="rivet"></i>{B["handwrittenNote"]["eyebrow"]}</span><h2 class="tile-h2">A handwritten note<span class="dotc">.</span></h2><p class="tile-sub">{B["handwrittenNote"]["body"]}</p><span class="tile-link">Add one at checkout {I["arrow"]}</span></div>
+    </a>
   </div>
 </section>
 
@@ -443,54 +528,36 @@ function initAnimations() {
   /* ================= 01 HERO ================= */
   function initScrollHint() { const dot = $("[data-scroll-dot]"); if (!dot || !isRendered(dot)) return; if (reduced) { G.set(dot, { opacity: 1, y: 9 }); return; } G.timeline({ repeat: -1, repeatDelay: .5 }).set(dot, { y: 0, opacity: 0 }).to(dot, { opacity: 1, duration: .25 }).to(dot, { y: 19, duration: 1, ease: "power2.inOut" }, .1).to(dot, { opacity: 0, duration: .3, ease: "power1.in" }, .85); }
 
-  function initHeroDesktop() {
-    const hero = $("#hero"), clip = $("[data-hero-clip]"), ring = $("[data-hero-ring]"), dolly = $("[data-hero-dolly]"), parallax = $("[data-hero-parallax]"), overlay = $("[data-hero-overlay]"), hint = $("[data-hero-scrollhint]"), support = $("[data-hero-support]"), wrap = $("[data-hero-float]"), img = $(".pair", wrap);
-    const BASE = 170, unit = () => window.innerHeight / 4.54;
-    const w = { x: innerWidth / 2, y: .48 * innerHeight, entrance: 0, swell: 0, breath: 0, boost: 0, hasPointer: false };
-    const lock = { v: 0 }, zoom = { v: 0 }, entrance = { v: 0 }, follow = { x: 0, y: 0, active: false }, bloomOff = { x: 0, y: 0 }, cs = { x: 0, y: 0, lean: 0 };
-    let pointerActive = false, released = false, startedAt = 0;
-    G.set(wrap, { opacity: 0 });
-    const mx = G.quickTo(w, "x", { duration: .62, ease: "power2.out" }), my = G.quickTo(w, "y", { duration: .62, ease: "power2.out" });
-    if (!reduced) G.to(w, { breath: 9, duration: 2.2, yoyo: true, repeat: -1, ease: "sine.inOut" });
-    if (fine) {
-      let lx = 0, ly = 0, lt = 0; const settle = G.delayedCall(.3, () => G.to(w, { swell: 0, duration: 1.1, ease: "power2.out", overwrite: "auto" })).pause();
-      window.addEventListener("pointermove", (e) => { const now = performance.now(); if (!w.hasPointer) { w.hasPointer = true; lx = e.clientX; ly = e.clientY; lt = now; } mx(e.clientX); my(e.clientY); const el = Math.max(now - lt, 1), speed = Math.hypot(e.clientX - lx, e.clientY - ly) / el * 1000, swell = Math.min(130, speed / 2200 * 130); if (swell > w.swell + 1) G.to(w, { swell, duration: .3, ease: "power2.out", overwrite: "auto" }); settle.restart(true); lx = e.clientX; ly = e.clientY; lt = now; if (!reduced) { pointerActive = true; released = false; } }, { passive: true });
-    }
-    const render = (time, dms) => {
-      const dt = Math.max(dms / 1000, .001), locked = lock.v;
-      if (locked > .98 && !released) { released = true; pointerActive = false; w.hasPointer = false; mx(innerWidth / 2); my(.48 * innerHeight); }
-      const falloff = Math.pow(1 - Math.min(locked / .6, 1), 3);
-      if (pointerActive && locked < .999) { follow.x = clamp(w.x / innerWidth * 2 - 1, -1, 1) * falloff; follow.y = clamp(-(w.y / innerHeight * 2 - 1), -1, 1) * falloff; follow.active = true; } else follow.active = false;
-      bloomOff.x += ((w.x - innerWidth / 2) * .85 * falloff - bloomOff.x) * .06; bloomOff.y += ((w.y - innerHeight / 2) * .85 * falloff - bloomOff.y) * .06;
-      parallax.style.transform = "translate3d(" + bloomOff.x + "px," + bloomOff.y + "px,0)";
-      const radius = Math.max(0, BASE * w.entrance + w.swell + w.breath * w.entrance + w.boost);
-      clip.style.clipPath = "circle(" + radius.toFixed(1) + "px at " + w.x.toFixed(1) + "px " + w.y.toFixed(1) + "px)";
-      ring.style.transform = "translate3d(" + w.x + "px," + w.y + "px,0) translate(-50%,-50%) scale(" + (radius / BASE).toFixed(3) + ")";
-      ring.style.opacity = (w.entrance * clamp(1 - w.boost / 240, 0, 1)).toFixed(3);
-      const tx = follow.active ? 2.5 * follow.x : 0, ty = follow.active ? 1.6 * follow.y : 0, ease = .09 + locked * .09, px = cs.x;
-      cs.x += (tx - cs.x) * ease; cs.y += (ty - cs.y) * ease;
-      const lean = clamp(-(.016 * (1 / dt * 1.4 * (cs.x - px))), -.22, .22) * (follow.active ? 1 - locked : 0); cs.lean += (lean - cs.lean) * .075;
-      const u = unit(), settled = entrance.v, bob = startedAt && !reduced ? .06 * Math.sin(2 * Math.PI / 6 * (time - startedAt)) : 0;
-      const x = cs.x * u, y = -(cs.y + bob) * u - 4 * u * (1 - settled), scale = (.8 + .2 * settled) * (1 + zoom.v), rot = -cs.lean * 180 / Math.PI - 14 * (1 - settled);
-      wrap.style.opacity = settled.toFixed(3); wrap.style.transform = "translate(-50%,-50%) translate3d(" + x.toFixed(2) + "px,0,0)";
-      img.style.transform = "translate3d(0," + y.toFixed(2) + "px,0) rotate(" + rot.toFixed(2) + "deg) scale(" + scale.toFixed(4) + ")";
+  function initHero() {
+    const root = $("[data-slider]"), slides = $$("[data-slide]", root), dots = $$("[data-slide-dot]", root), count = $("[data-slide-n]", root), band = $("[data-bulk-band]");
+    const n = slides.length, HOLD = 6.5; let active = 0, busy = false, timer = null, started = false;
+    const items = (i) => $$("[data-slide-item]", slides[i]), img = (i) => $("[data-slide-img]", slides[i]);
+    const pad = (i) => String(i + 1).padStart(2, "0");
+    const paintDots = () => dots.forEach((d, i) => d.setAttribute("aria-selected", String(i === active)));
+    // the active dot fills up over the hold, then we move on
+    const arm = () => { clearTimeout(timer); dots.forEach((d) => $("i", d).style.setProperty("--p", 0)); if (reduced || document.hidden) return; const bar = $("i", dots[active]); G.fromTo(bar, { "--p": 0 }, { "--p": 1, duration: HOLD, ease: "none", overwrite: true }); timer = setTimeout(() => go(active + 1), HOLD * 1000); };
+    const enter = (i, delay) => { if (reduced) { G.set(items(i), { opacity: 1, y: 0 }); return; } G.fromTo(img(i), { scale: 1.12 }, { scale: 1.04, duration: 2.6, ease: "power2.out", overwrite: true, delay }); G.fromTo(items(i), { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: .7, ease: "power3.out", stagger: .08, delay: delay + .25, overwrite: true, clearProps: "transform" }); };
+    const go = (next, user) => {
+      next = (next + n) % n; if (next === active || busy) return; busy = true;
+      const from = slides[active], to = slides[next]; active = next; paintDots(); if (count) count.textContent = pad(next);
+      to.classList.add("is-on"); to.setAttribute("aria-hidden", "false"); from.setAttribute("aria-hidden", "true");
+      if (reduced) { from.classList.remove("is-on"); G.set(items(next), { opacity: 1 }); busy = false; arm(); return; }
+      G.set(to, { zIndex: 2 }); G.set(from, { zIndex: 1 });
+      G.fromTo(to, { opacity: 0 }, { opacity: 1, duration: 1, ease: "power2.inOut", onComplete: () => { from.classList.remove("is-on"); G.set([from, to], { clearProps: "zIndex,opacity" }); busy = false; } });
+      G.to($$("[data-slide-item]", from), { opacity: 0, y: -10, duration: .35, ease: "power2.in", overwrite: true });
+      enter(next, 0); arm();
     };
-    G.ticker.add(render);
-    if (!reduced) {
-      const items = $$("[data-support-item]", support), rule = $("[data-support-rule]", support);
-      G.set(items, { y: 26, opacity: 0 }); G.set(rule, { scaleX: 0, transformOrigin: "left center" });
-      const tl = G.timeline({ defaults: { ease: "power2.inOut" }, scrollTrigger: { trigger: hero, start: "top top", end: "+=120%", pin: true, pinSpacing: true, scrub: true, invalidateOnRefresh: true, refreshPriority: 3 } });
-      tl.to(w, { boost: () => 1.2 * Math.hypot(innerWidth, innerHeight), ease: "power2.in", duration: .55 }, 0).to(lock, { v: 1, ease: "power1.inOut", duration: .6 }, 0).to(overlay, { opacity: 0, ease: "none", duration: .15 }, .48).to(dolly, { scale: 1.09, duration: 1, ease: "none" }, 0).to(zoom, { v: .09, duration: 1, ease: "none" }, 0).to(hint, { opacity: 0, duration: .15 }, 0);
-      const supportIn = G.timeline({ paused: true }); supportIn.to(items, { y: 0, opacity: 1, duration: .55, stagger: .08, ease: "power2.out" }); supportIn.to(rule, { scaleX: 1, duration: .5 }, .2);
-      let shown = false;
-      tl.eventCallback("onUpdate", () => { const p = tl.progress(); if (!shown && p > .58) { shown = true; supportIn.restart(); } else if (shown && p < .35) { shown = false; G.to(support, { opacity: 0, duration: .25, overwrite: "auto", onComplete: () => { supportIn.pause(0); G.set(items, { y: 26, opacity: 0 }); G.set(rule, { scaleX: 0 }); G.set(support, { opacity: 1 }); } }); } });
-    } else { w.boost = 1.2 * Math.hypot(innerWidth, innerHeight); G.set(overlay, { opacity: 0 }); }
-    return function start() { G.set($$("[data-letter]", overlay), { opacity: 1, y: 0 }); startedAt = G.ticker.time; G.to(w, { entrance: 1, duration: 1.2, delay: .15, ease: "power2.inOut" }); G.to(entrance, { v: 1, duration: 1.6, ease: "power4.out" }); };
-  }
-  function initHeroMobile() {
-    const wrap = $("[data-hero-float-mobile]"), img = $(".pair", wrap), title = $("[data-hero-title-mobile]");
-    G.set(wrap, { opacity: 0 });
-    return function start() { const letters = $$("[data-letter]", title); if (reduced) { G.set(letters, { opacity: 1 }); G.set(wrap, { opacity: 1 }); return; } G.fromTo(letters, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: .9, ease: "power2.out", stagger: .05 }); G.to(wrap, { opacity: 1, duration: 1.2 }); G.fromTo(img, { yPercent: -60, scale: .8, rotation: -14 }, { yPercent: 0, scale: 1, rotation: 0, duration: 1.6, ease: "power4.out", onComplete: () => G.to(img, { y: -8, duration: 3, yoyo: true, repeat: -1, ease: "sine.inOut" }) }); ST.refresh(); };
+    dots.forEach((d, i) => d.addEventListener("click", () => go(i, true)));
+    $("[data-slide-prev]", root).addEventListener("click", () => go(active - 1, true));
+    $("[data-slide-next]", root).addEventListener("click", () => go(active + 1, true));
+    root.addEventListener("keydown", (e) => { if (e.key === "ArrowRight") go(active + 1, true); if (e.key === "ArrowLeft") go(active - 1, true); });
+    root.addEventListener("pointerenter", () => clearTimeout(timer)); root.addEventListener("pointerleave", () => { if (started) arm(); });
+    document.addEventListener("visibilitychange", () => { if (!started) return; if (document.hidden) clearTimeout(timer); else arm(); });
+    // swipe
+    let sx = 0, sy = 0; root.addEventListener("touchstart", (e) => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+    root.addEventListener("touchend", (e) => { const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy; if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.5) go(active + (dx < 0 ? 1 : -1), true); }, { passive: true });
+    if (!reduced) { G.set(items(0), { opacity: 0 }); if (band) G.set(band, { y: 24, opacity: 0 }); }
+    return function start() { started = true; enter(0, 0); if (band && !reduced) G.to(band, { y: 0, opacity: 1, duration: .6, ease: "power3.out", delay: .6, clearProps: "transform" }); arm(); };
   }
 
   /* ================= 02 RANGE ================= */
@@ -624,8 +691,8 @@ function initAnimations() {
   }
 
   /* ================= boot (top to bottom so pinned blocks measure in order) ================= */
-  const startHero = isMobile ? initHeroMobile() : initHeroDesktop();
-  initScrollHint(); S.initReveals($("#hero"));
+  const startHero = initHero();
+  initScrollHint(); S.initReveals($("#hero")); S.initReveals($("#more"));
   if (isMobile) initRangeMobile(); else initRangeDesktop();
   S.initReveals($("#range"));
   initInside();
@@ -647,7 +714,7 @@ STAGR.onReady.push(initAnimations);
         "body": body,
         "js": js,
         "loader": True,
-        "header_dark": False,
+        "header_dark": True,
         "nav": [("Range", "#range"), ("Inside", "#inside"), ("Story", "#story"), ("Shop", "#shop")],
         "shop_href": "#shop",
     }
