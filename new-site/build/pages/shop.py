@@ -289,12 +289,6 @@ function initAnimations() {
   $$("[data-drawer-close]").forEach((b) => b.addEventListener("click", closeDrawer));
   S.closeOverlay = () => { if (drawerOpen) closeDrawer(); };
 
-  /* ---- wishlist hearts (kept in this browser) ---- */
-  const WISH = "stagr-wishlist"; let wish = []; try { wish = JSON.parse(localStorage.getItem(WISH) || "[]"); } catch (e) {}
-  const paintWish = () => $$("[data-wish]").forEach((b) => b.setAttribute("aria-pressed", String(wish.indexOf(b.dataset.wish) >= 0)));
-  document.addEventListener("click", (e) => { const b = e.target.closest("[data-wish]"); if (!b) return; const id = b.dataset.wish, i = wish.indexOf(id); if (i >= 0) wish.splice(i, 1); else wish.push(id); try { localStorage.setItem(WISH, JSON.stringify(wish)); } catch (x) {} paintWish(); if (G && !reduced) G.fromTo(b, { scale: .8 }, { scale: 1, duration: .45, ease: "back.out(3)", clearProps: "transform" }); S.toast && S.toast(i >= 0 ? "Removed from saved" : "Saved for later"); });
-  paintWish();
-
   /* ---- first paint: categories and cards rise in once ---- */
   apply(false);
   if (!reduced) G.fromTo(cards.filter((c) => !c.classList.contains("is-hidden")), { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: .7, ease: "power3.out", stagger: .04, delay: .2, clearProps: "opacity,transform", scrollTrigger: { trigger: grid, start: "top 85%", once: true } });
