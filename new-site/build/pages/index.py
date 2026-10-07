@@ -166,7 +166,7 @@ def render(ctx):
 .slide-copy > * { max-width: 760px; }
 .hero-kicker { font-size: .6875rem; letter-spacing: .3em; text-transform: uppercase; color: rgba(239,237,230,.8); }
 .hero-kicker span { margin: 0 6px; opacity: .6; }
-.hero-h1 { margin-top: 14px; font-family: var(--font-display); font-weight: 500; font-size: clamp(2.8rem, 1.2rem + 5.4vw, 6.8rem); line-height: 1; letter-spacing: 0; text-shadow: 0 2px 30px rgba(0,0,0,.45); }
+.hero-h1 { margin-top: 14px; font-family: var(--font-display); font-weight: 500; font-size: clamp(2.6rem, 1.2rem + 4.2vw, 5.375rem); line-height: 1; letter-spacing: 0; text-shadow: 0 2px 30px rgba(0,0,0,.45); }
 .hero-h1 .serif-i { font-family: var(--font-display); font-style: normal; }
 .hero-sub { margin-top: 18px; max-width: 44ch; font-size: clamp(.9375rem, .9rem + .25vw, 1.0625rem); line-height: 1.55; color: rgba(239,237,230,.88); text-shadow: 0 1px 14px rgba(0,0,0,.45); }
 .hero-ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
