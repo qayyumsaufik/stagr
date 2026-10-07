@@ -546,18 +546,17 @@ html.is-entering .fade { opacity: 1; }
 .tile-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 10px; font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: inherit; }
 .tile-link svg { width: 13px; height: 13px; transition: transform .4s var(--ease-out); }
 .tile:hover .tile-link svg { transform: translateX(4px); }
-/* the dark editorial panel */
-.tile-note { background: var(--ink); color: var(--bone); display: grid; gap: 20px; padding: clamp(22px, 3vw, 36px); }
-.tile-note::before { border-color: rgba(239,237,230,.18); }
-.note-line { margin-top: 14px; font-family: var(--font-display); font-weight: 300; font-size: clamp(1.5rem, 1rem + 1.5vw, 2.3rem); line-height: 1.1; }
-.note-facts { margin-top: 18px; display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; color: rgba(239,237,230,.62); }
-.note-facts li { position: relative; padding-left: 14px; }
-.note-facts li::before { content: ""; position: absolute; left: 0; top: .45em; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
-.note-photo { position: relative; display: block; border-radius: 6px; overflow: hidden; min-height: 150px; }
-.note-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1.04); transition: transform 1.2s var(--ease-out); }
-.note-photo:hover img { transform: scale(1.09); }
-.note-photo .tile-link { position: absolute; left: 16px; bottom: 14px; z-index: 2; margin: 0; color: var(--bone); text-shadow: 0 1px 12px rgba(0,0,0,.5); }
+/* the editorial tile: the workshop photo across the whole card, copy over a dark wash */
+.tile-note::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(26,27,29,.82) 0%, rgba(26,27,29,.62) 45%, rgba(26,27,29,.22) 100%), linear-gradient(0deg, rgba(26,27,29,.45) 0%, rgba(26,27,29,0) 45%); pointer-events: none; }
+.note-copy { inset: clamp(20px, 2.6vw, 32px); right: clamp(20px, 2.6vw, 32px); display: flex; flex-direction: column; justify-content: space-between; gap: 16px; }
+.note-line { margin-top: 10px; max-width: 18ch; font-family: var(--font-display); font-weight: 300; font-size: clamp(1.35rem, .9rem + 1.3vw, 2.1rem); line-height: 1.12; text-shadow: 0 1px 18px rgba(0,0,0,.35); }
+.note-foot { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 10px 20px; }
+.note-facts { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: .6875rem; letter-spacing: .12em; text-transform: uppercase; color: rgba(239,237,230,.78); }
+.note-facts li { position: relative; padding-left: 13px; white-space: nowrap; }
+.note-facts li::before { content: ""; position: absolute; left: 0; top: .4em; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+.tile-note .tile-link { margin-top: 0; white-space: nowrap; }
 .tile-main { aspect-ratio: 4 / 5; }
+.tile-main img { object-position: 50% 100%; }
 .tile-wallets, .tile-belts { aspect-ratio: 3 / 4; }
 .pair img { position: absolute; height: auto; filter: drop-shadow(0 40px 60px rgba(0,0,0,.45)); }
 .pair .p-belt { left: -6%; top: 2%; width: 78%; transform: rotate(-8deg); }
@@ -565,12 +564,13 @@ html.is-entering .fade { opacity: 1; }
 @media (max-width: 1023px) {
   .bento { grid-template-columns: 1fr 1fr; }
   .tile-main { grid-column: 1 / -1; aspect-ratio: 16 / 10; }
-  .tile-note { grid-column: 1 / -1; grid-template-columns: 1.1fr 1fr; align-items: stretch; }
+  .tile-note { grid-column: 1 / -1; aspect-ratio: 21 / 9; }
 }
 @media (max-width: 639px) {
   .bento { gap: 10px; }
-  .tile-main { aspect-ratio: 4 / 5; }
-  .tile-note { grid-template-columns: 1fr; }
+  .tile-main { aspect-ratio: 3 / 4; }
+.tile-main img { object-position: 50% 100%; }
+  .tile-note { aspect-ratio: 4 / 3; }
   /* the two small tiles: picture on top, copy on a solid band beneath, so nothing overlaps */
   .tile-wallets, .tile-belts { aspect-ratio: auto; display: grid; grid-template-rows: auto auto; }
   .tile-wallets { background: #2A1F18; }
@@ -589,8 +589,7 @@ html.is-entering .fade { opacity: 1; }
   .bento { grid-template-columns: 56fr 22fr 22fr; grid-template-rows: 62fr 38fr; gap: 14px; height: calc(100svh - var(--nav-h) - 32px); min-height: 660px; max-height: 980px; }
   .tile { aspect-ratio: auto !important; }
   .tile-main { grid-row: 1 / 3; }
-  .tile-note { grid-column: 2 / 4; grid-template-columns: 1.15fr 1fr; align-items: stretch; }
-  .note-photo { min-height: 0; }
+  .tile-note { grid-column: 2 / 4; }
 }
 
 /* ---- 02 range (pinned on desktop) ---- */
@@ -793,14 +792,19 @@ html.is-entering .fade { opacity: 1; }
       <img data-tile-img src="assets/hero/tile-belts-800.jpg" srcset="assets/hero/tile-belts-800.jpg 800w, assets/hero/tile-belts.jpg 1050w" sizes="(min-width: 1024px) 22vw, 50vw" alt="Two coiled Stagr belts on a sand backdrop" width="1050" height="1400" decoding="async">
       <div class="tile-copy"><span class="ltag" data-tile-item><i class="rivet"></i>04 styles · 30 to 44</span><h2 class="tile-h2" data-tile-item>Belts<span class="dotc">.</span></h2><span class="tile-link" data-tile-item>Shop the belts <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></div>
     </a>
-    <div class="tile tile-note on-ink" data-tile>
-      <div class="note-copy">
-        <p class="label" data-tile-item><b style="color:var(--bone)">01</b><span class="slash">/</span>What we hold to</p>
-        <p class="note-line" data-tile-item>One hide. One workshop.<br><span class="serif-i">Nothing else.</span></p>
-        <ul class="note-facts" data-tile-item role="list"><li>Cash on delivery</li><li>3 to 5 days, Pakistan wide</li><li>14-day returns</li></ul>
+    <a class="tile tile-note" href="about.html" data-tile aria-label="The workshop">
+      <img data-tile-img src="assets/lifestyle/kingsmen-flat-800.jpg" srcset="assets/lifestyle/kingsmen-flat-800.jpg 800w, assets/lifestyle/kingsmen-flat.jpg 1600w" sizes="(min-width: 1024px) 44vw, 100vw" alt="Two bifold wallets beside the tools that made them" width="1600" height="1067" decoding="async">
+      <div class="tile-copy note-copy">
+        <div>
+          <p class="label" data-tile-item><b style="color:var(--bone)">01</b><span class="slash">/</span>What we hold to</p>
+          <p class="note-line" data-tile-item>One hide. One workshop. <span class="serif-i">Nothing else.</span></p>
+        </div>
+        <div class="note-foot" data-tile-item>
+          <ul class="note-facts" role="list"><li>Cash on delivery</li><li>3 to 5 days, Pakistan wide</li><li>14-day returns</li></ul>
+          <span class="tile-link">The workshop <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </div>
       </div>
-      <a class="note-photo" href="about.html" aria-label="The workshop" data-tile-item><img src="assets/lifestyle/kingsmen-flat-800.jpg" alt="Two bifold wallets beside the tools that made them" width="800" height="533" loading="lazy"><span class="tile-link">The workshop <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
-    </div>
+    </a>
   </div>
 </section>
 

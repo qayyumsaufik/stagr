@@ -53,9 +53,9 @@ def save(canvas, name):
 # main tile: saddle-tan sweep, two belts and a wallet low in the frame (portrait 4:5)
 W, H = 1400, 1750
 c = backdrop(W, H, (176, 132, 92), (84, 52, 30), glow=(222, 190, 150), glow_at=(0.5, 0.38), glow_r=0.8)
-place(c, "outlaw-1", 430, 1290, 660)
-place(c, "monarch-1", 1010, 1340, 640)
-place(c, "kingsmann-brown-1", 700, 1520, 580)
+place(c, "outlaw-1", 430, 1200, 640)
+place(c, "monarch-1", 1000, 1250, 620)
+place(c, "kingsmann-brown-1", 700, 1420, 560)
 save(c, "tile-main")
 
 # wallets tile: dark coffee, warm rim light from above (portrait 3:4)
