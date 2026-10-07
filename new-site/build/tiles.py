@@ -71,3 +71,18 @@ c = backdrop(W, H, (232, 222, 204), (186, 166, 136), glow=(246, 240, 228), glow_
 place(c, "monarch-1", 520, 760, 720)
 place(c, "nova-1", 640, 1060, 640)
 save(c, "tile-belts")
+
+# hero, right half: wallets on dark coffee, landscape so the half-screen crop keeps them whole
+W, H = 1500, 1100
+c = backdrop(W, H, (74, 50, 36), (24, 17, 13), glow=(146, 100, 66), glow_at=(0.5, 0.45), glow_r=0.75, grain=5)
+place(c, "regal-black-1", 560, 520, 600, rot=5)
+place(c, "kingsmann-brown-1", 980, 640, 660, rot=-4)
+place(c, "maverick-brown-1", 420, 800, 330)
+save(c, "hero-wallets")
+
+# bulk orders: a team order laid out in rows on sage (landscape)
+W, H = 1500, 1000
+c = backdrop(W, H, (150, 158, 136), (84, 92, 74), glow=(190, 196, 174), glow_at=(0.5, 0.4), glow_r=0.8, grain=5)
+row = ["kingsmann-brown-1", "regal-black-1", "purefold-brown-1", "kingsmann-black-1", "regal-brown-1", "purefold-black-1", "maverick-brown-1", "maverick-black-1"]
+for i, n in enumerate(row): place(c, n, 290 + i * 132, 820, 118 if "maverick" in n or "purefold" in n else 126)
+save(c, "tile-bulk")
