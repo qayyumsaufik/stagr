@@ -217,6 +217,13 @@ def chrome(ctx, page):
 <div class="fade" aria-hidden="true"></div>
 <div class="cursor" aria-hidden="true"><div class="ring"><span></span></div><div class="dot"></div></div>
 
+<div class="topbar" data-topbar>
+  <div class="wrap topbar-inner">
+    <a class="topbar-brand" href="index.html"><span class="topbar-badge">Stagr</span><span class="desk-only">{B["domain"]}</span></a>
+    <p class="topbar-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span class="desk-only">Cash on delivery <span class="topbar-dot" aria-hidden="true">·</span> {B["shipping"]["deliveryTime"]}</span><span class="mob-only">Cash on delivery <span class="topbar-dot" aria-hidden="true">·</span> 3 to 5 days, Pakistan wide</span></p>
+    <a class="topbar-contact" href="{B["contact"]["whatsapp"]["link"]}" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4V5z"/></svg><span>Contact us</span></a>
+  </div>
+</div>
 <nav class="nav{on_dark}" aria-label="Primary" data-nav>
   <div class="wrap nav-top">
     <button type="button" class="burger" data-menu-open aria-expanded="false" aria-controls="menu" aria-label="Open menu"><i></i><i></i></button>
