@@ -616,6 +616,19 @@ html.is-entering .fade { opacity: 1; }
 .ftile:hover img { transform: scale(1.06); }
 .ftile { aspect-ratio: 16 / 11; }
 .ftile-main { aspect-ratio: 4 / 3; }
+/* ---- why people choose Stagr ---- */
+.why { padding: clamp(48px, 7vw, 96px) 0 clamp(40px, 6vw, 80px); background: var(--bone); color: var(--ink); }
+.why-head { text-align: center; max-width: 60ch; margin: 0 auto clamp(32px, 4vw, 56px); }
+.why-head .explore-title { white-space: normal; }
+.why-head .explore-sub { margin-top: 14px; font-size: 1rem; }
+.why-grid { display: grid; gap: 28px 32px; grid-template-columns: 1fr; }
+.why-grid li { display: flex; gap: 14px; align-items: flex-start; }
+.why-ic { flex: 0 0 auto; width: 28px; height: 28px; color: var(--accent-deep); }
+.why-ic svg { width: 100%; height: 100%; }
+.why-grid b { display: block; font-weight: 600; font-size: 1rem; }
+.why-grid p { margin-top: 4px; font-size: .9375rem; line-height: 1.45; color: var(--fg-2); }
+@media (min-width: 640px) { .why-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1024px) { .why-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .pair img { position: absolute; height: auto; filter: drop-shadow(0 40px 60px rgba(0,0,0,.45)); }
 .pair .p-belt { left: -6%; top: 2%; width: 78%; transform: rotate(-8deg); }
 .pair .p-wallet { right: -4%; bottom: 4%; width: 72%; }
@@ -1131,7 +1144,22 @@ html.is-entering .fade { opacity: 1; }
   </div>
 </section>
 
-<!-- range section hidden for now --><section id="story" class="story on-bone" aria-labelledby="story-title">
+<!-- range section hidden for now --><section id="why" class="why on-bone" aria-labelledby="why-title">
+  <div class="wrap">
+    <div class="why-head">
+      <h2 class="explore-title" id="why-title" data-reveal>Why people choose Stagr</h2>
+      <p class="explore-sub" data-reveal data-delay=".1">One workshop, a small bench, no subcontracting. A belt leaves us when it is right, not when the week ends.</p>
+    </div>
+    <ul class="why-grid" role="list">
+      <li data-reveal><span class="why-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M12 4l9 16H3z"/></svg></span><div><b>Handcrafted since 2025</b><p>Every piece cut and stitched in Karachi.</p></div></li>
+      <li data-reveal data-delay=".08"><span class="why-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="1"/><path d="M3 11h18M8 7V4h8v3"/></svg></span><div><b>One price, any quantity</b><p>Rs 1,740 to Rs 3,500. The same for one or a hundred.</p></div></li>
+      <li data-reveal data-delay=".16"><span class="why-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="17" r="1.6"/><circle cx="17" cy="17" r="1.6"/></svg></span><div><b>Delivered across Pakistan</b><p>3 to 5 working days. Cash on delivery.</p></div></li>
+      <li data-reveal data-delay=".24"><span class="why-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4V5z"/></svg></span><div><b>People you can talk to</b><p>WhatsApp us. The person who made it answers.</p></div></li>
+    </ul>
+  </div>
+</section>
+
+<section id="story" class="story on-bone" aria-labelledby="story-title">
   <div class="story-pin desk-only" data-story-pin>
     <div class="story-intro" data-story-intro><p class="label"><b>06</b><span class="slash">/</span>Story</p><h2 class="h1" id="story-title" data-story-title>We cut leather, not corners.</h2><p class="lead">We cut in Pakistan, from hides we choose ourselves. One workshop, a small bench, no subcontracting. Prices run from Rs 1,740 to Rs 3,500.</p><div class="scroll-hint" style="margin-top:36px" aria-hidden="true"><span class="t">Scroll</span></div></div>
     <div class="story-stage" data-story-stage><span class="ghost story-ghost" data-story-ghost="0" style="opacity:1">01</span><span class="ghost story-ghost" data-story-ghost="1" style="opacity:0">02</span><span class="ghost story-ghost" data-story-ghost="2" style="opacity:0">03</span><span class="ghost story-ghost" data-story-ghost="3" style="opacity:0">04</span><span class="ghost story-ghost" data-story-ghost="4" style="opacity:0">05</span><div class="story-figure" data-story-figure="0" style="opacity:1"><figure><div class="media ar-45"><img src="assets/lifestyle/ranger-02.jpg" srcset="assets/lifestyle/ranger-02-800.jpg 800w, assets/lifestyle/ranger-02.jpg 1600w" sizes="(min-width: 768px) 34vw, 86vw" alt="FIG. 01 · The stag, embossed in crazy horse leather" width="1200" height="1500" loading="lazy"></div><figcaption class="label" style="margin-top:12px;font-size:.75rem"><span style="color:var(--accent)">■</span> FIG. 01 · The stag, embossed in crazy horse leather</figcaption></figure></div><div class="story-figure" data-story-figure="1" style="opacity:0"><figure><div class="media ar-45"><img src="assets/lifestyle/ranger-flat.jpg" srcset="assets/lifestyle/ranger-flat-800.jpg 800w, assets/lifestyle/ranger-flat.jpg 1600w" sizes="(min-width: 768px) 34vw, 86vw" alt="FIG. 02 · Graded hide, embossed strap tip" width="1200" height="1500" loading="lazy"></div><figcaption class="label" style="margin-top:12px;font-size:.75rem"><span style="color:var(--accent)">■</span> FIG. 02 · Graded hide, embossed strap tip</figcaption></figure></div><div class="story-figure" data-story-figure="2" style="opacity:0"><figure><div class="media ar-45"><img src="assets/lifestyle/onyx-flat.jpg" srcset="assets/lifestyle/onyx-flat-800.jpg 800w, assets/lifestyle/onyx-flat.jpg 1600w" sizes="(min-width: 768px) 34vw, 86vw" alt="FIG. 03 · A cut strap, backlit" width="1200" height="1500" loading="lazy"></div><figcaption class="label" style="margin-top:12px;font-size:.75rem"><span style="color:var(--accent)">■</span> FIG. 03 · A cut strap, backlit</figcaption></figure></div><div class="story-figure" data-story-figure="3" style="opacity:0"><figure><div class="media ar-45"><img src="assets/lifestyle/kingsmen-02.jpg" srcset="assets/lifestyle/kingsmen-02-800.jpg 800w, assets/lifestyle/kingsmen-02.jpg 1600w" sizes="(min-width: 768px) 34vw, 86vw" alt="FIG. 04 · Saddle stitch on a wallet edge" width="1200" height="1500" loading="lazy"></div><figcaption class="label" style="margin-top:12px;font-size:.75rem"><span style="color:var(--accent)">■</span> FIG. 04 · Saddle stitch on a wallet edge</figcaption></figure></div><div class="story-figure" data-story-figure="4" style="opacity:0"><figure><div class="media ar-45"><img src="assets/lifestyle/monarch-01.jpg" srcset="assets/lifestyle/monarch-01-800.jpg 800w, assets/lifestyle/monarch-01.jpg 1600w" sizes="(min-width: 768px) 34vw, 86vw" alt="FIG. 05 · Finished belt, buckle on" width="1200" height="1500" loading="lazy"></div><figcaption class="label" style="margin-top:12px;font-size:.75rem"><span style="color:var(--accent)">■</span> FIG. 05 · Finished belt, buckle on</figcaption></figure></div><div class="story-panel" data-story-panel="0" ><p class="label" data-story-item>Chapter 01<span class="slash">·</span><b>The name</b></p><div class="rule" data-story-item style="margin-top:18px"></div><h3 class="h3" data-story-item style="margin-top:22px">The name.</h3><p class="body muted" data-story-item style="margin-top:16px">Stagr takes its name from the stag. An antler is a record of the years behind it, thickened and scarred and branched, and none of it is covered up. We ask the same of leather. It should show its age rather than hide it.</p></div><div class="story-panel" data-story-panel="1" hidden><p class="label" data-story-item>Chapter 02<span class="slash">·</span><b>The material</b></p><div class="rule" data-story-item style="margin-top:18px"></div><h3 class="h3" data-story-item style="margin-top:22px">The material.</h3><p class="body muted" data-story-item style="margin-top:16px">We buy whole hides and reject about a third. What is left is graded by hand for grain, thickness and stretch. We cut in Pakistan, from hides we choose ourselves. One workshop, a small bench, no subcontracting. A belt leaves us when it is right, not when the week ends.</p></div><div class="story-panel" data-story-panel="2" hidden><p class="label" data-story-item>Chapter 03<span class="slash">·</span><b>The cutting</b></p><div class="rule" data-story-item style="margin-top:18px"></div><h3 class="h3" data-story-item style="margin-top:22px">The cutting.</h3><p class="body muted" data-story-item style="margin-top:16px">Straps are cut along the spine where the hide is tightest, so a belt holds its shape instead of curling.</p></div><div class="story-panel" data-story-panel="3" hidden><p class="label" data-story-item>Chapter 04<span class="slash">·</span><b>The stitching</b></p><div class="rule" data-story-item style="margin-top:18px"></div><h3 class="h3" data-story-item style="margin-top:22px">The stitching.</h3><p class="body muted" data-story-item style="margin-top:16px">One row of saddle stitch, two needles, waxed linen thread. It cannot unravel the way a machine seam can.</p></div><div class="story-panel" data-story-panel="4" hidden><p class="label" data-story-item>Chapter 05<span class="slash">·</span><b>The finish</b></p><div class="rule" data-story-item style="margin-top:18px"></div><h3 class="h3" data-story-item style="margin-top:22px">The finish.</h3><p class="body muted" data-story-item style="margin-top:16px">Edges bevelled, sanded, burnished four times, sealed with beeswax. Then the buckle goes on and it is checked. Prices run from Rs 1,740 to Rs 3,500. That is the whole range, and it is the same for a gift of one or an order of a hundred.</p></div><div class="story-years"><div class="story-progress" data-story-progress></div><button type="button" data-story-year="0" style="color:var(--fg)">01</button><button type="button" data-story-year="1" style="color:var(--fg-2)">02</button><button type="button" data-story-year="2" style="color:var(--fg-2)">03</button><button type="button" data-story-year="3" style="color:var(--fg-2)">04</button><button type="button" data-story-year="4" style="color:var(--fg-2)">05</button></div></div>
@@ -1150,10 +1178,6 @@ html.is-entering .fade { opacity: 1; }
   </div>
 </section>
 
-<section id="delivery-sec" class="on-bone" aria-label="How it reaches you" style="padding-bottom:var(--section-sm)"><div class="wrap"><div class="or-row" id="delivery"><span class="shop-rule" data-shop-rule style="transform-origin:right"></span><span class="label">How it reaches you</span><span class="shop-rule" data-shop-rule style="transform-origin:left"></span></div>
-    <div class="delivery"><div data-reveal data-delay="0.0"><h3>Cash on delivery</h3><p>Pay at the door</p></div><div data-reveal data-delay="0.1"><h3>3 to 5 days</h3><p>Across Pakistan</p></div><div data-reveal data-delay="0.2"><h3>14-day returns</h3><p>Unworn pieces</p></div><div data-reveal data-delay="0.30000000000000004"><h3>Handwritten note</h3><p>Free, add at checkout</p></div></div>
-  </div>
-</div></section>
 
 </main>
 
@@ -1423,7 +1447,7 @@ function initAnimations() {
   })();
   if (isMobile) initRangeMobile(); else initRangeDesktop();
   if (isMobile) initStoryMobile(); else initStoryDesktop();
-  S.initReveals($("#story")); S.initReveals($("#delivery-sec")); S.initReveals($("footer"));
+  S.initReveals($("#why")); S.initReveals($("#story")); S.initReveals($("footer"));
   S.onLoaderDone.push(() => { startHero(); ST.refresh(); });
 }
 STAGR.onReady.push(initAnimations);

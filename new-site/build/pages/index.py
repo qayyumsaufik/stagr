@@ -239,6 +239,19 @@ def render(ctx):
 .ftile:hover img { transform: scale(1.06); }
 .ftile { aspect-ratio: 16 / 11; }
 .ftile-main { aspect-ratio: 4 / 3; }
+/* ---- why people choose Stagr ---- */
+.why { padding: clamp(48px, 7vw, 96px) 0 clamp(40px, 6vw, 80px); background: var(--bone); color: var(--ink); }
+.why-head { text-align: center; max-width: 60ch; margin: 0 auto clamp(32px, 4vw, 56px); }
+.why-head .explore-title { white-space: normal; }
+.why-head .explore-sub { margin-top: 14px; font-size: 1rem; }
+.why-grid { display: grid; gap: 28px 32px; grid-template-columns: 1fr; }
+.why-grid li { display: flex; gap: 14px; align-items: flex-start; }
+.why-ic { flex: 0 0 auto; width: 28px; height: 28px; color: var(--accent-deep); }
+.why-ic svg { width: 100%; height: 100%; }
+.why-grid b { display: block; font-weight: 600; font-size: 1rem; }
+.why-grid p { margin-top: 4px; font-size: .9375rem; line-height: 1.45; color: var(--fg-2); }
+@media (min-width: 640px) { .why-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1024px) { .why-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .pair img { position: absolute; height: auto; filter: drop-shadow(0 40px 60px rgba(0,0,0,.45)); }
 .pair .p-belt { left: -6%; top: 2%; width: 78%; transform: rotate(-8deg); }
 .pair .p-wallet { right: -4%; bottom: 4%; width: 72%; }
@@ -549,7 +562,22 @@ def render(ctx):
   </div>
 </section>
 
-<!-- range section hidden for now --><section id="story" class="story on-bone" aria-labelledby="story-title">
+<!-- range section hidden for now --><section id="why" class="why on-bone" aria-labelledby="why-title">
+  <div class="wrap">
+    <div class="why-head">
+      <h2 class="explore-title" id="why-title" data-reveal>Why people choose Stagr</h2>
+      <p class="explore-sub" data-reveal data-delay=".1">One workshop, a small bench, no subcontracting. A belt leaves us when it is right, not when the week ends.</p>
+    </div>
+    <ul class="why-grid" role="list">
+      <li data-reveal><span class="why-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M12 4l9 16H3z"/></svg></span><div><b>Handcrafted since 2025</b><p>Every piece cut and stitched in Karachi.</p></div></li>
+      <li data-reveal data-delay=".08"><span class="why-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="1"/><path d="M3 11h18M8 7V4h8v3"/></svg></span><div><b>One price, any quantity</b><p>Rs 1,740 to Rs 3,500. The same for one or a hundred.</p></div></li>
+      <li data-reveal data-delay=".16"><span class="why-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="17" r="1.6"/><circle cx="17" cy="17" r="1.6"/></svg></span><div><b>Delivered across Pakistan</b><p>3 to 5 working days. Cash on delivery.</p></div></li>
+      <li data-reveal data-delay=".24"><span class="why-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4V5z"/></svg></span><div><b>People you can talk to</b><p>WhatsApp us. The person who made it answers.</p></div></li>
+    </ul>
+  </div>
+</section>
+
+<section id="story" class="story on-bone" aria-labelledby="story-title">
   <div class="story-pin desk-only" data-story-pin>
     <div class="story-intro" data-story-intro><p class="label"><b>06</b><span class="slash">/</span>Story</p><h2 class="h1" id="story-title" data-story-title>{B["about"]["headline"]}.</h2><p class="lead">{B["about"]["intro"]} {B["about"]["sections"][2]["body"].split(".")[0]}.</p><div class="scroll-hint" style="margin-top:36px" aria-hidden="true"><span class="t">Scroll</span></div></div>
     <div class="story-stage" data-story-stage>{ghosts}{figures}{spanels}<div class="story-years"><div class="story-progress" data-story-progress></div>{years}</div></div>
@@ -568,10 +596,6 @@ def render(ctx):
   </div>
 </section>
 
-<section id="delivery-sec" class="on-bone" aria-label="How it reaches you" style="padding-bottom:var(--section-sm)"><div class="wrap"><div class="or-row" id="delivery"><span class="shop-rule" data-shop-rule style="transform-origin:right"></span><span class="label">How it reaches you</span><span class="shop-rule" data-shop-rule style="transform-origin:left"></span></div>
-    <div class="delivery">{"".join(f'<div data-reveal data-delay="{i * .1}"><h3>{t["title"]}</h3><p>{t["sub"]}</p></div>' for i, t in enumerate(trust))}</div>
-  </div>
-</div></section>
 '''
 
     js = r'''
@@ -768,7 +792,7 @@ function initAnimations() {
   })();
   if (isMobile) initRangeMobile(); else initRangeDesktop();
   if (isMobile) initStoryMobile(); else initStoryDesktop();
-  S.initReveals($("#story")); S.initReveals($("#delivery-sec")); S.initReveals($("footer"));
+  S.initReveals($("#why")); S.initReveals($("#story")); S.initReveals($("footer"));
   S.onLoaderDone.push(() => { startHero(); ST.refresh(); });
 }
 STAGR.onReady.push(initAnimations);
