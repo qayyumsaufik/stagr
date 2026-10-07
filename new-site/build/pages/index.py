@@ -135,12 +135,12 @@ def render(ctx):
 .rp-spec { margin-top: 22px; max-width: 420px; }
 
 /* ---- 01 hero: belts left, wallets right, the words on the seam, bulk band beneath ---- */
-.hero { position: relative; background: var(--ink); color: var(--bone); padding-top: var(--nav-h); }
-.slider { position: relative; height: calc(100svh - var(--nav-h) - 76px); min-height: 560px; max-height: 900px; overflow: hidden; }
+.hero { position: relative; background: var(--ink); color: var(--bone); }
+.slider { position: relative; height: calc(100svh - 76px); min-height: 620px; max-height: 980px; overflow: hidden; }
 .slide { position: absolute; inset: 0; display: flex; align-items: flex-end; opacity: 0; visibility: hidden; }
 .slide.is-on { opacity: 1; visibility: visible; }
 .slide img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 55%; transform: scale(1.04); will-change: transform; }
-.slide::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(26,27,29,.3) 0%, rgba(26,27,29,0) 30%, rgba(26,27,29,0) 45%, rgba(26,27,29,.78) 100%), linear-gradient(90deg, rgba(26,27,29,.5) 0%, rgba(26,27,29,0) 60%); pointer-events: none; }
+.slide::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(26,27,29,.55) 0%, rgba(26,27,29,0) 28%, rgba(26,27,29,0) 45%, rgba(26,27,29,.78) 100%), linear-gradient(90deg, rgba(26,27,29,.5) 0%, rgba(26,27,29,0) 60%); pointer-events: none; }
 .slide-copy { position: relative; z-index: 2; width: 100%; padding-bottom: clamp(84px, 11vh, 120px); max-width: none; }
 .slide-copy > * { max-width: 620px; }
 .hero-kicker { font-size: .6875rem; letter-spacing: .3em; text-transform: uppercase; color: rgba(239,237,230,.8); }
@@ -213,9 +213,9 @@ def render(ctx):
   .tile-side { aspect-ratio: 4 / 5; }
 }
 @media (max-width: 767px) {
-  .slider { height: calc(100svh - var(--nav-h)); min-height: 520px; max-height: 760px; }
+  .slider { height: 100svh; min-height: 580px; max-height: 820px; }
   .slide img { object-position: 50% 40%; }
-  .slide::after { background: linear-gradient(180deg, rgba(26,27,29,.35) 0%, rgba(26,27,29,.05) 28%, rgba(26,27,29,.15) 48%, rgba(26,27,29,.86) 100%); }
+  .slide::after { background: linear-gradient(180deg, rgba(26,27,29,.6) 0%, rgba(26,27,29,.05) 30%, rgba(26,27,29,.15) 48%, rgba(26,27,29,.86) 100%); }
   .slide-copy { padding-bottom: 92px; }
   .hero-ctas .btn { flex: 1 1 auto; justify-content: center; }
   .slider-ui { bottom: 22px; }

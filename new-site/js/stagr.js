@@ -85,7 +85,7 @@
     const nav = $(".nav"); if (!nav) return;
     const menu = $(".menu");
     // The bar never hides: it only turns solid once the page has scrolled.
-    const update = () => { nav.classList.toggle("is-solid", (window.scrollY || 0) > 40 || isMobile); };
+    const update = () => { nav.classList.toggle("is-solid", (window.scrollY || 0) > 40); };
     update(); window.addEventListener("scroll", update, { passive: true });
     const setMenu = (open) => { if (!menu || open === menuOpen) return; menuOpen = open; menu.classList.toggle("is-open", open); menu.setAttribute("aria-hidden", String(!open)); $$("[data-menu-open]").forEach((b) => b.setAttribute("aria-expanded", String(open))); open ? S.lock("menu") : S.unlock("menu"); update(); if (open) setTimeout(() => { const f = $("[data-menu-close]", menu); f && f.focus(); }, 300); };
     S.openMenu = () => setMenu(true); S.closeMenu = () => setMenu(false);

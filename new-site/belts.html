@@ -543,7 +543,8 @@ html.is-entering .fade { opacity: 1; }
 .sc-cta { flex: 0 0 auto; }
 @media (max-width: 1023px) {
   .sc-frame { height: auto; min-height: 0; }
-  .sc-photos { position: relative; height: 52svh; margin-top: var(--nav-top); }
+  .sc-photos { position: relative; height: 60svh; }
+  .sc-photo::after { background: linear-gradient(180deg, rgba(26,27,29,.6) 0%, rgba(26,27,29,0) 32%), linear-gradient(90deg, color-mix(in srgb, var(--tint) 45%, transparent), color-mix(in srgb, var(--tint) 15%, transparent)); mix-blend-mode: normal; }
   .sc-brand { display: none; }
   .sc-panel { position: relative; right: auto; top: auto; bottom: auto; width: auto; margin: -40px 20px 0; padding: 24px 20px 28px; display: grid; gap: 16px; z-index: 2; }
   .sc-stage { width: 58%; margin: 4px auto; }
