@@ -80,8 +80,8 @@ def render(ctx):
 <div data-inside-right="{i}" {"hidden" if i else ""}>
   <p class="label"><b>0{i + 1}</b><span class="slash">/</span>0{N_INSIDE}</p>
   <p class="inside-desc">{d["desc"]}</p>
-  <dl class="spec" style="margin-top:20px">{"".join(f'<div><dt>{k}</dt><dd>{v}</dd></div>' for k, v in d["rows"])}<div><dt>Measure</dt><dd><span class="num" style="font-size:1.1rem" data-inside-dose="{d["n"]}">0</span> <span class="small muted">{d["unit"]}</span></dd></div></dl>
-  <div class="inside-bar"><i data-inside-bar="{d["bar"]}"></i></div>
+  <dl class="spec" style="margin-top:20px">{"".join(f'<div><dt>{k}</dt><dd>{v}</dd></div>' for k, v in d["rows"])}</dl>
+  <div class="inside-measure"><dl class="spec"><div><dt>Measure</dt><dd><span class="num" style="font-size:1.1rem" data-inside-dose="{d["n"]}">0</span> <span class="small muted">{d["unit"]}</span></dd></div></dl><div class="inside-bar"><i data-inside-bar="{d["bar"]}"></i></div></div>
   <p class="inside-point"><span aria-hidden="true">+</span>{d["point"]}</p>
   <a class="btn btn--tan inside-cta" href="{d["href"]}">{d["cta"]} {I["arrow"]}</a>
 </div>''' for i, d in enumerate(inside))
@@ -152,7 +152,7 @@ def render(ctx):
 .rp-name, .inside-name { font-family: var(--font-display); font-weight: 300; font-size: clamp(2.6rem, 2rem + 4vw, 5.6rem); line-height: 1; letter-spacing: -.02em; }
 .inside-name { font-family: var(--font-wordmark); font-weight: 700; font-size: clamp(1.6rem, 1rem + 1.8vw, 2.5rem); letter-spacing: -.01em; line-height: 1.05; overflow-wrap: normal; word-break: keep-all; hyphens: none; }
 .inside-kicker { text-align: center; color: rgba(239,237,230,.7); }
-.inside-lead { margin: 14px auto 0; max-width: 46ch; text-align: center; color: rgba(239,237,230,.82); font-size: clamp(.9375rem, .9rem + .25vw, 1.0625rem); line-height: 1.55; }
+.inside-lead { margin: 0 auto; max-width: none; text-align: center; color: rgba(239,237,230,.78); font-size: .9375rem; line-height: 1.5; }
 .on-ink .btn--tan { background: var(--accent-deep); border-color: var(--accent-deep); color: var(--bone); }
 .on-ink .btn--tan:hover { background: var(--accent); border-color: var(--accent); color: var(--ink); }
 .rp-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
@@ -319,9 +319,9 @@ def render(ctx):
 
 /* ---- 03 inside (dark, pinned) ---- */
 .inside { position: relative; background: var(--ink); color: var(--bone); overflow: hidden; }
-.inside-pin { min-height: 100vh; display: flex; flex-direction: column; padding: calc(var(--nav-h) + 12px) var(--gutter) 32px; }
-.inside-head { text-align: center; display: grid; justify-items: center; gap: 14px; }
-.inside-title { font-family: var(--font-wordmark); font-weight: 700; font-size: clamp(2rem, 1.4rem + 2.4vw, 3.6rem); line-height: 1.02; letter-spacing: -.01em; color: var(--accent); opacity: 0; }
+.inside-pin { height: 100svh; min-height: 0; display: flex; flex-direction: column; padding: calc(var(--nav-h) + 8px) var(--gutter) 16px; overflow: hidden; }
+.inside-head { text-align: center; display: grid; justify-items: center; gap: 8px; }
+.inside-title { font-family: var(--font-display); font-weight: 300; font-size: clamp(1.8rem, 1.2rem + 2vw, 3.2rem); line-height: 1.04; letter-spacing: -.012em; color: var(--bone); opacity: 0; white-space: nowrap; }
 .inside-pills { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
 .inside .pill { border-color: rgba(239,237,230,.35); color: var(--bone); opacity: .65; }
 .inside .pill[aria-pressed="true"] { background: var(--bone); color: var(--ink); border-color: var(--bone); opacity: 1; }
@@ -329,19 +329,21 @@ def render(ctx):
 .inside-left { min-width: 0; }
 .inside-sci { margin-top: 14px; display: flex; align-items: center; gap: 14px; color: rgba(239,237,230,.6); }
 .inside-sci svg { width: 44px; height: 44px; flex: none; }
-.inside-stage { position: relative; display: grid; place-items: center; min-height: 52vh; }
+.inside-stage { position: relative; display: grid; place-items: center; min-height: 0; align-self: stretch; }
 .inside-halo { position: absolute; inset: 0; margin: auto; width: 46vh; height: 46vh; transform: scale(1.6); border-radius: 50%; background: #D9B07A; opacity: .5; filter: blur(60px); pointer-events: none; }
-.inside-float { position: relative; z-index: 1; width: min(44vh, 30vw); aspect-ratio: 1; display: grid; place-items: center; pointer-events: none; }
+.inside-float { position: relative; z-index: 1; width: min(40vh, 28vw); aspect-ratio: 1; display: grid; place-items: center; pointer-events: none; }
 .inside-pills { position: relative; z-index: 2; }
 .inside-float img { position: absolute; width: 100%; height: auto; max-height: 100%; object-fit: contain; filter: drop-shadow(0 40px 60px rgba(0,0,0,.5)); }
 .inside-right { max-width: 420px; justify-self: end; width: 100%; }
+.inside-right .spec > div { padding: 8px 0; }
+@media (max-height: 820px) { .inside-measure, .inside-foot { display: none; } .inside-desc { margin-top: 10px; font-size: .9375rem; } .inside-point { margin-top: 12px; padding-top: 10px; } .inside-cta { margin-top: 12px; min-height: 44px; } .inside-float { width: min(34vh, 26vw); } .inside-pills .pill { min-height: 34px; } }
 .inside-desc { margin-top: 14px; color: rgba(239,237,230,.8); max-width: 40ch; }
 .inside-bar { height: 1px; background: rgba(239,237,230,.15); margin-top: 10px; }
 .inside-point { margin-top: 18px; padding-top: 14px; border-top: 1px solid rgba(239,237,230,.15); font-size: .9375rem; color: var(--bone); display: flex; gap: 10px; align-items: baseline; }
 .inside-point span { color: var(--accent); font-weight: 500; }
 .inside-cta { margin-top: 18px; width: 100%; justify-content: center; }
 .inside-bar i { display: block; height: 100%; width: 100%; background: var(--accent); transform-origin: left; transform: scaleX(0); }
-.inside-foot { text-align: center; font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: rgba(239,237,230,.5); padding-top: 24px; }
+.inside-foot { text-align: center; font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: rgba(239,237,230,.5); padding-top: 12px; }
 /* mobile deck */
 .inside-mobile { padding: var(--section-sm) 0 56px; }
 .inside-mobile .mstage { position: relative; height: 46vw; display: grid; place-items: center; margin: 8px 0 20px; }
@@ -539,7 +541,7 @@ def render(ctx):
 
 <section id="inside" class="inside on-ink" aria-labelledby="inside-title">
   <div class="inside-pin desk-only" data-inside-pin>
-    <div class="inside-head"><p class="label inside-kicker">Your hide. Our bench.</p><h2 class="inside-title" id="inside-title" data-inside-title>Two lines. One<br>great finish.</h2><p class="inside-lead">Every piece is cut from full hides by local artisans and saddle stitched by hand. Pick the line, then the cut.</p><div class="inside-pills">{pills}</div></div>
+    <div class="inside-head"><p class="label inside-kicker">Your hide. Our bench.</p><h2 class="inside-title" id="inside-title" data-inside-title>Two lines. One great finish.</h2><p class="inside-lead">Every piece is cut from full hides by local artisans and saddle stitched by hand. Pick the line, then the cut.</p><div class="inside-pills">{pills}</div></div>
     <div class="inside-grid">
       <div class="inside-left">{lefts}</div>
       <div class="inside-stage" data-inside-stage><div class="inside-halo" data-inside-halo></div><div class="inside-float" data-inside-float>{inside_stack("src")}</div></div>
