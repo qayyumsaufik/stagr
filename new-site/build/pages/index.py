@@ -385,13 +385,13 @@ def render(ctx):
 .mstory-years button { color: inherit; }
 
 /* ---- 05 promise ---- */
-.promise { background: var(--ink); color: var(--bone); padding: var(--section-sm) 0; overflow: hidden; }
+.promise { background: var(--ink); color: var(--bone); padding: 0; overflow: hidden; }
 .promise-title { font-family: var(--font-wordmark); font-weight: 800; font-size: clamp(2.2rem, 1.6rem + 3vw, 4.4rem); letter-spacing: -.02em; text-transform: uppercase; line-height: .95; margin-top: 14px; }
 .pquotes { display: grid; gap: 32px; margin-top: 48px; }
 @media (min-width: 768px) { .pquotes { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; } }
 .pquote blockquote { font-size: clamp(1.1rem, 1rem + .6vw, 1.5rem); line-height: 1.35; color: rgba(239,237,230,.92); }
 .pquote figcaption { color: rgba(239,237,230,.5); }
-.press-marquee { margin-top: 64px; border-top: 1px solid rgba(239,237,230,.15); border-bottom: 1px solid rgba(239,237,230,.15); padding: 24px 0; will-change: transform; }
+.press-marquee { margin-top: 0; border-top: 1px solid rgba(239,237,230,.15); padding: 22px 0; will-change: transform; }
 .press-marquee .track > span { font-family: var(--font-display); font-weight: 300; font-size: clamp(1.6rem, 1.2rem + 2vw, 3rem); color: var(--bone); }
 .press-marquee .track .mq-dot { color: var(--accent); font-size: 1rem; }
 .press-marquee .track .outline { color: transparent; -webkit-text-stroke: 1px rgba(239,237,230,.6); }
@@ -564,6 +564,12 @@ def render(ctx):
   </div>
 </section>
 
+<section id="promise" class="promise on-ink" aria-label="Stagr in a line">
+  <div class="press-marquee" data-press-marquee aria-hidden="true">
+    <div class="marquee"><div class="track" data-press-row="solid">{mq_solid}</div></div>
+  </div>
+</section>
+
 <section id="more" class="more on-bone" aria-label="How it is made, bulk orders and the handwritten note">
   <div class="wrap bento">
     <a class="tile tile-main" href="about.html#craft" data-reveal aria-label="How it is made">
@@ -586,19 +592,7 @@ def render(ctx):
   </div>
 </section>
 
-<!-- range section hidden for now --><section id="promise" class="promise on-ink" aria-labelledby="promise-title">
-  <div class="wrap">
-    <div data-reveal><p class="label"><b style="color:var(--bone)">05</b><span class="slash">/</span>{B["about"]["valuesTitle"]}</p></div>
-    <h2 class="promise-title" id="promise-title" data-text-reveal="lines">Quietly made.</h2>
-    <div class="pquotes">{quotes}</div>
-  </div>
-  <div class="press-marquee" data-press-marquee aria-hidden="true">
-    <div class="marquee"><div class="track" data-press-row="solid">{mq_solid}</div></div>
-    <div class="marquee row2"><div class="track" data-press-row="outline">{mq_outline}</div></div>
-  </div>
-</section>
-
-<section id="story" class="story on-bone" aria-labelledby="story-title">
+<!-- range section hidden for now --><section id="story" class="story on-bone" aria-labelledby="story-title">
   <div class="story-pin desk-only" data-story-pin>
     <div class="story-intro" data-story-intro><p class="label"><b>06</b><span class="slash">/</span>Story</p><h2 class="h1" id="story-title" data-story-title>{B["about"]["headline"]}.</h2><p class="lead">{B["about"]["intro"]} {B["about"]["sections"][2]["body"].split(".")[0]}.</p><div class="scroll-hint" style="margin-top:36px" aria-hidden="true"><span class="t">Scroll</span></div></div>
     <div class="story-stage" data-story-stage>{ghosts}{figures}{spanels}<div class="story-years"><div class="story-progress" data-story-progress></div>{years}</div></div>
@@ -782,10 +776,9 @@ function initAnimations() {
   /* ================= 05 PROMISE ================= */
   function initPromise() {
     const section = $("#promise"); if (!section) return;
-    const marquee = $("[data-press-marquee]"), solid = $('[data-press-row="solid"]'), outline = $('[data-press-row="outline"]');
-    $$("[data-press-quote]").forEach((fig, i) => { const q = $("[data-quote-visual]", fig), cap = $("figcaption", fig); if (!reduced) window.SplitText.create(q, { type: "lines", mask: "lines", autoSplit: true, aria: "none", onSplit: (self) => G.fromTo(self.lines, { yPercent: 115 }, { yPercent: 0, duration: .85, ease: "power2.out", stagger: .09, delay: .12 * i, scrollTrigger: { trigger: fig, start: "top 85%", once: true } }) }); G.fromTo(cap, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: .6, delay: .45 + .12 * i, scrollTrigger: { trigger: fig, start: "top 85%", once: true } }); });
+    const marquee = $("[data-press-marquee]"), solid = $('[data-press-row="solid"]');
     if (reduced) return;
-    const rows = [G.to(solid, { xPercent: -50, duration: 38, ease: "none", repeat: -1 }), G.fromTo(outline, { xPercent: -50 }, { xPercent: 0, duration: 52, ease: "none", repeat: -1 })];
+    const rows = [G.to(solid, { xPercent: -50, duration: 38, ease: "none", repeat: -1 })];
     const state = { skew: 0 }, setSkew = G.quickSetter(marquee, "skewX", "deg"), limit = G.utils.clamp(-6, 6);
     ST.create({ trigger: section, start: "top bottom", end: "bottom top", onUpdate: (self) => { const v = self.getVelocity(), skew = limit(-(v / 420)); if (Math.abs(skew) > Math.abs(state.skew)) { state.skew = skew; G.to(state, { skew: 0, duration: .9, ease: "power2.out", overwrite: true, onUpdate: () => setSkew(state.skew) }); } const speed = G.utils.clamp(1, 4, 1 + Math.abs(v) / 1200); rows.forEach((r) => { G.to(r, { timeScale: speed, duration: .4, overwrite: "auto" }); G.to(r, { timeScale: 1, duration: 1.4, delay: .4, ease: "power2.out", overwrite: false }); }); } });
   }
@@ -804,7 +797,7 @@ function initAnimations() {
 
   /* ================= boot (top to bottom so pinned blocks measure in order) ================= */
   const startHero = initHero();
-  initScrollHint(); S.initReveals($("#hero")); S.initReveals($("#explore")); initShop(); S.initReveals($("#shop")); initInside(); S.initReveals($("#inside")); S.initReveals($("#more"));
+  initScrollHint(); S.initReveals($("#hero")); S.initReveals($("#explore")); initShop(); S.initReveals($("#shop")); initInside(); S.initReveals($("#inside")); initPromise(); S.initReveals($("#more"));
   (function initExplore() {
     const tabs = $$("[data-ex-tab]"), grids = $$("[data-ex-grid]"), all = $("[data-ex-all]"); if (!tabs.length) return;
     tabs.forEach((t) => t.addEventListener("click", () => {
@@ -817,7 +810,6 @@ function initAnimations() {
     }));
   })();
   if (isMobile) initRangeMobile(); else initRangeDesktop();
-  initPromise(); S.initReveals($("#promise"));
   if (isMobile) initStoryMobile(); else initStoryDesktop();
   S.initReveals($("#story")); S.initReveals($("#delivery-sec")); S.initReveals($("footer"));
   S.onLoaderDone.push(() => { startHero(); ST.refresh(); });
