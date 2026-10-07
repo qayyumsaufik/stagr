@@ -121,7 +121,28 @@ def render(ctx):
 
     # ---------------- 06 shop ----------------
     TAGS = ctx["tags"]
-    cards = "".join(ctx["scard"](ctx, p, i) for i, p in enumerate(P))
+    SW = ctx["swatch"]; BADGE = {"best": "Bestseller", "new": "New in", "gift": "Gift pick"}
+    heart = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-7.5-10A4.2 4.2 0 0 1 12 8.2a4.2 4.2 0 0 1 7.5 2.3c0 5.4-7.5 10-7.5 10z"/></svg>'
+    def ccard(p, i):
+        cuts = ctx["cutouts"](p); main = cuts[0]; same = [c for c in cuts if c["colour"] == main["colour"]]; alt = same[1] if len(same) > 1 else None
+        tags = TAGS.get(p["id"], []); fmt = lambda n: "Rs " + format(n, ",d")
+        off = round(100 - p["price"] / p["compareAtPrice"] * 100) if p.get("compareAtPrice") else 0
+        badges = (f'<span class="cc-badge cc-sale">Sale -{off}%</span>' if off else "") + (f'<span class="cc-badge cc-best">&#9733; Bestseller</span>' if "best" in tags else "") + (f'<span class="cc-badge cc-new">New in</span>' if "new" in tags and "best" not in tags else "")
+        swatches = "".join(f'<label class="cc-sw" title="{c}"><input type="radio" name="h-{p["id"]}" value="{c}" {"checked" if c == p["defaultColour"] else ""}><i style="--sw:{SW.get(c, "#6E4328")}"></i><span class="sr-only">{c}</span></label>' for c in p["colours"])
+        meta = " / ".join(p["colours"]) + (" <i>·</i> Sizes 30 to 44" if p["line"] == "belt" else "")
+        return f'''
+<article class="ccard{" has-alt" if alt else ""}" data-product="{p["id"]}" data-tags="{" ".join(tags)}" data-line="{p["line"]}" data-style="{p["style"] or "Belt"}" data-colours="{",".join(p["colours"])}" data-price="{p["price"]}" data-index="{i}" data-name="{p["name"]}">
+  <a class="cc-media" href="product-{p["id"]}.html" aria-label="{p["name"]}"><img class="main" src="{main["small"]}" alt="{p["name"]} in {main["colour"].lower()}" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="{(alt or main)["small"]}" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"><span class="cc-badges">{badges}</span></a>
+  <div class="cc-body">
+    <p class="cc-price"><b>{fmt(p["price"])}</b>{f'<s>{fmt(p["compareAtPrice"])}</s>' if p.get("compareAtPrice") else ""}</p>
+    <h3 class="cc-name"><a href="product-{p["id"]}.html">{p["name"]}</a></h3>
+    <p class="cc-meta">{meta}</p>
+    <div class="cc-opts opts" data-colour-opts>{swatches}</div>
+    <p class="cc-stock"><i></i>In stock</p>
+    <div class="cc-foot"><button type="button" class="cc-add" data-add="{p["id"]}" data-colour="{p["defaultColour"]}" {"data-size=34" if p["line"] == "belt" else ""}><span aria-hidden="true">+</span> Add to cart</button><button type="button" class="cc-wish" data-wish="{p["id"]}" aria-pressed="false" aria-label="Save {p["name"]}">{heart}</button></div>
+  </div>
+</article>'''
+    cards = "".join(ccard(p, i) for i, p in enumerate(P))
     trust = B["trust"]["items"]
 
     css = r'''
@@ -181,7 +202,7 @@ def render(ctx):
 /* ---- explore by category ---- */
 .explore { padding: clamp(40px, 6vw, 80px) 0 clamp(16px, 2vw, 24px); background: var(--bone); color: var(--ink); }
 .explore-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; margin-bottom: clamp(20px, 3vw, 32px); }
-.explore-title { font-family: var(--font-wordmark); font-weight: 600; font-size: clamp(1.9rem, 1.2rem + 2.2vw, 3rem); line-height: 1.02; letter-spacing: -.01em; }
+.explore-title { font-family: var(--font-display); font-weight: 300; font-size: clamp(2rem, 1.3rem + 2.8vw, 3.9rem); line-height: 1.06; letter-spacing: -.012em; }
 .explore-sub { margin-top: 12px; color: var(--fg-2); font-size: .9375rem; }
 .explore-right { display: flex; flex-direction: column; align-items: flex-end; gap: 16px; }
 .explore-tabs { display: inline-flex; padding: 4px; border-radius: 999px; background: rgba(26,27,29,.06); }
@@ -366,16 +387,53 @@ def render(ctx):
 .press-marquee .row2 { margin-top: 12px; }
 
 /* ---- 06 shop ---- */
-.shop-sec { background: var(--bone); color: var(--ink); padding: var(--section-sm) 0 var(--section); }
-.coll-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 20px 32px; margin-top: 12px; padding-bottom: 24px; border-bottom: 1px solid var(--line); }
+.shop-sec { background: var(--bone); color: var(--ink); padding: clamp(32px, 5vw, 64px) 0 clamp(16px, 2vw, 24px); }
+.coll-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 20px 32px; margin-bottom: clamp(20px, 3vw, 28px); }
 .coll-tabs { display: flex; flex-wrap: wrap; gap: 8px; }
-.ctab { min-height: 44px; padding: 0 20px; border: 1px solid var(--line-strong); font-size: .75rem; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; color: var(--fg); transition: background-color .3s ease, color .3s ease, border-color .3s ease; }
-.ctab:hover { border-color: var(--fg); }
-.ctab[aria-selected="true"] { background: var(--ink); color: var(--bone); border-color: var(--ink); }
-.pcard.is-hidden { display: none; }
-.shop-grid { display: grid; gap: 16px; grid-template-columns: 1fr; margin-top: 32px; }
-@media (min-width: 640px) { .shop-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (min-width: 1024px) { .shop-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; } }
+.ctab { min-height: 38px; padding: 0 18px; border: 1px solid var(--line-strong); border-radius: 999px; background: #fff; font-size: .875rem; font-weight: 600; color: var(--ink); transition: background-color .3s ease, color .3s ease, border-color .3s ease, box-shadow .3s ease; box-shadow: 0 1px 2px rgba(26,27,29,.05); }
+.ctab:hover { border-color: var(--accent-deep); }
+.ctab[aria-selected="true"] { background: var(--accent-deep); color: var(--bone); border-color: var(--accent-deep); }
+/* catalogue cards */
+.cc-grid { display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 768px) { .cc-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; } }
+@media (min-width: 1200px) { .cc-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; } }
+.ccard { display: flex; flex-direction: column; background: #fff; border-radius: 16px; padding: 12px; box-shadow: 0 1px 2px rgba(26,27,29,.04), 0 10px 30px -18px rgba(26,27,29,.18); transition: transform .4s var(--ease-out), box-shadow .4s ease; }
+.ccard:hover { transform: translateY(-3px); box-shadow: 0 1px 2px rgba(26,27,29,.04), 0 24px 40px -20px rgba(26,27,29,.28); }
+.ccard.is-hidden { display: none; }
+.cc-media { position: relative; display: grid; place-items: center; aspect-ratio: 1; border-radius: 12px; background: #F3F1EC; overflow: hidden; }
+.cc-media img { position: relative; z-index: 1; width: 82%; height: auto; max-height: 86%; object-fit: contain; filter: drop-shadow(0 14px 18px rgba(26,27,29,.16)); transition: opacity .4s ease, transform .6s var(--ease-out); }
+.cc-media img.alt { position: absolute; inset: 0; margin: auto; opacity: 0; }
+.ccard.has-alt:hover .cc-media img.main { opacity: 0; }
+.ccard.has-alt:hover .cc-media img.alt { opacity: 1; }
+.cc-badges { position: absolute; left: 10px; top: 10px; z-index: 2; display: grid; gap: 6px; justify-items: start; }
+.cc-badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 4px; font-size: .6875rem; font-weight: 600; line-height: 1; }
+.cc-sale { background: #5A1E1A; color: var(--bone); }
+.cc-best { background: #D9A866; color: #3A2410; }
+.cc-new { background: var(--ink); color: var(--bone); }
+.cc-body { padding: 14px 6px 6px; display: grid; gap: 6px; }
+.cc-price { display: flex; align-items: baseline; gap: 8px; }
+.cc-price b { font-weight: 700; font-size: 1.1rem; color: var(--accent-deep); }
+.cc-price s { font-size: .75rem; color: var(--fg-2); }
+.cc-name { font-size: 1rem; font-weight: 600; line-height: 1.3; }
+.cc-name a { color: var(--ink); }
+.cc-meta { font-size: .75rem; color: var(--fg-2); }
+.cc-meta i { font-style: normal; margin: 0 4px; opacity: .6; }
+.cc-opts { gap: 6px; }
+.cc-sw { position: relative; width: 22px; height: 22px; border-radius: 50%; border: 1px solid transparent; display: grid; place-items: center; cursor: pointer; }
+.cc-sw input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+.cc-sw i { width: 14px; height: 14px; border-radius: 50%; background: var(--sw); box-shadow: inset 0 0 0 1px rgba(0,0,0,.18); }
+.cc-sw:has(input:checked) { border-color: var(--ink); }
+.cc-stock { display: inline-flex; align-items: center; gap: 6px; font-size: .75rem; font-weight: 500; color: #1F7A3A; }
+.cc-stock i { width: 6px; height: 6px; border-radius: 50%; background: #1F7A3A; }
+.cc-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 8px; }
+.cc-add { min-height: 40px; padding: 0 16px; border-radius: 999px; background: var(--accent-deep); color: var(--bone); font-size: .875rem; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; transition: background-color .3s ease, color .3s ease; }
+.cc-add:hover { background: var(--ink); }
+.cc-wish { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line-strong); display: grid; place-items: center; color: var(--fg-2); background: #fff; transition: color .3s ease, border-color .3s ease; }
+.cc-wish svg { width: 16px; height: 16px; }
+.cc-wish:hover { color: var(--ink); border-color: var(--ink); }
+.cc-wish[aria-pressed="true"] { color: var(--accent-deep); border-color: var(--accent-deep); }
+.cc-wish[aria-pressed="true"] svg { fill: currentColor; }
+@media (max-width: 767px) { .ccard { padding: 8px; border-radius: 12px; } .cc-body { padding: 10px 4px 4px; } .cc-name { font-size: .875rem; } .cc-price b, .cc-price s, .cc-add { white-space: nowrap; } .cc-price b { font-size: 1rem; } .cc-add { padding: 0 10px; font-size: .75rem; min-height: 36px; } .cc-wish { width: 32px; height: 32px; flex: 0 0 auto; } }
 .delivery { display: grid; gap: 28px; margin-top: var(--section-sm); padding-top: 40px; border-top: 1px solid var(--line); }
 @media (min-width: 768px) { .delivery { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .delivery h3 { font-family: var(--font-display); font-weight: 300; font-size: 1.5rem; }
@@ -456,6 +514,22 @@ def render(ctx):
   </div>
 </section>
 
+<section id="shop" class="shop-sec on-bone" aria-labelledby="shop-title">
+  <div class="wrap">
+    <div class="coll-head">
+      <div><h2 class="explore-title" id="shop-title" data-reveal>The collection</h2><p class="explore-sub" data-reveal data-delay=".1">Cash on delivery, 3 to 5 working days anywhere in Pakistan.</p></div>
+      <div class="coll-tabs" role="tablist" aria-label="Filter the collection" data-reveal data-delay=".15">
+        <button type="button" class="ctab" role="tab" aria-selected="true" data-tab="new">New in</button>
+        <button type="button" class="ctab" role="tab" aria-selected="false" data-tab="best">Bestsellers</button>
+        <button type="button" class="ctab" role="tab" aria-selected="false" data-tab="gift">Gifting</button>
+        <button type="button" class="ctab" role="tab" aria-selected="false" data-tab="under">Under Rs 2,000</button>
+        <button type="button" class="ctab" role="tab" aria-selected="false" data-tab="all">All</button>
+      </div>
+    </div>
+    <div class="cc-grid" data-shop-grid>{cards}</div>
+    <p class="small muted" style="margin-top:20px"><span data-shop-count></span> shown · <a class="link" href="shop.html">View all pieces</a></p>
+</section>
+
 <section id="more" class="more on-bone" aria-label="How it is made, bulk orders and the handwritten note">
   <div class="wrap bento">
     <a class="tile tile-main" href="about.html#craft" data-reveal aria-label="How it is made">
@@ -517,26 +591,6 @@ def render(ctx):
   </div>
 </section>
 
-<section id="shop" class="shop-sec on-bone" aria-labelledby="shop-title">
-  <div class="wrap">
-    <div data-reveal><p class="label"><b>04</b><span class="slash">/</span>Shop</p></div>
-    <div class="coll-head">
-      <h2 class="h2" id="shop-title" data-text-reveal="lines">The collection</h2>
-      <div class="coll-tabs" role="tablist" aria-label="Filter the collection" data-reveal data-delay=".15">
-        <button type="button" class="ctab" role="tab" aria-selected="true" data-tab="new">New in</button>
-        <button type="button" class="ctab" role="tab" aria-selected="false" data-tab="best">Bestsellers</button>
-        <button type="button" class="ctab" role="tab" aria-selected="false" data-tab="gift">Gifting</button>
-        <button type="button" class="ctab" role="tab" aria-selected="false" data-tab="under">Under Rs 2,000</button>
-        <button type="button" class="ctab" role="tab" aria-selected="false" data-tab="all">All</button>
-      </div>
-    </div>
-    <div class="sh-grid" data-shop-grid style="margin-top:32px">{cards}</div>
-    <p class="small muted" style="margin-top:24px"><span data-shop-count></span> · Cash on delivery, 3 to 5 working days anywhere in Pakistan.</p>
-    <div class="or-row" id="delivery"><span class="shop-rule" data-shop-rule style="transform-origin:right"></span><span class="label">How it reaches you</span><span class="shop-rule" data-shop-rule style="transform-origin:left"></span></div>
-    <div class="delivery">{"".join(f'<div data-reveal data-delay="{i * .1}"><h3>{t["title"]}</h3><p>{t["sub"]}</p></div>' for i, t in enumerate(trust))}</div>
-  </div>
-</section>
-
 <section id="promise" class="promise on-ink" aria-labelledby="promise-title">
   <div class="wrap">
     <div data-reveal><p class="label"><b style="color:var(--bone)">05</b><span class="slash">/</span>{B["about"]["valuesTitle"]}</p></div>
@@ -567,6 +621,11 @@ def render(ctx):
     </div>
   </div>
 </section>
+
+<section id="delivery-sec" class="on-bone" aria-label="How it reaches you" style="padding-bottom:var(--section-sm)"><div class="wrap"><div class="or-row" id="delivery"><span class="shop-rule" data-shop-rule style="transform-origin:right"></span><span class="label">How it reaches you</span><span class="shop-rule" data-shop-rule style="transform-origin:left"></span></div>
+    <div class="delivery">{"".join(f'<div data-reveal data-delay="{i * .1}"><h3>{t["title"]}</h3><p>{t["sub"]}</p></div>' for i, t in enumerate(trust))}</div>
+  </div>
+</div></section>
 '''
 
     js = r'''
@@ -742,7 +801,7 @@ function initAnimations() {
 
   /* ================= boot (top to bottom so pinned blocks measure in order) ================= */
   const startHero = initHero();
-  initScrollHint(); S.initReveals($("#hero")); S.initReveals($("#explore")); S.initReveals($("#more"));
+  initScrollHint(); S.initReveals($("#hero")); S.initReveals($("#explore")); initShop(); S.initReveals($("#shop")); S.initReveals($("#more"));
   (function initExplore() {
     const tabs = $$("[data-ex-tab]"), grids = $$("[data-ex-grid]"), all = $("[data-ex-all]"); if (!tabs.length) return;
     tabs.forEach((t) => t.addEventListener("click", () => {
@@ -757,10 +816,9 @@ function initAnimations() {
   if (isMobile) initRangeMobile(); else initRangeDesktop();
   S.initReveals($("#range"));
   initInside();
-  initShop(); S.initReveals($("#shop"));
   initPromise(); S.initReveals($("#promise"));
   if (isMobile) initStoryMobile(); else initStoryDesktop();
-  S.initReveals($("#story")); S.initReveals($("footer"));
+  S.initReveals($("#story")); S.initReveals($("#delivery-sec")); S.initReveals($("footer"));
   S.onLoaderDone.push(() => { startHero(); ST.refresh(); });
 }
 STAGR.onReady.push(initAnimations);

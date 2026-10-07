@@ -275,6 +275,14 @@
     G.to(main, { opacity: 0, scale: .96, duration: .18, ease: "power2.in", overwrite: true, onComplete: () => { swap(); const show = () => G.fromTo(main, { opacity: 0, scale: .96 }, { opacity: 1, scale: 1, duration: .35, ease: "power2.out", overwrite: true, clearProps: "opacity,transform,scale" }); if (main.complete && main.naturalWidth) show(); else { main.onload = () => { main.onload = null; show(); }; } } });
   })); }); };
 
+  /* ---------------- wishlist hearts (kept in this browser) ---------------- */
+  function initWish() {
+    const KEY = "stagr-wishlist"; let wish = []; try { wish = JSON.parse(localStorage.getItem(KEY) || "[]"); } catch (e) {}
+    const paint = () => $$("[data-wish]").forEach((b) => b.setAttribute("aria-pressed", String(wish.indexOf(b.dataset.wish) >= 0)));
+    document.addEventListener("click", (e) => { const b = e.target.closest("[data-wish]"); if (!b) return; e.preventDefault(); const id = b.dataset.wish, i = wish.indexOf(id); if (i >= 0) wish.splice(i, 1); else wish.push(id); try { localStorage.setItem(KEY, JSON.stringify(wish)); } catch (x) {} paint(); if (G && !reduced) G.fromTo(b, { scale: .8 }, { scale: 1, duration: .45, ease: "back.out(3)", clearProps: "transform" }); S.toast && S.toast(i >= 0 ? "Removed from saved" : "Saved for later"); });
+    paint();
+  }
+
   /* ---------------- grid filter swap: fade out, reorder, fade in (no layout tricks) ---------------- */
   S.swapGrid = (grid, mutate) => {
     const visible = $$("[data-product]", grid).filter((c) => !c.classList.contains("is-hidden"));
@@ -335,7 +343,7 @@
     $$("[data-qv-close]").forEach((b) => b.addEventListener("click", closeQv));
   }
 
-    initNav(); initQuickView(); S.initCards(document); S.initRails(document); initCursor(); initCart(); initForms(); initFade(); S.initBlooms(); S.magnetic(document);
+    initNav(); initQuickView(); initWish(); S.initCards(document); S.initRails(document); initCursor(); initCart(); initForms(); initFade(); S.initBlooms(); S.magnetic(document);
     S.onReady.forEach((f) => { try { f(); } catch (e) { console.error(e); } });
     if (ST) { ST.sort(); ST.refresh(); window.addEventListener("load", () => ST.refresh()); }
     initLoader(() => { S.onLoaderDone.forEach((f) => { try { f(); } catch (e) { console.error(e); } }); ST && ST.refresh(); const h = location.hash; if (h && h !== "#top" && $(h)) setTimeout(() => S.scrollTo(h), 900); });
