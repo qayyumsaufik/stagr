@@ -136,33 +136,36 @@ def render(ctx):
 
 /* ---- 01 hero: belts left, wallets right, the words on the seam, bulk band beneath ---- */
 .hero { position: relative; background: var(--ink); color: var(--bone); padding-top: var(--nav-h); }
-.split { position: relative; display: grid; grid-template-columns: 1fr 1fr; height: calc(100svh - var(--nav-h) - 76px); min-height: 560px; max-height: 900px; }
-.half { position: relative; display: block; overflow: hidden; color: var(--bone); }
-.half + .half { border-left: 1px solid rgba(239,237,230,.28); }
-.half img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1.04); transition: transform 1.2s var(--ease-out); will-change: transform; }
-.half-belts img { object-position: 50% 50%; }
-.half-wallets img { object-position: 55% 55%; }
-.half:hover img { transform: scale(1.08); }
-.half::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(26,27,29,.35) 0%, rgba(26,27,29,0) 35%, rgba(26,27,29,0) 60%, rgba(26,27,29,.7) 100%); pointer-events: none; }
-.half-foot { position: absolute; left: clamp(20px, 2.4vw, 36px); right: clamp(20px, 2.4vw, 36px); bottom: clamp(20px, 2.6vw, 36px); z-index: 2; display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; }
-.half-title { font-family: var(--font-display); font-weight: 300; font-size: clamp(1.8rem, 1.2rem + 1.6vw, 2.8rem); line-height: 1; text-shadow: 0 2px 18px rgba(0,0,0,.4); }
-.half-meta { margin-top: 8px; font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: rgba(239,237,230,.78); }
-.half-meta span { margin: 0 6px; opacity: .6; }
-.half-arrow { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(239,237,230,.5); display: grid; place-items: center; background: rgba(26,27,29,.25); backdrop-filter: blur(6px); transition: background-color .3s ease, color .3s ease, border-color .3s ease, transform .4s var(--ease-out); }
-.half-arrow svg { width: 16px; height: 16px; }
-.half:hover .half-arrow { background: var(--bone); color: var(--ink); border-color: var(--bone); transform: translateX(3px); }
-.hero-centre { position: absolute; left: 50%; top: 50%; z-index: 3; transform: translate(-50%, -52%); width: min(560px, 80vw); text-align: center; pointer-events: none; }
-.hero-centre::before { content: ""; position: absolute; inset: -20% -30%; background: radial-gradient(ellipse at center, rgba(26,27,29,.55) 0%, rgba(26,27,29,.25) 45%, rgba(26,27,29,0) 72%); z-index: -1; }
-.hero-centre > * { pointer-events: auto; }
+.slider { position: relative; height: calc(100svh - var(--nav-h) - 76px); min-height: 560px; max-height: 900px; overflow: hidden; }
+.slide { position: absolute; inset: 0; display: flex; align-items: flex-end; opacity: 0; visibility: hidden; }
+.slide.is-on { opacity: 1; visibility: visible; }
+.slide img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 55%; transform: scale(1.04); will-change: transform; }
+.slide::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(26,27,29,.3) 0%, rgba(26,27,29,0) 30%, rgba(26,27,29,0) 45%, rgba(26,27,29,.78) 100%), linear-gradient(90deg, rgba(26,27,29,.5) 0%, rgba(26,27,29,0) 60%); pointer-events: none; }
+.slide-copy { position: relative; z-index: 2; width: 100%; padding-bottom: clamp(84px, 11vh, 120px); max-width: none; }
+.slide-copy > * { max-width: 620px; }
 .hero-kicker { font-size: .6875rem; letter-spacing: .3em; text-transform: uppercase; color: rgba(239,237,230,.8); }
+.hero-kicker span { margin: 0 6px; opacity: .6; }
 .hero-h1 { margin-top: 14px; font-family: var(--font-display); font-weight: 300; font-size: clamp(2.6rem, 1.4rem + 4.2vw, 5.6rem); line-height: .98; letter-spacing: -.01em; text-shadow: 0 2px 30px rgba(0,0,0,.45); }
 .hero-h1 .serif-i { font-family: var(--font-display); font-style: italic; }
-.hero-sub { margin: 18px auto 0; max-width: 40ch; font-size: clamp(.9375rem, .9rem + .25vw, 1.0625rem); line-height: 1.55; color: rgba(239,237,230,.88); text-shadow: 0 1px 14px rgba(0,0,0,.45); }
-.hero-ctas { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+.hero-sub { margin-top: 18px; max-width: 44ch; font-size: clamp(.9375rem, .9rem + .25vw, 1.0625rem); line-height: 1.55; color: rgba(239,237,230,.88); text-shadow: 0 1px 14px rgba(0,0,0,.45); }
+.hero-ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
 .btn--tan { background: var(--accent-deep); border-color: var(--accent-deep); color: var(--bone); }
 .btn--tan:hover { background: var(--accent); border-color: var(--accent); color: var(--ink); }
 .hero .btn--ghost { color: var(--bone); border-color: rgba(239,237,230,.55); background: rgba(26,27,29,.2); backdrop-filter: blur(6px); }
 .hero .btn--ghost:hover { background: var(--bone); color: var(--ink); }
+.slider-ui { position: absolute; left: 0; right: 0; bottom: clamp(22px, 3vh, 36px); z-index: 3; display: flex; justify-content: space-between; align-items: center; gap: 16px; pointer-events: none; }
+.slider-ui > * { pointer-events: auto; }
+.slider-dots { display: flex; gap: 10px; }
+.slider-dots button { width: 56px; height: 20px; display: grid; align-items: center; }
+.slider-dots i { display: block; height: 2px; background: rgba(239,237,230,.35); position: relative; overflow: hidden; }
+.slider-dots i::after { content: ""; position: absolute; inset: 0; background: var(--bone); transform: scaleX(var(--p, 0)); transform-origin: left; }
+.slider-dots button[aria-selected="true"] i { background: rgba(239,237,230,.35); }
+.slider-nav { display: flex; align-items: center; gap: 10px; }
+.slider-count { font-size: .75rem; letter-spacing: .2em; color: rgba(239,237,230,.75); margin-right: 8px; font-variant-numeric: tabular-nums; }
+.slider-count b { font-weight: 500; color: var(--bone); }
+.half-arrow { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(239,237,230,.5); display: grid; place-items: center; color: var(--bone); background: rgba(26,27,29,.25); backdrop-filter: blur(6px); transition: background-color .3s ease, color .3s ease, border-color .3s ease; }
+.half-arrow svg { width: 16px; height: 16px; }
+.half-arrow:hover { background: var(--bone); color: var(--ink); border-color: var(--bone); }
 /* bulk-order band */
 .bulk-band { position: relative; background: var(--accent-deep); color: var(--bone); overflow: hidden; }
 .bulk-band::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: clamp(60px, 7vw, 110px); background: var(--accent); clip-path: polygon(0 0, 100% 0, 55% 100%, 0 100%); opacity: .9; }
@@ -210,11 +213,13 @@ def render(ctx):
   .tile-side { aspect-ratio: 4 / 5; }
 }
 @media (max-width: 767px) {
-  .split { grid-template-columns: 1fr; height: auto; min-height: 0; max-height: none; }
-  .hero-centre { position: relative; order: -1; left: auto; top: auto; transform: none; width: auto; padding: 44px var(--gutter) 28px; }
-  .hero-centre::before { display: none; }
-  .half { aspect-ratio: 16 / 10; }
-  .half + .half { border-left: 0; border-top: 1px solid rgba(239,237,230,.28); }
+  .slider { height: calc(100svh - var(--nav-h)); min-height: 520px; max-height: 760px; }
+  .slide img { object-position: 50% 40%; }
+  .slide::after { background: linear-gradient(180deg, rgba(26,27,29,.35) 0%, rgba(26,27,29,.05) 28%, rgba(26,27,29,.15) 48%, rgba(26,27,29,.86) 100%); }
+  .slide-copy { padding-bottom: 92px; }
+  .hero-ctas .btn { flex: 1 1 auto; justify-content: center; }
+  .slider-ui { bottom: 22px; }
+  .slider-count { display: none; }
   .half-arrow { width: 40px; height: 40px; }
   .bulk-inner { flex-wrap: wrap; padding-top: 16px; padding-bottom: 16px; }
   .bulk-icon { margin-left: 0; }
@@ -368,20 +373,28 @@ def render(ctx):
                 f'<img class="p-wallet" src="{w[size]}" alt="{a}" width="900" height="900" draggable="false" decoding="async"></div>')
     body = f'''
 <section id="hero" class="hero on-ink" aria-label="Introduction">
-  <div class="split">
-    <a class="half half-belts" href="belts.html" data-half aria-label="Shop belts">
-      <img data-half-img src="assets/hero/hero-belts-1600.jpg" srcset="assets/hero/hero-belts-900.jpg 900w, assets/hero/hero-belts-1600.jpg 1600w, assets/hero/hero-belts-2400.jpg 2400w" sizes="(min-width: 768px) 50vw, 100vw" alt="Four Stagr belts laid on a walnut bench" width="2400" height="1600" fetchpriority="high" decoding="async">
-      <div class="half-foot"><div><h2 class="half-title" data-half-item>Belts<span class="dotc">.</span></h2><p class="half-meta" data-half-item>{n_belts} pieces <span aria-hidden="true">·</span> from {fmt(min_belt)}</p></div><span class="half-arrow" data-half-item>{I["arrow"]}</span></div>
-    </a>
-    <a class="half half-wallets" href="wallets.html" data-half aria-label="Shop wallets">
-      <img data-half-img src="assets/hero/hero-wallets-800.jpg" srcset="assets/hero/hero-wallets-800.jpg 800w, assets/hero/hero-wallets.jpg 1500w" sizes="(min-width: 768px) 50vw, 100vw" alt="Three Stagr wallets under a warm light" width="1500" height="1100" fetchpriority="high" decoding="async">
-      <div class="half-foot"><div><h2 class="half-title" data-half-item>Wallets<span class="dotc">.</span></h2><p class="half-meta" data-half-item>{n_wallets} pieces <span aria-hidden="true">·</span> from {fmt(min_wallet)}</p></div><span class="half-arrow" data-half-item>{I["arrow"]}</span></div>
-    </a>
-    <div class="hero-centre" data-hero-centre>
-      <p class="hero-kicker" data-hero-item>Nothing but leather</p>
-      <h1 class="hero-h1" data-hero-item><span class="serif-i">{B["hero"]["headline"][0]}</span><br>{B["hero"]["headline"][1]}</h1>
-      <p class="hero-sub" data-hero-item>Belts and wallets cut from full crazy horse hides and stitched by hand. Cash on delivery, anywhere in Pakistan.</p>
-      <div class="hero-ctas" data-hero-item><a class="btn btn--tan" href="belts.html">Shop belts</a><a class="btn btn--ghost" href="wallets.html">Shop wallets</a></div>
+  <div class="slider" data-slider aria-roledescription="carousel" aria-label="Belts and wallets">
+    <div class="slide is-on" data-slide="0" aria-roledescription="slide" aria-label="1 of 2">
+      <picture><source media="(max-width: 767px)" srcset="assets/hero/slide-belts-portrait.jpg"><img data-slide-img src="assets/hero/slide-belts-1600.jpg" srcset="assets/hero/slide-belts-900.jpg 900w, assets/hero/slide-belts-1600.jpg 1600w, assets/hero/slide-belts-2400.jpg 2400w" sizes="100vw" alt="Four Stagr belts laid on a walnut bench" width="2400" height="1474" fetchpriority="high" decoding="async"></picture>
+      <div class="wrap slide-copy">
+        <p class="hero-kicker" data-slide-item>Belts <span aria-hidden="true">·</span> {n_belts} pieces, from {fmt(min_belt)}</p>
+        <h1 class="hero-h1" data-slide-item><span class="serif-i">{B["hero"]["headline"][0]}</span><br>{B["hero"]["headline"][1]}</h1>
+        <p class="hero-sub" data-slide-item>Full-grain crazy horse, cut in one piece, with a solid buckle on a screw post. Sizes 30 to 44.</p>
+        <div class="hero-ctas" data-slide-item><a class="btn btn--tan" href="belts.html">Shop belts {I["arrow"]}</a><a class="btn btn--ghost" href="shop.html">Everything</a></div>
+      </div>
+    </div>
+    <div class="slide" data-slide="1" aria-roledescription="slide" aria-label="2 of 2" aria-hidden="true">
+      <picture><source media="(max-width: 767px)" srcset="assets/hero/slide-wallet-portrait.jpg"><img data-slide-img src="assets/hero/slide-wallet-1600.jpg" srcset="assets/hero/slide-wallet-900.jpg 900w, assets/hero/slide-wallet-1600.jpg 1600w, assets/hero/slide-wallet-2000.jpg 2000w" sizes="100vw" alt="A Stagr long wallet open beside its gift box and a tan belt" width="2000" height="1333" loading="lazy" decoding="async"></picture>
+      <div class="wrap slide-copy">
+        <p class="hero-kicker" data-slide-item>Wallets <span aria-hidden="true">·</span> {n_wallets} pieces, from {fmt(min_wallet)}</p>
+        <h2 class="hero-h1" data-slide-item><span class="serif-i">Folded, skived,</span><br>stitched by hand.</h2>
+        <p class="hero-sub" data-slide-item>Bifolds, trifolds and long wallets, boxed with a handwritten note. Cash on delivery across Pakistan.</p>
+        <div class="hero-ctas" data-slide-item><a class="btn btn--tan" href="wallets.html">Shop wallets {I["arrow"]}</a><a class="btn btn--ghost" href="shop.html">Everything</a></div>
+      </div>
+    </div>
+    <div class="wrap slider-ui">
+      <div class="slider-dots" role="tablist" aria-label="Choose slide"><button type="button" role="tab" aria-selected="true" data-slide-dot="0" aria-label="Belts"><i></i></button><button type="button" role="tab" aria-selected="false" data-slide-dot="1" aria-label="Wallets"><i></i></button></div>
+      <div class="slider-nav"><span class="slider-count"><b data-slide-n>01</b> / 02</span><button type="button" class="half-arrow" data-slide-prev aria-label="Previous slide" style="transform:scaleX(-1)">{I["arrow"]}</button><button type="button" class="half-arrow" data-slide-next aria-label="Next slide">{I["arrow"]}</button></div>
     </div>
   </div>
   <div class="bulk-band" data-bulk-band>
@@ -516,18 +529,35 @@ function initAnimations() {
   function initScrollHint() { const dot = $("[data-scroll-dot]"); if (!dot || !isRendered(dot)) return; if (reduced) { G.set(dot, { opacity: 1, y: 9 }); return; } G.timeline({ repeat: -1, repeatDelay: .5 }).set(dot, { y: 0, opacity: 0 }).to(dot, { opacity: 1, duration: .25 }).to(dot, { y: 19, duration: 1, ease: "power2.inOut" }, .1).to(dot, { opacity: 0, duration: .3, ease: "power1.in" }, .85); }
 
   function initHero() {
-    const halves = $$("[data-half]"), imgs = $$("[data-half-img]"), feet = $$("[data-half-item]"), items = $$("[data-hero-item]"), band = $("[data-bulk-band]");
-    if (reduced) return function start() {};
-    G.set(halves[0], { xPercent: -6, opacity: 0 }); G.set(halves[1], { xPercent: 6, opacity: 0 });
-    G.set([...items, ...feet], { y: 16, opacity: 0 }); if (band) G.set(band, { y: 24, opacity: 0 });
-    return function start() {
-      const tl = G.timeline({ defaults: { ease: "power3.out" } });
-      tl.to(halves, { xPercent: 0, opacity: 1, duration: 1.1, clearProps: "transform" }, 0)
-        .fromTo(imgs, { scale: 1.14 }, { scale: 1.04, duration: 2.4, ease: "power2.out", clearProps: "transform" }, 0)
-        .to(items, { y: 0, opacity: 1, duration: .7, stagger: .08, clearProps: "transform" }, .45)
-        .to(feet, { y: 0, opacity: 1, duration: .6, stagger: .05, clearProps: "transform" }, .8)
-        .to(band, { y: 0, opacity: 1, duration: .6, clearProps: "transform" }, .9);
+    const root = $("[data-slider]"), slides = $$("[data-slide]", root), dots = $$("[data-slide-dot]", root), count = $("[data-slide-n]", root), band = $("[data-bulk-band]");
+    const n = slides.length, HOLD = 6.5; let active = 0, busy = false, timer = null, started = false;
+    const items = (i) => $$("[data-slide-item]", slides[i]), img = (i) => $("[data-slide-img]", slides[i]);
+    const pad = (i) => String(i + 1).padStart(2, "0");
+    const paintDots = () => dots.forEach((d, i) => d.setAttribute("aria-selected", String(i === active)));
+    // the active dot fills up over the hold, then we move on
+    const arm = () => { clearTimeout(timer); dots.forEach((d) => $("i", d).style.setProperty("--p", 0)); if (reduced || document.hidden) return; const bar = $("i", dots[active]); G.fromTo(bar, { "--p": 0 }, { "--p": 1, duration: HOLD, ease: "none", overwrite: true }); timer = setTimeout(() => go(active + 1), HOLD * 1000); };
+    const enter = (i, delay) => { if (reduced) { G.set(items(i), { opacity: 1, y: 0 }); return; } G.fromTo(img(i), { scale: 1.12 }, { scale: 1.04, duration: 2.6, ease: "power2.out", overwrite: true, delay }); G.fromTo(items(i), { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: .7, ease: "power3.out", stagger: .08, delay: delay + .25, overwrite: true, clearProps: "transform" }); };
+    const go = (next, user) => {
+      next = (next + n) % n; if (next === active || busy) return; busy = true;
+      const from = slides[active], to = slides[next]; active = next; paintDots(); if (count) count.textContent = pad(next);
+      to.classList.add("is-on"); to.setAttribute("aria-hidden", "false"); from.setAttribute("aria-hidden", "true");
+      if (reduced) { from.classList.remove("is-on"); G.set(items(next), { opacity: 1 }); busy = false; arm(); return; }
+      G.set(to, { zIndex: 2 }); G.set(from, { zIndex: 1 });
+      G.fromTo(to, { opacity: 0 }, { opacity: 1, duration: 1, ease: "power2.inOut", onComplete: () => { from.classList.remove("is-on"); G.set([from, to], { clearProps: "zIndex,opacity" }); busy = false; } });
+      G.to($$("[data-slide-item]", from), { opacity: 0, y: -10, duration: .35, ease: "power2.in", overwrite: true });
+      enter(next, 0); arm();
     };
+    dots.forEach((d, i) => d.addEventListener("click", () => go(i, true)));
+    $("[data-slide-prev]", root).addEventListener("click", () => go(active - 1, true));
+    $("[data-slide-next]", root).addEventListener("click", () => go(active + 1, true));
+    root.addEventListener("keydown", (e) => { if (e.key === "ArrowRight") go(active + 1, true); if (e.key === "ArrowLeft") go(active - 1, true); });
+    root.addEventListener("pointerenter", () => clearTimeout(timer)); root.addEventListener("pointerleave", () => { if (started) arm(); });
+    document.addEventListener("visibilitychange", () => { if (!started) return; if (document.hidden) clearTimeout(timer); else arm(); });
+    // swipe
+    let sx = 0, sy = 0; root.addEventListener("touchstart", (e) => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+    root.addEventListener("touchend", (e) => { const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy; if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.5) go(active + (dx < 0 ? 1 : -1), true); }, { passive: true });
+    if (!reduced) { G.set(items(0), { opacity: 0 }); if (band) G.set(band, { y: 24, opacity: 0 }); }
+    return function start() { started = true; enter(0, 0); if (band && !reduced) G.to(band, { y: 0, opacity: 1, duration: .6, ease: "power3.out", delay: .6, clearProps: "transform" }); arm(); };
   }
 
   /* ================= 02 RANGE ================= */
