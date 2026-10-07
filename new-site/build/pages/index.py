@@ -121,24 +121,7 @@ def render(ctx):
     TAGS = {"kingsmann": ["new", "best"], "nova": ["new", "best"], "rodeo": ["new", "gift"], "maverick": ["new", "under"],
             "majestic": ["best"], "monarch": ["best", "gift"], "outlaw": ["best"], "upbuck": ["gift"], "regal": ["gift", "under"],
             "purefold": ["under", "gift"], "regent": ["new"]}
-    def pcard(p, i):
-        cuts = ctx["cutouts"](p)
-        main = cuts[0]; alt = cuts[1] if len(cuts) > 1 else cuts[0]
-        opts = "".join(f'<label class="opt"><input type="radio" name="c-{p["id"]}" value="{c}" {"checked" if c == p["defaultColour"] else ""}><span class="sw" style="--sw:{ctx["swatch"].get(c, "#6E4328")}"></span>{c}</label>' for c in p["colours"])
-        return f'''
-<article class="pcard" data-product="{p["id"]}" data-tags="{" ".join(TAGS.get(p["id"], []))}" data-reveal data-delay="{(i % 3) * 0.12}">
-  <div class="pcard-media"><div class="bloom" style="--bloom:{p.get("style") and ctx["bloom"].get(p["style"]) or "#C9B290"}" data-bloom></div><img class="main" src="{main["small"]}" alt="{p["name"]} in {main["colour"].lower()}" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="{alt["small"]}" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></div>
-  <div class="pcard-head"><span class="pcard-num">STAGR.{str(i + 1).zfill(2)}</span><span class="label">{p["style"] or "Belt"}</span></div>
-  <h3 class="pcard-name">{p["name"].split(" ")[0]}<span class="dotc">.</span></h3>
-  <p class="pcard-sub">{p["name"]}</p>
-  <p class="pcard-copy">{p["tagline"]}</p>
-  <div class="pcard-opts opts" data-colour-opts>{opts}</div>
-  <div class="pcard-foot">
-    <div class="pcard-price"><span><span class="num">{fmt(p["price"])}</span>{f'<s class="small muted" style="margin-left:.5em">{fmt(p["compareAtPrice"])}</s>' if p.get("compareAtPrice") else ""}</span><a class="pcard-link" href="product-{p["id"]}.html">View {I["arrow"]}</a></div>
-    <button type="button" class="btn btn--wide" data-add="{p["id"]}" data-colour="{p["defaultColour"]}" {"data-size=34" if p["line"] == "belt" else ""}>Add to cart</button>
-  </div>
-</article>'''
-    cards = "".join(pcard(p, i) for i, p in enumerate(P))
+    cards = "".join(ctx["pcard"](ctx, p, i, tags=" ".join(TAGS.get(p["id"], [])), quick=False, reveal=False) for i, p in enumerate(P))
     trust = B["trust"]["items"]
 
     css = r'''
@@ -629,7 +612,6 @@ function initAnimations() {
       ST.refresh();
     };
     tabs.forEach((t) => t.addEventListener("click", () => { tabs.forEach((x) => x.setAttribute("aria-selected", String(x === t))); apply(t.dataset.tab); }));
-    cards.forEach((c) => { c.removeAttribute("data-reveal"); G.set(c, { opacity: 1 }); c.classList.add("is-revealed"); });
     apply("new");
     $$("[data-product]").forEach((card) => { const btn = $("[data-add]", card); $$("[data-colour-opts] input", card).forEach((r) => r.addEventListener("change", () => { btn.dataset.colour = r.value; const p = S.product(card.dataset.product); const im = p.cutouts.find((c) => c.colour.toLowerCase() === r.value.toLowerCase()); if (im) { const main = $("img.main", card); G.fromTo(main, { opacity: 0 }, { opacity: 1, duration: .4 }); main.src = im.small; } })); });
   }
