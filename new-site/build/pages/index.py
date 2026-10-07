@@ -134,37 +134,47 @@ def render(ctx):
 .rp-copy { margin-top: 18px; max-width: 46ch; color: var(--fg-2); }
 .rp-spec { margin-top: 22px; max-width: 420px; }
 
-/* ---- 01 hero: full-bleed photo, copy bottom-left, note bottom-right ---- */
-.hero { position: relative; width: 100%; height: 100svh; min-height: 620px; overflow: hidden; background: var(--ink); color: var(--bone); display: flex; align-items: flex-end; }
-.hero-bg, .hero-bg img { position: absolute; inset: 0; width: 100%; height: 100%; }
-.hero-bg img { object-fit: cover; object-position: 50% 45%; transform: scale(1.08); will-change: transform; }
-.hero-shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(26,27,29,.42) 0%, rgba(26,27,29,0) 32%, rgba(26,27,29,0) 50%, rgba(26,27,29,.72) 100%), linear-gradient(90deg, rgba(26,27,29,.45) 0%, rgba(26,27,29,0) 55%); }
-.hero-grid { position: relative; z-index: 2; width: 100%; display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; padding-bottom: clamp(56px, 9vh, 104px); }
-.hero-copy { max-width: 620px; }
-.hero-kicker { font-size: .75rem; letter-spacing: .26em; text-transform: uppercase; color: rgba(239,237,230,.78); }
-.hero-h1 { margin-top: 16px; font-family: var(--font-wordmark); font-weight: 700; font-size: clamp(2.6rem, 1.2rem + 5.4vw, 6.2rem); line-height: .96; letter-spacing: .01em; text-transform: uppercase; }
-.hero-h1 .line, .hero-side-big .line { display: block; overflow: hidden; }
-.hero-h1 .line > span, .hero-side-big .line > span { display: inline-block; }
-.hero-sub { margin-top: 18px; max-width: 42ch; font-size: clamp(1rem, .95rem + .3vw, 1.2rem); line-height: 1.55; color: rgba(239,237,230,.82); }
-.hero-ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
-.hero-side { text-align: right; flex: 0 0 auto; }
-.hero-side-big { font-family: var(--font-wordmark); font-weight: 700; font-size: clamp(2rem, 1rem + 3.4vw, 4.2rem); line-height: .98; letter-spacing: .01em; text-transform: uppercase; }
-.hero-side-sub { margin-top: 12px; font-size: 1rem; color: rgba(239,237,230,.82); }
-.hero-meta { position: absolute; left: var(--gutter); bottom: 22px; z-index: 2; font-size: .6875rem; letter-spacing: .24em; text-transform: uppercase; color: rgba(239,237,230,.6); }
-.hero-meta span { margin: 0 8px; }
-.hero .btn--ghost { color: var(--bone); border-color: rgba(239,237,230,.5); }
-.hero .btn--ghost:hover { background: var(--bone); color: var(--ink); }
+/* ---- 01 hero: bento of four tiles under the nav ---- */
+.hero { position: relative; padding: calc(var(--nav-h) + 12px) 0 16px; background: var(--bone); color: var(--ink); }
+.bento { display: grid; gap: 14px; grid-template-columns: 1fr; }
+.tile { position: relative; display: block; overflow: hidden; border-radius: 14px; background: var(--ink); color: var(--bone); isolation: isolate; }
+.tile img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1.06); transition: transform 1.1s var(--ease-out); will-change: transform; }
+.tile::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(26,27,29,.5) 0%, rgba(26,27,29,.18) 36%, rgba(26,27,29,0) 60%); pointer-events: none; }
+.tile:hover img { transform: scale(1.1); }
+.tile-copy { position: absolute; z-index: 2; left: clamp(20px, 3vw, 44px); right: clamp(20px, 3vw, 44px); top: clamp(20px, 3vw, 44px); }
+.tile-kicker { font-size: .6875rem; letter-spacing: .24em; text-transform: uppercase; color: rgba(239,237,230,.82); }
+.tile-h1 { margin-top: 12px; font-family: var(--font-wordmark); font-weight: 700; font-size: clamp(1.75rem, .9rem + 2.4vw, 3.3rem); line-height: 1.02; letter-spacing: -.005em; text-shadow: 0 2px 24px rgba(26,27,29,.25); }
+.tile-sub { margin-top: 14px; max-width: 34ch; font-size: clamp(.9375rem, .9rem + .2vw, 1.0625rem); line-height: 1.5; color: rgba(239,237,230,.88); }
+.tile-h2 { font-family: var(--font-wordmark); font-weight: 700; font-size: clamp(1.6rem, 1rem + 1.8vw, 2.6rem); line-height: 1.05; text-shadow: 0 2px 20px rgba(26,27,29,.25); }
+.tile-link { display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; font-weight: 500; font-size: .9375rem; color: var(--bone); }
+.tile-link svg { width: 14px; height: 14px; transform: rotate(-45deg); transition: transform .4s var(--ease-out); }
+.tile:hover .tile-link svg { transform: rotate(-45deg) translate(2px, -2px); }
+.tile-main { aspect-ratio: 4 / 5; }
+.tile-wallets, .tile-belts { aspect-ratio: 1; }
+.tile-wide { aspect-ratio: 16 / 10; }
+.tile-main .tile-link { margin-top: 22px; }
 .pair img { position: absolute; height: auto; filter: drop-shadow(0 40px 60px rgba(0,0,0,.45)); }
 .pair .p-belt { left: -6%; top: 2%; width: 78%; transform: rotate(-8deg); }
 .pair .p-wallet { right: -4%; bottom: 4%; width: 72%; }
-@media (max-width: 1023px) { .hero-side { display: none; } }
-@media (max-width: 767px) {
-  .hero { min-height: 560px; }
-  .hero-bg img { object-position: 50% 40%; }
-  .hero-shade { background: linear-gradient(180deg, rgba(26,27,29,.5) 0%, rgba(26,27,29,.05) 30%, rgba(26,27,29,.1) 45%, rgba(26,27,29,.82) 100%); }
-  .hero-grid { padding-bottom: 84px; }
-  .hero-ctas .btn { flex: 1 1 auto; justify-content: center; }
-  .hero-meta { bottom: 18px; }
+@media (min-width: 640px) and (max-width: 1023px) {
+  .bento { grid-template-columns: 1fr 1fr; }
+  .tile-main { grid-column: 1 / -1; aspect-ratio: 16 / 9; }
+  .tile-wide { grid-column: 1 / -1; aspect-ratio: 21 / 9; }
+}
+@media (max-width: 639px) {
+  .bento { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .tile-main { grid-column: 1 / -1; aspect-ratio: 4 / 5; }
+  .tile-wide { grid-column: 1 / -1; aspect-ratio: 4 / 3; }
+  .tile-h2 { font-size: 1.35rem; }
+  .tile-link { font-size: .8125rem; }
+  .tile-wide .tile-link { max-width: 26ch; }
+}
+@media (min-width: 1024px) {
+  .hero { padding-bottom: 20px; }
+  .bento { grid-template-columns: 42fr 29fr 29fr; grid-template-rows: 47fr 53fr; gap: 16px; height: calc(100svh - var(--nav-h) - 32px); min-height: 640px; max-height: 960px; }
+  .tile { aspect-ratio: auto !important; }
+  .tile-main { grid-row: 1 / 3; }
+  .tile-wide { grid-column: 2 / 4; }
 }
 
 /* ---- 02 range (pinned on desktop) ---- */
@@ -300,25 +310,30 @@ def render(ctx):
         return (f'<div class="pair"><img class="p-belt" src="{bl[size]}" alt="" width="900" height="900" draggable="false" decoding="async">'
                 f'<img class="p-wallet" src="{w[size]}" alt="{a}" width="900" height="900" draggable="false" decoding="async"></div>')
     body = f'''
-<section id="hero" class="hero on-ink" aria-label="Introduction">
-  <picture class="hero-bg">
-    <source media="(max-width: 767px)" srcset="assets/hero/hero-belts-portrait.jpg">
-    <img data-hero-img src="assets/hero/hero-belts-1600.jpg" srcset="assets/hero/hero-belts-900.jpg 900w, assets/hero/hero-belts-1600.jpg 1600w, assets/hero/hero-belts-2400.jpg 2400w" sizes="100vw" alt="Four Stagr belts laid on a walnut bench" width="2400" height="1600" fetchpriority="high" decoding="async">
-  </picture>
-  <div class="hero-shade" aria-hidden="true"></div>
-  <div class="wrap hero-grid">
-    <div class="hero-copy">
-      <p class="hero-kicker" data-hero-item>{B["hero"]["eyebrow"]}</p>
-      <h1 class="hero-h1" data-hero-h1><span class="line">{B["hero"]["headline"][0]}</span><span class="line">{B["hero"]["headline"][1]}</span></h1>
-      <p class="hero-sub" data-hero-item>{B["hero"]["sub"]}</p>
-      <div class="hero-ctas" data-hero-item><a class="btn" href="wallets.html">Shop wallets {I["arrow"]}</a><a class="btn btn--ghost" href="belts.html">Shop belts {I["arrow"]}</a></div>
-    </div>
-    <div class="hero-side" data-hero-side>
-      <p class="hero-side-big"><span class="line">Cash on</span><span class="line">delivery</span></p>
-      <p class="hero-side-sub">Across Pakistan, 3 to 5 working days.</p>
-    </div>
+<section id="hero" class="hero on-bone" aria-label="Introduction">
+  <div class="wrap bento">
+    <a class="tile tile-main" href="shop.html" data-tile aria-label="Shop everything">
+      <img data-tile-img src="assets/hero/tile-main-800.jpg" srcset="assets/hero/tile-main-800.jpg 800w, assets/hero/tile-main.jpg 1400w" sizes="(min-width: 1024px) 42vw, 100vw" alt="A tan belt, a brown belt and a brown bifold wallet on a warm studio backdrop" width="1400" height="1750" fetchpriority="high" decoding="async">
+      <div class="tile-copy">
+        <p class="tile-kicker" data-tile-item>{B["origin"]} · Crazy horse leather</p>
+        <h1 class="tile-h1" data-tile-item>{B["hero"]["headline"][0]}<br>{B["hero"]["headline"][1]}</h1>
+        <p class="tile-sub" data-tile-item>{B["hero"]["sub"]}</p>
+        <span class="tile-link" data-tile-item>Shop everything {I["arrow"]}</span>
+      </div>
+    </a>
+    <a class="tile tile-wallets" href="wallets.html" data-tile aria-label="Shop the wallets">
+      <img data-tile-img src="assets/hero/tile-wallets-800.jpg" srcset="assets/hero/tile-wallets-800.jpg 800w, assets/hero/tile-wallets.jpg 1200w" sizes="(min-width: 1024px) 28vw, 50vw" alt="Three Stagr wallets on a sage backdrop" width="1200" height="1200" decoding="async">
+      <div class="tile-copy"><h2 class="tile-h2" data-tile-item>Wallets</h2><span class="tile-link" data-tile-item>Shop the wallets {I["arrow"]}</span></div>
+    </a>
+    <a class="tile tile-belts" href="belts.html" data-tile aria-label="Shop the belts">
+      <img data-tile-img src="assets/hero/tile-belts-800.jpg" srcset="assets/hero/tile-belts-800.jpg 800w, assets/hero/tile-belts.jpg 1200w" sizes="(min-width: 1024px) 28vw, 50vw" alt="Two coiled Stagr belts on a terracotta backdrop" width="1200" height="1200" decoding="async">
+      <div class="tile-copy"><h2 class="tile-h2" data-tile-item>Belts</h2><span class="tile-link" data-tile-item>Shop the belts {I["arrow"]}</span></div>
+    </a>
+    <a class="tile tile-wide" href="shop.html" data-tile aria-label="Shop everything, cash on delivery">
+      <img data-tile-img src="assets/lifestyle/kingsmen-flat-800.jpg" srcset="assets/lifestyle/kingsmen-flat-800.jpg 800w, assets/lifestyle/kingsmen-flat.jpg 1600w" sizes="(min-width: 1024px) 56vw, 100vw" alt="Two bifold wallets on a stone bench beside the tools that made them" width="1600" height="1067" decoding="async">
+      <div class="tile-copy"><h2 class="tile-h2" data-tile-item>Cash on delivery</h2><span class="tile-link" data-tile-item>Across Pakistan, 3 to 5 days · Shop everything {I["arrow"]}</span></div>
+    </a>
   </div>
-  <p class="hero-meta" data-hero-item>{B["origin"]} <span aria-hidden="true">·</span> 100% crazy horse leather</p>
 </section>
 
 <section id="range" class="range on-bone" aria-labelledby="range-title">
@@ -422,18 +437,14 @@ function initAnimations() {
   function initScrollHint() { const dot = $("[data-scroll-dot]"); if (!dot || !isRendered(dot)) return; if (reduced) { G.set(dot, { opacity: 1, y: 9 }); return; } G.timeline({ repeat: -1, repeatDelay: .5 }).set(dot, { y: 0, opacity: 0 }).to(dot, { opacity: 1, duration: .25 }).to(dot, { y: 19, duration: 1, ease: "power2.inOut" }, .1).to(dot, { opacity: 0, duration: .3, ease: "power1.in" }, .85); }
 
   function initHero() {
-    const hero = $("#hero"), img = $("[data-hero-img]", hero), items = $$("[data-hero-item]", hero), side = $("[data-hero-side]", hero);
-    const lines = $$(".hero-h1 .line, .hero-side-big .line", hero).map((l) => { const span = document.createElement("span"); span.textContent = l.textContent; l.textContent = ""; l.appendChild(span); return span; });
+    const tiles = $$("[data-tile]"), imgs = $$("[data-tile-img]"), items = $$("[data-tile-item]");
     if (reduced) return function start() {};
-    G.set(lines, { yPercent: 110 }); G.set(items, { y: 18, opacity: 0 }); if (side) G.set(side, { opacity: 0 });
+    G.set(tiles, { opacity: 0, y: 24 }); G.set(items, { y: 14, opacity: 0 });
     return function start() {
       const tl = G.timeline({ defaults: { ease: "power3.out" } });
-      tl.fromTo(img, { scale: 1.14 }, { scale: 1.08, duration: 2.6, ease: "power2.out" }, 0)
-        .to(items[0], { y: 0, opacity: 1, duration: .6 }, .1)
-        .to(lines.slice(0, 2), { yPercent: 0, duration: .9, stagger: .1 }, .2)
-        .to(items.slice(1), { y: 0, opacity: 1, duration: .6, stagger: .1 }, .6)
-        .to(side, { opacity: 1, duration: .4 }, .8)
-        .to(lines.slice(2), { yPercent: 0, duration: .8, stagger: .1 }, .85);
+      tl.to(tiles, { opacity: 1, y: 0, duration: .9, stagger: .1, clearProps: "transform" }, 0)
+        .fromTo(imgs, { scale: 1.16 }, { scale: 1.06, duration: 2.2, ease: "power2.out", stagger: .08, clearProps: "transform" }, 0)
+        .to(items, { y: 0, opacity: 1, duration: .6, stagger: .06, clearProps: "transform" }, .35);
     };
   }
 
@@ -591,7 +602,7 @@ STAGR.onReady.push(initAnimations);
         "body": body,
         "js": js,
         "loader": True,
-        "header_dark": True,
+        "header_dark": False,
         "nav": [("Range", "#range"), ("Inside", "#inside"), ("Story", "#story"), ("Shop", "#shop")],
         "shop_href": "#shop",
     }
