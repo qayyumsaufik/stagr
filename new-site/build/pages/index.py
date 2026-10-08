@@ -58,48 +58,43 @@ def render(ctx):
 </article>''' for f in families)
     mdots = "".join(f'<button type="button" data-mrange-dot="{i}" style="color:{"var(--fg)" if i == 0 else "var(--fg-2)"}">{f["num"]}</button>' for i, f in enumerate(families))
 
-    # ---------------- 03 inside: anatomy of a piece ----------------
-    # callouts: (title, note, anchor x%, anchor y%, side) with the anchor in % of the image box
-    anatomy = [
-        dict(tab="Wallets", key="wallet", img="assets/anatomy/wallet", w=2250, h=1939, name="Kingsmann bifold", href="wallets.html", cta="Shop wallets",
-             sub="Cut, folded and stitched on one bench in Pakistan.",
-             calls=[("Four card slots", "Two each side, skived so the fold stays flat", 36, 13, "l"),
-                    ("Full-grain crazy horse", "Waxed full-grain cowhide, chosen hide by hide", 44, 50, "l"),
-                    ("Burnished edges", "Bevelled, sanded and burnished, sealed with beeswax", 5, 60, "l"),
-                    ("Hand-stitched", "One row of saddle stitch, waxed linen thread", 52, 91, "l"),
-                    ("Full-width note section", "One section for notes, no coin pocket", 82, 11, "r"),
-                    ("Slim profile", "Skived at the fold, flat in a jacket pocket", 96, 46, "r"),
-                    ("Develops a patina", "The wax surface marks and darkens with use", 77, 73, "r")]),
-        dict(tab="Belts", key="belt", img="assets/anatomy/belt", w=1025, h=603, name="Monarch belt", href="belts.html", cta="Shop belts",
-             sub="One strap, cut along the spine of the hide.",
-             calls=[("Solid buckle", "On a removable screw post, swap it without tools", 30, 36, "l"),
-                    ("Cut in one piece", "Along the spine, where the hide is tightest", 12, 58, "l"),
-                    ("Sizes 30 to 44", "Measured from the buckle bar to the hole you use", 27, 73, "l"),
-                    ("Full-grain crazy horse", "Waxed full-grain cowhide, 3.5 mm thick", 72, 33, "r"),
-                    ("Develops a patina", "Honey today, chestnut in a year", 76, 44, "r"),
-                    ("Burnished edges", "Bevelled, sanded and burnished, sealed with beeswax", 92, 78, "r"),
-                    ("Saddle stitched", "Two needles, waxed linen, a seam that cannot unravel", 60, 84, "r")]),
+    # ---------------- 03 inside: what every piece is made of ----------------
+    inside = [
+        dict(tab="Belts", name="Cut along<br>the spine", sub="Belts · 4 pieces · Sizes 30 to 44", desc="Straps are cut where the hide is tightest, so a belt holds its shape instead of curling. Solid buckle on a removable screw post, so you can change it without tools.",
+             rows=[("Leather", "Full grain crazy horse"), ("Buckle", "Solid, on a screw post"), ("Sizes", "30 to 44")], point="Measure from the buckle bar, not the tip", n=4, unit="pieces", bar=4 / 11, href="belts.html", cta="Shop belts",
+             svg='<rect data-bot x="8" y="12" width="28" height="20" rx="6"/><path data-bot d="M8 22h22"/><circle data-bot cx="30" cy="22" r="2"/>'),
+        dict(tab="Wallets", name="Folded,<br>skived, stitched", sub="Wallets · 7 pieces · Stitched by hand", desc="Bifolds, trifolds and long wallets that soften and darken with every carry. Skived at the folds so each one stays flat in a jacket pocket.",
+             rows=[("Leather", "Full grain crazy horse"), ("Stitch", "Saddle, waxed linen"), ("Styles", "Bifold, trifold, minimalist, long")], point="Choose the fold and the colour", n=7, unit="pieces", bar=7 / 11, href="wallets.html", cta="Shop wallets",
+             svg='<path data-bot d="M4 24l6-6 6 6 6-6 6 6 6-6 6 6"/><path data-bot d="M4 32l6-6 6 6 6-6 6 6 6-6 6 6"/>'),
     ]
-    def anat_panel(i, d):
-        n = 0; cols = {"l": [], "r": []}
-        dots = []
-        for t, note, x, y, side in d["calls"]:
-            n += 1
-            cols[side].append(f'<li class="an-call" data-an-call="{n}"><span class="an-n">{str(n).zfill(2)}</span><b>{t}</b><span class="an-note">{note}</span></li>')
-            dots.append(f'<i class="an-dot" data-an-dot="{n}" style="left:{x}%;top:{y}%"></i>')
-        return f'''
-<div class="an-panel" data-an-panel="{i}" {"hidden" if i else ""}>
-  <ol class="an-col an-col--l" role="list">{"".join(cols["l"])}</ol>
-  <div class="an-stage" data-an-stage>
-    <div class="an-box" style="aspect-ratio:{d["w"]} / {d["h"]}"><img src="{d["img"]}-1200.webp" srcset="{d["img"]}-1200.webp 1200w, {d["img"]}.webp {min(d["w"], 2400)}w" sizes="(min-width: 1024px) 40vw, 92vw" alt="{d["name"]}, with its details called out" width="{d["w"]}" height="{d["h"]}" loading="lazy" decoding="async" draggable="false">{"".join(dots)}</div>
-    <svg class="an-lines" data-an-lines aria-hidden="true"></svg>
-  </div>
-  <ol class="an-col an-col--r" role="list" start="{len(cols["l"]) + 1}">{"".join(cols["r"])}</ol>
-  <ol class="an-list" role="list">{"".join(f'<li class="an-call" data-an-mcall="{k + 1}"><span class="an-n">{str(k + 1).zfill(2)}</span><b>{t}</b><span class="an-note">{note}</span></li>' for k, (t, note, x, y, side) in enumerate(d["calls"]))}</ol>
-  <p class="an-cta"><a class="btn btn--tan" href="{d["href"]}">{d["cta"]} {I["arrow"]}</a><a class="btn btn--ghost" href="about.html#craft">How it is made</a></p>
-</div>'''
-    an_panels = "".join(anat_panel(i, d) for i, d in enumerate(anatomy))
-    an_pills = "".join(f'<button type="button" class="pill" data-an-pill="{i}" aria-pressed="{str(i == 0).lower()}">{d["tab"]}</button>' for i, d in enumerate(anatomy))
+    N_INSIDE = len(inside)
+    inside_imgs = [cut("monarch"), cut("kingsmann")]
+    inside_stack = lambda size: "".join(f'<img data-inside-img="{i}" src="{im[size]}" alt="" width="900" height="900" draggable="false" decoding="async" style="opacity:{1 if i == 0 else 0}">' for i, im in enumerate(inside_imgs))
+    pills = "".join(f'<button type="button" class="pill" data-inside-pill="{i}" aria-pressed="{str(i == 0).lower()}">{d["tab"]}</button>' for i, d in enumerate(inside))
+    lefts = "".join(f'''
+<div data-inside-left="{i}" {"hidden" if i else ""}>
+  <div data-inside-hover><h3 class="inside-name" data-inside-name>{d["name"]}</h3></div>
+  <div class="inside-sci" data-inside-sci><svg data-inside-svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" aria-hidden="true">{d["svg"]}</svg><span class="serif-i">{d["sub"]}</span></div>
+</div>''' for i, d in enumerate(inside))
+    rights = "".join(f'''
+<div data-inside-right="{i}" {"hidden" if i else ""}>
+  <p class="label"><b>0{i + 1}</b><span class="slash">/</span>0{N_INSIDE}</p>
+  <p class="inside-desc">{d["desc"]}</p>
+  <dl class="spec" style="margin-top:20px">{"".join(f'<div><dt>{k}</dt><dd>{v}</dd></div>' for k, v in d["rows"])}</dl>
+  <div class="inside-measure"><dl class="spec"><div><dt>Measure</dt><dd><span class="num" style="font-size:1.1rem" data-inside-dose="{d["n"]}">0</span> <span class="small muted">{d["unit"]}</span></dd></div></dl><div class="inside-bar"><i data-inside-bar="{d["bar"]}"></i></div></div>
+  <p class="inside-point"><span aria-hidden="true">+</span>{d["point"]}</p>
+  <a class="btn btn--tan inside-cta" href="{d["href"]}">{d["cta"]} {I["arrow"]}</a>
+</div>''' for i, d in enumerate(inside))
+    deck = "".join(f'''
+<article class="deck-card" data-halo="{["#CDA373", "#D9B07A"][i]}">
+  <p class="label"><b>0{i + 1}</b><span class="slash">/</span>0{N_INSIDE}</p>
+  <h3 class="inside-name" data-deck-title style="margin-top:12px">{d["tab"]}: {d["name"].replace("<br>", " ").lower()}</h3>
+  <p class="serif-i muted" data-deck-item>{d["sub"]}</p>
+  <p class="inside-desc" data-deck-item>{d["desc"]}</p>
+  <dl class="spec" data-deck-item style="margin-top:16px">{"".join(f'<div><dt>{k}</dt><dd>{v}</dd></div>' for k, v in d["rows"])}</dl>
+  <p class="inside-point" data-deck-item><span aria-hidden="true">+</span>{d["point"]}</p>
+  <p data-deck-item style="margin-top:18px"><a class="btn btn--tan btn--wide" href="{d["href"]}">{d["cta"]} {I["arrow"]}</a></p>
+</article>''' for i, d in enumerate(inside))
 
     # ---------------- 04 story: five chapters ----------------
     chapters = [
@@ -264,44 +259,47 @@ def render(ctx):
 .mdots { display: flex; justify-content: center; gap: 18px; font-size: 12px; letter-spacing: .2em; margin-top: 10px; }
 .mdots button { color: inherit; }
 
-/* ---- 03 inside: anatomy on white ---- */
-.inside { position: relative; background: #fff; color: var(--ink); padding: clamp(56px, 7vw, 96px) 0 clamp(48px, 6vw, 80px); overflow: hidden; }
-.inside-head { text-align: center; display: grid; justify-items: center; gap: 10px; }
-.inside-title { font-family: var(--font-display); font-weight: 300; font-size: clamp(2rem, 1.3rem + 2.8vw, 3.9rem); line-height: 1.04; letter-spacing: -.012em; }
-.inside-lead { margin: 0 auto; max-width: 56ch; text-align: center; color: var(--fg-2); font-size: .9375rem; line-height: 1.5; }
-.inside-pills { display: flex; gap: 8px; justify-content: center; margin-top: 6px; }
-.an-panel { position: relative; display: grid; gap: 20px; margin-top: clamp(28px, 4vw, 48px); grid-template-columns: 1fr; }
-.an-panel[hidden] { display: none; }
-.an-stage { position: relative; }
-.an-box { position: relative; width: 100%; }
-.an-box img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 26px 34px rgba(26,27,29,.22)); }
-.an-dot { position: absolute; width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%; background: var(--accent-deep); box-shadow: 0 0 0 4px rgba(255,255,255,.95), 0 0 0 5px rgba(139,74,31,.35); transform: scale(0); z-index: 3; }
-.an-dot::after { content: ""; position: absolute; inset: -10px; border-radius: 50%; border: 1px solid rgba(139,74,31,.45); animation: an-pulse 2.4s ease-out infinite; }
-@keyframes an-pulse { 0% { transform: scale(.5); opacity: .9; } 100% { transform: scale(1.4); opacity: 0; } }
-.an-lines { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 2; }
-.an-lines path { fill: none; stroke: var(--ink); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; opacity: .75; }
-.an-lines path.an-halo { stroke: #fff; stroke-width: 3.5; opacity: .95; }
-.an-col { display: none; }
-.an-call { position: relative; display: grid; grid-template-columns: auto 1fr; column-gap: 12px; align-items: baseline; padding: 12px 0; border-top: 1px solid var(--line); }
-.an-call b { font-weight: 600; font-size: .9375rem; line-height: 1.3; }
-.an-call .an-note { grid-column: 2; font-size: .8125rem; line-height: 1.45; color: var(--fg-2); margin-top: 2px; }
-.an-n { font-family: var(--font-display); font-size: 1.05rem; color: var(--accent-deep); font-variant-numeric: tabular-nums; }
-.an-list { display: grid; margin-top: 6px; }
-.an-list .an-call:last-child { border-bottom: 1px solid var(--line); }
-.an-cta { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 8px; }
-.an-box .an-mnum { position: absolute; z-index: 3; width: 22px; height: 22px; margin: -11px 0 0 -11px; border-radius: 50%; background: var(--ink); color: var(--bone); font-size: .6875rem; font-weight: 600; display: grid; place-items: center; box-shadow: 0 0 0 3px #fff; }
-@media (min-width: 1024px) {
-  .an-panel { grid-template-columns: minmax(0, 3fr) minmax(0, 6fr) minmax(0, 3fr); gap: clamp(20px, 3vw, 48px); align-items: center; }
-  .an-col { display: grid; align-content: center; gap: 2px; }
-  .an-col--l .an-call { text-align: right; grid-template-columns: 1fr auto; }
-  .an-col--l .an-call .an-n { order: 2; }
-  .an-col--l .an-call .an-note { grid-column: 1; }
-  .an-call { padding: 14px 0; }
-  .an-list, .an-box .an-mnum { display: none; }
-  .an-stage { padding: 3vh 0; }
-  .an-cta { grid-column: 1 / -1; margin-top: 4px; }
-}
-@media (min-width: 1400px) { .an-call b { font-size: 1rem; } .an-call .an-note { font-size: .875rem; } }
+/* ---- 03 inside (dark, pinned) ---- */
+.inside { position: relative; background: var(--ink); color: var(--bone); overflow: hidden; }
+.inside-pin { height: 100svh; min-height: 0; display: flex; flex-direction: column; padding: calc(var(--nav-h) + 8px) var(--gutter) 16px; overflow: hidden; }
+.inside-head { text-align: center; display: grid; justify-items: center; gap: 8px; }
+.inside-title { font-family: var(--font-display); font-weight: 300; font-size: clamp(1.8rem, 1.2rem + 2vw, 3.2rem); line-height: 1.04; letter-spacing: -.012em; color: var(--bone); opacity: 0; white-space: nowrap; }
+.inside-pills { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.inside .pill { border-color: rgba(239,237,230,.35); color: var(--bone); opacity: .65; }
+.inside .pill[aria-pressed="true"] { background: var(--bone); color: var(--ink); border-color: var(--bone); opacity: 1; }
+.inside-grid { flex: 1; display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 4fr) minmax(0, 4fr); gap: 24px; align-items: center; }
+.inside-left { min-width: 0; }
+.inside-sci { margin-top: 14px; display: flex; align-items: center; gap: 14px; color: rgba(239,237,230,.6); }
+.inside-sci svg { width: 44px; height: 44px; flex: none; }
+.inside-stage { position: relative; display: grid; place-items: center; min-height: 0; align-self: stretch; }
+.inside-halo { position: absolute; inset: 0; margin: auto; width: 46vh; height: 46vh; transform: scale(1.6); border-radius: 50%; background: #D9B07A; opacity: .5; filter: blur(60px); pointer-events: none; }
+.inside-float { position: relative; z-index: 1; width: min(40vh, 28vw); aspect-ratio: 1; display: grid; place-items: center; pointer-events: none; }
+.inside-pills { position: relative; z-index: 2; }
+.inside-float img { position: absolute; width: 100%; height: auto; max-height: 100%; object-fit: contain; filter: drop-shadow(0 40px 60px rgba(0,0,0,.5)); }
+.inside-right { max-width: 420px; justify-self: end; width: 100%; }
+.inside-right .spec > div { padding: 8px 0; }
+@media (max-height: 820px) { .inside-measure, .inside-foot { display: none; } .inside-desc { margin-top: 10px; font-size: .9375rem; } .inside-point { margin-top: 12px; padding-top: 10px; } .inside-cta { margin-top: 12px; min-height: 44px; } .inside-float { width: min(34vh, 26vw); } .inside-pills .pill { min-height: 34px; } }
+.inside-desc { margin-top: 14px; color: rgba(239,237,230,.8); max-width: 40ch; }
+.inside-bar { height: 1px; background: rgba(239,237,230,.15); margin-top: 10px; }
+.inside-point { margin-top: 18px; padding-top: 14px; border-top: 1px solid rgba(239,237,230,.15); font-size: .9375rem; color: var(--bone); display: flex; gap: 10px; align-items: baseline; }
+.inside-point span { color: var(--accent); font-weight: 500; }
+.inside-cta { margin-top: 18px; width: 100%; justify-content: center; }
+.inside-bar i { display: block; height: 100%; width: 100%; background: var(--accent); transform-origin: left; transform: scaleX(0); }
+.inside-foot { text-align: center; font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: rgba(239,237,230,.5); padding-top: 12px; }
+/* mobile deck */
+.inside-mobile { padding: var(--section-sm) 0 56px; }
+.inside-mobile .mstage { position: relative; height: 46vw; display: grid; place-items: center; margin: 8px 0 20px; touch-action: pan-y; }
+.inside-mobile .inside-pills { margin-top: 16px; }
+.inside-mobile .inside-lead { margin-top: 12px; }
+.inside-mobile .inside-halo { width: 60vw; height: 60vw; transform: scale(1.3); }
+.inside-mobile .inside-float { width: 44vw; }
+.deck { display: flex; gap: 5vw; overflow-x: auto; scroll-snap-type: x mandatory; padding: 8px 9vw 16px; scrollbar-width: none; }
+.deck::-webkit-scrollbar { display: none; }
+.deck-card { flex: 0 0 82vw; scroll-snap-align: center; }
+.deck-card .inside-name { opacity: 0; }
+.deck-card [data-deck-item] { opacity: 0; margin-top: 12px; }
+.inside-mobile .mdots button { color: rgba(239,237,230,.35); }
+
 /* ---- 04 story (pinned timeline) ---- */
 .story { position: relative; background: var(--bone); color: var(--ink); }
 .story-pin { position: relative; height: 100vh; overflow: hidden; }
@@ -445,10 +443,22 @@ def render(ctx):
     </div>
 </section>
 
-<section id="inside" class="inside on-bone" aria-labelledby="inside-title">
-  <div class="wrap">
-    <div class="inside-head"><p class="label" data-reveal>Your hide. Our bench.</p><h2 class="inside-title" id="inside-title" data-reveal data-delay=".05">What you are holding.</h2><p class="inside-lead" data-reveal data-delay=".1">Every piece is cut from full hides by local artisans and saddle stitched by hand. Pick the line, then look closer.</p><div class="inside-pills" data-reveal data-delay=".15">{an_pills}</div></div>
-    <div data-an-root>{an_panels}</div>
+<section id="inside" class="inside on-ink" aria-labelledby="inside-title">
+  <div class="inside-pin desk-only" data-inside-pin>
+    <div class="inside-head"><p class="label inside-kicker">Your hide. Our bench.</p><h2 class="inside-title" id="inside-title" data-inside-title>Two lines. One great finish.</h2><p class="inside-lead">Every piece is cut from full hides by local artisans and saddle stitched by hand. Pick the line, then the cut.</p><div class="inside-pills">{pills}</div></div>
+    <div class="inside-grid">
+      <div class="inside-left">{lefts}</div>
+      <div class="inside-stage" data-inside-stage><div class="inside-halo" data-inside-halo></div><div class="inside-float" data-inside-float>{inside_stack("src")}</div></div>
+      <div class="inside-right">{rights}</div>
+    </div>
+    <p class="inside-foot">One hide. One workshop. Nothing else.</p>
+  </div>
+  <div class="inside-mobile mob-only" data-inside-mobile>
+    <div style="padding:0 20px;text-align:center"><p class="label inside-kicker" data-reveal>Your hide. Our bench.</p><h2 class="inside-title" data-inside-title-mobile style="opacity:1;margin-top:10px">Two lines. One<br>great finish.</h2><p class="inside-lead" data-reveal data-delay=".1">Every piece is cut from full hides by local artisans and saddle stitched by hand. Pick the line, then the cut.</p><div class="inside-pills" data-reveal data-delay=".15">{"".join(f'<button type="button" class="pill" data-mpill="{i}" aria-pressed="{str(i == 0).lower()}">{d["tab"]}</button>' for i, d in enumerate(inside))}</div></div>
+    <div class="mstage"><div class="inside-halo" data-inside-halo-mobile></div><div class="inside-float" data-inside-float-mobile>{inside_stack("small")}</div></div>
+    <div class="deck" data-deck-track>{deck}</div>
+    <div class="mdots">{"".join(f'<button type="button" data-deck-dot="{i}" style="color:{"var(--bone)" if i == 0 else "rgba(239,237,230,.35)"}">0{i + 1}</button>' for i in range(N_INSIDE))}</div>
+    <p class="inside-foot" style="padding:24px 20px 0">One hide. One workshop. Nothing else.</p>
   </div>
 </section>
 
@@ -571,53 +581,62 @@ function initAnimations() {
     dots.forEach((d, i) => d.addEventListener("click", () => S.scrollCarouselTo(track, i)));
   }
 
-  /* ================= 03 INSIDE: anatomy ================= */
+  /* ================= 03 INSIDE ================= */
+  function turnPiece(float, next) { const imgs = $$("[data-inside-img]", float); const show = () => imgs.forEach((im, i) => im.style.opacity = i === next ? 1 : 0); if (reduced) { show(); return; } G.timeline({ overwrite: true }).to(float, { scaleX: .8, rotation: -3, duration: .22, ease: "power2.in", onComplete: show }).to(float, { scaleX: 1, rotation: 0, duration: .6, ease: "power3.out" }); }
   function initInside() {
     const section = $("#inside"); if (!section) return;
-    const panels = $$("[data-an-panel]"), pills = $$("[data-an-pill]"); let active = 0, busy = false, entered = false;
-    const desktop = () => window.matchMedia("(min-width: 1024px)").matches;
-    const NS = "http://www.w3.org/2000/svg";
-    // draw an elbow line from each label to its dot (desktop only); coordinates are measured, so it survives resizes
-    const route = (panel) => {
-      const svg = $("[data-an-lines]", panel), stage = $("[data-an-stage]", panel); svg.innerHTML = "";
-      if (!desktop()) return [];
-      const sr = stage.getBoundingClientRect(); svg.setAttribute("viewBox", "0 0 " + sr.width + " " + sr.height);
-      return $$("[data-an-call]", panel).map((call) => {
-        const dot = $('[data-an-dot="' + call.dataset.anCall + '"]', panel); if (!dot) return null;
-        const cr = call.getBoundingClientRect(), dr = dot.getBoundingClientRect();
-        const left = cr.left < sr.left, x0 = (left ? cr.right + 10 : cr.left - 10) - sr.left, y0 = cr.top + 14 - sr.top;
-        const x1 = dr.left + dr.width / 2 - sr.left, y1 = dr.top + dr.height / 2 - sr.top;
-        const mx = left ? x0 + (x1 - x0) * .45 : x0 - (x0 - x1) * .45;
-        const d = "M" + x0 + " " + y0 + " L" + mx + " " + y0 + " L" + x1 + " " + y1;
-        return ["an-halo", ""].map((cls) => { const path = document.createElementNS(NS, "path"); path.setAttribute("d", d); if (cls) path.setAttribute("class", cls); svg.appendChild(path); return path; });
-      }).filter(Boolean).flat();
+    const colors = $$("[data-deck-track] article").map((el) => el.dataset.halo);
+    if (isMobile) {
+      const title = $("[data-inside-title-mobile]"); G.fromTo(title, { y: 22, opacity: 0 }, { y: 0, opacity: 1, duration: .9, ease: "power2.out", scrollTrigger: { trigger: section, start: "top 75%", once: true } });
+      const halo = $("[data-inside-halo-mobile]"), img = $("[data-inside-float-mobile]"), track = $("[data-deck-track]"), dots = $$("[data-deck-dot]"), titles = $$("[data-deck-title]", track); let split = null, pending = true;
+      const reveal = (i) => { const t = titles[i], items = $$("[data-deck-item]", t.closest("article")); if (reduced) { G.set([t, ...items], { opacity: 1 }); return; } if (split) split.revert(); split = window.SplitText.create(t, { type: "words,chars", mask: "words", onSplit: (self) => { G.set(t, { opacity: 1 }); return G.fromTo(self.chars, { yPercent: 108 }, { yPercent: 0, duration: .5, ease: "power2.out", stagger: .02, overwrite: "auto" }); } }); G.fromTo(items, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: .5, ease: "power2.out", stagger: .07, delay: .08, overwrite: "auto" }); };
+      ST.create({ trigger: track, start: "top 85%", once: true, onEnter: () => { if (!pending) return; pending = false; reveal(0); } });
+      S.watchCarousel(track, (next, prev) => { pending = false; dots.forEach((d, i) => d.style.color = i === next ? "var(--bone)" : "rgba(239,237,230,.35)"); G.to(halo, { backgroundColor: colors[next], duration: .5, overwrite: "auto" }); turnPiece(img, next); const old = titles[prev]; G.to([old, ...$$("[data-deck-item]", old.closest("article"))], { opacity: 0, duration: .12, overwrite: "auto" }); reveal(next); });
+      dots.forEach((d, i) => d.addEventListener("click", () => S.scrollCarouselTo(track, i)));
+      // tabs above the stage, and a swipe on the picture itself, both drive the deck
+      const mpills = $$("[data-mpill]"); let cur = 0;
+      const paintPills = (i) => mpills.forEach((p, k) => p.setAttribute("aria-pressed", String(k === i)));
+      mpills.forEach((p, i) => p.addEventListener("click", () => S.scrollCarouselTo(track, i)));
+      S.watchCarousel(track, (next) => { cur = next; paintPills(next); });
+      const stage = $(".inside-mobile .mstage"); let sx = 0, sy = 0;
+      stage.addEventListener("touchstart", (e) => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+      stage.addEventListener("touchend", (e) => { const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy; if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.4) S.scrollCarouselTo(track, Math.max(0, Math.min(titles.length - 1, cur + (dx < 0 ? 1 : -1)))); }, { passive: true });
+      return;
+    }
+    const title = $("[data-inside-title]"), halo = $("[data-inside-halo]"), img = $("[data-inside-float]"), pills = $$("[data-inside-pill]"), lefts = $$("[data-inside-left]"), rights = $$("[data-inside-right]");
+    window.SplitText.create(title, { type: "chars", onSplit: (self) => G.fromTo(self.chars, { yPercent: 22, opacity: 0 }, { yPercent: 0, opacity: 1, duration: .8, ease: "power2.out", stagger: .022, scrollTrigger: { trigger: section, start: "top 75%", once: true } }) }); G.set(title, { opacity: 1 });
+    let active = 0, shown = 0, swapping = false, nameSplit = null;
+    const parts = (i) => [$("[data-inside-name]", lefts[i]), $("[data-inside-sci]", lefts[i]), rights[i]];
+    const stylePills = () => pills.forEach((p, i) => p.setAttribute("aria-pressed", String(i === active)));
+    const show = (i) => {
+      const [name, , right] = parts(i);
+      G.fromTo(parts(i), { opacity: 0, y: 26 }, { opacity: 1, y: 0, duration: .45, delay: .1, ease: "power3.out", stagger: .05, overwrite: "auto" });
+      if (nameSplit) nameSplit.revert(); nameSplit = null;
+      if (!reduced) nameSplit = window.SplitText.create(name, { type: "chars", onSplit: (self) => G.fromTo(self.chars, { yPercent: 60, opacity: 0 }, { yPercent: 0, opacity: 1, duration: .55, ease: "power2.out", stagger: .028, delay: .12, overwrite: "auto" }) });
+      G.fromTo(halo, { scale: 1.45 }, { scale: 1.6, duration: .9, ease: "power2.out", overwrite: "auto" });
+      if (window.DrawSVGPlugin) G.fromTo($$("[data-bot]", lefts[i]), { drawSVG: "0%" }, { drawSVG: "100%", duration: .9, ease: "power1.inOut", stagger: .08, delay: .15, overwrite: "auto" });
+      const bar = $("[data-inside-bar]", right), dose = $("[data-inside-dose]", right);
+      G.fromTo(bar, { scaleX: 0 }, { scaleX: parseFloat(bar.dataset.insideBar), duration: .8, delay: .25, ease: "power2.inOut", overwrite: "auto" });
+      const c = { v: 0 }; G.to(c, { v: parseFloat(dose.dataset.insideDose), duration: .8, delay: .25, ease: "power2.out", onUpdate: () => dose.textContent = String(Math.round(c.v)) });
     };
-    const numberDots = (panel) => { if (desktop()) return; $$(".an-mnum", panel).forEach((n) => n.remove()); $$("[data-an-dot]", panel).forEach((d) => { const n = document.createElement("span"); n.className = "an-mnum"; n.textContent = d.dataset.anDot; n.style.left = d.style.left; n.style.top = d.style.top; d.parentElement.appendChild(n); }); };
-    const play = (panel) => {
-      const img = $(".an-box img", panel), dots = $$("[data-an-dot]", panel), calls = desktop() ? $$("[data-an-call]", panel) : $$("[data-an-mcall]", panel);
-      const paths = route(panel); numberDots(panel);
-      if (reduced) { G.set([img, ...calls, ...$$(".an-mnum", panel)], { opacity: 1, clearProps: "transform" }); G.set(dots, { scale: 1 }); paths.forEach((p) => G.set(p, { drawSVG: "100%" })); return; }
-      const tl = G.timeline({ defaults: { ease: "power3.out" }, onComplete: () => { busy = false; } });
-      tl.fromTo(img, { opacity: 0, y: 26, scale: .96 }, { opacity: 1, y: 0, scale: 1, duration: .9, clearProps: "transform" }, 0)
-        .fromTo(dots, { scale: 0 }, { scale: 1, duration: .5, ease: "back.out(2.5)", stagger: .07 }, .45);
-      if (paths.length && window.DrawSVGPlugin) tl.fromTo(paths, { drawSVG: "0%" }, { drawSVG: "100%", duration: .6, ease: "power2.inOut", stagger: .07 }, .55);
-      tl.fromTo(calls, { opacity: 0, x: (i, el) => el.closest(".an-col--l") ? -14 : 14 }, { opacity: 1, x: 0, duration: .55, stagger: .07, clearProps: "transform" }, .75)
-        .fromTo($$(".an-mnum", panel), { opacity: 0, scale: .6 }, { opacity: 1, scale: 1, duration: .4, ease: "back.out(2)", stagger: .05 }, .5)
-        .fromTo($(".an-cta", panel), { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .5, clearProps: "transform" }, 1.1);
-    };
-    const prime = (panel) => { G.set([$(".an-box img", panel), ...$$("[data-an-call]", panel), ...$$("[data-an-mcall]", panel), $(".an-cta", panel)], { opacity: 0 }); G.set($$("[data-an-dot]", panel), { scale: 0 }); };
-    panels.forEach((p) => prime(p));
-    const setActive = (next) => {
-      if (next === active || busy) return; busy = true; const prev = active; active = next;
-      pills.forEach((p, i) => p.setAttribute("aria-pressed", String(i === next)));
-      const out = panels[prev];
-      G.to([$(".an-box img", out), ...$$("[data-an-call]", out), ...$$("[data-an-mcall]", out), ...$$(".an-mnum", out), $(".an-cta", out)], { opacity: 0, duration: .22, ease: "power2.in", overwrite: "auto" });
-      G.to($$("[data-an-dot]", out), { scale: 0, duration: .2, overwrite: "auto", onComplete: () => { out.hidden = true; panels[next].hidden = false; prime(panels[next]); play(panels[next]); } });
-    };
-    pills.forEach((p, i) => p.addEventListener("click", () => setActive(i)));
-    ST.create({ trigger: section, start: "top 65%", once: true, onEnter: () => { entered = true; busy = true; play(panels[active]); } });
-    let rt = 0; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { if (!entered) return; const paths = route(panels[active]); numberDots(panels[active]); G.set(paths, { drawSVG: "100%" }); G.set($$(".an-mnum", panels[active]), { opacity: 1 }); }, 120); });
-    if (fine && !reduced) { panels.forEach((panel) => { const box = $(".an-box", panel); const sx = G.quickTo(box, "x", { duration: .9, ease: "power2.out" }), sy = G.quickTo(box, "y", { duration: .9, ease: "power2.out" }); panel.addEventListener("pointermove", (e) => { sx((e.clientX / innerWidth - .5) * 10); sy((e.clientY / innerHeight - .5) * 8); }, { passive: true }); panel.addEventListener("pointerleave", () => { sx(0); sy(0); }); }); }
+    const swap = () => { if (shown === active || swapping) return; swapping = true; G.to(parts(shown), { opacity: 0, y: -26, duration: .22, ease: "power3.in", overwrite: "auto", onComplete: () => { lefts[shown].hidden = true; rights[shown].hidden = true; shown = active; lefts[shown].hidden = false; rights[shown].hidden = false; show(shown); swapping = false; swap(); } }); };
+    const setActive = (next) => { if (next === active) return; active = next; stylePills(); G.to(halo, { backgroundColor: colors[next], duration: .5, overwrite: "auto" }); turnPiece(img, next); swap(); };
+    // 4 topics sit at progress 0, 1/3, 2/3, 1 (the snap points); the active one only changes once
+    // the scroll has moved clearly past the midpoint between two topics, so nothing flips on its own
+    const STEPS = lefts.length - 1; let scrolling = null;
+    const pick = (progress) => { const p = progress * STEPS; let next = active; while (next < STEPS && p > next + .5 + .1) next++; while (next > 0 && p < next - .5 - .1) next--; return next; };
+    const trigger = ST.create({ trigger: section, start: "top top", end: () => "+=" + STEPS * innerHeight, pin: true, pinSpacing: true, scrub: .6, snap: { snapTo: (v) => scrolling !== null ? v : G.utils.snap(1 / STEPS, v), duration: { min: .25, max: .6 }, ease: "power2.inOut", directional: false, delay: .15, inertia: false }, invalidateOnRefresh: true, onUpdate: (self) => { if (scrolling !== null) return; setActive(pick(self.progress)); } });
+    // a tab click switches straight away and glides the page to that topic's stop
+    pills.forEach((p, i) => p.addEventListener("click", () => {
+      if (i === active) return; scrolling = i; setActive(i);
+      const y = trigger.start + (trigger.end - trigger.start) * i / STEPS, done = () => { scrolling = null; };
+      clearTimeout(pills._t);
+      if (S.lenis) S.lenis.scrollTo(y, { duration: .9, lock: true, force: true, onComplete: done }); else { window.scrollTo({ top: y, behavior: "smooth" }); }
+      pills._t = setTimeout(done, 1400);   // safety net if the glide is interrupted
+    }));
+    G.set(parts(0), { opacity: 0 }); ST.create({ trigger: section, start: "top 60%", once: true, onEnter: () => show(0) });
+    lefts.forEach((left) => { const hover = $("[data-inside-hover]", left); hover.addEventListener("pointerenter", () => { G.to(halo, { opacity: .7, scale: 1.75, duration: .6, overwrite: "auto" }); if (window.DrawSVGPlugin) G.fromTo($$("[data-bot]", left), { drawSVG: "0%" }, { drawSVG: "100%", duration: .7, ease: "power1.inOut", stagger: .06, overwrite: "auto" }); }); hover.addEventListener("pointerleave", () => G.to(halo, { opacity: .5, scale: 1.6, duration: .7, overwrite: "auto" })); if (!reduced) G.fromTo($("[data-inside-svg]", left), { rotation: -3.5, transformOrigin: "50% 50%" }, { rotation: 3.5, duration: 5, yoyo: true, repeat: -1, ease: "sine.inOut" }); });
+    if (fine && !reduced) { const wrap = $("[data-inside-float]"); const sx = G.quickTo(wrap, "x", { duration: .9, ease: "power2.out" }), sy = G.quickTo(wrap, "y", { duration: .9, ease: "power2.out" }); section.addEventListener("pointermove", (e) => { sx((e.clientX / innerWidth - .5) * 22); sy((e.clientY / innerHeight - .5) * 12); }, { passive: true }); }
   }
 
   /* ================= 04 STORY ================= */
