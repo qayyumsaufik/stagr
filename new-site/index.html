@@ -622,38 +622,52 @@ html.is-entering .fade { opacity: 1; }
 .rp-copy { margin-top: 18px; max-width: 46ch; color: var(--fg-2); }
 .rp-spec { margin-top: 22px; max-width: 420px; }
 
-/* ---- 01 hero: belts left, wallets right, the words on the seam, bulk band beneath ---- */
-.hero { position: relative; background: var(--ink); color: var(--bone); }
-.slider { position: relative; height: calc(100svh - 76px); min-height: 620px; max-height: 980px; overflow: hidden; }
-.slide { position: absolute; inset: 0; display: flex; align-items: flex-end; opacity: 0; visibility: hidden; }
-.slide.is-on { opacity: 1; visibility: visible; }
-.slide img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 55%; transform: scale(1.04); will-change: transform; }
-.slide::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(26,27,29,.55) 0%, rgba(26,27,29,0) 28%, rgba(26,27,29,0) 45%, rgba(26,27,29,.78) 100%), linear-gradient(90deg, rgba(26,27,29,.5) 0%, rgba(26,27,29,0) 60%); pointer-events: none; }
-.slide-copy { position: relative; z-index: 2; width: 100%; padding-bottom: clamp(84px, 11vh, 120px); max-width: none; }
-.slide-copy > * { max-width: 760px; }
-.hero-kicker { font-size: .6875rem; letter-spacing: .3em; text-transform: uppercase; color: rgba(239,237,230,.8); }
-.hero-kicker span { margin: 0 6px; opacity: .6; }
-.hero-h1 { margin-top: 14px; font-family: var(--font-display); font-weight: 500; font-size: clamp(2.6rem, 1.2rem + 4.2vw, 5.375rem); line-height: 1; letter-spacing: 0; text-shadow: 0 2px 30px rgba(0,0,0,.45); }
-.hero-h1 .serif-i { font-family: var(--font-display); font-style: normal; }
-.hero-sub { margin-top: 18px; max-width: 44ch; font-size: clamp(.9375rem, .9rem + .25vw, 1.0625rem); line-height: 1.55; color: rgba(239,237,230,.88); text-shadow: 0 1px 14px rgba(0,0,0,.45); }
-.hero-ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+/* ---- 01 hero: copy left, a tilted wall of pieces looping on the right ---- */
+.hero { position: relative; background: #1b1917; color: var(--bone); }
+.shero { position: relative; min-height: calc(100svh - 76px); overflow: hidden; display: flex; flex-direction: column; }
+.shero .sh-grid { flex: 1; }
+.sh-glow { position: absolute; right: -10%; top: -20%; width: 70vmin; height: 70vmin; border-radius: 50%; background: radial-gradient(circle, rgba(197,139,74,.28), transparent 68%); filter: blur(40px); pointer-events: none; }
+.sh-grid { position: relative; display: grid; grid-template-columns: 1fr; gap: 24px; width: 100%; padding-top: calc(var(--nav-top) + 24px); }
+.sh-copy { position: relative; z-index: 2; display: flex; flex-direction: column; justify-content: center; padding-bottom: 24px; }
+.sh-eyebrow { display: flex; align-items: center; gap: 12px; font-size: .6875rem; letter-spacing: .28em; text-transform: uppercase; color: rgba(239,237,230,.75); }
+.sh-eyebrow i { width: 28px; height: 1px; background: var(--accent); }
+.sh-h1 { margin-top: 18px; font-family: var(--font-display); font-weight: 500; font-size: clamp(3rem, 1.6rem + 5vw, 6rem); line-height: .98; letter-spacing: -.015em; }
+.sh-h1 .line { display: block; overflow: hidden; }
+.sh-sub { margin-top: 20px; max-width: 40ch; font-size: clamp(.9375rem, .9rem + .25vw, 1.0625rem); line-height: 1.6; color: rgba(239,237,230,.82); }
+.hero-ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
 .btn--tan { background: var(--accent-deep); border-color: var(--accent-deep); color: var(--bone); }
 .btn--tan:hover { background: var(--accent); border-color: var(--accent); color: var(--ink); }
-.hero .btn--ghost { color: var(--bone); border-color: rgba(239,237,230,.55); background: rgba(26,27,29,.2); backdrop-filter: blur(6px); }
+.hero .btn--ghost { color: var(--bone); border-color: rgba(239,237,230,.5); background: rgba(26,27,29,.25); backdrop-filter: blur(6px); }
 .hero .btn--ghost:hover { background: var(--bone); color: var(--ink); }
-.slider-ui { position: absolute; left: 0; right: 0; bottom: clamp(22px, 3vh, 36px); z-index: 3; display: flex; justify-content: space-between; align-items: center; gap: 16px; pointer-events: none; }
-.slider-ui > * { pointer-events: auto; }
-.slider-dots { display: flex; gap: 10px; }
-.slider-dots button { width: 56px; height: 20px; display: grid; align-items: center; }
-.slider-dots i { display: block; height: 2px; background: rgba(239,237,230,.35); position: relative; overflow: hidden; }
-.slider-dots i::after { content: ""; position: absolute; inset: 0; background: var(--bone); transform: scaleX(var(--p, 0)); transform-origin: left; }
-.slider-dots button[aria-selected="true"] i { background: rgba(239,237,230,.35); }
-.slider-nav { display: flex; align-items: center; gap: 10px; }
-.slider-count { font-size: .75rem; letter-spacing: .2em; color: rgba(239,237,230,.75); margin-right: 8px; font-variant-numeric: tabular-nums; }
-.slider-count b { font-weight: 500; color: var(--bone); }
-.half-arrow { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(239,237,230,.5); display: grid; place-items: center; color: var(--bone); background: rgba(26,27,29,.25); backdrop-filter: blur(6px); transition: background-color .3s ease, color .3s ease, border-color .3s ease; }
-.half-arrow svg { width: 16px; height: 16px; }
-.half-arrow:hover { background: var(--bone); color: var(--ink); border-color: var(--bone); }
+.sh-stats { display: flex; flex-wrap: wrap; gap: 10px 28px; margin-top: 34px; padding-top: 18px; border-top: 1px solid rgba(239,237,230,.14); }
+.sh-stats li { display: grid; gap: 1px; }
+.sh-stats b { font-family: var(--font-display); font-weight: 400; font-size: 1.15rem; line-height: 1.1; }
+.sh-stats span { font-size: .75rem; color: rgba(239,237,230,.6); letter-spacing: .03em; }
+/* the wall */
+.sh-wall { position: relative; height: 92vw; overflow: hidden; -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 12%, #000 88%, transparent 100%); mask-image: linear-gradient(180deg, transparent 0%, #000 12%, #000 88%, transparent 100%); opacity: 0; }
+.sh-cols { position: absolute; inset: -14% -6%; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; transform: rotate(-8deg) scale(1.06); transform-origin: 50% 50%; }
+.sh-col { position: relative; overflow: hidden; }
+.sh-col[data-sh-col="down"] { margin-top: -30%; }
+.sh-track { display: flex; flex-direction: column; gap: 14px; will-change: transform; }
+.sh-card { position: relative; display: block; border-radius: 14px; overflow: hidden; background: #2a2623; box-shadow: 0 20px 40px -22px rgba(0,0,0,.7); }
+.sh-card--photo { aspect-ratio: 4 / 4.6; }
+.sh-card--photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.sh-pill { position: absolute; left: 12px; bottom: 12px; padding: 6px 12px; border-radius: 999px; background: rgba(26,27,29,.82); color: var(--bone); font-size: .625rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; backdrop-filter: blur(6px); }
+.sh-card--piece { background: #F3F1EC; color: var(--ink); display: grid; grid-template-rows: 1fr auto; aspect-ratio: 4 / 4.6; }
+.sh-cut { display: grid; place-items: center; padding: 10% 10% 4%; min-height: 0; }
+.sh-cut img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 14px 18px rgba(26,27,29,.22)); }
+.sh-meta { display: grid; gap: 2px; padding: 0 14px 14px; }
+.sh-meta b { font-size: .8125rem; font-weight: 600; line-height: 1.25; }
+.sh-meta em { font-style: normal; font-size: .8125rem; font-weight: 700; color: var(--accent-deep); }
+@media (min-width: 1024px) {
+  .sh-grid { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(24px, 4vw, 64px); padding-top: 0; }
+  .sh-copy { padding-top: calc(var(--nav-top) + 8px); padding-bottom: 40px; }
+  .sh-wall { height: auto; min-height: calc(100svh - 76px - var(--nav-top)); margin-top: var(--nav-top); margin-right: calc(var(--gutter) * -1); -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 86%, transparent 100%), linear-gradient(90deg, transparent 0%, #000 14%); -webkit-mask-composite: source-in; mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 86%, transparent 100%), linear-gradient(90deg, transparent 0%, #000 14%); mask-composite: intersect; }
+  .sh-cols { inset: -18% -8% -18% 0; gap: 18px; transform: rotate(-9deg) scale(1.08); }
+  .sh-track { gap: 18px; }
+  .sh-meta b { font-size: .9375rem; } .sh-meta em { font-size: .9375rem; }
+}
+@media (max-width: 767px) { .sh-h1 { font-size: 2.9rem; } .sh-wall { height: 110vw; margin-inline: calc(var(--gutter) * -1); } .sh-cols { gap: 10px; inset: -14% -4%; } .sh-track { gap: 10px; } .sh-stats { gap: 8px 20px; } .hero-ctas .btn { flex: 1 1 auto; justify-content: center; } }
 /* bulk-order band */
 .bulk-band { position: relative; background: var(--accent-deep); color: var(--bone); overflow: hidden; }
 .bulk-band::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: clamp(60px, 7vw, 110px); background: var(--accent); clip-path: polygon(0 0, 100% 0, 55% 100%, 0 100%); opacity: .9; }
@@ -946,29 +960,18 @@ html.is-entering .fade { opacity: 1; }
 
 <main id="main">
 
-<section id="hero" class="hero on-ink" aria-label="Introduction">
-  <div class="slider" data-slider aria-roledescription="carousel" aria-label="Belts and wallets">
-    <div class="slide is-on" data-slide="0" aria-roledescription="slide" aria-label="1 of 2">
-      <picture><source media="(max-width: 767px)" srcset="assets/hero/slide-wallet-portrait.jpg"><img data-slide-img src="assets/hero/slide-wallet-1600.jpg" srcset="assets/hero/slide-wallet-900.jpg 900w, assets/hero/slide-wallet-1600.jpg 1600w, assets/hero/slide-wallet-2000.jpg 1672w" sizes="100vw" alt="A Stagr bifold wallet with the stag mark, on walnut beside coffee beans and a wooden box" width="1672" height="941" fetchpriority="high" decoding="async"></picture>
-      <div class="wrap slide-copy">
-        <p class="hero-kicker" data-slide-item>Wallets <span aria-hidden="true">·</span> 7 pieces, from Rs 1,740</p>
-        <h1 class="hero-h1" data-slide-item><span class="serif-i">Folded, skived,</span><br>stitched by hand.</h1>
-        <p class="hero-sub" data-slide-item>Bifolds, trifolds and long wallets, boxed with a handwritten note. Cash on delivery across Pakistan.</p>
-        <div class="hero-ctas" data-slide-item><a class="btn btn--tan" href="wallets.html">Shop wallets <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="btn btn--ghost" href="shop.html">Everything</a></div>
-      </div>
+<section id="hero" class="hero shero on-ink" aria-label="Introduction">
+  <div class="sh-glow" aria-hidden="true"></div>
+  <div class="wrap sh-grid">
+    <div class="sh-copy">
+      <p class="sh-eyebrow" data-sh-item><span>Handmade in Pakistan</span><i></i><span>Full-grain crazy horse</span></p>
+      <h1 class="sh-h1" data-sh-title>Nothing but<br>leather.</h1>
+      <p class="sh-sub" data-sh-item>Belts and wallets cut from full hides, saddle stitched on one bench, boxed with a handwritten note. Cash on delivery, anywhere in Pakistan.</p>
+      <div class="hero-ctas" data-sh-item><a class="btn btn--tan" href="shop.html">Shop the range <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="btn btn--ghost" href="bulk.html">Bulk orders</a></div>
+      <ul class="sh-stats" role="list" data-sh-item><li><b>Rs 1,740 to Rs 3,500</b><span>one price, any quantity</span></li><li><b>3 to 5 days</b><span>cash on delivery</span></li><li><b>11 pieces</b><span>7 wallets, 4 belts</span></li></ul>
     </div>
-    <div class="slide" data-slide="1" aria-roledescription="slide" aria-label="2 of 2" aria-hidden="true">
-      <picture><source media="(max-width: 767px)" srcset="assets/hero/slide-belts-portrait.jpg"><img data-slide-img src="assets/hero/slide-belts-1600.jpg" srcset="assets/hero/slide-belts-900.jpg 900w, assets/hero/slide-belts-1600.jpg 1600w, assets/hero/slide-belts-2400.jpg 1672w" sizes="100vw" alt="A Stagr tan belt coiled on walnut beside coffee beans and shells" width="1672" height="941" loading="lazy" decoding="async"></picture>
-      <div class="wrap slide-copy">
-        <p class="hero-kicker" data-slide-item>Belts <span aria-hidden="true">·</span> 4 pieces, from Rs 2,394</p>
-        <h2 class="hero-h1" data-slide-item><span class="serif-i">Carried daily.</span><br>Made slowly.</h2>
-        <p class="hero-sub" data-slide-item>Full-grain crazy horse, cut in one piece, with a solid buckle on a screw post. Sizes 30 to 44.</p>
-        <div class="hero-ctas" data-slide-item><a class="btn btn--tan" href="belts.html">Shop belts <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="btn btn--ghost" href="shop.html">Everything</a></div>
-      </div>
-    </div>
-    <div class="wrap slider-ui">
-      <div class="slider-dots" role="tablist" aria-label="Choose slide"><button type="button" role="tab" aria-selected="true" data-slide-dot="0" aria-label="Wallets"><i></i></button><button type="button" role="tab" aria-selected="false" data-slide-dot="1" aria-label="Belts"><i></i></button></div>
-      <div class="slider-nav"><span class="slider-count"><b data-slide-n>01</b> / 02</span><button type="button" class="half-arrow" data-slide-prev aria-label="Previous slide" style="transform:scaleX(-1)"><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button><button type="button" class="half-arrow" data-slide-next aria-label="Next slide"><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
+    <div class="sh-wall" data-sh-wall aria-hidden="true">
+      <div class="sh-cols"><div class="sh-col" data-sh-col="up"><div class="sh-track" data-sh-track><a class="sh-card sh-card--photo" href="wallets.html?cat=bifold" tabindex="-1"><img src="assets/categories/bifold-500.jpg" srcset="assets/categories/bifold-500.jpg 500w, assets/categories/bifold.jpg 900w" sizes="(min-width: 1024px) 18vw, 40vw" alt="" width="900" height="600" loading="lazy" decoding="async" draggable="false"><span class="sh-pill">Wallets</span></a><a class="sh-card sh-card--piece" href="product-monarch.html" tabindex="-1"><span class="sh-cut"><img src="assets/cutouts/monarch-1-600.webp" alt="" width="600" height="600" loading="lazy" decoding="async" draggable="false"></span><span class="sh-meta"><b>Monarch Premium Leather Belt</b><em>Rs 2,800</em></span></a><a class="sh-card sh-card--photo" href="belts.html?cat=classic" tabindex="-1"><img src="assets/categories/outlaw-500.jpg" srcset="assets/categories/outlaw-500.jpg 500w, assets/categories/outlaw.jpg 900w" sizes="(min-width: 1024px) 18vw, 40vw" alt="" width="900" height="600" loading="lazy" decoding="async" draggable="false"><span class="sh-pill">Belts</span></a><a class="sh-card sh-card--piece" href="product-regal.html" tabindex="-1"><span class="sh-cut"><img src="assets/cutouts/regal-brown-1-600.webp" alt="" width="600" height="600" loading="lazy" decoding="async" draggable="false"></span><span class="sh-meta"><b>Regal Bifold Leather Wallet</b><em>Rs 1,950</em></span></a><a class="sh-card sh-card--photo" href="wallets.html?cat=long" tabindex="-1"><img src="assets/categories/long-500.jpg" srcset="assets/categories/long-500.jpg 500w, assets/categories/long.jpg 900w" sizes="(min-width: 1024px) 18vw, 40vw" alt="" width="900" height="600" loading="lazy" decoding="async" draggable="false"><span class="sh-pill">Wallets</span></a><a class="sh-card sh-card--piece" href="product-outlaw.html" tabindex="-1"><span class="sh-cut"><img src="assets/cutouts/outlaw-1-600.webp" alt="" width="600" height="600" loading="lazy" decoding="async" draggable="false"></span><span class="sh-meta"><b>Outlaw Crazy Horse Leather Belt</b><em>Rs 2,765</em></span></a><a class="sh-card sh-card--photo" href="wallets.html?cat=bifold" tabindex="-1"><img src="assets/categories/bifold-500.jpg" srcset="assets/categories/bifold-500.jpg 500w, assets/categories/bifold.jpg 900w" sizes="(min-width: 1024px) 18vw, 40vw" alt="" width="900" height="600" loading="lazy" decoding="async" draggable="false"><span class="sh-pill">Wallets</span></a><a class="sh-card sh-card--piece" href="product-monarch.html" tabindex="-1"><span class="sh-cut"><img src="assets/cutouts/monarch-1-600.webp" alt="" width="600" height="600" loading="lazy" decoding="async" draggable="false"></span><span class="sh-meta"><b>Monarch Premium Leather Belt</b><em>Rs 2,800</em></span></a><a class="sh-card sh-card--photo" href="belts.html?cat=classic" tabindex="-1"><img src="assets/categories/outlaw-500.jpg" srcset="assets/categories/outlaw-500.jpg 500w, assets/categories/outlaw.jpg 900w" sizes="(min-width: 1024px) 18vw, 40vw" alt="" width="900" height="600" loading="lazy" decoding="async" draggable="false"><span class="sh-pill">Belts</span></a><a class="sh-card sh-card--piece" href="product-regal.html" tabindex="-1"><span class="sh-cut"><img src="assets/cutouts/regal-brown-1-600.webp" alt="" width="600" height="600" loading="lazy" decoding="async" draggable="false"></span><span class="sh-meta"><b>Regal Bifold Leather Wallet</b><em>Rs 1,950</em></span></a><a class="sh-card sh-card--photo" href="wallets.html?cat=long" tabindex="-1"><img src="assets/categories/long-500.jpg" srcset="assets/categories/long-500.jpg 500w, assets/categories/long.jpg 900w" sizes="(min-width: 1024px) 18vw, 40vw" alt="" width="900" height="600" loading="lazy" decoding="async" draggable="false"><span class="sh-pill">Wallets</span></a><a class="sh-card sh-card--piece" href="product-outlaw.html" tabindex="-1"><span class="sh-cut"><img src="assets/cutouts/outlaw-1-600.webp" alt="" width="600" height="600" loading="lazy" decoding="async" draggable="false"></span><span class="sh-meta"><b>Outlaw Crazy Horse Leather Belt</b><em>Rs 2,765</em></span></a></div></div><div class="sh-col" data-sh-col="down"><div class="sh-track" data-sh-track><a class="sh-card sh-card--piece" href="product-kingsmann.html" tabindex="-1"><span class="sh-cut"><img src="assets/cutouts/kingsmann-brown-1-600.webp" alt="" width="600" height="600" loading="lazy" decoding="async" draggable="false"></span><span class="sh-meta"><b>Kingsmann Bifold Leather Wallet</b><em>Rs 2,600</em></span></a><a class="sh-card sh-card--photo" href="belts.html?cat=double" tabindex="-1"><img src="assets/categories/nova-500.jpg" srcset="assets/categories/nova-500.jpg 500w, assets/categories/nova.jpg 900w" sizes="(min-width: 1024px) 18vw, 40vw" alt="" width="900" height="600" loading="lazy" decoding="async" draggable="false"><span class="sh-pill">Belts</span></a><a class="sh-card sh-card--piece" href="product-rodeo.html" tabindex="-1"><span class="sh-cut"><img src="assets/cutouts/rodeo-tan-1-600.webp" alt="" width="600" height="600" loading="lazy" decoding="async" draggable="false"></span><span class="sh-meta"><b>Rodeo Long Leather Wallet</b><em>Rs 3,500</em></span></a><a class="sh-card sh-card--photo" href="wallets.html?cat=trifold" tabindex="-1"><img src="assets/categories/trifold-500.jpg" srcset="assets/categories/trifold-500.jpg 500w, assets/categories/trifold.jpg 900w" sizes="(min-width: 1024px) 18vw, 40vw" alt="" width="900" height="600" loading="lazy" decoding="async" draggable="false"><span class="sh-pill">Wallets</span></a><a class="sh-card sh-card--piece" href="product-nova.html" tabindex="-1"><span class="sh-cut"><img src="assets/cutouts/nova-1-600.webp" alt="" width="600" height="600" loading="lazy" decoding="async" draggable="false"></span><span class="sh-meta"><b>Nova Double-Sided Leather Belt</b><em>Rs 2,394</em></span></a><a class="sh-card sh-card--photo" href="wallets.html" tabindex="-1"><img src="assets/categories/all-wallets-500.jpg" srcset="assets/categories/all-wallets-500.jpg 500w, assets/categories/all-wallets.jpg 900w" sizes="(min-width: 1024px) 18vw, 40vw" alt="" width="900" height="600" loading="lazy" decoding="async" draggable="false"><span class="sh-pill">Wallets</span></a><a class="sh-card sh-card--piece" href="product-kingsmann.html" tabindex="-1"><span class="sh-cut"><img src="assets/cutouts/kingsmann-brown-1-600.webp" alt="" width="600" height="600" loading="lazy" decoding="async" draggable="false"></span><span class="sh-meta"><b>Kingsmann Bifold Leather Wallet</b><em>Rs 2,600</em></span></a><a class="sh-card sh-card--photo" href="belts.html?cat=double" tabindex="-1"><img src="assets/categories/nova-500.jpg" srcset="assets/categories/nova-500.jpg 500w, assets/categories/nova.jpg 900w" sizes="(min-width: 1024px) 18vw, 40vw" alt="" width="900" height="600" loading="lazy" decoding="async" draggable="false"><span class="sh-pill">Belts</span></a><a class="sh-card sh-card--piece" href="product-rodeo.html" tabindex="-1"><span class="sh-cut"><img src="assets/cutouts/rodeo-tan-1-600.webp" alt="" width="600" height="600" loading="lazy" decoding="async" draggable="false"></span><span class="sh-meta"><b>Rodeo Long Leather Wallet</b><em>Rs 3,500</em></span></a><a class="sh-card sh-card--photo" href="wallets.html?cat=trifold" tabindex="-1"><img src="assets/categories/trifold-500.jpg" srcset="assets/categories/trifold-500.jpg 500w, assets/categories/trifold.jpg 900w" sizes="(min-width: 1024px) 18vw, 40vw" alt="" width="900" height="600" loading="lazy" decoding="async" draggable="false"><span class="sh-pill">Wallets</span></a><a class="sh-card sh-card--piece" href="product-nova.html" tabindex="-1"><span class="sh-cut"><img src="assets/cutouts/nova-1-600.webp" alt="" width="600" height="600" loading="lazy" decoding="async" draggable="false"></span><span class="sh-meta"><b>Nova Double-Sided Leather Belt</b><em>Rs 2,394</em></span></a><a class="sh-card sh-card--photo" href="wallets.html" tabindex="-1"><img src="assets/categories/all-wallets-500.jpg" srcset="assets/categories/all-wallets-500.jpg 500w, assets/categories/all-wallets.jpg 900w" sizes="(min-width: 1024px) 18vw, 40vw" alt="" width="900" height="600" loading="lazy" decoding="async" draggable="false"><span class="sh-pill">Wallets</span></a></div></div><div class="sh-col" data-sh-col="up"><div class="sh-track" data-sh-track><a class="sh-card sh-card--photo" href="belts.html?cat=tan-belts" tabindex="-1"><img src="assets/categories/monarch-500.jpg" srcset="assets/categories/monarch-500.jpg 500w, assets/categories/monarch.jpg 900w" sizes="(min-width: 1024px) 18vw, 40vw" alt="" width="900" height="600" loading="lazy" decoding="async" draggable="false"><span class="sh-pill">Belts</span></a><a class="sh-card sh-card--piece" href="product-majestic.html" tabindex="-1"><span class="sh-cut"><img src="assets/cutouts/majestic-brown-1-600.webp" alt="" width="600" height="600" loading="lazy" decoding="async" draggable="false"></span><span class="sh-meta"><b>Majestic Trifold Leather Wallet</b><em>Rs 2,600</em></span></a><a class="sh-card sh-card--photo" href="wallets.html?cat=minimalist" tabindex="-1"><img src="assets/categories/minimalist-500.jpg" srcset="assets/categories/minimalist-500.jpg 500w, assets/categories/minimalist.jpg 900w" sizes="(min-width: 1024px) 18vw, 40vw" alt="" width="900" height="600" loading="lazy" decoding="async" draggable="false"><span class="sh-pill">Wallets</span></a><a class="sh-card sh-card--piece" href="product-regent.html" tabindex="-1"><span class="sh-cut"><img src="assets/cutouts/regent-1-600.webp" alt="" width="600" height="600" loading="lazy" decoding="async" draggable="false"></span><span class="sh-meta"><b>Regent Premium Leather Belt</b><em>Rs 2,730</em></span></a><a class="sh-card sh-card--photo" href="belts.html?cat=black-belts" tabindex="-1"><img src="assets/categories/regent-500.jpg" srcset="assets/categories/regent-500.jpg 500w, assets/categories/regent.jpg 900w" sizes="(min-width: 1024px) 18vw, 40vw" alt="" width="900" height="600" loading="lazy" decoding="async" draggable="false"><span class="sh-pill">Belts</span></a><a class="sh-card sh-card--piece" href="product-upbuck.html" tabindex="-1"><span class="sh-cut"><img src="assets/cutouts/upbuck-brown-1-600.webp" alt="" width="600" height="600" loading="lazy" decoding="async" draggable="false"></span><span class="sh-meta"><b>Upbuck Long Leather Wallet</b><em>Rs 3,400</em></span></a><a class="sh-card sh-card--photo" href="belts.html?cat=tan-belts" tabindex="-1"><img src="assets/categories/monarch-500.jpg" srcset="assets/categories/monarch-500.jpg 500w, assets/categories/monarch.jpg 900w" sizes="(min-width: 1024px) 18vw, 40vw" alt="" width="900" height="600" loading="lazy" decoding="async" draggable="false"><span class="sh-pill">Belts</span></a><a class="sh-card sh-card--piece" href="product-majestic.html" tabindex="-1"><span class="sh-cut"><img src="assets/cutouts/majestic-brown-1-600.webp" alt="" width="600" height="600" loading="lazy" decoding="async" draggable="false"></span><span class="sh-meta"><b>Majestic Trifold Leather Wallet</b><em>Rs 2,600</em></span></a><a class="sh-card sh-card--photo" href="wallets.html?cat=minimalist" tabindex="-1"><img src="assets/categories/minimalist-500.jpg" srcset="assets/categories/minimalist-500.jpg 500w, assets/categories/minimalist.jpg 900w" sizes="(min-width: 1024px) 18vw, 40vw" alt="" width="900" height="600" loading="lazy" decoding="async" draggable="false"><span class="sh-pill">Wallets</span></a><a class="sh-card sh-card--piece" href="product-regent.html" tabindex="-1"><span class="sh-cut"><img src="assets/cutouts/regent-1-600.webp" alt="" width="600" height="600" loading="lazy" decoding="async" draggable="false"></span><span class="sh-meta"><b>Regent Premium Leather Belt</b><em>Rs 2,730</em></span></a><a class="sh-card sh-card--photo" href="belts.html?cat=black-belts" tabindex="-1"><img src="assets/categories/regent-500.jpg" srcset="assets/categories/regent-500.jpg 500w, assets/categories/regent.jpg 900w" sizes="(min-width: 1024px) 18vw, 40vw" alt="" width="900" height="600" loading="lazy" decoding="async" draggable="false"><span class="sh-pill">Belts</span></a><a class="sh-card sh-card--piece" href="product-upbuck.html" tabindex="-1"><span class="sh-cut"><img src="assets/cutouts/upbuck-brown-1-600.webp" alt="" width="600" height="600" loading="lazy" decoding="async" draggable="false"></span><span class="sh-meta"><b>Upbuck Long Leather Wallet</b><em>Rs 3,400</em></span></a></div></div></div>
     </div>
   </div>
   <div class="bulk-band" data-bulk-band>
@@ -1347,37 +1350,37 @@ function initAnimations() {
   function initScrollHint() { const dot = $("[data-scroll-dot]"); if (!dot || !isRendered(dot)) return; if (reduced) { G.set(dot, { opacity: 1, y: 9 }); return; } G.timeline({ repeat: -1, repeatDelay: .5 }).set(dot, { y: 0, opacity: 0 }).to(dot, { opacity: 1, duration: .25 }).to(dot, { y: 19, duration: 1, ease: "power2.inOut" }, .1).to(dot, { opacity: 0, duration: .3, ease: "power1.in" }, .85); }
 
   function initHero() {
-    const root = $("[data-slider]"), slides = $$("[data-slide]", root), dots = $$("[data-slide-dot]", root), count = $("[data-slide-n]", root), band = $("[data-bulk-band]");
-    const n = slides.length, HOLD = 6.5; let active = 0, busy = false, timer = null, started = false;
-    const items = (i) => $$("[data-slide-item]", slides[i]), img = (i) => $("[data-slide-img]", slides[i]);
-    const pad = (i) => String(i + 1).padStart(2, "0");
-    const paintDots = () => dots.forEach((d, i) => d.setAttribute("aria-selected", String(i === active)));
-    // the active dot fills up over the hold, then we move on
-    const arm = () => { clearTimeout(timer); dots.forEach((d) => $("i", d).style.setProperty("--p", 0)); if (reduced || document.hidden) return; const bar = $("i", dots[active]); G.fromTo(bar, { "--p": 0 }, { "--p": 1, duration: HOLD, ease: "none", overwrite: true }); timer = setTimeout(() => go(active + 1), HOLD * 1000); };
-    const enter = (i, delay) => { if (reduced) { G.set(items(i), { opacity: 1, y: 0 }); return; } G.fromTo(img(i), { scale: 1.12 }, { scale: 1.04, duration: 2.6, ease: "power2.out", overwrite: true, delay }); G.fromTo(items(i), { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: .7, ease: "power3.out", stagger: .08, delay: delay + .25, overwrite: true, clearProps: "transform" }); };
-    const go = (next, user) => {
-      next = (next + n) % n; if (next === active || busy) return; busy = true;
-      const from = slides[active], to = slides[next]; active = next; paintDots(); if (count) count.textContent = pad(next);
-      to.classList.add("is-on"); to.setAttribute("aria-hidden", "false"); from.setAttribute("aria-hidden", "true");
-      if (reduced) { from.classList.remove("is-on"); G.set(items(next), { opacity: 1 }); busy = false; arm(); return; }
-      G.set(to, { zIndex: 2 }); G.set(from, { zIndex: 1 });
-      G.fromTo(to, { opacity: 0 }, { opacity: 1, duration: 1, ease: "power2.inOut", onComplete: () => { from.classList.remove("is-on"); G.set([from, to], { clearProps: "zIndex,opacity" }); busy = false; } });
-      G.to($$("[data-slide-item]", from), { opacity: 0, y: -10, duration: .35, ease: "power2.in", overwrite: true });
-      enter(next, 0); arm();
+    const hero = $("#hero"), wall = $("[data-sh-wall]"), cols = $$("[data-sh-col]"), title = $("[data-sh-title]"), items = $$("[data-sh-item]"), band = $("[data-bulk-band]");
+    const loops = [];
+    const run = () => {
+      loops.forEach((t) => t.kill()); loops.length = 0;
+      cols.forEach((col, i) => {
+        const track = $("[data-sh-track]", col), half = track.scrollHeight / 2, down = col.dataset.shCol === "down";
+        G.set(track, { y: down ? -half : 0 });
+        if (reduced) return;
+        loops.push(G.to(track, { y: down ? 0 : -half, duration: 38 + i * 7, ease: "none", repeat: -1 }));
+      });
     };
-    dots.forEach((d, i) => d.addEventListener("click", () => go(i, true)));
-    $("[data-slide-prev]", root).addEventListener("click", () => go(active - 1, true));
-    $("[data-slide-next]", root).addEventListener("click", () => go(active + 1, true));
-    root.addEventListener("keydown", (e) => { if (e.key === "ArrowRight") go(active + 1, true); if (e.key === "ArrowLeft") go(active - 1, true); });
-    root.addEventListener("pointerenter", () => clearTimeout(timer)); root.addEventListener("pointerleave", () => { if (started) arm(); });
-    document.addEventListener("visibilitychange", () => { if (!started) return; if (document.hidden) clearTimeout(timer); else arm(); });
-    // swipe
-    let sx = 0, sy = 0; root.addEventListener("touchstart", (e) => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
-    root.addEventListener("touchend", (e) => { const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy; if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.5) go(active + (dx < 0 ? 1 : -1), true); }, { passive: true });
-    if (!reduced) { G.set(items(0), { opacity: 0 }); if (band) G.set(band, { y: 24, opacity: 0 }); }
-    return function start() { started = true; enter(0, 0); if (band && !reduced) G.to(band, { y: 0, opacity: 1, duration: .6, ease: "power3.out", delay: .6, clearProps: "transform" }); arm(); };
+    // slow the wall while the pointer is over it, so a card can be read
+    wall.addEventListener("pointerenter", () => loops.forEach((t) => G.to(t, { timeScale: .25, duration: .6 })));
+    wall.addEventListener("pointerleave", () => loops.forEach((t) => G.to(t, { timeScale: 1, duration: .6 })));
+    let rt = 0; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(run, 150); });
+    document.addEventListener("visibilitychange", () => loops.forEach((t) => document.hidden ? t.pause() : t.resume()));
+    if (!reduced) { G.set(items, { opacity: 0, y: 18 }); G.set(title, { opacity: 0 }); if (band) G.set(band, { y: 24, opacity: 0 }); }
+    else { G.set(wall, { opacity: 1 }); G.set(title, { opacity: 1 }); }
+    return function start() {
+      run();
+      if (reduced) return;
+      const tl = G.timeline({ defaults: { ease: "power3.out" } });
+      tl.fromTo(wall, { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 1.4, ease: "power3.out" }, .1);
+      if (window.SplitText) window.SplitText.create(title, { type: "lines", mask: "lines", linesClass: "line", onSplit: (self) => { G.set(title, { opacity: 1 }); return G.fromTo(self.lines, { yPercent: 110 }, { yPercent: 0, duration: 1.1, ease: "power4.out", stagger: .12, delay: .25 }); } });
+      else tl.to(title, { opacity: 1, duration: .8 }, .25);
+      tl.to(items, { opacity: 1, y: 0, duration: .8, stagger: .1, clearProps: "transform" }, .5);
+      if (band) tl.to(band, { y: 0, opacity: 1, duration: .6, clearProps: "transform" }, 1.1);
+      if (fine) { const wx = G.quickTo(wall, "x", { duration: 1.2, ease: "power2.out" }), wy = G.quickTo(wall, "y", { duration: 1.2, ease: "power2.out" }); hero.addEventListener("pointermove", (e) => { wx((e.clientX / innerWidth - .5) * 14); wy((e.clientY / innerHeight - .5) * 10); }, { passive: true }); }
+      if (ST) G.to(wall, { yPercent: -10, ease: "none", scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true } });
+    };
   }
-
   /* ================= 02 RANGE ================= */
   function initRangeDesktop() {
     const section = $("#range"); if (!section) return; const pin = $("[data-range-pin]"), title = $("[data-range-title-main]"), label = $("[data-range-label]"), count = $("[data-range-count]"), panels = $$("[data-range-panel]"), bgs = $$("[data-range-bloom]"), ghosts = $$("[data-range-ghost]"), cuts = $$("[data-range-cut]"), stage = $("[data-range-stage]"), dots = $$("[data-range-dot]");
