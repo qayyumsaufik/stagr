@@ -628,6 +628,27 @@ html.is-entering .fade { opacity: 1; }
 @media (max-width: 1023px) { .cat-photo-2 { display: none; } .cat--single .cat-track { --rail-w: 100%; } }
 @media (min-width: 640px) and (max-width: 1023px) { .cat--single .cat-row { grid-template-columns: 1fr 1fr; } .cat--single .cat-track { --rail-w: 100%; } }
 @media (min-width: 1400px) { .cat-track { --rail-w: calc((100% - 40px) / 3); } .cat--two .cat-track { --rail-w: calc((100% - 20px) / 2); } }
+/* ---- what is inside ---- */
+.cinside { padding: clamp(32px, 5vw, 64px) 0 0; }
+.cinside-card { display: grid; gap: 24px; background: #F4F2EE; border-radius: 18px; padding: clamp(22px, 3vw, 44px); }
+.cinside-title { font-size: clamp(1.7rem, 1.2rem + 1.6vw, 2.6rem); }
+.cinside-copy .explore-sub { margin-top: 14px; max-width: 54ch; }
+.cinside-copy .spec { margin-top: 22px; }
+.cinside-photo { border-radius: 12px; overflow: hidden; aspect-ratio: 4 / 3; background: var(--ink); }
+.cinside-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+@media (min-width: 1024px) { .cinside-card { grid-template-columns: 1fr 1fr; gap: clamp(28px, 4vw, 56px); align-items: center; } .cinside-photo { aspect-ratio: 4 / 3; } }
+/* ---- which fold / which belt ---- */
+.which { padding: clamp(40px, 6vw, 80px) 0 0; }
+.which-grid { display: grid; gap: 16px; grid-template-columns: 1fr; margin-top: clamp(20px, 3vw, 32px); }
+.which-card { position: relative; display: block; aspect-ratio: 4 / 3; border-radius: 14px; overflow: hidden; background: var(--ink); color: var(--bone); }
+.which-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1.02); transition: transform .9s var(--ease-out); }
+.which-card:hover img { transform: scale(1.07); }
+.which-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(26,27,29,0) 45%, rgba(26,27,29,.72) 100%); }
+.which-card span { position: absolute; left: 18px; right: 18px; bottom: 16px; z-index: 2; display: grid; gap: 2px; }
+.which-card b { font-weight: 700; font-size: 1.1rem; }
+.which-card em { font-style: normal; font-size: .8125rem; color: rgba(239,237,230,.82); }
+@media (min-width: 640px) { .which-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1024px) { .which-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 /* ---- all band + cross ---- */
 .all-band { padding: clamp(40px, 6vw, 80px) 0; background: var(--ink); color: var(--bone); text-align: center; }
 .all-band .explore-title { color: var(--bone); max-width: 20ch; margin: 0 auto; }
@@ -939,6 +960,26 @@ html.is-entering .fade { opacity: 1; }
 </aside>
 
 
+<section class="cinside on-bone" aria-labelledby="cinside-title">
+  <div class="wrap cinside-card">
+    <div class="cinside-copy">
+      <p class="label" data-reveal>What is inside</p>
+      <h2 class="explore-title cinside-title" id="cinside-title" data-reveal data-delay=".05">Folded, skived, stitched by hand</h2>
+      <p class="explore-sub" data-reveal data-delay=".1">Skived at the folds so it stays flat in a jacket pocket. One row of saddle stitch, two needles, waxed linen thread. It cannot unravel the way a machine seam can.</p>
+      <dl class="spec" data-reveal data-delay=".15"><div><dt>Leather</dt><dd>Crazy horse, full grain cowhide</dd></div><div><dt>Lining</dt><dd>Calf</dd></div><div><dt>Stitching</dt><dd>Saddle stitch, by hand</dd></div><div><dt>Colours</dt><dd>Brown, Black (Rodeo in Tan)</dd></div><div><dt>Care</dt><dd>Wipe dry, condition twice a year</dd></div></dl>
+    </div>
+    <figure class="cinside-photo" data-reveal data-delay=".1"><img src="assets/categories/long-1400.jpg" alt="A Stagr long wallet open beside its box" width="1400" height="933" loading="lazy"></figure>
+  </div>
+</section>
+
+<section class="which on-bone" aria-labelledby="which-title">
+  <div class="wrap">
+    <h2 class="explore-title" id="which-title" data-reveal>Which fold?</h2>
+    <p class="explore-sub" data-reveal data-delay=".05">Four shapes, one hide. Pick by pocket, not by price.</p>
+    <div class="which-grid"><a class="which-card" href="shop.html?line=wallets&cat=bifold" data-reveal data-delay="0.1"><img src="assets/categories/bifold.jpg" srcset="assets/categories/bifold.jpg 900w, assets/categories/bifold-1400.jpg 1400w" sizes="(min-width: 1024px) 22vw, (min-width: 640px) 46vw, 100vw" alt="Bifold wallets" width="1400" height="933" loading="lazy"><span><b>Bifold</b><em>Kingsmann, Regal</em></span></a><a class="which-card" href="shop.html?line=wallets&cat=trifold" data-reveal data-delay="0.16"><img src="assets/categories/trifold.jpg" srcset="assets/categories/trifold.jpg 900w, assets/categories/trifold-1400.jpg 1400w" sizes="(min-width: 1024px) 22vw, (min-width: 640px) 46vw, 100vw" alt="Trifold wallets" width="1400" height="933" loading="lazy"><span><b>Trifold</b><em>Majestic</em></span></a><a class="which-card" href="shop.html?line=wallets&cat=minimalist" data-reveal data-delay="0.22"><img src="assets/categories/minimalist.jpg" srcset="assets/categories/minimalist.jpg 900w, assets/categories/minimalist-1400.jpg 1400w" sizes="(min-width: 1024px) 22vw, (min-width: 640px) 46vw, 100vw" alt="Minimalist" width="1400" height="933" loading="lazy"><span><b>Minimalist</b><em>Maverick, Purefold</em></span></a><a class="which-card" href="shop.html?line=wallets&cat=long" data-reveal data-delay="0.28"><img src="assets/categories/long.jpg" srcset="assets/categories/long.jpg 900w, assets/categories/long-1400.jpg 1400w" sizes="(min-width: 1024px) 22vw, (min-width: 640px) 46vw, 100vw" alt="Long wallets" width="1400" height="933" loading="lazy"><span><b>Long</b><em>Rodeo, Upbuck</em></span></a></div>
+  </div>
+</section>
+
 <section class="cross" aria-labelledby="cross-title">
   <div class="wrap" data-rail>
     <div class="cat-head">
@@ -1090,7 +1131,7 @@ function initHero() {
   const img = $("[data-hero-img]"), items = $$("[data-hero-item]");
   if (!reduced) { G.set(items, { y: 18, opacity: 0 }); }
   S.onLoaderDone.push(() => { if (reduced) return; G.fromTo(img, { scale: 1.14 }, { scale: 1.04, duration: 2.6, ease: "power2.out", clearProps: "transform" }); G.to(items, { y: 0, opacity: 1, duration: .7, ease: "power3.out", stagger: .08, delay: .2, clearProps: "transform" }); });
-  $$(".cstrip, .cat, .all-band, .cross, #why, footer").forEach((el) => S.initReveals(el));
+  $$(".cinside, .which, .cross, #why, footer").forEach((el) => S.initReveals(el));
   S.initRails(document);
   // deep links from the mega menu: wallets.html#long, ?style=Long
   $$('a[href^="#"]').forEach((a) => a.addEventListener("click", (e) => { const el = $(a.getAttribute("href")); if (!el) return; e.preventDefault(); S.scrollTo(el, 1.1); }));
