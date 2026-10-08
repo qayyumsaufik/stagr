@@ -855,9 +855,9 @@ html.is-entering .fade { opacity: 1; }
   <div class="wrap">
     <div class="bk-head"><div><p class="label" data-reveal>What you can order</p><h2 class="explore-title" id="bk-range-title" data-reveal data-delay=".05">The whole range, at the shop price.</h2><p class="explore-sub" data-reveal data-delay=".1">Rs 1,740 to Rs 3,500 per piece. That is the whole range, and it is the same for a gift of one or an order of a hundred.</p></div><a class="btn btn--ghost" href="shop.html" data-reveal data-delay=".15">Browse everything <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
     <div class="bk-range">
-<a class="bk-range-card" href="shop.html?line=belts" data-reveal><img src="assets/categories/all-belts.jpg" srcset="assets/categories/all-belts.jpg 900w, assets/categories/all-belts-1400.jpg 1400w" sizes="(min-width: 1024px) 32vw, 100vw" alt="Stagr belts" width="1400" height="933" loading="lazy"><span><b>Belts</b><em>4 styles · sizes 30 to 44 · from Rs 2,394</em></span></a>
-<a class="bk-range-card" href="shop.html?line=wallets" data-reveal data-delay=".08"><img src="assets/categories/all-wallets.jpg" srcset="assets/categories/all-wallets.jpg 900w, assets/categories/all-wallets-1400.jpg 1400w" sizes="(min-width: 1024px) 32vw, 100vw" alt="Stagr wallets" width="1400" height="933" loading="lazy"><span><b>Wallets</b><em>7 styles · bifold, trifold, minimalist, long · from Rs 1,740</em></span></a>
-<a class="bk-range-card" href="shop.html" data-reveal data-delay=".16"><img src="assets/bulk/mix-800.jpg" srcset="assets/bulk/mix-800.jpg 800w, assets/bulk/mix-1600.jpg 1600w" sizes="(min-width: 1024px) 32vw, 100vw" alt="Two Stagr wallets beside the tools that made them" width="1600" height="1200" loading="lazy"><span><b>A mix</b><em>Belts and wallets together, prepared as one consignment</em></span></a></div>
+<a class="bk-range-card" href="#build" data-bo-go="belt" data-reveal><img src="assets/categories/all-belts.jpg" srcset="assets/categories/all-belts.jpg 900w, assets/categories/all-belts-1400.jpg 1400w" sizes="(min-width: 1024px) 32vw, 100vw" alt="Stagr belts" width="1400" height="933" loading="lazy"><span><b>Belts</b><em>4 styles · sizes 30 to 44 · from Rs 2,394</em></span></a>
+<a class="bk-range-card" href="#build" data-bo-go="wallet" data-reveal data-delay=".08"><img src="assets/categories/all-wallets.jpg" srcset="assets/categories/all-wallets.jpg 900w, assets/categories/all-wallets-1400.jpg 1400w" sizes="(min-width: 1024px) 32vw, 100vw" alt="Stagr wallets" width="1400" height="933" loading="lazy"><span><b>Wallets</b><em>7 styles · bifold, trifold, minimalist, long · from Rs 1,740</em></span></a>
+<a class="bk-range-card" href="#build" data-bo-go="all" data-reveal data-delay=".16"><img src="assets/bulk/mix-800.jpg" srcset="assets/bulk/mix-800.jpg 800w, assets/bulk/mix-1600.jpg 1600w" sizes="(min-width: 1024px) 32vw, 100vw" alt="Two Stagr wallets beside the tools that made them" width="1600" height="1200" loading="lazy"><span><b>A mix</b><em>Belts and wallets together, prepared as one consignment</em></span></a></div>
   </div>
 </section>
 
@@ -1160,6 +1160,7 @@ function initBulk() {
     $("[data-bo-inc]", card).addEventListener("click", () => { st.qty = Math.min(999, st.qty + 1); paint(); if (G && !reduced) G.fromTo($("[data-bo-count]", card), { scale: .7 }, { scale: 1, duration: .35, ease: "back.out(3)", clearProps: "transform" }); });
     $("[data-bo-dec]", card).addEventListener("click", () => { st.qty = Math.max(0, st.qty - 1); paint(); });
   });
+  $$("[data-bo-go]").forEach((a) => a.addEventListener("click", () => { const t = $('[data-bo-tab="' + a.dataset.boGo + '"]'); t && t.click(); }));
   $("[data-bo-continue]").addEventListener("click", (e) => { e.preventDefault(); S.scrollTo(enquire, 1.1); });
   window.addEventListener("scroll", paintBar, { passive: true }); window.addEventListener("resize", paintBar);
   $$("[data-addon]").forEach((b) => b.addEventListener("click", () => b.setAttribute("aria-pressed", String(b.getAttribute("aria-pressed") !== "true"))));
