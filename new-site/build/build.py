@@ -189,18 +189,20 @@ def mega(line, ctx):
     """Cartier-style drop panel for Wallets / Belts."""
     P = {p["id"]: p for p in ctx["products"]}
     items = [p for p in ctx["products"] if p["line"] == line[:-1]]
+    CAT = {"kingsmann": "bifold", "regal": "bifold", "majestic": "trifold", "maverick": "minimalist", "purefold": "minimalist", "rodeo": "long", "upbuck": "long",
+           "nova": "double", "outlaw": "classic", "regent": "black-belts", "monarch": "tan-belts"}
     def thumb(p, label=None, href=None):
         c = cutouts_for(p)[0]
-        return f'<a class="mega-item" href="{href or f"product-{p['id']}.html"}"><span class="mega-thumb"><img src="{c["small"]}" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">{label or p["name"].split(" ")[0]}</span></a>'
+        return f'<a class="mega-item" href="{href or f"{line}.html?cat={CAT[p['id']]}"}"><span class="mega-thumb"><img src="{c["small"]}" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">{label or p["name"].split(" ")[0]}</span></a>'
     rows = thumb_rows = ""
     if line == "wallets":
         tabs = [("collections", "Collections"), ("style", "By style"), ("care", "Care and sizing")]
         rows = f'<div class="mega-row" data-mega-tab="collections">{"".join(thumb(p) for p in items)}</div>'
-        rows += f'<div class="mega-row" data-mega-tab="style" hidden>{"".join(thumb(P[ids[0]], label, f"wallets.html#{name.lower()}") for name, ids in STYLE_GROUPS for label in [name])}</div>'
+        rows += f'<div class="mega-row" data-mega-tab="style" hidden>{"".join(thumb(P[ids[0]], label, f"wallets.html?cat={name.lower()}") for name, ids in STYLE_GROUPS for label in [name])}</div>'
     else:
         tabs = [("collections", "Collections"), ("style", "By style"), ("care", "Care and sizing")]
         rows = f'<div class="mega-row" data-mega-tab="collections">{"".join(thumb(p) for p in items)}</div>'
-        rows += f'<div class="mega-row" data-mega-tab="style" hidden>{thumb(P["outlaw"], "Classic", "belts.html#classic")}{thumb(P["nova"], "Double-sided", "belts.html#double-sided")}{thumb(P["monarch"], "Tan", "belts.html?colour=Tan")}{thumb(P["regent"], "Black", "belts.html?colour=Black")}</div>'
+        rows += f'<div class="mega-row" data-mega-tab="style" hidden>{thumb(P["outlaw"], "Classic", "belts.html?cat=classic")}{thumb(P["nova"], "Double-sided", "belts.html?cat=double")}{thumb(P["monarch"], "Tan", "belts.html?cat=tan-belts")}{thumb(P["regent"], "Black", "belts.html?cat=black-belts")}</div>'
     care = [("How it is made", "about.html#craft"), ("Leather care", "about.html#faq"), ("Size guide", "product-nova.html#details" if line == "belts" else "about.html#faq"), ("Delivery and returns", "index.html#delivery"), ("Bulk orders", "bulk.html")]
     rows += f'<div class="mega-row mega-links" data-mega-tab="care" hidden>{"".join(f"<a class=link href={h}>{t}</a>" for t, h in care)}</div>'
     tabs_html = "".join(f'<button type="button" role="tab" aria-selected="{str(i == 0).lower()}" data-mega-tab-btn="{k}">{t}</button>' for i, (k, t) in enumerate(tabs))

@@ -181,6 +181,7 @@ def render(ctx):
 .bulk-text b { font-weight: 500; font-size: 1rem; color: var(--bone); }
 .bulk-btn { flex: 0 0 auto; background: var(--bone); color: var(--ink); border-color: var(--bone); }
 .bulk-btn:hover { background: var(--ink); color: var(--bone); border-color: var(--ink); }
+@media (max-width: 767px) { .bulk-band::before { display: none; } .bulk-inner { flex-wrap: wrap; gap: 12px 14px; padding-top: 18px; padding-bottom: 18px; } .bulk-icon { margin-left: 0; } .bulk-text { flex: 1 1 calc(100% - 54px); min-width: 0; } .bulk-text b { font-size: .9375rem; } .bulk-btn { flex: 1 1 100%; justify-content: center; } }
 
 /* ---- the three tiles under the hero: how it is made, bulk orders, a handwritten note ---- */
 /* ---- explore by category ---- */

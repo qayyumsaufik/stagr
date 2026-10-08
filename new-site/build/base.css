@@ -327,8 +327,8 @@ address { font-style: normal; }
 .mega-tabs button[aria-selected="true"]::after { transform: scaleX(1); }
 .mega-row { display: flex; justify-content: center; gap: clamp(16px, 2vw, 32px); flex-wrap: wrap; }
 .mega-item { display: grid; justify-items: center; gap: 12px; width: 132px; text-align: center; }
-.mega-thumb { width: 132px; height: 132px; display: grid; place-items: center; background: rgba(26,27,29,.045); transition: background-color .3s ease; }
-.mega-thumb img { width: 84%; height: auto; max-height: 84%; object-fit: contain; filter: drop-shadow(0 10px 14px rgba(26,27,29,.18)); transition: transform .5s var(--ease-out); }
+.mega-thumb { width: 132px; height: 132px; display: flex; align-items: center; justify-content: center; background: rgba(26,27,29,.045); transition: background-color .3s ease; }
+.mega-thumb img { width: auto; height: auto; max-width: 84%; max-height: 84%; object-fit: contain; filter: drop-shadow(0 10px 14px rgba(26,27,29,.18)); transition: transform .5s var(--ease-out); }
 .mega-item:hover .mega-thumb { background: rgba(26,27,29,.08); }
 .mega-item:hover .mega-thumb img { transform: translateY(-4px) scale(1.04); }
 .mega-name { font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: var(--fg-2); }
