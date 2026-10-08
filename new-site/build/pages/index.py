@@ -589,24 +589,7 @@ def render(ctx):
 
 <!-- range section hidden for now -->{ctx["why"](ctx)}
 
-<section id="story" class="story on-bone" aria-labelledby="story-title">
-  <div class="story-pin desk-only" data-story-pin>
-    <div class="story-intro" data-story-intro><p class="label"><b>06</b><span class="slash">/</span>Story</p><h2 class="h1" id="story-title" data-story-title>{B["about"]["headline"]}.</h2><p class="lead">{B["about"]["intro"]} {B["about"]["sections"][2]["body"].split(".")[0]}.</p><div class="scroll-hint" style="margin-top:36px" aria-hidden="true"><span class="t">Scroll</span></div></div>
-    <div class="story-stage" data-story-stage>{ghosts}{figures}{spanels}<div class="story-years"><div class="story-progress" data-story-progress></div>{years}</div></div>
-  </div>
-  <div class="story-mobile mob-only">
-    <div data-reveal><p class="label"><b>06</b><span class="slash">/</span>Story</p></div>
-    <h2 class="h1" data-text-reveal="lines" style="margin-top:12px">{B["about"]["headline"]}.</h2>
-    <p class="lead" data-illuminate style="margin-top:16px">{B["about"]["intro"]}</p>
-    <div class="mstory" data-mstory>
-      <div class="mstory-sticky">
-        <div class="mstory-stage">{mstory_ghosts}{mstory_figs}</div>
-        <div class="mstory-text">{mstory_panels}</div>
-        <div class="mstory-years">{myears}</div>
-      </div>
-    </div>
-  </div>
-</section>
+<!-- story section hidden for now -->
 
 '''
 
@@ -853,7 +836,7 @@ function initAnimations() {
     }));
   })();
   if (isMobile) initRangeMobile(); else initRangeDesktop();
-  if (isMobile) initStoryMobile(); else initStoryDesktop();
+  if ($("#story")) { if (isMobile) initStoryMobile(); else initStoryDesktop(); }   // story hidden for now
   S.initReveals($("#why")); S.initReveals($("#story")); S.initReveals($("footer"));
   S.onLoaderDone.push(() => { startHero(); ST.refresh(); });
   // pinned sections measure once; re-measure after fonts and every image have settled so nothing pins early
