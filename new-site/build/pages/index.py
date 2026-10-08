@@ -218,7 +218,7 @@ def render(ctx):
 
 /* ---- 01 hero: copy left, a tilted wall of pieces looping on the right ---- */
 .hero { position: relative; background: #1b1917; color: var(--bone); }
-.shero { position: relative; min-height: calc(100svh - 76px); overflow: hidden; display: flex; flex-direction: column; }
+.shero { position: relative; isolation: isolate; min-height: calc(100svh - 76px); overflow: hidden; display: flex; flex-direction: column; }
 .shero .sh-grid { flex: 1; }
 .sh-glow { position: absolute; right: -10%; top: -20%; width: 70vmin; height: 70vmin; border-radius: 50%; background: radial-gradient(circle, rgba(197,139,74,.28), transparent 68%); filter: blur(40px); pointer-events: none; }
 .sh-grid { position: relative; display: grid; grid-template-columns: 1fr; gap: 24px; width: 100%; padding-top: calc(var(--nav-top) + 24px); }
