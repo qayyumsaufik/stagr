@@ -1247,22 +1247,7 @@ html.is-entering .fade { opacity: 1; }
   </div>
 </section>
 
-<section id="more" class="more on-bone" aria-label="How it is made, bulk orders and the handwritten note">
-  <div class="wrap bento">
-    <a class="ftile ftile-main" href="about.html#craft" data-reveal aria-label="How it is made">
-      <div class="ftile-copy"><h2>How it is made</h2><p>Crazy horse leather, stitched by hand. Cut from full hides, skived at the folds, saddle stitched.</p></div>
-      <div class="ftile-pic">      <img src="assets/hero/tile-made-800.jpg" srcset="assets/hero/tile-made-800.jpg 800w, assets/hero/tile-made.jpg 1400w" sizes="(min-width: 1024px) 56vw, 100vw" alt="Two Stagr bifolds beside the knives and awls that made them" width="1400" height="933" loading="lazy" decoding="async"></div>
-    </a>
-    <a class="ftile" href="bulk.html" data-reveal data-delay=".1" aria-label="Bulk orders">
-      <div class="ftile-copy"><h2>Bulk orders</h2><p>Ten pieces or more, embossed with your logo, boxed with a card.</p></div>
-      <div class="ftile-pic">      <img src="assets/hero/tile-bulk-800.jpg" srcset="assets/hero/tile-bulk-800.jpg 800w, assets/hero/tile-bulk.jpg 1400w" sizes="(min-width: 1024px) 44vw, 100vw" alt="Four Stagr belts laid side by side on walnut" width="1400" height="933" loading="lazy" decoding="async"></div>
-    </a>
-    <a class="ftile" href="about.html#faq" data-reveal data-delay=".2" aria-label="A handwritten note">
-      <div class="ftile-copy"><h2>A handwritten note</h2><p>Add a message at checkout. We write it by hand and pack it in the box.</p></div>
-      <div class="ftile-pic">      <img src="assets/hero/tile-note-800.jpg" srcset="assets/hero/tile-note-800.jpg 800w, assets/hero/tile-note.jpg 1400w" sizes="(min-width: 1024px) 44vw, 100vw" alt="A Stagr wallet resting on its black gift box" width="1400" height="933" loading="lazy" decoding="async"></div>
-    </a>
-  </div>
-</section>
+<!-- feature tiles (how it is made / bulk / note) removed -->
 
 <!-- range section hidden for now --><section id="why" class="why on-bone" aria-labelledby="why-title">
   <div class="wrap">
@@ -1642,7 +1627,7 @@ function initAnimations() {
 
   /* ================= boot (top to bottom so pinned blocks measure in order) ================= */
   const startHero = initHero();
-  initScrollHint(); S.initReveals($("#hero")); S.initReveals($("#explore")); initShop(); S.initReveals($("#shop")); initInside(); S.initReveals($("#inside")); initPromise(); initAnatomy(); S.initReveals($("#anatomy")); S.initReveals($("#more"));
+  initScrollHint(); S.initReveals($("#hero")); S.initReveals($("#explore")); initShop(); S.initReveals($("#shop")); initInside(); S.initReveals($("#inside")); initPromise(); initAnatomy(); S.initReveals($("#anatomy"));
   (function initExplore() {
     const tabs = $$("[data-ex-tab]"), grids = $$("[data-ex-grid]"), all = $("[data-ex-all]"); if (!tabs.length) return;
     tabs.forEach((t) => t.addEventListener("click", () => {
