@@ -64,7 +64,7 @@ def catalogue(ctx, fixed_line=None):
     sort_opts = "".join(f'<label class="sh-check sh-radio"><input type="radio" name="sort" value="{v}" {"checked" if v == "recommended" else ""}><span class="sh-box"></span><span class="sh-check-label">{l}</span></label>' for v, l in sorts)
 
     def pill(key, label, body):
-        return f'<div class="sh-pill" data-dd="{key}"><button type="button" class="sh-pill-btn" aria-expanded="false" aria-haspopup="true"><span data-pill-label>{label}</span><i class="sh-pill-n" data-pill-n hidden></i>{chev}</button><div class="sh-dd" hidden><div class="sh-dd-body">{body}</div><div class="sh-dd-foot"><button type="button" class="btn btn--text" data-clear-group="{key}">Clear</button><button type="button" class="btn btn--sm" data-dd-close>Done</button></div></div></div>'
+        return f'<div class="sh-pill" data-dd="{key}"><button type="button" class="sh-pill-btn" aria-expanded="false" aria-haspopup="true"><span data-pill-label>{label}</span><i class="sh-pill-n" data-pill-n hidden></i>{chev}</button><div class="sh-dd" data-dd-title="{label}" hidden><div class="sh-dd-body">{body}</div><div class="sh-dd-foot"><button type="button" class="btn btn--text" data-clear-group="{key}">Clear</button><button type="button" class="btn btn--sm" data-dd-close>Done</button></div></div></div>'
 
     css = r'''
 .shop-top { padding: calc(var(--nav-top) + clamp(20px, 3vw, 36px)) 0 0; }
@@ -155,11 +155,14 @@ def catalogue(ctx, fixed_line=None):
 .delivery p { color: var(--fg-2); font-size: .9375rem; margin-top: 8px; max-width: 26ch; }
 @media (max-width: 767px) {
   .shop-head p { display: none; }
-  .sh-bar { position: static; }
+  .sh-bar { position: static; backdrop-filter: none; -webkit-backdrop-filter: none; }
   .sh-bar .wrap { flex-wrap: wrap; }
   .sh-pills { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); width: calc(100% + var(--gutter) * 2); }
   .sh-pills::-webkit-scrollbar { display: none; }
-  .sh-pill:not([data-dd="sort"]) .sh-dd { display: none !important; }
+  /* dropdowns become a bottom sheet on phones */
+  .sh-dd, .sh-right .sh-dd { position: fixed; left: 10px; right: 10px; top: auto; bottom: calc(10px + env(safe-area-inset-bottom)); z-index: 96; min-width: 0; border-radius: 16px; transform-origin: bottom center; box-shadow: 0 -10px 40px rgba(26,27,29,.28); }
+  .sh-dd-body { max-height: 50vh; }
+  .sh-dd::before { content: attr(data-dd-title); display: block; padding: 16px 18px 4px; font-size: .9375rem; font-weight: 600; }
   .sh-right { width: 100%; justify-content: space-between; }
 }
 '''
@@ -183,7 +186,7 @@ def catalogue(ctx, fixed_line=None):
     </div>
     <div class="sh-right">
       <span class="sh-count"><span data-count-total>{len(P)}</span> <span data-count-word>pieces</span></span>
-      <div class="sh-pill" data-dd="sort"><button type="button" class="sh-pill-btn" aria-expanded="false" aria-haspopup="true"><span data-sort-label>Recommended</span>{chev}</button><div class="sh-dd" hidden><div class="sh-dd-body" data-sort-body>{sort_opts}</div></div></div>
+      <div class="sh-pill" data-dd="sort"><button type="button" class="sh-pill-btn" aria-expanded="false" aria-haspopup="true"><span data-sort-label>Recommended</span>{chev}</button><div class="sh-dd" data-dd-title="Sort by" hidden><div class="sh-dd-body" data-sort-body>{sort_opts}</div></div></div>
     </div>
   </div>
 </div>
@@ -282,9 +285,9 @@ function initAnimations() {
 
   /* ---- dropdown pills ---- */
   let openDd = null;
-  const closeDd = () => { if (!openDd) return; const dd = $(".sh-dd", openDd), btn = $(".sh-pill-btn", openDd); btn.setAttribute("aria-expanded", "false"); if (G && !reduced) G.to(dd, { opacity: 0, y: -6, duration: .18, ease: "power2.in", overwrite: true, onComplete: () => { dd.hidden = true; G.set(dd, { clearProps: "all" }); } }); else dd.hidden = true; openDd = null; };
-  const showDd = (pill) => { if (openDd === pill) return closeDd(); closeDd(); openDd = pill; const dd = $(".sh-dd", pill), btn = $(".sh-pill-btn", pill); btn.setAttribute("aria-expanded", "true"); dd.hidden = false; if (G && !reduced) G.fromTo(dd, { opacity: 0, y: -6 }, { opacity: 1, y: 0, duration: .3, ease: "power3.out", overwrite: true, clearProps: "transform" }); };
-  $$("[data-dd]").forEach((pill) => $(".sh-pill-btn", pill).addEventListener("click", (e) => { e.stopPropagation(); if (S.isMobile && pill.dataset.dd !== "sort") return openDrawer(); showDd(pill); }));
+  const closeDd = () => { if (!openDd) return; if (!drawerOpen) $(".sh-drawer-backdrop").classList.remove("is-open"); const dd = $(".sh-dd", openDd), btn = $(".sh-pill-btn", openDd); btn.setAttribute("aria-expanded", "false"); if (G && !reduced) G.to(dd, { opacity: 0, y: -6, duration: .18, ease: "power2.in", overwrite: true, onComplete: () => { dd.hidden = true; G.set(dd, { clearProps: "all" }); } }); else dd.hidden = true; openDd = null; };
+  const showDd = (pill) => { if (openDd === pill) return closeDd(); closeDd(); openDd = pill; if (window.matchMedia("(max-width: 767px)").matches) $(".sh-drawer-backdrop").classList.add("is-open"); const dd = $(".sh-dd", pill), btn = $(".sh-pill-btn", pill); btn.setAttribute("aria-expanded", "true"); dd.hidden = false; if (G && !reduced) G.fromTo(dd, { opacity: 0, y: -6 }, { opacity: 1, y: 0, duration: .3, ease: "power3.out", overwrite: true, clearProps: "transform" }); };
+  $$("[data-dd]").forEach((pill) => $(".sh-pill-btn", pill).addEventListener("click", (e) => { e.stopPropagation(); showDd(pill); }));
   $$("[data-dd-close]").forEach((b) => b.addEventListener("click", closeDd));
   document.addEventListener("click", (e) => { if (openDd && !openDd.contains(e.target)) closeDd(); });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeDd(); });
@@ -295,6 +298,7 @@ function initAnimations() {
   const closeDrawer = () => { if (!drawerOpen) return; drawerOpen = false; drawer.classList.remove("is-open"); backdrop.classList.remove("is-open"); drawer.setAttribute("aria-hidden", "true"); S.unlock("filters"); lastFocus && lastFocus.focus && lastFocus.focus(); };
   $$("[data-drawer-open]").forEach((b) => b.addEventListener("click", openDrawer));
   $$("[data-drawer-close]").forEach((b) => b.addEventListener("click", closeDrawer));
+  $(".sh-drawer-backdrop").addEventListener("click", closeDd);
   S.closeOverlay = () => { if (drawerOpen) closeDrawer(); };
 
   /* ---- first paint: categories and cards rise in once ---- */
