@@ -432,19 +432,41 @@ html.is-entering .fade { opacity: 1; }
 .scroll-hint .mouse i { position: absolute; left: 50%; top: 7px; width: 5px; height: 5px; margin-left: -2.5px; background: var(--accent); opacity: 0; }
 
 /* ---------- footer ---------- */
-.footer { position: relative; background: var(--bg); color: var(--fg); padding-top: var(--section-sm); overflow: hidden; border-top: 1px solid var(--line); }
-.footer .news { display: grid; gap: 20px; padding-bottom: var(--section-sm); border-bottom: 1px solid var(--line); }
-@media (min-width: 1024px) { .footer .news { grid-template-columns: 1fr 1fr; align-items: end; } }
-.footer .cols { display: grid; gap: 32px; grid-template-columns: 1fr 1fr; padding: 48px 0; }
-@media (min-width: 768px) { .footer .cols { grid-template-columns: 2fr 1fr 1fr 1fr; } }
-.footer .cols h4 { font-size: .75rem; letter-spacing: .2em; text-transform: uppercase; color: var(--fg-2); font-weight: 500; margin-bottom: 14px; }
-.footer .cols li + li { margin-top: 8px; }
-.footer .cols a:hover { color: var(--accent-deep); }
-.footer .legal { display: flex; flex-wrap: wrap; gap: 8px 32px; justify-content: space-between; padding: 20px 0 28px; border-top: 1px solid var(--line); font-size: .75rem; color: var(--fg-2); }
+.footer { position: relative; background: #171412; color: var(--bone); padding: clamp(36px, 5vw, 56px) 0 24px; overflow: hidden; }
+.footer::before { content: ""; position: absolute; inset: 0; background: radial-gradient(70% 55% at 50% 0%, rgba(139, 74, 31, .32), transparent 72%); pointer-events: none; }
+.footer .wrap { position: relative; }
+.fcta { position: relative; display: grid; gap: 20px; align-items: center; overflow: hidden; border-radius: 16px; background: var(--accent-deep); padding: clamp(26px, 3.5vw, 46px) clamp(22px, 3.5vw, 52px); }
+.fcta-pic { position: absolute; inset: 0 0 0 40%; pointer-events: none; }
+.fcta-pic img { width: 100%; height: 100%; object-fit: cover; object-position: 60% 50%; opacity: .9; -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 55%); mask-image: linear-gradient(90deg, transparent 0%, #000 55%); }
+.fcta::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(139,74,31,0) 55%, rgba(60,30,12,.35) 100%); pointer-events: none; }
+.fcta-copy { position: relative; z-index: 1; }
+.fcta-title { font-family: var(--font-display); font-weight: 300; font-size: clamp(1.7rem, 1.25rem + 1.6vw, 2.6rem); line-height: 1.06; letter-spacing: -.012em; text-wrap: balance; }
+.fcta-copy p { margin-top: 10px; font-size: .9375rem; color: rgba(239, 237, 230, .86); max-width: 44ch; }
+.fcta-btn.btn { position: relative; z-index: 1; justify-self: start; background: var(--ink); border-color: var(--ink); color: var(--bone); }
+.fcta-btn.btn:hover { background: var(--bone); border-color: var(--bone); color: var(--ink); }
+@media (min-width: 1024px) { .fcta { grid-template-columns: 1fr auto; gap: 40px; } .fcta-btn.btn { justify-self: end; } }
+.fpills { display: grid; gap: 12px; margin-top: 14px; grid-template-columns: 1fr; }
+.fpill { display: flex; align-items: center; gap: 12px; padding: 15px 20px; border-radius: 12px; background: rgba(239, 237, 230, .06); border: 1px solid rgba(239, 237, 230, .08); font-size: .9375rem; font-weight: 600; }
+.fpill svg { flex: none; width: 20px; height: 20px; color: var(--accent); }
+@media (min-width: 768px) { .fpills { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.fcols { display: grid; gap: 32px 28px; grid-template-columns: 1fr 1fr; padding: clamp(40px, 5vw, 60px) 0 32px; }
+@media (min-width: 768px) { .fcols { grid-template-columns: 1.5fr 1fr 1fr 1.3fr; } }
+.fbrand img { height: 72px; width: auto; display: block; }
+.fbrand p { margin-top: 18px; max-width: 30ch; font-size: .9375rem; line-height: 1.55; color: rgba(239, 237, 230, .68); }
+.fbrand .socials { margin-top: 20px; }
+.fcols h4 { font-size: .75rem; letter-spacing: .2em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 16px; }
+.fcols li { font-size: .9375rem; color: rgba(239, 237, 230, .86); line-height: 1.4; }
+.fcols li + li { margin-top: 10px; }
+.fcols a:hover { color: var(--accent); }
+.flegal { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; align-items: center; padding-top: 20px; border-top: 1px solid rgba(239, 237, 230, .12); font-size: .8125rem; color: rgba(239, 237, 230, .6); }
+.flegal span:last-child { display: flex; gap: 20px; }
+.flegal a:hover, .flegal button:hover { color: var(--bone); }
+.flegal .theme-toggle { font-size: .8125rem; color: inherit; }
 .socials { display: flex; gap: 6px; }
-.socials a { width: 40px; height: 40px; display: grid; place-items: center; border: 1px solid var(--line-strong); border-radius: 50%; transition: border-color .3s ease, color .3s ease; }
-.socials a:hover { border-color: var(--fg); }
+.socials a { width: 40px; height: 40px; display: grid; place-items: center; border: 1px solid rgba(239, 237, 230, .22); border-radius: 50%; transition: border-color .3s ease, color .3s ease; }
+.socials a:hover { border-color: var(--accent); color: var(--accent); }
 .socials svg { width: 16px; height: 16px; }
+@media (max-width: 767px) { .fcols .fbrand, .fcols > div:last-child { grid-column: 1 / -1; } .fpill { font-size: .875rem; } }
 
 /* ---------- toast ---------- */
 .toast { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 20px); z-index: 120; background: var(--ink); color: var(--bone); padding: 12px 18px; border-radius: 999px; font-size: .8125rem; letter-spacing: .04em; opacity: 0; pointer-events: none; transition: opacity .3s ease, transform .3s var(--ease-out); max-width: calc(100vw - 32px); text-align: center; }
@@ -1017,17 +1039,23 @@ html.is-entering .fade { opacity: 1; }
 
 <footer class="footer">
   <div class="wrap">
-    <div class="news">
-      <div><p class="label">Newsletter</p><h2 class="h3" style="margin-top:14px;max-width:16ch">New cuts and gifting dates.</h2></div>
-      <div><form class="input-row" data-notify><label class="sr-only" for="news-email">Email address</label><input class="input" id="news-email" type="email" placeholder="Email address" required autocomplete="email"><button class="btn btn--text" type="submit">Sign up <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></form><p class="small muted" data-notify-status style="margin-top:10px;min-height:1.5em">Two emails a month. Nothing else.</p></div>
+    <div class="fcta">
+      <div class="fcta-pic" aria-hidden="true"><img src="assets/lifestyle/kingsmen-02-800.jpg" alt="" width="800" height="1000" loading="lazy"></div>
+      <div class="fcta-copy"><h2 class="fcta-title">A little guidance goes a long way.</h2><p>Questions about sizing, embossing or a bulk order? Let&#8217;s talk.</p></div>
+      <a class="btn fcta-btn" href="https://wa.me/920000000000" target="_blank" rel="noopener">Talk to our team <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </div>
-    <div class="cols">
-      <div><span class="brand wordmark" style="font-size:1.25rem">STAGR<span class="dot"></span></span><p class="small muted" style="margin-top:14px;max-width:28ch">Handmade crazy horse leather belts and wallets. Handmade in Pakistan.</p><div class="socials" style="margin-top:18px"><a href="https://instagram.com" aria-label="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a><a href="https://facebook.com" aria-label="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8z"/></svg></a><a href="https://tiktok.com" aria-label="TikTok" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M14 4v11a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 4c.5 3 2.5 5 5.5 5"/></svg></a><a href="https://wa.me/920000000000" aria-label="WhatsApp" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 20l1.3-3.8A8 8 0 1 1 8.4 19L4 20z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 .8a4 4 0 0 1-2-2l.8-1-1-2L9 9.5z"/></svg></a></div></div>
-      <div><h4>Site</h4><ul><li><a href="index.html#range">Range</a></li><li><a href="index.html#inside">Inside</a></li><li><a href="about.html">Story</a></li><li><a href="shop.html">Shop</a></li></ul></div>
-      <div><h4>Shop</h4><ul><li><a href="wallets.html">Wallets</a></li><li><a href="belts.html">Belts</a></li><li><a href="about.html#bulk">Bulk orders</a></li><li><a href="https://wa.me/920000000000" target="_blank" rel="noopener">WhatsApp</a></li></ul></div>
-      <div><h4>Help</h4><ul><li><a href="index.html#delivery">Delivery &amp; returns</a></li><li><a href="about.html#faq">Questions</a></li><li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li></ul></div>
+    <ul class="fpills" role="list">
+      <li class="fpill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="1"/><path d="M3 11h18M8 7V4h8v3"/></svg>Cash on delivery, pay at the door</li>
+      <li class="fpill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg>14-day returns, unworn pieces</li>
+      <li class="fpill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18"/></svg>One honest price, Rs 1,740 to Rs 3,500</li>
+    </ul>
+    <div class="fcols">
+      <div class="fbrand"><img src="assets/brand/stagr-lockup-beige.png" alt="Stagr" width="200" height="120" loading="lazy"><p>Handmade crazy horse leather belts and wallets. Delivery in 3 to 5 working days across Pakistan.</p><div class="socials"><a href="https://instagram.com" aria-label="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a><a href="https://facebook.com" aria-label="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8z"/></svg></a><a href="https://tiktok.com" aria-label="TikTok" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M14 4v11a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 4c.5 3 2.5 5 5.5 5"/></svg></a><a href="https://wa.me/920000000000" aria-label="WhatsApp" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 20l1.3-3.8A8 8 0 1 1 8.4 19L4 20z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 .8a4 4 0 0 1-2-2l.8-1-1-2L9 9.5z"/></svg></a></div></div>
+      <div><h4>Shop &amp; create</h4><ul><li><a href="belts.html">Belts</a></li><li><a href="wallets.html">Wallets</a></li><li><a href="about.html#bulk">Bulk orders</a></li><li><a href="about.html#craft">How it is made</a></li></ul></div>
+      <div><h4>Here to help</h4><ul><li><a href="product-nova.html#details">Size guide</a></li><li><a href="index.html#delivery">Delivery &amp; returns</a></li><li><a href="about.html#faq">Leather care</a></li><li><a href="https://wa.me/920000000000" target="_blank" rel="noopener">Contact</a></li></ul></div>
+      <div><h4>Let&#8217;s connect</h4><ul><li><a href="https://wa.me/920000000000" target="_blank" rel="noopener">+92 300 000 0000 (WhatsApp)</a></li><li><a href="https://instagram.com" target="_blank" rel="noopener">@stagr.pk</a></li><li>12 Clifton Arcade, Block 5, Karachi</li><li>Mon to Sat, 11am to 8pm</li></ul></div>
     </div>
-    <div class="legal"><span>© 2026 stagr.pk</span><span>Delivery Pakistan wide, 3 to 5 working days.</span></div>
+    <div class="flegal"><span>© 2026 Stagr. Nothing but leather.</span><span><a href="#">Privacy</a><a href="#">Terms</a><button type="button" class="theme-toggle" aria-pressed="false">Dark mode</button></span></div>
   </div>
 </footer>
 

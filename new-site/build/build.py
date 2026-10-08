@@ -316,17 +316,23 @@ def chrome(ctx, page):
 
 <footer class="footer">
   <div class="wrap">
-    <div class="news">
-      <div><p class="label">Newsletter</p><h2 class="h3" style="margin-top:14px;max-width:16ch">{B["newsletter"]["body"].split(".")[0]}.</h2></div>
-      <div><form class="input-row" data-notify><label class="sr-only" for="news-email">Email address</label><input class="input" id="news-email" type="email" placeholder="Email address" required autocomplete="email"><button class="btn btn--text" type="submit">Sign up {ICON["arrow"]}</button></form><p class="small muted" data-notify-status style="margin-top:10px;min-height:1.5em">Two emails a month. Nothing else.</p></div>
+    <div class="fcta">
+      <div class="fcta-pic" aria-hidden="true"><img src="assets/lifestyle/kingsmen-02-800.jpg" alt="" width="800" height="1000" loading="lazy"></div>
+      <div class="fcta-copy"><h2 class="fcta-title">A little guidance goes a long way.</h2><p>Questions about sizing, embossing or a bulk order? Let&#8217;s talk.</p></div>
+      <a class="btn fcta-btn" href="{B["contact"]["whatsapp"]["link"]}" target="_blank" rel="noopener">Talk to our team {ICON["arrow"]}</a>
     </div>
-    <div class="cols">
-      <div><span class="brand wordmark" style="font-size:1.25rem">STAGR<span class="dot"></span></span><p class="small muted" style="margin-top:14px;max-width:28ch">{B["descriptor"]} {B["origin"]}.</p><div class="socials" style="margin-top:18px">{socials}</div></div>
-      <div><h4>Site</h4><ul><li><a href="index.html#range">Range</a></li><li><a href="index.html#inside">Inside</a></li><li><a href="about.html">Story</a></li><li><a href="shop.html">Shop</a></li></ul></div>
-      <div><h4>Shop</h4><ul><li><a href="wallets.html">Wallets</a></li><li><a href="belts.html">Belts</a></li><li><a href="about.html#bulk">Bulk orders</a></li><li><a href="{B["contact"]["whatsapp"]["link"]}" target="_blank" rel="noopener">WhatsApp</a></li></ul></div>
-      <div><h4>Help</h4><ul><li><a href="index.html#delivery">Delivery &amp; returns</a></li><li><a href="about.html#faq">Questions</a></li><li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li></ul></div>
+    <ul class="fpills" role="list">
+      <li class="fpill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="1"/><path d="M3 11h18M8 7V4h8v3"/></svg>Cash on delivery, pay at the door</li>
+      <li class="fpill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg>14-day returns, unworn pieces</li>
+      <li class="fpill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18"/></svg>One honest price, Rs 1,740 to Rs 3,500</li>
+    </ul>
+    <div class="fcols">
+      <div class="fbrand"><img src="assets/brand/stagr-lockup-beige.png" alt="Stagr" width="200" height="120" loading="lazy"><p>{B["descriptor"]} Delivery in {B["shipping"]["deliveryTime"]}.</p><div class="socials">{socials}</div></div>
+      <div><h4>Shop &amp; create</h4><ul><li><a href="belts.html">Belts</a></li><li><a href="wallets.html">Wallets</a></li><li><a href="about.html#bulk">Bulk orders</a></li><li><a href="about.html#craft">How it is made</a></li></ul></div>
+      <div><h4>Here to help</h4><ul><li><a href="product-nova.html#details">Size guide</a></li><li><a href="index.html#delivery">Delivery &amp; returns</a></li><li><a href="about.html#faq">Leather care</a></li><li><a href="{B["contact"]["whatsapp"]["link"]}" target="_blank" rel="noopener">Contact</a></li></ul></div>
+      <div><h4>Let&#8217;s connect</h4><ul><li><a href="{B["contact"]["whatsapp"]["link"]}" target="_blank" rel="noopener">{B["contact"]["whatsapp"]["value"]} (WhatsApp)</a></li><li><a href="{B["social"]["links"]["instagram"]}" target="_blank" rel="noopener">{B["social"]["handle"]}</a></li><li>{B["contact"]["workshop"]["value"]}</li><li>Mon to Sat, 11am to 8pm</li></ul></div>
     </div>
-    <div class="legal"><span>© 2026 {B["domain"]}</span><span>{B["shipping"]["footerLine"]}</span></div>
+    <div class="flegal"><span>{B["footer"]["altCopyright"]}</span><span><a href="#">Privacy</a><a href="#">Terms</a><button type="button" class="theme-toggle" aria-pressed="false">Dark mode</button></span></div>
   </div>
 </footer>
 
