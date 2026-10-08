@@ -122,28 +122,7 @@ def render(ctx):
 
     # ---------------- 06 shop ----------------
     TAGS = ctx["tags"]
-    SW = ctx["swatch"]; BADGE = {"best": "Bestseller", "new": "New in", "gift": "Gift pick"}
-    heart = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-7.5-10A4.2 4.2 0 0 1 12 8.2a4.2 4.2 0 0 1 7.5 2.3c0 5.4-7.5 10-7.5 10z"/></svg>'
-    def ccard(p, i):
-        cuts = ctx["cutouts"](p); main = cuts[0]; same = [c for c in cuts if c["colour"] == main["colour"]]; alt = same[1] if len(same) > 1 else None
-        tags = TAGS.get(p["id"], []); fmt = lambda n: "Rs " + format(n, ",d")
-        off = round(100 - p["price"] / p["compareAtPrice"] * 100) if p.get("compareAtPrice") else 0
-        badges = (f'<span class="cc-badge cc-sale">Sale -{off}%</span>' if off else "") + (f'<span class="cc-badge cc-best">&#9733; Bestseller</span>' if "best" in tags else "") + (f'<span class="cc-badge cc-new">New in</span>' if "new" in tags and "best" not in tags else "")
-        swatches = "".join(f'<label class="cc-sw" title="{c}"><input type="radio" name="h-{p["id"]}" value="{c}" {"checked" if c == p["defaultColour"] else ""}><i style="--sw:{SW.get(c, "#6E4328")}"></i><span class="sr-only">{c}</span></label>' for c in p["colours"])
-        meta = " / ".join(p["colours"]) + (" <i>·</i> Sizes 30 to 44" if p["line"] == "belt" else "")
-        return f'''
-<article class="ccard{" has-alt" if alt else ""}" data-product="{p["id"]}" data-tags="{" ".join(tags)}" data-line="{p["line"]}" data-style="{p["style"] or "Belt"}" data-colours="{",".join(p["colours"])}" data-price="{p["price"]}" data-index="{i}" data-name="{p["name"]}">
-  <a class="cc-media" href="product-{p["id"]}.html" aria-label="{p["name"]}"><img class="main" src="{main["small"]}" alt="{p["name"]} in {main["colour"].lower()}" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="{(alt or main)["small"]}" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"><span class="cc-badges">{badges}</span></a>
-  <div class="cc-body">
-    <p class="cc-price"><b>{fmt(p["price"])}</b>{f'<s>{fmt(p["compareAtPrice"])}</s>' if p.get("compareAtPrice") else ""}</p>
-    <h3 class="cc-name"><a href="product-{p["id"]}.html">{p["name"]}</a></h3>
-    <p class="cc-meta">{meta}</p>
-    <div class="cc-opts opts" data-colour-opts>{swatches}</div>
-    <p class="cc-stock"><i></i>In stock</p>
-    <div class="cc-foot"><button type="button" class="cc-add" data-add="{p["id"]}" data-colour="{p["defaultColour"]}" {"data-size=34" if p["line"] == "belt" else ""}><span aria-hidden="true">+</span> Add to cart</button><button type="button" class="cc-wish" data-wish="{p["id"]}" aria-pressed="false" aria-label="Save {p["name"]}">{heart}</button></div>
-  </div>
-</article>'''
-    cards = "".join(ccard(p, i) for i, p in enumerate(P))
+    cards = "".join(ctx["ccard"](ctx, p, i) for i, p in enumerate(P))
     trust = B["trust"]["items"]
 
     css = r'''
@@ -202,6 +181,7 @@ def render(ctx):
 .bulk-text b { font-weight: 500; font-size: 1rem; color: var(--bone); }
 .bulk-btn { flex: 0 0 auto; background: var(--bone); color: var(--ink); border-color: var(--bone); }
 .bulk-btn:hover { background: var(--ink); color: var(--bone); border-color: var(--ink); }
+@media (max-width: 767px) { .bulk-band::before { display: none; } .bulk-inner { flex-wrap: wrap; gap: 12px 14px; padding-top: 18px; padding-bottom: 18px; } .bulk-icon { margin-left: 0; } .bulk-text { flex: 1 1 calc(100% - 54px); min-width: 0; } .bulk-text b { font-size: .9375rem; } .bulk-btn { flex: 1 1 100%; justify-content: center; } }
 
 /* ---- the three tiles under the hero: how it is made, bulk orders, a handwritten note ---- */
 /* ---- explore by category ---- */
@@ -239,19 +219,6 @@ def render(ctx):
 .ftile:hover img { transform: scale(1.06); }
 .ftile { aspect-ratio: 16 / 11; }
 .ftile-main { aspect-ratio: 4 / 3; }
-/* ---- why people choose Stagr ---- */
-.why { padding: clamp(48px, 7vw, 96px) 0 clamp(40px, 6vw, 80px); background: var(--bone); color: var(--ink); }
-.why-head { text-align: center; max-width: 60ch; margin: 0 auto clamp(32px, 4vw, 56px); }
-.why-head .explore-title { white-space: normal; }
-.why-head .explore-sub { margin-top: 14px; font-size: 1rem; }
-.why-grid { display: grid; gap: 28px 32px; grid-template-columns: 1fr; }
-.why-grid li { display: flex; gap: 14px; align-items: flex-start; }
-.why-ic { flex: 0 0 auto; width: 28px; height: 28px; color: var(--accent-deep); }
-.why-ic svg { width: 100%; height: 100%; }
-.why-grid b { display: block; font-weight: 600; font-size: 1rem; }
-.why-grid p { margin-top: 4px; font-size: .9375rem; line-height: 1.45; color: var(--fg-2); }
-@media (min-width: 640px) { .why-grid { grid-template-columns: 1fr 1fr; } }
-@media (min-width: 1024px) { .why-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .pair img { position: absolute; height: auto; filter: drop-shadow(0 40px 60px rgba(0,0,0,.45)); }
 .pair .p-belt { left: -6%; top: 2%; width: 78%; transform: rotate(-8deg); }
 .pair .p-wallet { right: -4%; bottom: 4%; width: 72%; }
@@ -379,50 +346,6 @@ def render(ctx):
 .ctab { min-height: 38px; padding: 0 18px; border: 1px solid var(--line-strong); border-radius: 999px; background: #fff; font-size: .875rem; font-weight: 600; color: var(--ink); transition: background-color .3s ease, color .3s ease, border-color .3s ease, box-shadow .3s ease; box-shadow: 0 1px 2px rgba(26,27,29,.05); }
 .ctab:hover { border-color: var(--accent-deep); }
 .ctab[aria-selected="true"] { background: var(--accent-deep); color: var(--bone); border-color: var(--accent-deep); }
-/* catalogue cards */
-.cc-track { --rail-w: calc((100% - 12px) / 2); gap: 12px; padding-bottom: 6px; scroll-padding-left: 0; }
-@media (min-width: 768px) { .cc-track { --rail-w: calc((100% - 36px) / 3); gap: 18px; } }
-@media (min-width: 1200px) { .cc-track { --rail-w: calc((100% - 60px) / 4); gap: 20px; } }
-.cc-track > .ccard { flex: 0 0 var(--rail-w); scroll-snap-align: start; }
-.cc-foot { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 14px; }
-.rail:not(.has-overflow) .rail-nav { visibility: hidden; }
-.ccard { display: flex; flex-direction: column; background: #fff; border-radius: 16px; padding: 12px; box-shadow: 0 1px 2px rgba(26,27,29,.04), 0 10px 30px -18px rgba(26,27,29,.18); transition: transform .4s var(--ease-out), box-shadow .4s ease; }
-.ccard:hover { transform: translateY(-3px); box-shadow: 0 1px 2px rgba(26,27,29,.04), 0 24px 40px -20px rgba(26,27,29,.28); }
-.ccard.is-hidden { display: none; }
-.cc-media { position: relative; display: grid; place-items: center; aspect-ratio: 1; border-radius: 12px; background: #F3F1EC; overflow: hidden; }
-.cc-media img { position: relative; z-index: 1; width: 82%; height: auto; max-height: 86%; object-fit: contain; filter: drop-shadow(0 14px 18px rgba(26,27,29,.16)); transition: opacity .4s ease, transform .6s var(--ease-out); }
-.cc-media img.alt { position: absolute; inset: 0; margin: auto; opacity: 0; }
-.ccard.has-alt:hover .cc-media img.main { opacity: 0; }
-.ccard.has-alt:hover .cc-media img.alt { opacity: 1; }
-.cc-badges { position: absolute; left: 10px; top: 10px; z-index: 2; display: grid; gap: 6px; justify-items: start; }
-.cc-badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 4px; font-size: .6875rem; font-weight: 600; line-height: 1; }
-.cc-sale { background: #5A1E1A; color: var(--bone); }
-.cc-best { background: #D9A866; color: #3A2410; }
-.cc-new { background: var(--ink); color: var(--bone); }
-.cc-body { padding: 14px 6px 6px; display: grid; gap: 6px; }
-.cc-price { display: flex; align-items: baseline; gap: 8px; }
-.cc-price b { font-weight: 700; font-size: 1.1rem; color: var(--accent-deep); }
-.cc-price s { font-size: .75rem; color: var(--fg-2); }
-.cc-name { font-size: 1rem; font-weight: 600; line-height: 1.3; }
-.cc-name a { color: var(--ink); }
-.cc-meta { font-size: .75rem; color: var(--fg-2); }
-.cc-meta i { font-style: normal; margin: 0 4px; opacity: .6; }
-.cc-opts { gap: 6px; }
-.cc-sw { position: relative; width: 22px; height: 22px; border-radius: 50%; border: 1px solid transparent; display: grid; place-items: center; cursor: pointer; }
-.cc-sw input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
-.cc-sw i { width: 14px; height: 14px; border-radius: 50%; background: var(--sw); box-shadow: inset 0 0 0 1px rgba(0,0,0,.18); }
-.cc-sw:has(input:checked) { border-color: var(--ink); }
-.cc-stock { display: inline-flex; align-items: center; gap: 6px; font-size: .75rem; font-weight: 500; color: #1F7A3A; }
-.cc-stock i { width: 6px; height: 6px; border-radius: 50%; background: #1F7A3A; }
-.cc-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 8px; }
-.cc-add { min-height: 40px; padding: 0 16px; border-radius: 999px; background: var(--accent-deep); color: var(--bone); font-size: .875rem; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; transition: background-color .3s ease, color .3s ease; }
-.cc-add:hover { background: var(--ink); }
-.cc-wish { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line-strong); display: grid; place-items: center; color: var(--fg-2); background: #fff; transition: color .3s ease, border-color .3s ease; }
-.cc-wish svg { width: 16px; height: 16px; }
-.cc-wish:hover { color: var(--ink); border-color: var(--ink); }
-.cc-wish[aria-pressed="true"] { color: var(--accent-deep); border-color: var(--accent-deep); }
-.cc-wish[aria-pressed="true"] svg { fill: currentColor; }
-@media (max-width: 767px) { .ccard { padding: 8px; border-radius: 12px; } .cc-body { padding: 10px 4px 4px; } .cc-name { font-size: .875rem; } .cc-price b, .cc-price s, .cc-add { white-space: nowrap; } .cc-price b { font-size: 1rem; } .cc-add { padding: 0 10px; font-size: .75rem; min-height: 36px; } .cc-wish { width: 32px; height: 32px; flex: 0 0 auto; } }
 .delivery { display: grid; gap: 28px; margin-top: var(--section-sm); padding-top: 40px; border-top: 1px solid var(--line); }
 @media (min-width: 768px) { .delivery { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .delivery h3 { font-family: var(--font-display); font-weight: 300; font-size: 1.5rem; }
@@ -444,7 +367,7 @@ def render(ctx):
 <section id="hero" class="hero on-ink" aria-label="Introduction">
   <div class="slider" data-slider aria-roledescription="carousel" aria-label="Belts and wallets">
     <div class="slide is-on" data-slide="0" aria-roledescription="slide" aria-label="1 of 2">
-      <picture><source media="(max-width: 767px)" srcset="assets/hero/slide-wallet-portrait.jpg"><img data-slide-img src="assets/hero/slide-wallet-1600.jpg" srcset="assets/hero/slide-wallet-900.jpg 900w, assets/hero/slide-wallet-1600.jpg 1600w, assets/hero/slide-wallet-2000.jpg 2000w" sizes="100vw" alt="A Stagr long wallet open beside its gift box and a tan belt" width="2000" height="1333" fetchpriority="high" decoding="async"></picture>
+      <picture><source media="(max-width: 767px)" srcset="assets/hero/slide-wallet-portrait.jpg"><img data-slide-img src="assets/hero/slide-wallet-1600.jpg" srcset="assets/hero/slide-wallet-900.jpg 900w, assets/hero/slide-wallet-1600.jpg 1600w, assets/hero/slide-wallet-2000.jpg 1672w" sizes="100vw" alt="A Stagr bifold wallet with the stag mark, on walnut beside coffee beans and a wooden box" width="1672" height="941" fetchpriority="high" decoding="async"></picture>
       <div class="wrap slide-copy">
         <p class="hero-kicker" data-slide-item>Wallets <span aria-hidden="true">·</span> {n_wallets} pieces, from {fmt(min_wallet)}</p>
         <h1 class="hero-h1" data-slide-item><span class="serif-i">Folded, skived,</span><br>stitched by hand.</h1>
@@ -453,7 +376,7 @@ def render(ctx):
       </div>
     </div>
     <div class="slide" data-slide="1" aria-roledescription="slide" aria-label="2 of 2" aria-hidden="true">
-      <picture><source media="(max-width: 767px)" srcset="assets/hero/slide-belts-portrait.jpg"><img data-slide-img src="assets/hero/slide-belts-1600.jpg" srcset="assets/hero/slide-belts-900.jpg 900w, assets/hero/slide-belts-1600.jpg 1600w, assets/hero/slide-belts-2400.jpg 2400w" sizes="100vw" alt="Four Stagr belts laid on a walnut bench" width="2400" height="1474" loading="lazy" decoding="async"></picture>
+      <picture><source media="(max-width: 767px)" srcset="assets/hero/slide-belts-portrait.jpg"><img data-slide-img src="assets/hero/slide-belts-1600.jpg" srcset="assets/hero/slide-belts-900.jpg 900w, assets/hero/slide-belts-1600.jpg 1600w, assets/hero/slide-belts-2400.jpg 1672w" sizes="100vw" alt="A Stagr tan belt coiled on walnut beside coffee beans and shells" width="1672" height="941" loading="lazy" decoding="async"></picture>
       <div class="wrap slide-copy">
         <p class="hero-kicker" data-slide-item>Belts <span aria-hidden="true">·</span> {n_belts} pieces, from {fmt(min_belt)}</p>
         <h2 class="hero-h1" data-slide-item><span class="serif-i">{B["hero"]["headline"][0]}</span><br>{B["hero"]["headline"][1]}</h2>
@@ -470,7 +393,7 @@ def render(ctx):
     <div class="wrap bulk-inner">
       <span class="bulk-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M3 8l9-4 9 4-9 4-9-4z"/><path d="M3 8v8l9 4 9-4V8"/><path d="M12 12v8"/></svg></span>
       <p class="bulk-text"><b>Buying for a team? Meet Stagr bulk orders.</b><span>Ten pieces or more, embossed with your logo, boxed with a handwritten card.</span></p>
-      <a class="btn btn--sm bulk-btn" href="about.html#bulk">Get a quote {I["arrow"]}</a>
+      <a class="btn btn--sm bulk-btn" href="bulk.html">Get a quote {I["arrow"]}</a>
     </div>
   </div>
 </section>
@@ -551,7 +474,7 @@ def render(ctx):
       <div class="ftile-copy"><h2>How it is made</h2><p>{B["craft"]["heading"]}. Cut from full hides, skived at the folds, saddle stitched.</p></div>
       <div class="ftile-pic">      <img src="assets/hero/tile-made-800.jpg" srcset="assets/hero/tile-made-800.jpg 800w, assets/hero/tile-made.jpg 1400w" sizes="(min-width: 1024px) 56vw, 100vw" alt="Two Stagr bifolds beside the knives and awls that made them" width="1400" height="933" loading="lazy" decoding="async"></div>
     </a>
-    <a class="ftile" href="about.html#bulk" data-reveal data-delay=".1" aria-label="Bulk orders">
+    <a class="ftile" href="bulk.html" data-reveal data-delay=".1" aria-label="Bulk orders">
       <div class="ftile-copy"><h2>Bulk orders</h2><p>Ten pieces or more, embossed with your logo, boxed with a card.</p></div>
       <div class="ftile-pic">      <img src="assets/hero/tile-bulk-800.jpg" srcset="assets/hero/tile-bulk-800.jpg 800w, assets/hero/tile-bulk.jpg 1400w" sizes="(min-width: 1024px) 44vw, 100vw" alt="Four Stagr belts laid side by side on walnut" width="1400" height="933" loading="lazy" decoding="async"></div>
     </a>
@@ -562,20 +485,7 @@ def render(ctx):
   </div>
 </section>
 
-<!-- range section hidden for now --><section id="why" class="why on-bone" aria-labelledby="why-title">
-  <div class="wrap">
-    <div class="why-head">
-      <h2 class="explore-title" id="why-title" data-reveal>Why people choose Stagr</h2>
-      <p class="explore-sub" data-reveal data-delay=".1">One workshop, a small bench, no subcontracting. A belt leaves us when it is right, not when the week ends.</p>
-    </div>
-    <ul class="why-grid" role="list">
-      <li data-reveal><span class="why-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M12 4l9 16H3z"/></svg></span><div><b>Handcrafted since 2025</b><p>Every piece cut and stitched in Karachi.</p></div></li>
-      <li data-reveal data-delay=".08"><span class="why-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="1"/><path d="M3 11h18M8 7V4h8v3"/></svg></span><div><b>One price, any quantity</b><p>Rs 1,740 to Rs 3,500. The same for one or a hundred.</p></div></li>
-      <li data-reveal data-delay=".16"><span class="why-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="17" r="1.6"/><circle cx="17" cy="17" r="1.6"/></svg></span><div><b>Delivered across Pakistan</b><p>3 to 5 working days. Cash on delivery.</p></div></li>
-      <li data-reveal data-delay=".24"><span class="why-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4V5z"/></svg></span><div><b>People you can talk to</b><p>WhatsApp us. The person who made it answers.</p></div></li>
-    </ul>
-  </div>
-</section>
+<!-- range section hidden for now -->{ctx["why"](ctx)}
 
 <section id="story" class="story on-bone" aria-labelledby="story-title">
   <div class="story-pin desk-only" data-story-pin>

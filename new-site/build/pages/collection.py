@@ -1,16 +1,13 @@
-"""wallets.html and belts.html — collection pages.
+"""wallets.html and belts.html — collection pages, in the same language as the home page.
 
-Opening: a static showcase in the style of the Daniel Roth reference. A
-full-bleed photo on the left, a bone panel on the right with the category
-name, "Collection", the product cutout, a counter on the left, the list of
-categories on the right, a caps line and a "Discover the collection" button.
-Clicking a category swaps the photo, cutout and text. Nothing is tied to
-scroll. Below it: an intro line, one section per category with its pieces,
-a link to the full shop grid, a cross-sell row and the delivery strip.
+Full-bleed photo hero with the line name, piece count and two buttons; a row of
+category cards; one section per category (serif heading, photo from the shoot on
+the left, rail of catalogue cards on the right); a band to the full shop grid;
+a cross-sell rail for the other line; the "Why people choose Stagr" block.
 """
-import json
 
-TINT = {"bifold": "#6B3F2A", "trifold": "#4A3A33", "minimalist": "#7A5A3A", "long": "#8B4A1F", "nova": "#2B2522", "outlaw": "#5A3A27", "regent": "#1F1F23", "monarch": "#8B5A2B"}
+
+from pages.shop import catalogue
 
 
 def page(ctx, line):
@@ -18,279 +15,207 @@ def page(ctx, line):
     by = {p["id"]: p for p in ctx["products"]}
     B = ctx["brand"]
     I = ctx["icon"]
-    cut = ctx["cutouts"]
     other = "belt" if line == "wallet" else "wallet"
     title = "Wallets" if line == "wallet" else "Belts"
     other_title = "Belts" if line == "wallet" else "Wallets"
-    blurb = ctx["products_doc"]["lines"][line]["blurb"]
-    prices = [p["price"] for p in P]
     fmt = lambda n: "Rs " + format(n, ",d")
+    n_p, min_p = len(P), min(p["price"] for p in P)
 
-    # ---- categories ----
     if line == "wallet":
+        hero = dict(img="hero-wallets", alt="An open Stagr bifold holding cards, beside thread and tools on burlap", kicker=f"Wallets · {n_p} pieces, from {fmt(min_p)}", h1="Folded, skived,<br>stitched by hand.", sub="Bifolds, trifolds, minimalist and long wallets, cut from full crazy horse hides and lined in calf. Boxed with a handwritten note.")
         groups = [
-            dict(key="bifold", name="Bifold", ids=["kingsmann", "regal"], photo="assets/lifestyle/kingsmen-01.jpg", line1="A fold that stays flat", line2="in a jacket pocket"),
-            dict(key="trifold", name="Trifold", ids=["majestic"], photo="assets/lifestyle/majestic-01.jpg", line1="Three folds, one row", line2="of saddle stitch"),
-            dict(key="minimalist", name="Minimalist", ids=["maverick", "purefold"], photo="assets/lifestyle/maverick-01.jpg", line1="The slim ones,", line2="for a front pocket"),
-            dict(key="long", name="Long", ids=["rodeo", "upbuck"], photo="assets/lifestyle/rodeo-01.jpg", line1="Cards, notes and", line2="a snap closure"),
+            dict(key="bifold", name="Bifold wallets", short="Bifold", ids=["kingsmann", "regal"], line1="The everyday fold.", sub="Cards one side, notes the other. Flat in a jacket pocket."),
+            dict(key="trifold", name="Trifold wallets", short="Trifold", ids=["majestic"], line1="Three folds, one hide.", sub="A flip-out card flap and room for everything."),
+            dict(key="minimalist", name="Minimalist", short="Minimalist", ids=["maverick", "purefold"], line1="For a front pocket.", sub="A few cards, a folded note, nothing else."),
+            dict(key="long", name="Long wallets", short="Long", ids=["rodeo", "upbuck"], line1="Cards, notes, a snap.", sub="Full-length slots, a snap closure, a phone-sized pocket."),
         ]
     else:
+        hero = dict(img="hero-belts", alt="The Monarch belt coiled among shells and coffee beans on walnut", kicker=f"Belts · {n_p} pieces, from {fmt(min_p)} · Sizes 30 to 44", h1="Cut along<br>the spine.", sub="Straps are cut where the hide is tightest, so a belt holds its shape instead of curling. Solid buckle on a removable screw post.")
         groups = [
-            dict(key="nova", name="Nova", ids=["nova"], photo="assets/lifestyle/nova-02.jpg", line1="Two sides. One belt.", line2="Made for every style"),
-            dict(key="outlaw", name="Outlaw", ids=["outlaw"], photo="assets/lifestyle/outlaw-wide.jpg", line1="Rugged character,", line2="timeless craftsmanship"),
-            dict(key="regent", name="Regent", ids=["regent"], photo="assets/lifestyle/onyx-01.jpg", line1="Classic elegance,", line2="crafted to last"),
-            dict(key="monarch", name="Monarch", ids=["monarch"], photo="assets/lifestyle/monarch-01.jpg", line1="Premium character,", line2="a patina that deepens"),
+            dict(key="nova", name="Nova", short="Nova", ids=["nova"], line1="Two sides, one belt.", sub="Black on one face, brown on the other, with a swivel buckle."),
+            dict(key="outlaw", name="Outlaw", short="Outlaw", ids=["outlaw"], line1="Rugged, with a brass buckle.", sub="The thickest strap in the range. Wears in, never out."),
+            dict(key="regent", name="Regent", short="Regent", ids=["regent"], line1="Black, cut in one piece.", sub="The quiet one, for a suit or a dark jean."),
+            dict(key="monarch", name="Monarch", short="Monarch", ids=["monarch"], line1="Tan that deepens with wear.", sub="Starts honey, ends chestnut. Every scuff stays."),
         ]
+    if line == "wallet":
+        inside = dict(h="Folded, skived, stitched by hand", body="Skived at the folds so it stays flat in a jacket pocket. One row of saddle stitch, two needles, waxed linen thread. It cannot unravel the way a machine seam can.",
+                      rows=[("Leather", "Crazy horse, full grain cowhide"), ("Lining", "Calf"), ("Stitching", "Saddle stitch, by hand"), ("Colours", "Brown, Black (Rodeo in Tan)"), ("Care", "Wipe dry, condition twice a year")], img="long-alt" if False else "long", alt="A Stagr long wallet open beside its box")
+        which = dict(h="Which fold?", sub="Four shapes, one hide. Pick by pocket, not by price.")
+    else:
+        inside = dict(h="Cut along the spine, finished by hand", body="Straps are cut where the hide is tightest, so a belt holds its shape instead of curling. Edges bevelled, sanded and burnished, then sealed with beeswax. Solid buckle on a removable screw post.",
+                      rows=[("Leather", "Crazy horse, full grain cowhide"), ("Thickness", "3.5 mm, cut in one piece"), ("Buckle", "Solid, on a removable screw post"), ("Sizes", "30 to 44"), ("Care", "Keep it rolled, condition twice a year")], img="inside-belts", alt="The Nova belt coiled beside a pine cone, coffee beans on walnut")
+        which = dict(h="Which belt?", sub="Four straps, one hide. Pick by buckle and colour, not by price.")
     for g in groups:
         g["products"] = [by[i] for i in g["ids"]]
-        g["cut"] = cut(g["products"][0])[0]
         g["from"] = min(p["price"] for p in g["products"])
-        g["count"] = len(g["ids"])
         g["colours"] = sorted({c for p in g["products"] for c in p["colours"]})
-        # a second photo for the section below, different from the showcase one
-        pool = [im for p in g["products"] for im in p["lifestyleImages"] if im["src"] != g["photo"]]
-        portrait = [im for im in pool if im["height"] > im["width"]]
-        g["photo2"] = (portrait or pool)[0]
-    n = len(groups)
-    groups_json = json.dumps([{
-        "key": g["key"], "name": g["name"], "line1": g["line1"], "line2": g["line2"], "href": "#" + g["key"],
-        "models": [{"name": p["name"].split(" ")[0], "href": f"product-{p['id']}.html"} for p in g["products"]],
-        "meta": f'{g["count"]} {"style" if g["count"] == 1 else "styles"} · from {fmt(g["from"])}',
-    } for g in groups], ensure_ascii=False).replace("</", "<\\/")
 
-    photos = "".join(f'<div class="sc-photo" data-sc-photo="{i}" style="opacity:{1 if i == 0 else 0};--tint:{TINT[g["key"]]}"><img src="{g["photo"]}" srcset="{g["photo"].replace(".jpg", "-800.jpg")} 800w, {g["photo"]} 1600w" sizes="(min-width: 1024px) 60vw, 100vw" alt="" width="1200" height="1500" {"fetchpriority=high" if i == 0 else "loading=lazy"}></div>' for i, g in enumerate(groups))
-    cuts = "".join(f'<div class="sc-cut" data-sc-cut="{i}" style="opacity:{1 if i == 0 else 0}"><img src="{g["cut"]["src"]}" alt="{g["name"]} {title.lower()[:-1]} in {g["cut"]["colour"].lower()}" width="900" height="900" decoding="async" {"" if i == 0 else "loading=lazy"}></div>' for i, g in enumerate(groups))
-    cats = "".join(f'<li role="presentation"><button type="button" role="tab" aria-selected="{str(i == 0).lower()}" class="{"is-on" if i == 0 else ""}" data-sc-cat="{i}">{g["name"]}</button></li>' for i, g in enumerate(groups))
-    g0 = groups[0]
-    models0 = " <span aria-hidden=true>·</span> ".join(f'<a href="product-{p["id"]}.html">{p["name"].split(" ")[0]}</a>' for p in g0["products"])
-    if g0["count"] == 1 and g0["products"][0]["name"].split(" ")[0].lower() == g0["name"].lower():
-        models0 = f'<a href="product-{g0["ids"][0]}.html">{g0["count"]} style · from {fmt(g0["from"])}</a>'
+    cat_cards = "".join(f'<a class="ex-card" href="#{g["key"]}" data-reveal data-delay="{i * .06}"><span class="ex-media"><img src="assets/categories/{g["key"]}-500.jpg" srcset="assets/categories/{g["key"]}-500.jpg 500w, assets/categories/{g["key"]}.jpg 900w" sizes="(min-width: 1024px) 22vw, (min-width: 640px) 30vw, 46vw" alt="{g["name"]}" width="900" height="600" loading="lazy"></span><b>{g["name"]}</b><span>{len(g["products"])} {"style" if len(g["products"]) == 1 else "styles"} · from {fmt(g["from"])}</span></a>' for i, g in enumerate(groups))
 
-    # ---- category sections ----
     def cat_section(i, g):
-        cards = "".join(ctx["pcard"](ctx, p, P.index(p), compact=True) for p in g["products"])
-        im = g["photo2"]
+        cards = "".join(ctx["ccard"](ctx, p, P.index(p)) for p in g["products"])
         return f'''
-<section class="cat on-bone{" cat--few" if g["count"] <= 2 else ""}" id="{g["key"]}" aria-labelledby="cat-{g["key"]}">
+<section class="cat on-bone{" cat--single" if len(g["products"]) == 1 else " cat--two" if len(g["products"]) == 2 else ""}" id="{g["key"]}" aria-labelledby="cat-{g["key"]}">
   <div class="wrap" data-rail>
     <div class="cat-head">
-      <div><p class="label" data-reveal><b>0{i + 2}</b><span class="slash">/</span>{g["name"]} {title.lower()} · {g["count"]} {"style" if g["count"] == 1 else "styles"} · from {fmt(g["from"])}</p><h2 class="h2" id="cat-{g["key"]}" data-text-reveal="lines" style="margin-top:12px">{g["line1"]} {g["line2"]}.</h2></div>
+      <div><p class="label" data-reveal>{g["name"]} · {len(g["products"])} {"style" if len(g["products"]) == 1 else "styles"} · {" / ".join(g["colours"])}</p><h2 class="explore-title cat-title" id="cat-{g["key"]}" data-reveal data-delay=".05">{g["line1"]}</h2><p class="explore-sub" data-reveal data-delay=".1">{g["sub"]}</p></div>
       <div class="rail-nav" data-reveal data-delay=".15"><button type="button" class="rail-btn" data-rail-prev aria-label="Previous" style="transform:scaleX(-1)">{I["arrow"]}</button><button type="button" class="rail-btn" data-rail-next aria-label="Next">{I["arrow"]}</button></div>
     </div>
     <div class="cat-row">
-      <figure class="cat-photo" data-reveal><img src="{im["src"]}" srcset="{im["srcSmall"]} 800w, {im["src"]} {im["width"]}w" sizes="(min-width: 1024px) 30vw, 100vw" alt="{im["alt"]}" width="{im["width"]}" height="{im["height"]}" loading="lazy"></figure>
-      <div class="rail-track cat-track" data-rail-track data-reveal data-delay=".1">{cards}</div>
+      <figure class="cat-photo" data-reveal><img src="assets/categories/{g["key"]}.jpg" srcset="assets/categories/{g["key"]}.jpg 900w, assets/categories/{g["key"]}-1400.jpg 1400w" sizes="(min-width: 1024px) 34vw, 100vw" alt="{g["name"]}" width="1400" height="933" loading="lazy"></figure>
+      <div class="rail-track cc-track cat-track" data-rail-track data-reveal data-delay=".1">{cards}</div>
+      {f'<figure class="cat-photo cat-photo-2" data-reveal data-delay=".15"><img src="assets/categories/{g["key"]}-alt.jpg" srcset="assets/categories/{g["key"]}-alt.jpg 900w, assets/categories/{g["key"]}-alt-1400.jpg 1400w" sizes="(min-width: 1024px) 34vw, 100vw" alt="{g["name"]}, another view" width="1400" height="933" loading="lazy"></figure>' if len(g["products"]) == 1 else ""}
     </div>
   </div>
 </section>'''
 
-    cat_sections = "".join(cat_section(i, g) for i, g in enumerate(groups))
-    cross = [p for p in ctx["products"] if p["line"] == other][:3]
-    cross_cards = "".join(ctx["pcard"](ctx, p, i, quick=False) for i, p in enumerate(cross))
-    colours = sorted({c for p in P for c in p["colours"]}, key=lambda c: ["Brown", "Tan", "Black"].index(c) if c in ["Brown", "Tan", "Black"] else 9)
+    sh_css, cat_body, sh_js = catalogue(ctx, line)
 
     css = r'''
-/* ---- showcase (Daniel Roth style, static) ---- */
-.showcase { position: relative; background: var(--ink); color: var(--bone); overflow: hidden; }
-.sc-frame { position: relative; height: 100vh; min-height: 720px; }
-.sc-photos { position: absolute; inset: 0; }
-.sc-photo { position: absolute; inset: 0; }
-.sc-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 30% 50%; transform: scale(1.08); will-change: transform; }
-.sc-photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, color-mix(in srgb, var(--tint) 55%, transparent), color-mix(in srgb, var(--tint) 20%, transparent) 60%, rgba(26,27,29,.35)); mix-blend-mode: multiply; }
-.sc-brand { position: absolute; left: var(--gutter); top: calc(var(--nav-h) + 16px); z-index: 3; font-size: .75rem; letter-spacing: .24em; text-transform: uppercase; color: rgba(239,237,230,.75); }
-.sc-panel { position: absolute; right: var(--gutter); top: calc(var(--nav-h) + 8px); bottom: 32px; width: min(44vw, 640px); background: var(--bone); color: var(--ink); padding: clamp(24px, 3vw, 44px); display: grid; grid-template-rows: auto 1fr auto; overflow: hidden; }
-.sc-head { text-align: center; }
-.sc-title { font-family: var(--font-display); font-weight: 300; font-size: clamp(2.4rem, 1.6rem + 3vw, 4.6rem); line-height: 1; letter-spacing: .02em; text-transform: uppercase; }
-.sc-kicker { margin-top: 12px; }
-.sc-cats { position: absolute; right: clamp(24px, 3vw, 44px); top: 50%; transform: translateY(-50%); text-align: right; display: grid; gap: 12px; font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; z-index: 2; }
-.sc-cats button { color: var(--mist); transition: color .3s ease; position: relative; padding: 2px 0; }
-.sc-cats button::after { content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 1px; background: var(--ink); transform: scaleX(0); transform-origin: right; transition: transform .4s var(--ease-out); }
-.sc-cats button:hover { color: var(--ink); }
-.sc-cats button.is-on { color: var(--ink); }
-.sc-cats button.is-on::after { transform: scaleX(1); transform-origin: left; }
-.sc-count { position: absolute; left: clamp(24px, 3vw, 44px); top: 50%; transform: translateY(-50%); font-size: .75rem; letter-spacing: .2em; color: var(--mist); font-variant-numeric: tabular-nums; }
-.sc-stage { position: relative; align-self: center; justify-self: center; width: min(44%, 280px); aspect-ratio: 1; display: grid; place-items: center; }
-.sc-cut { position: absolute; inset: 0; display: grid; place-items: center; }
-.sc-cut img { width: 100%; height: auto; max-height: 100%; object-fit: contain; filter: drop-shadow(0 30px 40px rgba(26,27,29,.28)); }
-.sc-foot { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; }
-.sc-models { font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; display: flex; flex-wrap: wrap; gap: 6px 8px; }
-.sc-models a { color: var(--ink); border-bottom: 1px solid var(--line-strong); transition: border-color .3s ease; }
-.sc-models a:hover { border-color: var(--ink); }
-.sc-line { margin-top: 12px; font-size: .8125rem; letter-spacing: .12em; text-transform: uppercase; line-height: 1.7; color: var(--mist); max-width: 24ch; }
-.sc-cta { flex: 0 0 auto; }
-@media (max-width: 1023px) {
-  .sc-frame { height: auto; min-height: 0; }
-  .sc-photos { position: relative; height: 60svh; }
-  .sc-photo::after { background: linear-gradient(180deg, rgba(26,27,29,.6) 0%, rgba(26,27,29,0) 32%), linear-gradient(90deg, color-mix(in srgb, var(--tint) 45%, transparent), color-mix(in srgb, var(--tint) 15%, transparent)); mix-blend-mode: normal; }
-  .sc-brand { display: none; }
-  .sc-panel { position: relative; right: auto; top: auto; bottom: auto; width: auto; margin: -40px 20px 0; padding: 24px 20px 28px; display: grid; gap: 16px; z-index: 2; }
-  .sc-stage { width: 58%; margin: 4px auto; }
-  .sc-cats { position: static; transform: none; text-align: left; display: flex; flex-wrap: wrap; gap: 8px; }
-  .sc-cats button { min-height: 36px; padding: 0 12px; border: 1px solid var(--line-strong); color: var(--fg-2); }
-  .sc-cats button::after { display: none; }
-  .sc-cats button.is-on { background: var(--ink); color: var(--bone); border-color: var(--ink); }
-  .sc-count { position: static; transform: none; display: block; text-align: center; }
-  .sc-foot { flex-direction: column; align-items: flex-start; gap: 18px; }
-  .sc-line { max-width: none; }
-}
-
-/* ---- intro line under the showcase ---- */
-.col-intro { padding: var(--section-sm) 0 clamp(16px, 3vw, 32px); }
-.col-intro .display { font-size: clamp(2.6rem, 1.6rem + 4vw, 5.5rem); line-height: 1; }
-.col-intro .lead { margin-top: 18px; }
-.col-facts { max-width: 420px; }
-
-/* ---- one section per category: fixed photo on the left, rail of cards on the right ---- */
-.cat { padding: clamp(32px, 5vw, 64px) 0; border-top: 1px solid var(--line); }
-.cat-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; margin-bottom: clamp(20px, 3vw, 32px); }
-.cat-head .h2 { max-width: 22ch; }
+/* ---- hero ---- */
+.chero { position: relative; height: clamp(440px, 70svh, 620px); min-height: 0; max-height: none; overflow: hidden; background: var(--ink); color: var(--bone); display: flex; align-items: flex-end; }
+.chero picture, .chero img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.chero img { object-fit: cover; object-position: 50% 55%; transform: scale(1.04); will-change: transform; }
+.chero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(26,27,29,.55) 0%, rgba(26,27,29,0) 28%, rgba(26,27,29,0) 45%, rgba(26,27,29,.78) 100%), linear-gradient(90deg, rgba(26,27,29,.5) 0%, rgba(26,27,29,0) 60%); pointer-events: none; }
+.chero-copy { position: relative; z-index: 2; width: 100%; padding-bottom: clamp(36px, 6vh, 64px); }
+.chero-copy > * { max-width: 720px; }
+.hero-kicker { font-size: .6875rem; letter-spacing: .3em; text-transform: uppercase; color: rgba(239,237,230,.8); }
+.hero-h1 { margin-top: 12px; font-family: var(--font-display); font-weight: 500; font-size: clamp(2.2rem, 1.1rem + 3.2vw, 4.2rem); line-height: 1; text-shadow: 0 2px 30px rgba(0,0,0,.45); }
+.hero-sub { margin-top: 18px; max-width: 46ch; font-size: clamp(.9375rem, .9rem + .25vw, 1.0625rem); line-height: 1.55; color: rgba(239,237,230,.88); text-shadow: 0 1px 14px rgba(0,0,0,.45); }
+.hero-ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+.btn--tan { background: var(--accent-deep); border-color: var(--accent-deep); color: var(--bone); }
+.btn--tan:hover { background: var(--accent); border-color: var(--accent); color: var(--ink); }
+.chero .btn--ghost { color: var(--bone); border-color: rgba(239,237,230,.55); background: rgba(26,27,29,.2); backdrop-filter: blur(6px); }
+.chero .btn--ghost:hover { background: var(--bone); color: var(--ink); }
+/* ---- category strip ---- */
+.cstrip { padding: clamp(40px, 6vw, 72px) 0 clamp(8px, 2vw, 16px); background: var(--bone); color: var(--ink); }
+.cstrip .explore-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; margin-bottom: clamp(20px, 3vw, 32px); }
+.cstrip .explore-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.explore-all { display: inline-flex; align-items: center; gap: 8px; font-size: .8125rem; font-weight: 500; color: var(--accent-deep); white-space: nowrap; }
+.explore-all svg { width: 14px; height: 14px; transition: transform .3s var(--ease-out); }
+.explore-all:hover svg { transform: translateX(3px); }
+.explore-grid { display: grid; gap: 14px; }
+.ex-card { display: grid; justify-items: center; text-align: center; gap: 4px; color: var(--ink); }
+.ex-media { position: relative; display: block; width: 100%; aspect-ratio: 3 / 2; border-radius: 8px; overflow: hidden; background: var(--ink); margin-bottom: 10px; }
+.ex-media img { width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.02); transition: transform .9s var(--ease-out); }
+.ex-card:hover .ex-media img { transform: scale(1.08); }
+.ex-card b { font-weight: 600; font-size: .9375rem; }
+.ex-card span:last-child { font-size: .8125rem; color: var(--fg-2); }
+/* ---- one section per category ---- */
+.cat { padding: clamp(40px, 6vw, 80px) 0; background: var(--bone); color: var(--ink); }
+.cat + .cat { padding-top: 0; }
+.cat-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; margin-bottom: clamp(20px, 3vw, 28px); }
+.cat-title { font-size: clamp(1.8rem, 1.2rem + 2vw, 3rem); }
 .cat-row { display: grid; gap: 16px; grid-template-columns: 1fr; }
-.cat-photo { position: relative; overflow: hidden; background: var(--ink); aspect-ratio: 16 / 9; }
+.cat-photo { position: relative; overflow: hidden; border-radius: 14px; background: var(--ink); aspect-ratio: 3 / 2; }
 .cat-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
-.cat-track { --rail-w: 78vw; }
-@media (min-width: 640px) { .cat-track { --rail-w: calc((100% - 16px) / 2); } }
-@media (min-width: 1024px) {
-  .cat-row { grid-template-columns: minmax(0, 3fr) minmax(0, 9fr); gap: 20px; align-items: stretch; }
-  .cat-photo { aspect-ratio: auto; min-height: 100%; }
-  .cat-track { --rail-w: calc((100% - 32px) / 3); min-width: 0; }
-}
-@media (min-width: 1440px) { .cat-track { --rail-w: calc((100% - 32px) / 3); } }
+.cat-track { --rail-w: calc((100% - 12px) / 2); gap: 12px; }
 .wrap:not(.has-overflow) .rail-nav { visibility: hidden; }
-@media (min-width: 1024px) { .cat--few .cat-row { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); } .cat--few .cat-track { --rail-w: calc((100% - 16px) / 2); } }
-
-/* ---- all + cross + delivery ---- */
-.all-band { padding: var(--section-sm) 0; border-top: 1px solid var(--line); text-align: center; }
-.all-band .h2 { margin: 12px auto 18px; max-width: 16ch; }
-.all-band .lead { margin: 0 auto 28px; max-width: 42ch; }
-.cross { padding: var(--section-sm) 0; }
-.cross .between { margin-bottom: 32px; }
-.shop-grid { display: grid; gap: 16px; grid-template-columns: 1fr; }
-@media (min-width: 640px) { .shop-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (min-width: 1024px) { .shop-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; } }
-.delivery { display: grid; gap: 28px; padding: var(--section-sm) 0; }
-@media (min-width: 768px) { .delivery { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-.delivery h3 { font-family: var(--font-display); font-weight: 300; font-size: 1.5rem; }
-.delivery p { color: var(--fg-2); font-size: .9375rem; margin-top: 8px; max-width: 26ch; }
+@media (min-width: 1024px) { .cat-row { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 20px; align-items: stretch; } .cat-photo { aspect-ratio: auto; min-height: 100%; } .cat-track { --rail-w: calc((100% - 20px) / 2); gap: 20px; min-width: 0; } .cat--single .cat-row { grid-template-columns: minmax(0, 4fr) minmax(0, 3.2fr) minmax(0, 4.8fr); } .cat--single .cat-track { --rail-w: 100%; } }
+@media (max-width: 1023px) { .cat-photo-2 { display: none; } .cat--single .cat-track { --rail-w: 100%; } }
+@media (min-width: 640px) and (max-width: 1023px) { .cat--single .cat-row { grid-template-columns: 1fr 1fr; } .cat--single .cat-track { --rail-w: 100%; } }
+@media (min-width: 1400px) { .cat-track { --rail-w: calc((100% - 40px) / 3); } .cat--two .cat-track { --rail-w: calc((100% - 20px) / 2); } }
+/* ---- what is inside ---- */
+.cinside { padding: clamp(32px, 5vw, 64px) 0 0; }
+.cinside-card { display: grid; gap: 24px; background: #F4F2EE; border-radius: 18px; padding: clamp(22px, 3vw, 44px); }
+.cinside-title { font-size: clamp(1.7rem, 1.2rem + 1.6vw, 2.6rem); }
+.cinside-copy .explore-sub { margin-top: 14px; max-width: 54ch; }
+.cinside-copy .spec { margin-top: 22px; }
+.cinside-photo { border-radius: 12px; overflow: hidden; aspect-ratio: 4 / 3; background: var(--ink); }
+.cinside-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+@media (min-width: 1024px) { .cinside-card { grid-template-columns: 1fr 1fr; gap: clamp(28px, 4vw, 56px); align-items: center; } .cinside-photo { aspect-ratio: 4 / 3; } }
+/* ---- which fold / which belt ---- */
+.which { padding: clamp(40px, 6vw, 80px) 0 clamp(24px, 4vw, 48px); }
+.which-grid { display: grid; gap: 16px; grid-template-columns: 1fr; margin-top: clamp(20px, 3vw, 32px); }
+.which-card { position: relative; display: block; aspect-ratio: 4 / 3; border-radius: 14px; overflow: hidden; background: var(--ink); color: var(--bone); }
+.which-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1.02); transition: transform .9s var(--ease-out); }
+.which-card:hover img { transform: scale(1.07); }
+.which-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(26,27,29,0) 45%, rgba(26,27,29,.72) 100%); }
+.which-card span { position: absolute; left: 18px; right: 18px; bottom: 16px; z-index: 2; display: grid; gap: 2px; }
+.which-card b { font-weight: 700; font-size: 1.1rem; }
+.which-card em { font-style: normal; font-size: .8125rem; color: rgba(239,237,230,.82); }
+@media (min-width: 640px) { .which-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1024px) { .which-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+/* ---- all band + cross ---- */
+.all-band { padding: clamp(40px, 6vw, 80px) 0; background: var(--ink); color: var(--bone); text-align: center; }
+.all-band .explore-title { color: var(--bone); max-width: 20ch; margin: 0 auto; }
+.all-band .explore-sub { color: rgba(239,237,230,.78); margin: 14px auto 24px; max-width: 48ch; }
+.cross { padding: clamp(40px, 6vw, 80px) 0 0; background: var(--bone); color: var(--ink); }
+.cross .cat-head { margin-bottom: clamp(20px, 3vw, 28px); }
+.cross .cc-foot { margin-top: 14px; }
+@media (max-width: 1023px) { .cstrip .explore-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 767px) {
+  .chero { height: 72svh; min-height: 480px; max-height: 640px; }
+  .chero img { object-position: 50% 40%; }
+  .chero::after { background: linear-gradient(180deg, rgba(26,27,29,.6) 0%, rgba(26,27,29,.05) 30%, rgba(26,27,29,.15) 48%, rgba(26,27,29,.86) 100%); }
+  .chero-copy { padding-bottom: 56px; }
+  .hero-ctas .btn { flex: 1 1 auto; justify-content: center; }
+  .cstrip .explore-head { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .cstrip .explore-grid { gap: 10px; }
+  .cat-head { flex-direction: column; align-items: flex-start; }
+}
 '''
 
     body = f'''
-<section class="showcase on-ink" aria-label="{title} collections" data-showcase>
-  <div class="sc-frame">
-    <div class="sc-photos" data-sc-photos>{photos}</div>
-    <p class="sc-brand">{B["origin"]} · Crazy horse leather</p>
-    <div class="sc-panel on-bone" data-sc-panel>
-      <div class="sc-head"><h1 class="sc-title" data-sc-title>{g0["name"]}</h1><p class="label sc-kicker" data-sc-item>Collection</p></div>
-      <span class="sc-count" data-sc-count data-sc-item>01 – 0{n}</span>
-      <ul class="sc-cats" data-sc-cats role="tablist" aria-label="{title} categories" data-sc-item>{cats}</ul>
-      <div class="sc-stage" data-sc-stage>{cuts}</div>
-      <div class="sc-foot">
-        <div><p class="sc-models" data-sc-models data-sc-item>{models0}</p><p class="sc-line" data-sc-line data-sc-item>{g0["line1"]}<br>{g0["line2"]}</p></div>
-        <a class="btn sc-cta" data-sc-cta data-sc-item href="#{g0["key"]}">Discover the collection {I["arrow"]}</a>
-      </div>
+<section class="chero" aria-label="{title}">
+  <picture><source media="(max-width: 767px)" srcset="assets/categories/{hero["img"]}-portrait.jpg"><img data-hero-img src="assets/categories/{hero["img"]}-1200.jpg" srcset="assets/categories/{hero["img"]}-800.jpg 800w, assets/categories/{hero["img"]}-1200.jpg 1200w, assets/categories/{hero["img"]}-2000.jpg 2000w" sizes="100vw" alt="{hero["alt"]}" width="2000" height="1333" fetchpriority="high" decoding="async"></picture>
+  <div class="wrap chero-copy">
+    <p class="hero-kicker" data-hero-item>{hero["kicker"]}</p>
+    <h1 class="hero-h1" data-hero-item>{hero["h1"]}</h1>
+    <p class="hero-sub" data-hero-item>{hero["sub"]}</p>
+    <div class="hero-ctas" data-hero-item><a class="btn btn--tan" href="#filters">Browse {title.lower()} {I["arrow"]}</a><a class="btn btn--ghost" href="shop.html">Everything</a></div>
+  </div>
+</section>
+
+{cat_body}
+
+<section class="cinside on-bone" aria-labelledby="cinside-title">
+  <div class="wrap cinside-card">
+    <div class="cinside-copy">
+      <p class="label" data-reveal>What is inside</p>
+      <h2 class="explore-title cinside-title" id="cinside-title" data-reveal data-delay=".05">{inside["h"]}</h2>
+      <p class="explore-sub" data-reveal data-delay=".1">{inside["body"]}</p>
+      <dl class="spec" data-reveal data-delay=".15">{"".join(f'<div><dt>{k}</dt><dd>{v}</dd></div>' for k, v in inside["rows"])}</dl>
     </div>
+    <figure class="cinside-photo" data-reveal data-delay=".1"><img src="assets/categories/{inside["img"]}{"-1200" if inside["img"] in ("hero-belts", "hero-wallets", "inside-belts") else "-1400"}.jpg" alt="{inside["alt"]}" width="1400" height="933" loading="lazy"></figure>
   </div>
 </section>
 
-<section class="col-intro on-bone" aria-labelledby="col-title">
-  <div class="wrap grid" style="align-items:end">
-    <div class="col-12 lg:col-7"><p class="label" data-reveal><b>01</b><span class="slash">/</span>All {title.lower()} · {len(P)} styles</p><h2 class="display" id="col-title" data-text-reveal="chars" style="margin-top:14px">{title}<span class="dotc">.</span></h2><p class="lead" data-reveal data-delay=".2">{blurb}</p></div>
-    <dl class="col-12 lg:col-4 lg:start-8 spec col-facts" data-reveal data-delay=".3">{"".join(f'<div><dt>{k}</dt><dd>{v}</dd></div>' for k, v in [("Leather", "Crazy horse, full grain"), ("Pieces", f"{len(P)} styles"), ("Colours", " / ".join(colours)), ("From", fmt(min(prices)))] + ([("Sizes", "30 to 44")] if line == "belt" else []))}</dl>
-  </div>
-</section>
-{cat_sections}
-<section class="all-band on-bone" aria-labelledby="all-title">
+<section class="which on-bone" aria-labelledby="which-title">
   <div class="wrap">
-    <p class="label" data-reveal><b>0{n + 2}</b><span class="slash">/</span>The full shelf</p>
-    <h2 class="h2" id="all-title" data-text-reveal="lines">Every {title.lower()[:-1]}, side by side.</h2>
-    <p class="lead" data-reveal data-delay=".15">Filter by colour, style and price, sort, and compare all {len(P)} {title.lower()} in one grid.</p>
-    <a class="btn" href="shop.html?line={title.lower()}" data-reveal data-delay=".25">View all {title.lower()} {I["arrow"]}</a>
+    <h2 class="explore-title" id="which-title" data-reveal>{which["h"]}</h2>
+    <p class="explore-sub" data-reveal data-delay=".05">{which["sub"]}</p>
+    <div class="which-grid">{"".join(f'<a class="which-card" href="shop.html?line={title.lower()}&cat={g["key"]}" data-reveal data-delay="{.1 + i * .06}"><img src="assets/categories/{g["key"]}.jpg" srcset="assets/categories/{g["key"]}.jpg 900w, assets/categories/{g["key"]}-1400.jpg 1400w" sizes="(min-width: 1024px) 22vw, (min-width: 640px) 46vw, 100vw" alt="{g["name"]}" width="1400" height="933" loading="lazy"><span><b>{g["short"]}</b><em>{", ".join(p["name"].split(" ")[0] for p in g["products"])}</em></span></a>' for i, g in enumerate(groups))}</div>
   </div>
 </section>
 
-<section class="cross on-ink" aria-labelledby="cross-title">
-  <div class="wrap">
-    <div class="between"><div><p class="label" data-reveal><b style="color:var(--bone)">0{n + 3}</b><span class="slash">/</span>Complete the look</p><h2 class="h2" id="cross-title" data-text-reveal="lines" style="margin-top:12px">{"A belt to match." if line == "wallet" else "A wallet to match."}</h2></div><a class="btn btn--ghost" href="{other}s.html" data-reveal>All {other_title.lower()} {I["arrow"]}</a></div>
-    <div class="shop-grid">{cross_cards}</div>
-  </div>
-</section>
-
-<section class="on-bone" aria-label="Delivery and returns"><div class="wrap"><div class="delivery">{"".join(f'<div data-reveal data-delay="{i * .1}"><h3>{t["title"]}</h3><p>{t["sub"]}</p></div>' for i, t in enumerate(B["trust"]["items"]))}</div></div></section>
+{ctx["why"](ctx)}
 '''
 
     js = r'''
-const GROUPS = __GROUPS__;
-function initAnimations() {
-  const S = window.STAGR, G = S.gsap, ST = window.ScrollTrigger, $ = S.$, $$ = S.$$, reduced = S.reduced, isMobile = S.isMobile;
+function initHero() {
+  const S = window.STAGR, G = S.gsap, ST = window.ScrollTrigger, $ = S.$, $$ = S.$$, reduced = S.reduced;
   if (!G) return;
-
-  /* ================= showcase: click a category, nothing scroll-bound ================= */
-  const panel = $("[data-sc-panel]"), photos = $$("[data-sc-photo]"), cuts = $$("[data-sc-cut]"), cats = $$("[data-sc-cat]"), count = $("[data-sc-count]");
-  const title = $("[data-sc-title]"), models = $("[data-sc-models]"), line = $("[data-sc-line]"), cta = $("[data-sc-cta]");
-  const n = GROUPS.length; let active = 0, titleSplit = null, floatTween = null;
-  const pad = (i) => "0" + (i + 1);
-  const esc = (t) => String(t).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
-  const fill = (g) => {
-    if (titleSplit) titleSplit.revert(); titleSplit = null;   // revert first: SplitText restores the old markup
-    title.textContent = g.name;
-    models.innerHTML = g.models.length === 1 && g.models[0].name.toLowerCase() === g.name.toLowerCase() ? '<a href="' + g.models[0].href + '">' + esc(g.meta) + '</a>' : g.models.map((m) => '<a href="' + m.href + '">' + esc(m.name) + "</a>").join(' <span aria-hidden="true">·</span> ');
-    line.innerHTML = esc(g.line1) + "<br>" + esc(g.line2);
-    cta.href = g.href;
-  };
-  const riseTitle = () => { G.set(title, { opacity: 1 }); if (reduced) return; titleSplit = S.charRise(title, { from: 110, to: { duration: .6, stagger: .03, overwrite: "auto" } }); };
-  const floatCut = (i) => { if (floatTween) floatTween.kill(); floatTween = null; if (reduced) return; floatTween = G.to($("img", cuts[i]), { y: -8, duration: 3.2, yoyo: true, repeat: -1, ease: "sine.inOut", delay: 1 }); };
-  const setActive = (next, instant) => {
-    if (next === active && !instant) return;
-    const fwd = next > active, prev = active; active = next; const g = GROUPS[next];
-    cats.forEach((b, i) => { b.classList.toggle("is-on", i === next); b.setAttribute("aria-selected", String(i === next)); });
-    if (count) count.textContent = pad(next) + " – " + pad(n - 1);
-    if (instant || reduced) {
-      photos.forEach((ph, i) => G.set(ph, { opacity: i === next ? 1 : 0 }));
-      cuts.forEach((c, i) => G.set(c, { opacity: i === next ? 1 : 0, x: 0, rotation: 0, scale: 1 }));
-      fill(g); G.set([title, models, line], { opacity: 1, y: 0 }); return;
-    }
-    photos.forEach((ph, i) => { G.to(ph, { opacity: i === next ? 1 : 0, duration: .9, ease: "power2.inOut", overwrite: "auto" }); if (i === next) G.fromTo($("img", ph), { scale: 1.16, xPercent: fwd ? 2 : -2 }, { scale: 1.08, xPercent: 0, duration: 1.6, ease: "power3.out", overwrite: "auto" }); });
-    cuts.forEach((c, i) => { if (i === next) G.fromTo(c, { opacity: 0, x: fwd ? 60 : -60, rotation: fwd ? 6 : -6, scale: .9 }, { opacity: 1, x: 0, rotation: 0, scale: 1, duration: .8, ease: "power3.out", delay: .1, overwrite: "auto" }); else G.to(c, { opacity: 0, x: fwd ? -40 : 40, scale: .92, duration: .4, ease: "power2.in", overwrite: "auto" }); });
-    G.set($("img", cuts[prev]), { y: 0 }); floatCut(next);
-    G.to([title, models, line], { y: -10, opacity: 0, duration: .2, ease: "power2.in", overwrite: "auto", onComplete: () => { fill(g); G.set(title, { y: 0 }); riseTitle(); G.fromTo([models, line], { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: .5, ease: "power2.out", stagger: .06, overwrite: "auto" }); } });
-  };
-  cats.forEach((b, i) => b.addEventListener("click", () => setActive(i)));
-  const list = $("[data-sc-cats]");
-  list && list.addEventListener("keydown", (e) => { const d = e.key === "ArrowDown" || e.key === "ArrowRight" ? 1 : e.key === "ArrowUp" || e.key === "ArrowLeft" ? -1 : 0; if (!d) return; e.preventDefault(); const next = (active + d + n) % n; setActive(next); cats[next].focus(); });
-  // deep links: wallets.html#long, wallets.html?style=Long, belts.html#nova
-  const want = (location.hash || "").slice(1).toLowerCase() || (new URLSearchParams(location.search).get("style") || "").toLowerCase();
-  const start = Math.max(0, GROUPS.findIndex((g) => g.key === want));
-  if (start) setActive(start, true);
-  // entrance, once the loader has gone
-  G.set(panel, { opacity: 0, x: isMobile ? 0 : 40, y: isMobile ? 24 : 0 });
-  G.set($$("[data-sc-item]", panel), { opacity: 0 });
-  G.set(title, { opacity: 0 });
-  S.onLoaderDone.push(() => {
-    G.to(panel, { opacity: 1, x: 0, y: 0, duration: 1, ease: "power3.out", delay: .1 });
-    G.fromTo($("img", photos[active]), { scale: 1.2 }, { scale: 1.08, duration: 2, ease: "power3.out" });
-    G.set(title, { opacity: 1 }); riseTitle();
-    G.fromTo($$("[data-sc-item]", panel), { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: .5, ease: "power2.out", stagger: .05, delay: .3, overwrite: "auto" });
-    G.fromTo(cuts[active], { opacity: 0, y: 30, scale: .9 }, { opacity: 1, y: 0, scale: 1, duration: 1, ease: "power3.out", delay: .35 });
-    floatCut(active);
-  });
-
-  /* ================= everything below the fold ================= */
-  $$(".col-intro, .cat, .all-band, .cross, footer").forEach((el) => S.initReveals(el));
-  $$(".cat-photo img").forEach((img) => { if (reduced) return; G.fromTo(img, { scale: 1.1 }, { scale: 1, ease: "none", scrollTrigger: { trigger: img.parentElement, start: "top bottom", end: "bottom top", scrub: true } }); });
+  const img = $("[data-hero-img]"), items = $$("[data-hero-item]");
+  if (!reduced) { G.set(items, { y: 18, opacity: 0 }); }
+  S.onLoaderDone.push(() => { if (reduced) return; G.fromTo(img, { scale: 1.14 }, { scale: 1.04, duration: 2.6, ease: "power2.out", clearProps: "transform" }); G.to(items, { y: 0, opacity: 1, duration: .7, ease: "power3.out", stagger: .08, delay: .2, clearProps: "transform" }); });
+  $$(".cinside, .which, #why, footer").forEach((el) => S.initReveals(el));
   S.initRails(document);
-  // "Discover the collection" scrolls with Lenis
-  cta && cta.addEventListener("click", (e) => { const target = $(cta.getAttribute("href")); if (!target) return; e.preventDefault(); S.scrollTo(target, 1.2); });
+  // deep links from the mega menu: wallets.html#long, ?style=Long
+  $$('a[href^="#"]').forEach((a) => a.addEventListener("click", (e) => { const el = $(a.getAttribute("href")); if (!el) return; e.preventDefault(); S.scrollTo(el, 1.1); }));
+  window.addEventListener("load", () => ST.refresh());
 }
-STAGR.onReady.push(initAnimations);
-'''.replace("__GROUPS__", groups_json)
+STAGR.onReady.push(initHero);
+'''
 
     return {
         "file": f"{line}s.html",
         "key": line + "s",
         "title": f"{title} — STAGR.",
-        "description": blurb,
-        "css": css,
+        "description": ctx["products_doc"]["lines"][line]["blurb"],
+        "css": css + sh_css,
         "body": body,
-        "js": js,
+        "js": js + sh_js,
         "header_dark": True,
         "shop_href": f"shop.html?line={title.lower()}",
     }

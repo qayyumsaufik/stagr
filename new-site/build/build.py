@@ -140,6 +140,48 @@ def scard(ctx, p, i, quick=True):
 </article>'''
 
 
+heart = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-7.5-10A4.2 4.2 0 0 1 12 8.2a4.2 4.2 0 0 1 7.5 2.3c0 5.4-7.5 10-7.5 10z"/></svg>'
+def ccard(ctx, p, i):
+    """Catalogue card used on the home collection rail, the collection pages and the shop."""
+    SW = SWATCH; TAGS = ctx["tags"]
+    cuts = ctx["cutouts"](p); main = cuts[0]; same = [c for c in cuts if c["colour"] == main["colour"]]; alt = same[1] if len(same) > 1 else None
+    tags = TAGS.get(p["id"], []); fmt = lambda n: "Rs " + format(n, ",d")
+    off = round(100 - p["price"] / p["compareAtPrice"] * 100) if p.get("compareAtPrice") else 0
+    badges = (f'<span class="cc-badge cc-sale">Sale -{off}%</span>' if off else "") + (f'<span class="cc-badge cc-best">&#9733; Bestseller</span>' if "best" in tags else "") + (f'<span class="cc-badge cc-new">New in</span>' if "new" in tags and "best" not in tags else "")
+    swatches = "".join(f'<label class="cc-sw" title="{c}"><input type="radio" name="h-{p["id"]}" value="{c}" {"checked" if c == p["defaultColour"] else ""}><i style="--sw:{SW.get(c, "#6E4328")}"></i><span class="sr-only">{c}</span></label>' for c in p["colours"])
+    meta = " / ".join(p["colours"]) + (" <i>·</i> Sizes 30 to 44" if p["line"] == "belt" else "")
+    return f'''
+<article class="ccard{" has-alt" if alt else ""}" data-product="{p["id"]}" data-tags="{" ".join(tags)}" data-line="{p["line"]}" data-style="{p["style"] or "Belt"}" data-colours="{",".join(p["colours"])}" data-price="{p["price"]}" data-index="{i}" data-name="{p["name"]}">
+  <a class="cc-media" href="product-{p["id"]}.html" aria-label="{p["name"]}"><img class="main" src="{main["small"]}" alt="{p["name"]} in {main["colour"].lower()}" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="{(alt or main)["small"]}" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"><span class="cc-badges">{badges}</span></a>
+  <div class="cc-body">
+<p class="cc-price"><b>{fmt(p["price"])}</b>{f'<s>{fmt(p["compareAtPrice"])}</s>' if p.get("compareAtPrice") else ""}</p>
+<h3 class="cc-name"><a href="product-{p["id"]}.html">{p["name"]}</a></h3>
+<p class="cc-meta">{meta}</p>
+<div class="cc-opts opts" data-colour-opts>{swatches}</div>
+<p class="cc-stock"><i></i>In stock</p>
+<div class="cc-foot"><button type="button" class="cc-add" data-add="{p["id"]}" data-colour="{p["defaultColour"]}" {"data-size=34" if p["line"] == "belt" else ""}><span aria-hidden="true">+</span> Add to cart</button><button type="button" class="cc-wish" data-wish="{p["id"]}" aria-pressed="false" aria-label="Save {p["name"]}">{heart}</button></div>
+  </div>
+</article>'''
+
+
+def why(ctx):
+    """"Why people choose Stagr": centred serif heading, four points with line icons."""
+    return '''<section id="why" class="why on-bone" aria-labelledby="why-title">
+  <div class="wrap">
+    <div class="why-head">
+      <h2 class="explore-title" id="why-title" data-reveal>Why people choose Stagr</h2>
+      <p class="explore-sub" data-reveal data-delay=".1">One workshop, a small bench, no subcontracting. A belt leaves us when it is right, not when the week ends.</p>
+    </div>
+    <ul class="why-grid" role="list">
+      <li data-reveal><span class="why-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M12 4l9 16H3z"/></svg></span><div><b>Handcrafted since 2025</b><p>Every piece cut and stitched in Karachi.</p></div></li>
+      <li data-reveal data-delay=".08"><span class="why-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="1"/><path d="M3 11h18M8 7V4h8v3"/></svg></span><div><b>One price, any quantity</b><p>Rs 1,740 to Rs 3,500. The same for one or a hundred.</p></div></li>
+      <li data-reveal data-delay=".16"><span class="why-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="17" r="1.6"/><circle cx="17" cy="17" r="1.6"/></svg></span><div><b>Delivered across Pakistan</b><p>3 to 5 working days. Cash on delivery.</p></div></li>
+      <li data-reveal data-delay=".24"><span class="why-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4V5z"/></svg></span><div><b>People you can talk to</b><p>WhatsApp us. The person who made it answers.</p></div></li>
+    </ul>
+  </div>
+</section>'''
+
+
 STYLE_GROUPS = [("Bifold", ["kingsmann", "regal"]), ("Trifold", ["majestic"]), ("Minimalist", ["maverick", "purefold"]), ("Long", ["rodeo", "upbuck"])]
 
 
@@ -147,19 +189,21 @@ def mega(line, ctx):
     """Cartier-style drop panel for Wallets / Belts."""
     P = {p["id"]: p for p in ctx["products"]}
     items = [p for p in ctx["products"] if p["line"] == line[:-1]]
+    CAT = {"kingsmann": "bifold", "regal": "bifold", "majestic": "trifold", "maverick": "minimalist", "purefold": "minimalist", "rodeo": "long", "upbuck": "long",
+           "nova": "double", "outlaw": "classic", "regent": "black-belts", "monarch": "tan-belts"}
     def thumb(p, label=None, href=None):
         c = cutouts_for(p)[0]
-        return f'<a class="mega-item" href="{href or f"product-{p['id']}.html"}"><span class="mega-thumb"><img src="{c["small"]}" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">{label or p["name"].split(" ")[0]}</span></a>'
+        return f'<a class="mega-item" href="{href or f"{line}.html?cat={CAT[p['id']]}"}"><span class="mega-thumb"><img src="{c["small"]}" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">{label or p["name"].split(" ")[0]}</span></a>'
     rows = thumb_rows = ""
     if line == "wallets":
         tabs = [("collections", "Collections"), ("style", "By style"), ("care", "Care and sizing")]
         rows = f'<div class="mega-row" data-mega-tab="collections">{"".join(thumb(p) for p in items)}</div>'
-        rows += f'<div class="mega-row" data-mega-tab="style" hidden>{"".join(thumb(P[ids[0]], label, f"wallets.html#{name.lower()}") for name, ids in STYLE_GROUPS for label in [name])}</div>'
+        rows += f'<div class="mega-row" data-mega-tab="style" hidden>{"".join(thumb(P[ids[0]], label, f"wallets.html?cat={name.lower()}") for name, ids in STYLE_GROUPS for label in [name])}</div>'
     else:
         tabs = [("collections", "Collections"), ("style", "By style"), ("care", "Care and sizing")]
         rows = f'<div class="mega-row" data-mega-tab="collections">{"".join(thumb(p) for p in items)}</div>'
-        rows += f'<div class="mega-row" data-mega-tab="style" hidden>{thumb(P["outlaw"], "Classic", "belts.html#classic")}{thumb(P["nova"], "Double-sided", "belts.html#double-sided")}{thumb(P["monarch"], "Tan", "belts.html?colour=Tan")}{thumb(P["regent"], "Black", "belts.html?colour=Black")}</div>'
-    care = [("How it is made", "about.html#craft"), ("Leather care", "about.html#faq"), ("Size guide", "product-nova.html#details" if line == "belts" else "about.html#faq"), ("Delivery and returns", "index.html#delivery"), ("Bulk orders", "about.html#bulk")]
+        rows += f'<div class="mega-row" data-mega-tab="style" hidden>{thumb(P["outlaw"], "Classic", "belts.html?cat=classic")}{thumb(P["nova"], "Double-sided", "belts.html?cat=double")}{thumb(P["monarch"], "Tan", "belts.html?cat=tan-belts")}{thumb(P["regent"], "Black", "belts.html?cat=black-belts")}</div>'
+    care = [("How it is made", "about.html#craft"), ("Leather care", "about.html#faq"), ("Size guide", "product-nova.html#details" if line == "belts" else "about.html#faq"), ("Delivery and returns", "index.html#delivery"), ("Bulk orders", "bulk.html")]
     rows += f'<div class="mega-row mega-links" data-mega-tab="care" hidden>{"".join(f"<a class=link href={h}>{t}</a>" for t, h in care)}</div>'
     tabs_html = "".join(f'<button type="button" role="tab" aria-selected="{str(i == 0).lower()}" data-mega-tab-btn="{k}">{t}</button>' for i, (k, t) in enumerate(tabs))
     return f'''
@@ -177,7 +221,7 @@ def chrome(ctx, page):
     on_dark = " on-dark" if page.get("header_dark") else ""
     nav_links = page.get("nav") or [("Wallets", "wallets.html"), ("Belts", "belts.html"), ("Story", "about.html")]
     links = "".join(f'<a href="{h}" class="nav-underline">{t}</a>' for t, h in nav_links)
-    menu_links = [("Home", "index.html"), ("Wallets", "wallets.html"), ("Belts", "belts.html"), ("Story", "about.html"), ("Shop", "shop.html")]
+    menu_links = [("Home", "index.html"), ("Wallets", "wallets.html"), ("Belts", "belts.html"), ("Bulk orders", "bulk.html"), ("Shop", "shop.html")]
     menu = "".join(f'<a class="menu-link" href="{h}"><sup>0{i + 1}</sup>{t}</a>' for i, (t, h) in enumerate(menu_links))
     socials = "".join(f'<a href="{B["social"]["links"][k]}" aria-label="{n}" target="_blank" rel="noopener">{ICON[i]}</a>' for k, n, i in [("instagram", "Instagram", "insta"), ("facebook", "Facebook", "fb"), ("tiktok", "TikTok", "tiktok"), ("whatsapp", "WhatsApp", "wa")])
     loader = ""
@@ -230,7 +274,7 @@ def chrome(ctx, page):
     <ul class="nav-main desk-only" role="list">
       <li data-mega="wallets"><a href="wallets.html" class="nav-underline{" is-active" if page.get("key") == "wallets" else ""}" aria-haspopup="true">Wallets</a></li>
       <li data-mega="belts"><a href="belts.html" class="nav-underline{" is-active" if page.get("key") == "belts" else ""}" aria-haspopup="true">Belts</a></li>
-      <li><a href="about.html#bulk" class="nav-underline">Bulk orders</a></li>
+      <li><a href="bulk.html" class="nav-underline{" is-active" if page.get("key") == "bulk" else ""}">Bulk orders</a></li>
       <li><a href="shop.html" class="nav-underline{" is-active" if page.get("key") == "shop" else ""}">Shop</a></li>
     </ul>
     <a class="brand" href="index.html" aria-label="Stagr, home">STAGR<span class="dot"></span></a>
@@ -274,17 +318,23 @@ def chrome(ctx, page):
 
 <footer class="footer">
   <div class="wrap">
-    <div class="news">
-      <div><p class="label">Newsletter</p><h2 class="h3" style="margin-top:14px;max-width:16ch">{B["newsletter"]["body"].split(".")[0]}.</h2></div>
-      <div><form class="input-row" data-notify><label class="sr-only" for="news-email">Email address</label><input class="input" id="news-email" type="email" placeholder="Email address" required autocomplete="email"><button class="btn btn--text" type="submit">Sign up {ICON["arrow"]}</button></form><p class="small muted" data-notify-status style="margin-top:10px;min-height:1.5em">Two emails a month. Nothing else.</p></div>
+    <div class="fcta">
+      <div class="fcta-pic" aria-hidden="true"><img src="assets/lifestyle/kingsmen-02-800.jpg" alt="" width="800" height="1000" loading="lazy"></div>
+      <div class="fcta-copy"><h2 class="fcta-title">A little guidance goes a long way.</h2><p>Questions about sizing, embossing or a bulk order? Let&#8217;s talk.</p></div>
+      <a class="btn fcta-btn" href="{B["contact"]["whatsapp"]["link"]}" target="_blank" rel="noopener">Talk to our team {ICON["arrow"]}</a>
     </div>
-    <div class="cols">
-      <div><span class="brand wordmark" style="font-size:1.25rem">STAGR<span class="dot"></span></span><p class="small muted" style="margin-top:14px;max-width:28ch">{B["descriptor"]} {B["origin"]}.</p><div class="socials" style="margin-top:18px">{socials}</div></div>
-      <div><h4>Site</h4><ul><li><a href="index.html#range">Range</a></li><li><a href="index.html#inside">Inside</a></li><li><a href="about.html">Story</a></li><li><a href="shop.html">Shop</a></li></ul></div>
-      <div><h4>Shop</h4><ul><li><a href="wallets.html">Wallets</a></li><li><a href="belts.html">Belts</a></li><li><a href="about.html#bulk">Bulk orders</a></li><li><a href="{B["contact"]["whatsapp"]["link"]}" target="_blank" rel="noopener">WhatsApp</a></li></ul></div>
-      <div><h4>Help</h4><ul><li><a href="index.html#delivery">Delivery &amp; returns</a></li><li><a href="about.html#faq">Questions</a></li><li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li></ul></div>
+    <ul class="fpills" role="list">
+      <li class="fpill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="1"/><path d="M3 11h18M8 7V4h8v3"/></svg>Cash on delivery, pay at the door</li>
+      <li class="fpill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg>14-day returns, unworn pieces</li>
+      <li class="fpill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18"/></svg>One honest price, Rs 1,740 to Rs 3,500</li>
+    </ul>
+    <div class="fcols">
+      <div class="fbrand"><img src="assets/brand/stagr-lockup-beige.png" alt="Stagr" width="200" height="120" loading="lazy"><p>{B["descriptor"]} Delivery in {B["shipping"]["deliveryTime"]}.</p><div class="socials">{socials}</div></div>
+      <div><h4>Shop &amp; create</h4><ul><li><a href="belts.html">Belts</a></li><li><a href="wallets.html">Wallets</a></li><li><a href="bulk.html">Bulk orders</a></li><li><a href="about.html#craft">How it is made</a></li></ul></div>
+      <div><h4>Here to help</h4><ul><li><a href="product-nova.html#details">Size guide</a></li><li><a href="index.html#delivery">Delivery &amp; returns</a></li><li><a href="about.html#faq">Leather care</a></li><li><a href="{B["contact"]["whatsapp"]["link"]}" target="_blank" rel="noopener">Contact</a></li></ul></div>
+      <div><h4>Let&#8217;s connect</h4><ul><li><a href="{B["contact"]["whatsapp"]["link"]}" target="_blank" rel="noopener">{B["contact"]["whatsapp"]["value"]} (WhatsApp)</a></li><li><a href="{B["social"]["links"]["instagram"]}" target="_blank" rel="noopener">{B["social"]["handle"]}</a></li><li>{B["contact"]["workshop"]["value"]}</li><li>Mon to Sat, 11am to 8pm</li></ul></div>
     </div>
-    <div class="legal"><span>© 2026 {B["domain"]}</span><span>{B["shipping"]["footerLine"]}</span></div>
+    <div class="flegal"><span>{B["footer"]["altCopyright"]}</span><span><a href="#">Privacy</a><a href="#">Terms</a><button type="button" class="theme-toggle" aria-pressed="false">Dark mode</button></span></div>
   </div>
 </footer>
 
@@ -344,8 +394,8 @@ def main():
     with open(os.path.join(HERE, "base.css"), encoding="utf-8") as f:
         base_css = f.read()
     products_doc = load_json("products.json")
-    ctx = {"products": products_doc["products"], "products_doc": products_doc, "brand": load_json("brand.json"), "base_css": base_css, "icon": ICON, "esc": esc, "cutouts": cutouts_for, "bloom": BLOOM, "swatch": SWATCH, "pcard": pcard, "scard": scard, "tags": TAGS}
-    pages = sys.argv[1:] or ["index", "collection", "shop", "product", "about"]
+    ctx = {"products": products_doc["products"], "products_doc": products_doc, "brand": load_json("brand.json"), "base_css": base_css, "icon": ICON, "esc": esc, "cutouts": cutouts_for, "bloom": BLOOM, "swatch": SWATCH, "pcard": pcard, "scard": scard, "ccard": ccard, "why": why, "tags": TAGS}
+    pages = sys.argv[1:] or ["index", "collection", "shop", "product", "bulk", "about"]
     for name in pages:
         if not os.path.exists(os.path.join(HERE, "pages", name + ".py")):
             print("skip (no module):", name); continue

@@ -50,3 +50,48 @@ for key, (f, fx, fy, zoom) in TILES.items():
         o = c.copy(); o.thumbnail((w, w), Image.LANCZOS)
         o.save(f"{SITE}/assets/hero/{key}{'' if w == 1400 else '-800'}.jpg", quality=84, optimize=True, progressive=True)
     print(key, c.size)
+
+# ---- collection page heroes and category rows (3:2, 1800 / 900) ----
+COLL = {
+    "hero-wallets": (f"{SRC}/Majestic/WhatsApp Image 2025-03-11 at 10.20.46 AM.jpeg", .5, .5, 1.0),
+    "hero-belts":   (f"{W1}/DSC08966.JPG", .5, .5, 1.0),
+    "inside-belts": (f"{W1}/DSC08998.JPG", .5, .5, 1.0),
+}
+for key, (f, fx, fy, zoom) in COLL.items():
+    im = load(f); W, H = im.size
+    short = min(H, W * 2 / 3) * zoom; ch = int(short); cw = int(short * 3 / 2)
+    x0 = int(min(max(fx * W - cw / 2, 0), W - cw)); y0 = int(min(max(fy * H - ch / 2, 0), H - ch))
+    c = im.crop((x0, y0, x0 + cw, y0 + ch))
+    if "DSC" in f: c = ImageEnhance.Brightness(c).enhance(1.06); c = ImageEnhance.Contrast(c).enhance(1.08)
+    for w in (2000, 1200, 800):
+        o = c.copy(); o.thumbnail((w, w), Image.LANCZOS)
+        o.save(f"{OUT}/{key}-{w}.jpg", quality=84, optimize=True, progressive=True)
+    ph = c.height; pw = int(ph * 3 / 4); x = (c.width - pw) // 2
+    o = c.crop((x, 0, x + pw, ph)); o.thumbnail((900, 1200), Image.LANCZOS); o.save(f"{OUT}/{key}-portrait.jpg", quality=84, optimize=True, progressive=True)
+    print(key, c.size)
+for key, (f, fx, fy, zoom) in PICKS.items():
+    im = load(f); W, H = im.size
+    short = min(H, W * 2 / 3) * zoom; ch = int(short); cw = int(short * 3 / 2)
+    x0 = int(min(max(fx * W - cw / 2, 0), W - cw)); y0 = int(min(max(fy * H - ch / 2, 0), H - ch))
+    c = im.crop((x0, y0, x0 + cw, y0 + ch))
+    if "DSC" in f: c = ImageEnhance.Brightness(c).enhance(1.06); c = ImageEnhance.Contrast(c).enhance(1.08)
+    o = c.copy(); o.thumbnail((1400, 1400), Image.LANCZOS); o.save(f"{OUT}/{key}-1400.jpg", quality=84, optimize=True, progressive=True)
+print("done")
+
+# ---- second frame for categories that hold one product (fills the row beside the card) ----
+ALT = {
+    "trifold-alt": (f"{SRC}/Majestic/WhatsApp Image 2025-03-11 at 10.21.24 AM (1).jpeg", .5, .5, 1.0),
+    "nova-alt":    (f"{W1}/DSC09003.JPG", .5, .5, 1.0),
+    "outlaw-alt":  (f"{W1}/DSC08978.JPG", .5, .5, 1.0),
+    "regent-alt":  (f"{W1}/DSC09007.JPG", .5, .5, 1.0),
+    "monarch-alt": (f"{W1}/DSC08972.JPG", .5, .5, 1.0),
+}
+for key, (f, fx, fy, zoom) in ALT.items():
+    im = load(f); W, H = im.size
+    short = min(H, W * 2 / 3) * zoom; ch = int(short); cw = int(short * 3 / 2)
+    x0 = int(min(max(fx * W - cw / 2, 0), W - cw)); y0 = int(min(max(fy * H - ch / 2, 0), H - ch))
+    c = im.crop((x0, y0, x0 + cw, y0 + ch))
+    if "DSC" in f: c = ImageEnhance.Brightness(c).enhance(1.06); c = ImageEnhance.Contrast(c).enhance(1.08)
+    for w in (1400, 900):
+        o = c.copy(); o.thumbnail((w, w), Image.LANCZOS); o.save(f"{OUT}/{key}{'' if w == 900 else '-1400'}.jpg", quality=84, optimize=True, progressive=True)
+    print(key, c.size)

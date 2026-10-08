@@ -3,205 +3,92 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Product — Stagr</title>
+<title>Product — STAGR.</title>
 <meta name="description" content="Handmade crazy horse leather belts and wallets.">
-<meta name="theme-color" content="#F6F2EC">
+<meta name="theme-color" content="#efede6">
 <link rel="icon" type="image/png" href="assets/brand/stagr-mark-brass.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,300..600&family=Manrope:wght@400..700&display=swap" rel="stylesheet">
-<script>(function(){try{var d=document.documentElement,t=localStorage.getItem('stagr-theme');if(t)d.setAttribute('data-theme',t);if(sessionStorage.getItem('stagr-transition')==='1')d.classList.add('is-entering');if(sessionStorage.getItem('stagr-loaded')==='1'||matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('no-loader');}catch(e){}})();</script>
+<link rel="preload" as="font" type="font/woff2" href="fonts/soehne-buch.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="fonts/soehne-breit-extrafett.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="fonts/tiempos-headline-light.woff2" crossorigin>
+<script>(function(){try{var d=document.documentElement,t=localStorage.getItem('stagr-theme');if(t)d.setAttribute('data-theme',t);if(sessionStorage.getItem('stagr-transition')==='1'){d.classList.add('is-entering');sessionStorage.removeItem('stagr-transition');}if(sessionStorage.getItem('stagr-loaded')==='1'||matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('no-loader');}catch(e){}})();</script>
 <style>
 /* ==========================================================================
-   STAGR — base stylesheet (inlined into every page by build/build.py)
-   Mobile-first. Only transform/opacity are animated.
+   STAGR — base stylesheet v2 (bone / ink system, Söhne + Tiempos)
+   Inlined into every page by build/build.py. Mobile-first.
    ========================================================================== */
+
+@font-face { font-family: "Söhne"; src: url(fonts/soehne-buch.woff2) format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Söhne"; src: url(fonts/soehne-buch-kursiv.woff2) format("woff2"); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: "Söhne"; src: url(fonts/soehne-kraftig.woff2) format("woff2"); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "Söhne"; src: url(fonts/soehne-halbfett.woff2) format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: "Söhne"; src: url(fonts/soehne-extrafett.woff2) format("woff2"); font-weight: 800; font-style: normal; font-display: swap; }
+@font-face { font-family: "Söhne Breit"; src: url(fonts/soehne-breit-extrafett.woff2) format("woff2"); font-weight: 800 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "Tiempos Headline"; src: url(fonts/tiempos-headline-light.woff2) format("woff2"); font-weight: 300; font-style: normal; font-display: swap; }
+@font-face { font-family: "Tiempos Headline"; src: url(fonts/tiempos-headline-regular.woff2) format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Tiempos Text"; src: url(fonts/tiempos-text-regular.woff2) format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Tiempos Text"; src: url(fonts/tiempos-text-regular-italic.woff2) format("woff2"); font-weight: 400; font-style: italic; font-display: swap; }
 
 /* ---------- tokens ---------- */
 :root {
-  /* palette (brief) */
-  --c-offwhite: #F6F2EC;
-  --c-espresso: #1E1612;
-  --c-cognac: #8B4A1F;
-  --c-saddle: #C58B4A;
-  --c-oxblood: #5C1F1F;
-  --c-ink: #161311;
-
-  /* light theme (default) */
-  --bg: var(--c-offwhite);
-  --bg-2: #EFE8DE;             /* tinted surface */
-  --surface: #FBF9F5;          /* cards */
-  --ink: var(--c-ink);
-  --ink-2: rgba(22, 19, 17, .66);
-  --ink-3: rgba(22, 19, 17, .46);
-  --line: rgba(22, 19, 17, .14);
-  --line-strong: rgba(22, 19, 17, .32);
-  --accent: var(--c-cognac);   /* links, active states: 5.9:1 on off-white */
-  --accent-soft: var(--c-saddle);
-  --tint: var(--c-oxblood);
+  --bone: #EFEDE6;
+  --ink: #1A1B1D;
+  --mist: #6A6965;
+  --line: rgba(26, 27, 29, .12);
+  --line-strong: rgba(26, 27, 29, .3);
+  --accent: #C58B4A;        /* saddle tan: the one accent, used like the reference's pale blue */
+  --accent-deep: #8B4A1F;   /* cognac */
+  --oxblood: #5C1F1F;
+  --tan: #D9B07A;
+  --bg: var(--bone);
+  --fg: var(--ink);
+  --fg-2: var(--mist);
+  --surface: #F6F4EE;
   --focus: #B5702E;
   --success: #2F6B3A;
   --error: #A32D2D;
-  --btn-bg: var(--c-ink);
-  --btn-ink: var(--c-offwhite);
-  --overlay: rgba(30, 22, 18, .55);
-  --shadow: 0 24px 60px -24px rgba(30, 22, 18, .35);
-  --grain-opacity: .06;
-  color-scheme: light;
 
-  /* type */
-  --font-display: "Fraunces", "Cormorant Garamond", Georgia, serif;
-  --font-body: "Manrope", "Inter", system-ui, -apple-system, sans-serif;
-  --fs-display: clamp(2.75rem, 1.6rem + 5.4vw, 7.5rem);
-  --fs-h1: clamp(2.5rem, 1.5rem + 4.2vw, 5.75rem);
-  --fs-h2: clamp(2rem, 1.3rem + 2.8vw, 4rem);
-  --fs-h3: clamp(1.5rem, 1.2rem + 1.3vw, 2.375rem);
-  --fs-h4: clamp(1.25rem, 1.1rem + .6vw, 1.625rem);
-  --fs-lead: clamp(1.125rem, 1rem + .55vw, 1.4rem);
-  --fs-body: clamp(1rem, .95rem + .25vw, 1.125rem);
-  --fs-small: .875rem;        /* 14px minimum anywhere */
-  --fs-label: .875rem;
-  --lh-tight: 1.05;
-  --lh-snug: 1.15;
-  --lh-body: 1.65;
-  --track-label: .14em;
+  --font-sans: "Söhne", "Inter", system-ui, -apple-system, sans-serif;
+  --font-wordmark: "Söhne Breit", "Söhne", "Arial Black", sans-serif;
+  --font-display: "Tiempos Headline", "Times New Roman", Georgia, serif;
+  --font-serif: "Tiempos Text", "Times New Roman", Georgia, serif;
 
-  /* layout */
+  --nav-h: 72px;
+  --nav-top: 72px;
+  --gutter: clamp(20px, 1rem + 3.4vw, 64px);
   --max: 1440px;
-  --gutter: clamp(24px, 1.2rem + 3.4vw, 64px);
-  --gap: clamp(16px, 2vw, 32px);
-  --section: clamp(96px, 7rem + 6vw, 200px);
-  --section-sm: clamp(64px, 4rem + 4vw, 128px);
-  --header-h: 72px;
-  --radius: 2px;
-  --radius-pill: 999px;
-
-  /* motion */
-  --ease-out: cubic-bezier(.22, 1, .36, 1);     /* ≈ power3.out */
-  --ease-inout: cubic-bezier(.65, 0, .35, 1);   /* ≈ power2.inOut */
-  --t-micro: .35s;
-  --t-hover: .8s;
+  --section: clamp(96px, 7rem + 5vw, 180px);
+  --section-sm: clamp(64px, 4rem + 3vw, 120px);
+  --ease-out: cubic-bezier(.22, 1, .36, 1);
+  --ease-io: cubic-bezier(.65, 0, .35, 1);
+  color-scheme: light;
 }
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: var(--c-espresso);
-    --bg-2: #28201B;
-    --surface: #251C17;
-    --ink: var(--c-offwhite);
-    --ink-2: rgba(246, 242, 236, .7);
-    --ink-3: rgba(246, 242, 236, .5);
-    --line: rgba(246, 242, 236, .16);
-    --line-strong: rgba(246, 242, 236, .36);
-    --accent: #D9A463;          /* 8.1:1 on espresso */
-    --accent-soft: var(--c-saddle);
-    --tint: #3A1515;
-    --focus: #E0B377;
-    --success: #7DC08B;
-    --error: #F28B8B;
-    --btn-bg: var(--c-offwhite);
-    --btn-ink: var(--c-espresso);
-    --overlay: rgba(0, 0, 0, .6);
-    --shadow: 0 24px 60px -24px rgba(0, 0, 0, .7);
-    --grain-opacity: .09;
-    color-scheme: dark;
-  }
-}
+@media (max-width: 767px) { :root { --gutter: 14px; } }
 :root[data-theme="dark"] {
-  --bg: var(--c-espresso);
-  --bg-2: #28201B;
-  --surface: #251C17;
-  --ink: var(--c-offwhite);
-  --ink-2: rgba(246, 242, 236, .7);
-  --ink-3: rgba(246, 242, 236, .5);
-  --line: rgba(246, 242, 236, .16);
-  --line-strong: rgba(246, 242, 236, .36);
-  --accent: #D9A463;
-  --accent-soft: var(--c-saddle);
-  --tint: #3A1515;
+  --bg: var(--ink);
+  --fg: var(--bone);
+  --fg-2: #A9A7A0;
+  --line: rgba(239, 237, 230, .14);
+  --line-strong: rgba(239, 237, 230, .32);
+  --surface: #232426;
   --focus: #E0B377;
-  --success: #7DC08B;
-  --error: #F28B8B;
-  --btn-bg: var(--c-offwhite);
-  --btn-ink: var(--c-espresso);
-  --overlay: rgba(0, 0, 0, .6);
-  --shadow: 0 24px 60px -24px rgba(0, 0, 0, .7);
-  --grain-opacity: .09;
   color-scheme: dark;
 }
-
-/* Dark sections inside a light page (and vice versa) re-scope the tokens. */
-.theme-dark {
-  --bg: var(--c-espresso);
-  --bg-2: #28201B;
-  --surface: #251C17;
-  --ink: var(--c-offwhite);
-  --ink-2: rgba(246, 242, 236, .7);
-  --ink-3: rgba(246, 242, 236, .5);
-  --line: rgba(246, 242, 236, .16);
-  --line-strong: rgba(246, 242, 236, .36);
-  --accent: #D9A463;
-  --focus: #E0B377;
-  --btn-bg: var(--c-offwhite);
-  --btn-ink: var(--c-espresso);
-  background: var(--bg);
-  color: var(--ink);
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --bg: var(--ink); --fg: var(--bone); --fg-2: #A9A7A0; --line: rgba(239, 237, 230, .14); --line-strong: rgba(239, 237, 230, .32); --surface: #232426; --focus: #E0B377; color-scheme: dark; }
 }
-.theme-light {
-  --bg: var(--c-offwhite);
-  --bg-2: #EFE8DE;
-  --surface: #FBF9F5;
-  --ink: var(--c-ink);
-  --ink-2: rgba(22, 19, 17, .66);
-  --ink-3: rgba(22, 19, 17, .46);
-  --line: rgba(22, 19, 17, .14);
-  --line-strong: rgba(22, 19, 17, .32);
-  --accent: var(--c-cognac);
-  --focus: #B5702E;
-  --btn-bg: var(--c-ink);
-  --btn-ink: var(--c-offwhite);
-  background: var(--bg);
-  color: var(--ink);
-}
-.theme-oxblood {
-  --bg: var(--c-oxblood);
-  --bg-2: #6B2A2A;
-  --surface: #6B2A2A;
-  --ink: var(--c-offwhite);
-  --ink-2: rgba(246, 242, 236, .74);
-  --ink-3: rgba(246, 242, 236, .55);
-  --line: rgba(246, 242, 236, .2);
-  --line-strong: rgba(246, 242, 236, .4);
-  --accent: #E9C08A;
-  --focus: #E9C08A;
-  --btn-bg: var(--c-offwhite);
-  --btn-ink: var(--c-oxblood);
-  background: var(--bg);
-  color: var(--ink);
-}
+.on-ink { --bg: var(--ink); --fg: var(--bone); --fg-2: rgba(239, 237, 230, .6); --line: rgba(239, 237, 230, .14); --line-strong: rgba(239, 237, 230, .35); --surface: #232426; background: var(--bg); color: var(--fg); }
+.on-bone { --bg: var(--bone); --fg: var(--ink); --fg-2: var(--mist); --line: rgba(26, 27, 29, .12); --line-strong: rgba(26, 27, 29, .3); --surface: #F6F4EE; background: var(--bg); color: var(--fg); }
 
 /* ---------- reset ---------- */
 *, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; scroll-behavior: auto; }
+html { -webkit-text-size-adjust: 100%; }
 html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth { scroll-behavior: auto !important; }
 .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
 .lenis.lenis-stopped { overflow: hidden; }
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--ink);
-  font-family: var(--font-body);
-  font-size: var(--fs-body);
-  line-height: var(--lh-body);
-  font-weight: 400;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-  overflow-x: clip;
-  transition: background-color .5s ease, color .5s ease;
-}
-img, picture, video, svg { display: block; max-width: 100%; }
+body { margin: 0; background: var(--bg); color: var(--fg); font-family: var(--font-sans); font-size: 16px; line-height: 1.6; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; overflow-x: clip; min-height: 100%; display: flex; flex-direction: column; }
+main { flex: 1; display: flex; flex-direction: column; }
+img, picture, svg, video { display: block; max-width: 100%; }
 img { height: auto; }
 button, input, select, textarea { font: inherit; color: inherit; }
 button { cursor: pointer; background: none; border: 0; padding: 0; }
@@ -210,568 +97,658 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 h1, h2, h3, h4, p, figure, blockquote, dl, dd { margin: 0; }
 hr { border: 0; border-top: 1px solid var(--line); margin: 0; }
 address { font-style: normal; }
-::selection { background: var(--c-saddle); color: var(--c-espresso); }
+::selection { background: var(--accent); color: var(--ink); }
 :focus { outline: none; }
-:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; border-radius: 2px; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 3px; }
 .sr-only { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
-.skip { position: fixed; left: var(--gutter); top: -100px; z-index: 1000; background: var(--btn-bg); color: var(--btn-ink); padding: 12px 18px; }
+.skip { position: fixed; left: var(--gutter); top: -100px; z-index: 1000; background: var(--ink); color: var(--bone); padding: 12px 18px; }
 .skip:focus { top: 12px; }
-
-/* paper grain over everything, very faint */
-body::after {
-  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 5;
-  opacity: var(--grain-opacity); mix-blend-mode: multiply;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-:root[data-theme="dark"] body::after { mix-blend-mode: screen; }
-@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) body::after { mix-blend-mode: screen; } }
+[hidden] { display: none !important; }
+@media (max-width: 767px) { .desk-only { display: none !important; } }
+@media (min-width: 768px) { .mob-only { display: none !important; } }
 
 /* ---------- typography ---------- */
-.display, .h1, .h2, .h3, .h4, .serif {
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-variation-settings: "opsz" 144, "SOFT" 30;
-  letter-spacing: -.02em;
-  text-wrap: balance;
-}
-.display { font-size: var(--fs-display); line-height: 1.04; letter-spacing: -.03em; }
-.h1 { font-size: var(--fs-h1); line-height: var(--lh-tight); }
-.h2 { font-size: var(--fs-h2); line-height: 1.1; }
-.h3 { font-size: var(--fs-h3); line-height: var(--lh-snug); }
-.h4 { font-size: var(--fs-h4); line-height: 1.25; letter-spacing: -.01em; }
-.serif { font-size: inherit; letter-spacing: 0; }
-em.i, .i { font-style: italic; font-weight: 300; }
-.lead { font-size: var(--fs-lead); line-height: 1.5; color: var(--ink-2); max-width: 36em; text-wrap: pretty; }
-.body { font-size: var(--fs-body); max-width: 60ch; text-wrap: pretty; }
-.small { font-size: var(--fs-small); line-height: 1.5; }
-.muted { color: var(--ink-2); }
-.faint { color: var(--ink-3); }
-.label {
-  font-family: var(--font-body);
-  font-size: var(--fs-label); font-weight: 600;
-  text-transform: uppercase; letter-spacing: var(--track-label);
-  line-height: 1.3;
-}
-.label-row { display: flex; align-items: center; gap: 14px; }
-.label-row::before { content: ""; width: 32px; height: 1px; background: var(--accent-soft); flex: none; }
-.price { font-variant-numeric: tabular-nums; font-weight: 600; white-space: nowrap; }
-.price s { color: var(--ink-3); font-weight: 400; margin-left: .5em; }
-.link { color: var(--accent); text-decoration: underline; text-underline-offset: .22em; text-decoration-thickness: 1px; }
-.link:hover { text-decoration-thickness: 2px; }
-.u-line { position: relative; display: inline-block; }
-.u-line::after { content: ""; position: absolute; left: 0; right: 0; bottom: -.15em; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: right; transition: transform var(--t-micro) var(--ease-out); }
-.u-line:hover::after, .u-line:focus-visible::after { transform: scaleX(1); transform-origin: left; }
+.wordmark { font-family: var(--font-wordmark); font-weight: 800; letter-spacing: -.03em; line-height: .8; text-transform: uppercase; }
+.wordmark .dot { display: inline-block; width: .22em; height: .22em; background: var(--accent); margin-left: .06em; vertical-align: baseline; }
+.display { font-family: var(--font-display); font-weight: 300; letter-spacing: -.015em; line-height: 1.02; }
+.h1 { font-family: var(--font-display); font-weight: 300; font-size: clamp(2.6rem, 1.6rem + 4.4vw, 5.5rem); line-height: 1.02; letter-spacing: -.015em; text-wrap: balance; }
+.h2 { font-family: var(--font-display); font-weight: 300; font-size: clamp(2rem, 1.3rem + 2.8vw, 3.9rem); line-height: 1.06; letter-spacing: -.012em; text-wrap: balance; }
+.h3 { font-family: var(--font-display); font-weight: 300; font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.5rem); line-height: 1.12; letter-spacing: -.01em; }
+.h4 { font-family: var(--font-display); font-weight: 400; font-size: clamp(1.2rem, 1.05rem + .5vw, 1.5rem); line-height: 1.25; }
+.serif { font-family: var(--font-serif); }
+.serif-i { font-family: var(--font-serif); font-style: italic; }
+.lead { font-size: clamp(1.0625rem, 1rem + .4vw, 1.25rem); line-height: 1.6; color: var(--fg-2); max-width: 40em; text-wrap: pretty; }
+.body { font-size: 1rem; line-height: 1.65; max-width: 46ch; text-wrap: pretty; }
+.small { font-size: .875rem; line-height: 1.5; }
+.muted { color: var(--fg-2); }
+.label { font-family: var(--font-sans); font-size: .875rem; font-weight: 500; letter-spacing: .2em; text-transform: uppercase; line-height: 1.4; color: var(--fg-2); }
+.label b, .label strong { color: var(--fg); font-weight: 500; }
+.label .slash { margin: 0 .5em; opacity: .4; }
+.num { font-family: var(--font-display); font-weight: 400; font-variant-numeric: tabular-nums; }
+.rule { height: 1px; width: 72px; background: var(--accent); }
+.link { text-decoration: underline; text-underline-offset: .22em; text-decoration-thickness: 1px; }
+.link:hover { color: var(--accent-deep); }
+.nav-underline { position: relative; }
+.nav-underline::after { content: ""; position: absolute; left: 0; right: 0; bottom: -4px; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: right; transition: transform .35s var(--ease-out); }
+.nav-underline:hover::after, .nav-underline:focus-visible::after, .nav-underline.is-active::after { transform: scaleX(1); transform-origin: left; }
+.price { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.price s { color: var(--fg-2); margin-left: .45em; font-size: .85em; }
 
 /* ---------- layout ---------- */
 .wrap { width: 100%; max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); }
-.grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gap); row-gap: var(--gap); }
+.grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(16px, 2vw, 32px); row-gap: clamp(16px, 2vw, 32px); }
+.col-12 { grid-column-start: auto; grid-column-end: span 12; }
+@media (min-width: 768px) { .md\:col-4 { grid-column-end: span 4; } .md\:col-5 { grid-column-end: span 5; } .md\:col-6 { grid-column-end: span 6; } .md\:col-7 { grid-column-end: span 7; } .md\:col-8 { grid-column-end: span 8; } .md\:start-7 { grid-column-start: 7; } }
+@media (min-width: 1024px) { .lg\:col-3 { grid-column-end: span 3; } .lg\:col-4 { grid-column-end: span 4; } .lg\:col-5 { grid-column-end: span 5; } .lg\:col-6 { grid-column-end: span 6; } .lg\:col-7 { grid-column-end: span 7; } .lg\:col-8 { grid-column-end: span 8; } .lg\:start-2 { grid-column-start: 2; } .lg\:start-7 { grid-column-start: 7; } .lg\:start-8 { grid-column-start: 8; } }
 .section { padding-block: var(--section); }
 .section-sm { padding-block: var(--section-sm); }
-.stack > * + * { margin-top: var(--stack, 1.25rem); }
-.flow > * + * { margin-top: 1em; }
-.full-bleed { width: 100vw; margin-inline: calc(50% - 50vw); }
-.center { text-align: center; }
-.row { display: flex; align-items: center; gap: var(--gap); flex-wrap: wrap; }
-.between { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--gap); flex-wrap: wrap; }
-.col-12 { grid-column-start: auto; grid-column-end: span 12; }
-@media (min-width: 768px) {
-  .md\:col-6 { grid-column-end: span 6; }
-  .md\:col-4 { grid-column-end: span 4; }
-  .md\:col-8 { grid-column-end: span 8; }
-  .md\:col-5 { grid-column-end: span 5; }
-  .md\:col-7 { grid-column-end: span 7; }
-  .md\:start-2 { grid-column-start: 2; }
-  .md\:start-7 { grid-column-start: 7; }
-}
-@media (min-width: 1024px) {
-  .lg\:col-3 { grid-column-end: span 3; }
-  .lg\:col-4 { grid-column-end: span 4; }
-  .lg\:col-5 { grid-column-end: span 5; }
-  .lg\:col-6 { grid-column-end: span 6; }
-  .lg\:col-7 { grid-column-end: span 7; }
-  .lg\:col-8 { grid-column-end: span 8; }
-  .lg\:col-10 { grid-column-end: span 10; }
-  .lg\:start-2 { grid-column-start: 2; }
-  .lg\:start-3 { grid-column-start: 3; }
-  .lg\:start-7 { grid-column-start: 7; }
-  .lg\:start-8 { grid-column-start: 8; }
-}
+.between { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
+.row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+.stack > * + * { margin-top: var(--stack, 1rem); }
 
 /* ---------- media ---------- */
-.media {
-  position: relative; overflow: hidden; background: var(--bg-2);
-  aspect-ratio: var(--ar, 4 / 5);
-  border-radius: var(--radius);
-}
-.media > img, .media > video, .media > picture > img, .media picture img {
-  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-}
-.media.contain > img { object-fit: contain; }
-.media--studio { background: #F2EFEA; }
-.media--studio > img { object-fit: contain; padding: 6%; mix-blend-mode: multiply; }
-:root[data-theme="dark"] .media--studio { background: #EFEAE3; }
-.ar-1 { --ar: 1 / 1; } .ar-45 { --ar: 4 / 5; } .ar-34 { --ar: 3 / 4; } .ar-32 { --ar: 3 / 2; } .ar-169 { --ar: 16 / 9; } .ar-21 { --ar: 21 / 9; } .ar-23 { --ar: 2 / 3; }
-.zoom-hover > img { transition: transform var(--t-hover) var(--ease-out); will-change: transform; }
-.zoom-hover:hover > img, .card:hover .zoom-hover > img { transform: scale(1.05); }
+.media { position: relative; overflow: hidden; background: rgba(26, 27, 29, .045); aspect-ratio: var(--ar, 4 / 5); }
+.media > img, .media > picture > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.ar-1 { --ar: 1; } .ar-45 { --ar: 4 / 5; } .ar-34 { --ar: 3 / 4; } .ar-32 { --ar: 3 / 2; } .ar-169 { --ar: 16 / 9; } .ar-21 { --ar: 21 / 9; }
+
+/* product cutout on a bloom */
+.cut { position: relative; display: grid; place-items: center; }
+.cut img { position: relative; z-index: 1; width: var(--cut-w, 80%); height: auto; max-height: 100%; object-fit: contain; filter: drop-shadow(0 30px 40px rgba(26, 27, 29, .22)); transform: translateZ(0); }
+.bloom { position: absolute; inset: 0; margin: auto; width: var(--bloom-s, 60vh); height: var(--bloom-s, 60vh); border-radius: 50%; pointer-events: none; opacity: .85; filter: blur(6px); background: radial-gradient(circle, var(--bloom, #D9B07A) 0%, color-mix(in srgb, var(--bloom, #D9B07A) 80%, transparent) 20%, color-mix(in srgb, var(--bloom, #D9B07A) 40%, transparent) 45%, color-mix(in srgb, var(--bloom, #D9B07A) 12%, transparent) 65%, transparent 80%); }
+.ghost { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); font-family: var(--font-wordmark); font-weight: 800; font-size: clamp(14rem, 44vh, 30rem); line-height: 1; letter-spacing: -.04em; color: transparent; -webkit-text-stroke: 1px rgba(26, 27, 29, .18); pointer-events: none; white-space: nowrap; }
+.on-ink .ghost { -webkit-text-stroke-color: rgba(239, 237, 230, .14); }
 
 /* ---------- buttons ---------- */
-.btn {
-  --h: 56px;
-  position: relative; isolation: isolate;
-  display: inline-flex; align-items: center; justify-content: center; gap: 12px;
-  min-height: var(--h); padding: 0 32px;
-  border-radius: var(--radius-pill);
-  background: var(--btn-bg); color: var(--btn-ink);
-  font-size: var(--fs-small); font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
-  line-height: 1; white-space: nowrap;
-  border: 1px solid transparent;
-  transition: transform var(--t-micro) var(--ease-out), background-color var(--t-micro) ease, color var(--t-micro) ease, border-color var(--t-micro) ease, opacity var(--t-micro) ease;
-  overflow: hidden;
-}
-.btn::before { /* fill sweep on hover */
-  content: ""; position: absolute; inset: 0; z-index: -1; border-radius: inherit;
-  background: var(--accent); transform: translateY(101%);
-  transition: transform .5s var(--ease-out);
-}
-:root[data-theme="dark"] .btn::before { background: var(--c-saddle); }
-.btn:hover::before, .btn:focus-visible::before { transform: translateY(0); }
-.btn:hover { color: var(--c-offwhite); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; padding: 0 26px; border-radius: 999px; background: var(--ink); color: var(--bone); border: 1px solid var(--ink); font-size: .8125rem; font-weight: 500; letter-spacing: .16em; text-transform: uppercase; line-height: 1; white-space: nowrap; transition: background-color .3s ease, color .3s ease, border-color .3s ease, transform .3s var(--ease-out), opacity .3s ease; }
+.btn:hover { background: var(--accent-deep); border-color: var(--accent-deep); color: var(--bone); }
 .btn:active { transform: scale(.98); }
-.btn[disabled], .btn[aria-disabled="true"] { opacity: .45; pointer-events: none; }
-svg.arrow { width: 18px; height: 18px; display: inline-block; vertical-align: middle; flex: none; }
-.btn .arrow { transition: transform var(--t-micro) var(--ease-out); }
-.btn:hover .arrow { transform: translateX(4px); }
-.btn--ghost { background: transparent; color: var(--ink); border-color: var(--line-strong); }
-.btn--ghost::before { background: var(--ink); }
-.btn--ghost:hover { color: var(--bg); border-color: var(--ink); }
-.btn--flat { background: none; color: var(--ink); padding: 0; min-height: 0; border: 0; border-radius: 0; gap: 10px; overflow: visible; }
-.btn--flat::before { display: none; }
-.btn--flat::after { content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 1px; background: currentColor; transform: scaleX(1); transform-origin: left; transition: transform .45s var(--ease-out); }
-.btn--flat:hover { color: var(--accent); }
-.btn--flat:hover::after { transform: scaleX(0); transform-origin: right; animation: underline-back .45s var(--ease-out) .45s forwards; }
-@keyframes underline-back { from { transform: scaleX(0); transform-origin: left; } to { transform: scaleX(1); transform-origin: left; } }
-.btn--sm { --h: 44px; padding: 0 22px; }
-.btn--lg { --h: 64px; padding: 0 40px; font-size: .9375rem; }
+.btn[disabled] { opacity: .45; pointer-events: none; }
+.btn--ghost { background: transparent; color: var(--fg); border-color: var(--line-strong); }
+.btn--ghost:hover { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.on-ink .btn { background: var(--bone); color: var(--ink); border-color: var(--bone); }
+.on-ink .btn:hover { background: var(--accent); border-color: var(--accent); color: var(--ink); }
+.on-ink .btn--ghost { background: transparent; color: var(--bone); border-color: rgba(239, 237, 230, .35); }
+.on-ink .btn--ghost:hover { background: var(--bone); color: var(--ink); }
+.btn--sm { min-height: 40px; padding: 0 18px; font-size: .75rem; }
+.btn--text { background: none; border: 0; padding: 0; min-height: 0; color: var(--fg); gap: 8px; border-radius: 0; }
+.btn--text:hover { background: none; color: var(--accent-deep); }
+.btn--text svg { width: 14px; height: 14px; transition: transform .3s var(--ease-out); }
+.btn--text:hover svg { transform: translateX(4px); }
 .btn--wide { width: 100%; }
-.btn--icon { --h: 44px; width: 44px; padding: 0; border-radius: 50%; background: transparent; color: var(--ink); border: 1px solid var(--line); }
-.btn--icon::before { background: var(--ink); }
-.btn--icon:hover { color: var(--bg); }
-.btn--icon svg { width: 20px; height: 20px; }
+.btn .arrow { width: 14px; height: 14px; }
+.btn.is-added { background: var(--success); border-color: var(--success); color: #fff; }
+.icon-btn { position: relative; width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; color: inherit; transition: background-color .3s ease; }
+.icon-btn:hover { background: rgba(127, 127, 127, .14); }
+.icon-btn svg { width: 20px; height: 20px; }
 [data-magnetic] { will-change: transform; }
 
 /* ---------- forms ---------- */
 .field { display: grid; gap: 8px; }
-.field > label { font-size: var(--fs-small); font-weight: 600; letter-spacing: .04em; color: var(--ink-2); }
-.input, .select, .textarea {
-  width: 100%; min-height: 52px; padding: 12px 0;
-  background: transparent; border: 0; border-bottom: 1px solid var(--line-strong);
-  border-radius: 0; color: var(--ink); font-size: var(--fs-body);
-  transition: border-color var(--t-micro) ease;
-}
-.input::placeholder, .textarea::placeholder { color: var(--ink-3); }
-.input:focus, .select:focus, .textarea:focus { border-bottom-color: var(--accent); outline: none; box-shadow: 0 1px 0 0 var(--accent); }
-.input[aria-invalid="true"] { border-bottom-color: var(--error); }
-.field .hint { font-size: var(--fs-small); color: var(--ink-3); }
-.field .error { font-size: var(--fs-small); color: var(--error); }
-.textarea { min-height: 120px; resize: vertical; }
-.select { appearance: none; padding-right: 32px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%238B4A1F' stroke-width='1.6'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 4px center; }
-.input-row { display: flex; gap: 12px; align-items: flex-end; }
+.field > label { font-size: .8125rem; letter-spacing: .08em; text-transform: uppercase; color: var(--fg-2); }
+.input, .select, .textarea { width: 100%; min-height: 48px; padding: 10px 0; background: transparent; border: 0; border-bottom: 1px solid var(--line-strong); border-radius: 0; color: var(--fg); font-size: 1rem; transition: border-color .3s ease; }
+.input::placeholder, .textarea::placeholder { color: var(--fg-2); }
+.input:focus, .select:focus, .textarea:focus { border-bottom-color: var(--fg); outline: none; }
+.textarea { min-height: 100px; resize: vertical; }
+.input-row { display: flex; gap: 16px; align-items: flex-end; }
 .input-row .input { flex: 1; }
-.check { display: inline-flex; gap: 12px; align-items: center; cursor: pointer; font-size: var(--fs-small); }
-.check input { appearance: none; width: 20px; height: 20px; border: 1px solid var(--line-strong); border-radius: 2px; display: grid; place-content: center; transition: background var(--t-micro) ease, border-color var(--t-micro) ease; }
-.check input::before { content: ""; width: 10px; height: 10px; background: var(--btn-ink); transform: scale(0); transition: transform .25s var(--ease-out); clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%); }
-.check input:checked { background: var(--btn-bg); border-color: var(--btn-bg); }
-.check input:checked::before { transform: scale(1); }
 
 /* ---------- pills / chips ---------- */
-.pills { display: flex; flex-wrap: wrap; gap: 10px; }
-.pill {
-  display: inline-flex; align-items: center; gap: 8px;
-  min-height: 44px; padding: 0 20px;
-  border-radius: var(--radius-pill); border: 1px solid var(--line-strong);
-  font-size: var(--fs-small); font-weight: 600; letter-spacing: .04em; color: var(--ink);
-  background: transparent;
-  transition: background-color var(--t-micro) ease, color var(--t-micro) ease, border-color var(--t-micro) ease, transform var(--t-micro) var(--ease-out);
-}
-.pill:hover { border-color: var(--ink); }
-.pill[aria-pressed="true"], .pill.is-on { background: var(--btn-bg); color: var(--btn-ink); border-color: var(--btn-bg); }
-.pill .dot { width: 14px; height: 14px; border-radius: 50%; border: 1px solid rgba(0,0,0,.25); background: var(--sw, #7B4A2B); flex: none; }
-.chip { display: inline-flex; align-items: center; gap: 8px; min-height: 32px; padding: 0 12px; border-radius: var(--radius-pill); background: var(--bg-2); font-size: var(--fs-small); font-weight: 600; letter-spacing: .04em; }
-.badge { display: inline-flex; align-items: center; min-height: 28px; padding: 0 12px; border-radius: var(--radius-pill); border: 1px solid var(--line-strong); font-size: var(--fs-small); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
-.badge--solid { background: var(--btn-bg); color: var(--btn-ink); border-color: var(--btn-bg); }
-.badge--tint { background: var(--c-oxblood); color: var(--c-offwhite); border-color: transparent; }
+.pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.pill { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--line-strong); font-size: .75rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--fg); opacity: .8; transition: background-color .3s ease, color .3s ease, border-color .3s ease, opacity .3s ease; }
+.pill:hover { opacity: 1; border-color: var(--fg); }
+.pill[aria-pressed="true"], .pill.is-on { background: var(--fg); color: var(--bg); border-color: var(--fg); opacity: 1; }
+.pill .sw { width: 10px; height: 10px; border-radius: 50%; background: var(--sw); box-shadow: inset 0 0 0 1px rgba(0,0,0,.2); }
+.chip { display: inline-flex; align-items: center; gap: 8px; min-height: 28px; padding: 0 10px; font-size: .75rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--fg-2); }
+.chip::before { content: ""; width: 6px; height: 6px; background: var(--accent); }
+.tag { display: inline-flex; align-items: center; gap: 8px; min-height: 30px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--line-strong); font-size: .75rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; }
+.tag--solid { background: var(--ink); color: var(--bone); border-color: var(--ink); }
 
-/* segmented tabs */
-.seg { display: inline-flex; padding: 4px; border-radius: var(--radius-pill); border: 1px solid var(--line); background: var(--bg-2); position: relative; max-width: 100%; overflow-x: auto; }
-.seg button { position: relative; z-index: 1; min-height: 44px; padding: 0 20px; border-radius: var(--radius-pill); font-size: var(--fs-small); font-weight: 600; letter-spacing: .04em; color: var(--ink-2); white-space: nowrap; transition: color var(--t-micro) ease; }
-.seg button[aria-selected="true"] { color: var(--btn-ink); }
-.seg .seg-thumb { position: absolute; top: 4px; bottom: 4px; left: 0; width: 0; border-radius: var(--radius-pill); background: var(--btn-bg); transition: transform .45s var(--ease-out), width .45s var(--ease-out); }
+/* option choosers (colour / size) */
+.opts { display: flex; flex-wrap: wrap; gap: 8px; }
+.opt { position: relative; min-height: 36px; padding: 0 14px; border: 1px solid var(--line-strong); border-radius: 999px; display: inline-flex; align-items: center; gap: 8px; font-size: .75rem; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; cursor: pointer; transition: background-color .25s ease, color .25s ease, border-color .25s ease; }
+.opt input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+.opt .sw { width: 10px; height: 10px; border-radius: 50%; background: var(--sw); box-shadow: inset 0 0 0 1px rgba(0,0,0,.2); }
+.opt:hover { border-color: var(--fg); }
+.opt:has(input:checked) { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.opt:has(input:focus-visible) { outline: 2px solid var(--focus); outline-offset: 3px; }
+.opt.is-out { opacity: .4; text-decoration: line-through; }
+.qty { display: inline-flex; align-items: center; border: 1px solid var(--line-strong); border-radius: 999px; height: 40px; }
+.qty button { width: 36px; height: 100%; display: grid; place-items: center; color: var(--fg-2); }
+.qty button:hover { color: var(--fg); }
+.qty span { min-width: 28px; text-align: center; font-size: .875rem; font-variant-numeric: tabular-nums; }
 
-/* swatches & sizes */
-.swatches { display: flex; gap: 12px; flex-wrap: wrap; }
-.swatch { position: relative; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: grid; place-items: center; }
-.swatch input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
-.swatch .sw { width: 28px; height: 28px; border-radius: 50%; background: var(--sw); box-shadow: inset 0 0 0 1px rgba(0,0,0,.2); transition: transform var(--t-micro) var(--ease-out); }
-.swatch::after { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 1px solid transparent; transition: border-color var(--t-micro) ease, transform var(--t-micro) var(--ease-out); transform: scale(.85); }
-.swatch:hover .sw { transform: scale(1.08); }
-.swatch:has(input:checked)::after { border-color: var(--ink); transform: scale(1); }
-.swatch:has(input:focus-visible)::after { outline: 2px solid var(--focus); outline-offset: 2px; }
-.sizes { display: flex; gap: 10px; flex-wrap: wrap; }
-.size { position: relative; min-width: 56px; min-height: 48px; padding: 0 16px; border-radius: var(--radius-pill); border: 1px solid var(--line-strong); display: grid; place-items: center; font-size: var(--fs-small); font-weight: 600; cursor: pointer; transition: background-color var(--t-micro) ease, color var(--t-micro) ease, border-color var(--t-micro) ease; }
-.size input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
-.size:hover { border-color: var(--ink); }
-.size:has(input:checked) { background: var(--btn-bg); color: var(--btn-ink); border-color: var(--btn-bg); }
-.size:has(input:focus-visible) { outline: 2px solid var(--focus); outline-offset: 3px; }
-.size.is-out { opacity: .4; text-decoration: line-through; cursor: not-allowed; }
+/* spec rows */
+.spec { border-top: 1px solid var(--line); }
+.spec > div { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: .875rem; }
+.spec dt { color: var(--fg-2); font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; }
+.spec dd { text-align: right; }
+.spec .num { font-size: 1.05rem; }
 
-/* quantity stepper */
-.qty { display: inline-flex; align-items: center; border: 1px solid var(--line-strong); border-radius: var(--radius-pill); height: 48px; }
-.qty button { width: 44px; height: 100%; display: grid; place-items: center; font-size: 1.1rem; color: var(--ink-2); transition: color var(--t-micro) ease; }
-.qty button:hover { color: var(--ink); }
-.qty output, .qty span { min-width: 32px; text-align: center; font-weight: 600; font-variant-numeric: tabular-nums; }
+/* ---------- product card (shop) ---------- */
+.pcard { position: relative; display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--line); padding: clamp(18px, 2vw, 28px); min-height: 100%; }
+.on-ink .pcard { background: rgba(239, 237, 230, .04); }
+.pcard-media { position: relative; aspect-ratio: 1; display: grid; place-items: center; overflow: hidden; transition: transform .5s var(--ease-out); }
+.pcard-quick { position: absolute; top: clamp(18px, 2vw, 28px); right: clamp(18px, 2vw, 28px); z-index: 2; min-height: 34px; padding: 0 12px; border: 1px solid var(--line-strong); background: var(--bg); font-size: .6875rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; opacity: 0; transform: translateY(-6px); transition: opacity .3s ease, transform .3s var(--ease-out), background-color .3s ease, color .3s ease; }
+.pcard:hover .pcard-quick, .pcard:focus-within .pcard-quick { opacity: 1; transform: none; }
+.pcard-quick:hover { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+@media (hover: none) { .pcard-quick { opacity: 1; transform: none; } }
+.dotc { color: var(--accent); }
+.pcard:hover .pcard-media { transform: translateY(-6px); }
+.pcard-media .bloom { --bloom-s: 72%; opacity: .7; }
+.pcard-media img { position: relative; z-index: 1; width: 78%; height: auto; max-height: 86%; object-fit: contain; filter: drop-shadow(0 18px 22px rgba(26, 27, 29, .18)); transition: transform .6s var(--ease-out), opacity .4s ease; }
+.pcard-media img.alt { position: absolute; opacity: 0; }
+.pcard.has-alt:hover .pcard-media img.main { opacity: 0; }
+.pcard.has-alt:hover .pcard-media img.alt { opacity: 1; }
+.pcard-media img.alt { position: absolute; inset: 0; margin: auto; }
+.pcard--compact { padding: clamp(14px, 1.6vw, 20px); }
+.pcard--compact .pcard-media { aspect-ratio: 5 / 4; }
+.pcard--compact .pcard-media img { width: 70%; }
+.pcard--compact .pcard-head { margin-top: 14px; }
+.pcard--compact .pcard-name { font-size: 1.35rem; }
+.pcard--compact .pcard-opts { margin-top: 12px; }
+.pcard--compact .pcard-foot { padding-top: 14px; grid-template-columns: 1fr auto; align-items: end; }
+.pcard--compact .pcard-price { border-top: 0; padding-top: 0; flex-direction: column; align-items: flex-start; gap: 4px; }
+.pcard--compact .pcard-price .num { font-size: 1.25rem; }
+.pcard--compact .pcard-price > span { display: flex; flex-direction: column; white-space: nowrap; }
+.pcard--compact .pcard-price s { margin-left: 0 !important; }
+/* horizontal rail of cards, one screen at a time */
+.rail { position: relative; }
+.rail-track { display: flex; gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; }
+.rail-track::-webkit-scrollbar { display: none; }
+.rail-track > * { flex: 0 0 var(--rail-w, 78vw); scroll-snap-align: start; min-height: 0; }
+.rail-nav { display: flex; gap: 8px; }
+.rail-btn { width: 44px; height: 44px; border: 1px solid var(--line-strong); border-radius: 50%; display: grid; place-items: center; color: var(--fg); transition: background-color .3s ease, color .3s ease, border-color .3s ease, opacity .3s ease; }
+.rail-btn:hover { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.rail-btn[disabled] { opacity: .3; pointer-events: none; }
+.rail-btn svg { width: 16px; height: 16px; }
+.rail-dots { display: flex; gap: 6px; }
+.rail-dots i { width: 18px; height: 2px; background: var(--line-strong); transition: background-color .3s ease; }
+.rail-dots i.is-on { background: var(--fg); }
+.pcard-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-top: 18px; }
+.pcard-num { font-family: var(--font-wordmark); font-weight: 800; font-size: .875rem; letter-spacing: -.01em; }
+.pcard-name { font-family: var(--font-display); font-weight: 300; font-size: 1.5rem; line-height: 1.1; margin-top: 6px; }
+.pcard-sub { font-family: var(--font-serif); font-style: italic; color: var(--fg-2); margin-top: 4px; }
+.pcard-copy { font-size: .875rem; color: var(--fg-2); margin-top: 12px; }
+.pcard-opts { margin-top: 16px; }
+.pcard-foot { margin-top: auto; padding-top: 18px; display: grid; gap: 12px; }
+.pcard-price { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; border-top: 1px solid var(--line); padding-top: 14px; }
+.pcard-price .num { font-size: 1.5rem; }
+.pcard-price .cur { font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: var(--fg-2); margin-left: .4em; }
+.pcard-link { font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: var(--fg-2); display: inline-flex; gap: 8px; align-items: center; }
+.pcard-link:hover { color: var(--fg); }
 
-/* ---------- cards ---------- */
-.card { position: relative; display: block; }
-.card .media { --ar: 4 / 5; }
-.card .media .alt { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .6s ease; }
-.card .media--studio .alt { object-fit: contain; padding: 6%; mix-blend-mode: multiply; }
-.card:hover .media .alt, .card:focus-within .media .alt { opacity: 1; }
-.card .card-body { display: flex; flex-direction: column; gap: 8px; padding-top: 16px; }
-@media (min-width: 1024px) { .card .card-body { flex-direction: row; justify-content: space-between; gap: 16px; align-items: baseline; } }
-.card .card-name { font-family: var(--font-display); font-size: var(--fs-h4); line-height: 1.2; letter-spacing: -.01em; }
-.card .card-meta { font-size: var(--fs-small); color: var(--ink-2); margin-top: 4px; }
-.card .price { flex: none; }
-.card .price s { margin-left: .5em; font-size: var(--fs-small); }
-@media (min-width: 1024px) { .card .price { text-align: right; } .card .price s { display: block; margin-left: 0; } }
-.card .quick {
-  position: absolute; left: 12px; right: 12px; bottom: 12px; z-index: 2;
-  opacity: 0; transform: translateY(8px);
-  transition: opacity var(--t-micro) ease, transform var(--t-micro) var(--ease-out);
-}
-.card:hover .quick, .card:focus-within .quick { opacity: 1; transform: none; }
-@media (hover: none) { .card .quick { opacity: 1; transform: none; } }
-.card .badge { position: absolute; top: 12px; left: 12px; z-index: 2; background: var(--bg); border-color: transparent; }
-.card .card-rule { height: 1px; background: var(--accent-soft); width: 0; transition: width .6s var(--ease-out); margin-top: 14px; }
-.card:hover .card-rule { width: 56px; }
-
-/* editorial door (two lines block) */
-.door { position: relative; display: block; overflow: hidden; border-radius: var(--radius); color: var(--c-offwhite); background: var(--c-espresso); transform-style: preserve-3d; }
-.door .media { --ar: 3 / 4; border-radius: 0; }
-.door .media > img { transition: transform 1.2s var(--ease-out); }
-.door:hover .media > img { transform: scale(1.06); }
-.door .door-body { position: absolute; inset: auto 0 0 0; padding: clamp(72px, 10vw, 140px) clamp(20px, 3vw, 40px) clamp(20px, 3vw, 40px); background: linear-gradient(to top, rgba(30,22,18,.88) 0%, rgba(30,22,18,.55) 45%, rgba(30,22,18,0) 100%); }
-.door .door-title { font-family: var(--font-display); font-size: var(--fs-h2); line-height: 1.1; letter-spacing: -.02em; margin-top: 6px; }
-.door .door-rule { width: 0; height: 1px; background: var(--c-saddle); margin: 16px 0; transition: width .6s var(--ease-out); }
-.door:hover .door-rule { width: 96px; }
-
-/* accordion */
-.acc { border-top: 1px solid var(--line); }
-.acc details { border-bottom: 1px solid var(--line); }
-.acc summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 20px 0; font-weight: 600; font-size: var(--fs-body); }
+/* ---------- accordion ---------- */
+.acc details { border-top: 1px solid var(--line); }
+.acc details:last-child { border-bottom: 1px solid var(--line); }
+.acc summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 18px 0; font-size: 1rem; }
 .acc summary::-webkit-details-marker { display: none; }
-.acc summary .plus { position: relative; width: 14px; height: 14px; flex: none; }
-.acc summary .plus::before, .acc summary .plus::after { content: ""; position: absolute; background: var(--accent); transition: transform .35s var(--ease-out), opacity .35s ease; }
-.acc summary .plus::before { left: 0; right: 0; top: 6px; height: 1.5px; }
-.acc summary .plus::after { top: 0; bottom: 0; left: 6px; width: 1.5px; }
+.acc summary .plus { position: relative; width: 12px; height: 12px; flex: none; }
+.acc summary .plus::before, .acc summary .plus::after { content: ""; position: absolute; background: var(--fg); transition: transform .35s var(--ease-out), opacity .3s ease; }
+.acc summary .plus::before { left: 0; right: 0; top: 5.5px; height: 1px; }
+.acc summary .plus::after { top: 0; bottom: 0; left: 5.5px; width: 1px; }
 .acc details[open] summary .plus::after { transform: rotate(90deg); opacity: 0; }
-.acc .acc-body { padding: 0 0 22px; color: var(--ink-2); max-width: 60ch; }
-.acc .acc-body > * + * { margin-top: .75em; }
-
-/* trust strip */
-.trust { display: grid; gap: 24px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-@media (min-width: 768px) { .trust { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-.trust-item { display: grid; gap: 6px; padding-top: 18px; border-top: 1px solid var(--line-strong); }
-.trust-item .t { font-family: var(--font-display); font-size: var(--fs-h4); line-height: 1.15; }
-.trust-item .s { font-size: var(--fs-small); color: var(--ink-2); }
-
-/* notice / toast */
-.toast {
-  position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 20px); z-index: 120;
-  background: var(--btn-bg); color: var(--btn-ink); padding: 14px 20px; border-radius: var(--radius-pill);
-  font-size: var(--fs-small); font-weight: 600; opacity: 0; pointer-events: none;
-  transition: opacity var(--t-micro) ease, transform var(--t-micro) var(--ease-out);
-  box-shadow: var(--shadow);
-}
-.toast.is-on { opacity: 1; transform: translate(-50%, 0); }
+.acc .acc-body { padding: 0 0 20px; color: var(--fg-2); max-width: 60ch; }
 
 /* ---------- marquee ---------- */
-.marquee { overflow: hidden; white-space: nowrap; display: flex; }
-.marquee .track { display: flex; flex: none; gap: var(--mq-gap, 48px); padding-right: var(--mq-gap, 48px); will-change: transform; }
-.marquee .track > * { flex: none; }
-.marquee--big .track > span { font-family: var(--font-display); font-size: clamp(5rem, 18vw, 18rem); line-height: 1; letter-spacing: -.04em; }
+.marquee { overflow: hidden; white-space: nowrap; }
+.marquee .track { display: flex; width: max-content; align-items: baseline; will-change: transform; }
+.marquee .track > span { padding-right: clamp(28px, 4vw, 64px); }
+.marquee .outline { color: transparent; -webkit-text-stroke: 1px currentColor; }
 
-/* ---------- reveal primitives (opacity / transform only) ---------- */
-.js [data-reveal] { opacity: 0; }
-.js [data-reveal="up"] { transform: translateY(32px); }
-.js .reveal-img img { clip-path: inset(0 0 100% 0); transform: scale(1.15); }
-.js .reveal-img[data-from="left"] img { clip-path: inset(0 100% 0 0); }
-.js .reveal-img[data-from="right"] img { clip-path: inset(0 0 0 100%); }
-.js .reveal-img[data-from="top"] img { clip-path: inset(100% 0 0 0); }
-.js [data-lines] { visibility: hidden; }
-.js .is-revealed, .js .is-split { visibility: visible; opacity: 1; transform: none; }
-.js .reveal-img.is-revealed img { clip-path: none; transform: none; }
-.table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-.no-js [data-reveal], .no-js .reveal-img img, .no-js [data-lines] { opacity: 1; transform: none; clip-path: none; visibility: visible; }
-.line-mask { overflow: hidden; }
+/* ---------- top bar: scrolls away, the nav sits beneath it ---------- */
+.topbar { position: relative; z-index: 51; background: var(--accent-deep); color: var(--bone); font-size: .8125rem; }
+.topbar-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 40px; }
+.topbar-brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 500; color: var(--bone); }
+.topbar-badge { display: inline-grid; place-items: center; padding: 3px 9px; border-radius: 4px; background: var(--accent); color: var(--ink); font-weight: 600; font-size: .75rem; letter-spacing: .02em; }
+.topbar-note { display: inline-flex; align-items: center; gap: 8px; font-weight: 500; }
+.topbar-note svg, .topbar-contact svg { width: 16px; height: 16px; flex: 0 0 auto; }
+.topbar-dot { margin: 0 4px; opacity: .6; }
+.topbar-contact { display: inline-flex; align-items: center; gap: 8px; font-weight: 500; color: var(--bone); }
+.topbar-contact:hover, .topbar-brand:hover { color: var(--accent); }
+@media (max-width: 767px) { .topbar-inner { justify-content: center; min-height: 36px; font-size: .75rem; } .topbar-brand, .topbar-contact { display: none; } .topbar-note { text-align: center; } }
+/* ---------- nav (one line + mega panels) ---------- */
+.nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; transition: background-color .35s ease, border-color .35s ease, transform .5s var(--ease-out); border-bottom: 1px solid transparent; color: var(--fg); }
+.nav.is-solid, .nav.is-mega { background: color-mix(in srgb, var(--bg) 94%, transparent); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom-color: var(--line); }
+.nav.on-dark:not(.is-solid):not(.is-mega) { color: var(--bone); }
+.nav .nav-top { height: var(--nav-top); display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px; }
+.nav .brand { font-family: var(--font-wordmark); font-weight: 800; font-size: 1.5rem; letter-spacing: -.02em; display: inline-flex; align-items: baseline; justify-self: center; }
+.nav .brand .dot { display: inline-block; width: .3em; height: .3em; background: var(--accent); margin-left: .12em; }
+.nav .right { display: flex; align-items: center; justify-content: flex-end; gap: 18px; }
+.nav .nav-contact { font-size: .8125rem; letter-spacing: .14em; text-transform: uppercase; color: var(--fg-2); transition: color .3s ease; }
+.nav .nav-contact:hover { color: var(--fg); }
+.nav .burger { display: grid; gap: 5px; place-content: center; width: 44px; height: 44px; justify-self: start; }
+.nav .burger i { display: block; width: 20px; height: 1.5px; background: currentColor; }
+@media (min-width: 1024px) { .nav .burger { display: none; } }
+@media (max-width: 1023px) { .nav .nav-main, .nav .nav-contact { display: none !important; } }
+.nav .nav-main { display: flex; justify-content: flex-start; gap: 32px; font-size: .8125rem; letter-spacing: .14em; text-transform: uppercase; }
+.nav .nav-main > li { position: relative; display: flex; align-items: center; height: var(--nav-top); }
+.nav .nav-main a { color: var(--fg-2); transition: color .3s ease; padding: 4px 0; }
+.nav .nav-main a:hover, .nav .nav-main a.is-active, .nav .nav-main li.is-open a { color: var(--fg); }
+.nav .nav-main .nav-underline::after { bottom: -2px; height: 2px; background: var(--accent-deep); }
+.nav.on-dark:not(.is-solid):not(.is-mega) .nav-contact, .nav.on-dark:not(.is-solid):not(.is-mega) .nav-main a { color: rgba(239,237,230,.75); }
+.nav.on-dark:not(.is-solid):not(.is-mega) .nav-main a:hover, .nav.on-dark:not(.is-solid):not(.is-mega) .nav-contact:hover { color: var(--bone); }
+.cart-count { position: absolute; top: 4px; right: 2px; min-width: 16px; height: 16px; padding: 0 4px; border-radius: 8px; background: var(--ink); color: var(--bone); font-size: 10px; font-weight: 500; display: grid; place-items: center; transform: scale(0); transition: transform .3s var(--ease-out); }
+.nav.on-dark:not(.is-solid):not(.is-mega) .cart-count { background: var(--bone); color: var(--ink); }
+.cart-count.is-on { transform: scale(1); }
+/* mega panel */
+.mega { position: absolute; left: 0; right: 0; top: 100%; background: var(--bg); color: var(--fg); border-bottom: 1px solid var(--line); box-shadow: 0 30px 60px -30px rgba(26,27,29,.25); visibility: hidden; opacity: 0; transform: translateY(-6px); transition: opacity .3s ease, transform .4s var(--ease-out), visibility 0s linear .3s; padding: 20px 0 28px; }
+.mega.is-open { visibility: visible; opacity: 1; transform: none; transition-delay: 0s; }
+@media (max-width: 1023px) { .mega { display: none; } }
+.mega-tabs { display: flex; justify-content: center; gap: 0; border-bottom: 1px solid var(--line); margin-bottom: 28px; }
+.mega-tabs button { position: relative; padding: 12px 18px; font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: var(--fg-2); transition: color .3s ease; }
+.mega-tabs button + button::before { content: ""; position: absolute; left: 0; top: 14px; bottom: 14px; width: 1px; background: var(--line); }
+.mega-tabs button::after { content: ""; position: absolute; left: 18px; right: 18px; bottom: -1px; height: 2px; background: var(--accent-deep); transform: scaleX(0); transition: transform .35s var(--ease-out); }
+.mega-tabs button[aria-selected="true"] { color: var(--fg); }
+.mega-tabs button[aria-selected="true"]::after { transform: scaleX(1); }
+.mega-row { display: flex; justify-content: center; gap: clamp(16px, 2vw, 32px); flex-wrap: wrap; }
+.mega-item { display: grid; justify-items: center; gap: 12px; width: 132px; text-align: center; }
+.mega-thumb { width: 132px; height: 132px; display: flex; align-items: center; justify-content: center; background: rgba(26,27,29,.045); transition: background-color .3s ease; }
+.mega-thumb img { width: auto; height: auto; max-width: 84%; max-height: 84%; object-fit: contain; filter: drop-shadow(0 10px 14px rgba(26,27,29,.18)); transition: transform .5s var(--ease-out); }
+.mega-item:hover .mega-thumb { background: rgba(26,27,29,.08); }
+.mega-item:hover .mega-thumb img { transform: translateY(-4px) scale(1.04); }
+.mega-name { font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: var(--fg-2); }
+.mega-item:hover .mega-name { color: var(--fg); }
+.mega-links { gap: 12px 40px; }
+.mega-links a { font-family: var(--font-display); font-weight: 300; font-size: 1.25rem; text-decoration: none; }
+.mega-links a:hover { color: var(--accent-deep); }
+.mega-all { text-align: center; margin-top: 28px; font-family: var(--font-serif); font-size: 1rem; }
+.mega-all .link { text-underline-offset: .3em; }
 
-/* ---------- header ---------- */
-.header {
-  position: fixed; inset: 0 0 auto 0; z-index: 90; height: var(--header-h);
-  display: flex; align-items: center;
-  color: var(--ink);
-  transition: background-color .5s ease, color .5s ease, box-shadow .5s ease, transform .5s var(--ease-out);
-}
-.header::before { content: ""; position: absolute; inset: 0; background: var(--bg); opacity: 0; transition: opacity .5s ease; border-bottom: 1px solid transparent; }
-.header.is-solid::before { opacity: .92; border-bottom-color: var(--line); backdrop-filter: blur(14px); }
-.header.is-hidden { transform: translateY(-100%); }
-.header.on-dark:not(.is-solid) { color: var(--c-offwhite); }
-.header .wrap { position: relative; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 16px; }
-.header .nav-left { display: flex; align-items: center; gap: 24px; }
-.header .nav-right { display: flex; align-items: center; justify-content: flex-end; gap: 6px; }
-.header .nav-link { display: none; font-size: var(--fs-small); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
-@media (min-width: 1024px) { .header .nav-link { display: inline-block; } }
-.header .logo { display: block; height: 30px; }
-.header .logo svg { height: 100%; width: auto; }
-.header .icon-btn { position: relative; width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; color: inherit; transition: background-color var(--t-micro) ease; }
-.header .icon-btn:hover { background: rgba(127, 127, 127, .14); }
-.header .icon-btn svg { width: 22px; height: 22px; }
-.header .cart-count { position: absolute; top: 6px; right: 4px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: var(--accent); color: var(--c-offwhite); font-size: 11px; font-weight: 700; display: grid; place-items: center; transform: scale(0); transition: transform .3s var(--ease-out); }
-.header .cart-count.is-on { transform: scale(1); }
-.header .burger { display: grid; gap: 5px; width: 44px; height: 44px; place-content: center; }
-.header .burger i { display: block; width: 22px; height: 1.5px; background: currentColor; transition: transform .4s var(--ease-out), opacity .3s ease; }
-.header .burger .t { font-size: 14px; font-weight: 600; letter-spacing: .14em; }
-.theme-toggle svg { width: 20px; height: 20px; }
-.theme-toggle .sun { display: none; }
-:root[data-theme="dark"] .theme-toggle .sun { display: block; }
-:root[data-theme="dark"] .theme-toggle .moon { display: none; }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .theme-toggle .sun { display: block; }
-  :root:not([data-theme="light"]) .theme-toggle .moon { display: none; }
-}
+/* fullscreen menu */
+.menu { position: fixed; inset: 0; z-index: 60; background: var(--bg); color: var(--fg); opacity: 0; visibility: hidden; transition: opacity .35s ease, visibility 0s linear .35s; display: grid; grid-template-rows: var(--nav-h) 1fr auto; padding: 0 var(--gutter) 32px; }
+.menu.is-open { opacity: 1; visibility: visible; transition-delay: 0s; }
+.menu-top { display: flex; align-items: center; justify-content: space-between; }
+.menu-links { align-self: center; display: grid; gap: 6px; }
+.menu-link { font-family: var(--font-display); font-weight: 300; font-size: clamp(2.4rem, 2rem + 4vw, 5rem); line-height: 1.08; letter-spacing: -.015em; display: inline-flex; align-items: baseline; gap: 18px; opacity: 0; transform: translateY(18px); }
+.menu.is-open .menu-link { opacity: 1; transform: none; transition: opacity .5s ease, transform .6s var(--ease-out); }
+.menu.is-open .menu-link:nth-child(1) { transition-delay: .08s; } .menu.is-open .menu-link:nth-child(2) { transition-delay: .14s; } .menu.is-open .menu-link:nth-child(3) { transition-delay: .2s; } .menu.is-open .menu-link:nth-child(4) { transition-delay: .26s; } .menu.is-open .menu-link:nth-child(5) { transition-delay: .32s; }
+.menu-link sup { font-family: var(--font-sans); font-size: .75rem; letter-spacing: .14em; color: var(--accent); font-weight: 500; }
+.menu-sub { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 24px 0; border-top: 1px solid var(--line); }
+.menu-sub a { display: block; padding: 4px 0; color: var(--fg-2); }
+.menu-sub .label { margin-bottom: 8px; }
+@media (min-width: 1024px) { .menu-sub { display: none; } }
+.menu { grid-template-rows: var(--nav-top) 1fr auto auto; }
+.menu-foot { display: flex; flex-wrap: wrap; gap: 12px 28px; justify-content: space-between; font-size: .875rem; color: var(--fg-2); }
 
-/* ---------- fullscreen split menu ---------- */
-.menu { position: fixed; inset: 0; z-index: 95; visibility: hidden; pointer-events: none; }
-.menu.is-open { visibility: visible; pointer-events: auto; }
-.menu .menu-panel { position: absolute; top: 0; bottom: 0; width: 50%; background: var(--c-espresso); color: var(--c-offwhite); transform: translateY(-101%); }
-.menu .menu-panel.l { left: 0; }
-.menu .menu-panel.r { right: 0; transform: translateY(101%); }
-.menu .menu-inner { position: absolute; inset: 0; display: grid; grid-template-rows: var(--header-h) 1fr auto; padding: 0 var(--gutter) 32px; color: var(--c-offwhite); }
-.menu .menu-top { display: flex; align-items: center; justify-content: space-between; }
-.menu .menu-close { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; color: var(--c-offwhite); margin-right: -10px; }
-.menu .menu-close:hover { background: rgba(246,242,236,.12); }
-.menu .menu-close svg { width: 22px; height: 22px; }
-.menu .menu-links { align-self: center; display: grid; gap: 4px; }
-.menu .menu-link { display: inline-flex; align-items: baseline; gap: 20px; font-family: var(--font-display); font-size: clamp(2.5rem, 2rem + 4vw, 6rem); line-height: 1.05; letter-spacing: -.02em; color: var(--c-offwhite); }
-.menu .menu-link sup { font-family: var(--font-body); font-size: var(--fs-small); font-weight: 600; letter-spacing: .1em; color: var(--c-saddle); }
-.menu .menu-link .u-line::after { background: var(--c-saddle); }
-.menu .menu-foot { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px; font-size: var(--fs-small); color: rgba(246,242,236,.7); }
-.menu .menu-foot a:hover { color: var(--c-offwhite); }
-.menu .menu-art { position: absolute; right: var(--gutter); bottom: 32px; width: min(28vw, 360px); aspect-ratio: 4 / 5; display: none; }
-@media (min-width: 1024px) { .menu .menu-art { display: block; } }
-.js .menu .menu-link, .js .menu .menu-foot, .js .menu .menu-art, .js .menu .menu-top { opacity: 0; }
+/* ---------- cursor ---------- */
+.cursor { position: fixed; inset: 0; z-index: 200; pointer-events: none; display: none; }
+@media (hover: hover) and (pointer: fine) { .js .cursor { display: block; } .js.has-cursor, .js.has-cursor a, .js.has-cursor button, .js.has-cursor [data-cursor-label] { cursor: none; } }
+.cursor .ring { position: absolute; top: 0; left: 0; width: 36px; height: 36px; margin: -18px 0 0 -18px; border-radius: 50%; border: 1px solid rgba(255,255,255,.55); mix-blend-mode: difference; display: grid; place-items: center; opacity: 0; }
+.cursor .ring span { font-size: 10px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--bone); opacity: 0; white-space: nowrap; }
+.cursor .dot { position: absolute; top: 0; left: 0; width: 6px; height: 6px; margin: -3px 0 0 -3px; border-radius: 50%; background: var(--accent); opacity: 0; }
 
 /* ---------- cart drawer ---------- */
-.drawer-backdrop { position: fixed; inset: 0; z-index: 100; background: var(--overlay); opacity: 0; visibility: hidden; transition: opacity .4s ease, visibility 0s linear .4s; }
-.drawer-backdrop.is-open { opacity: 1; visibility: visible; transition-delay: 0s; }
-.drawer { position: fixed; top: 0; right: 0; bottom: 0; z-index: 101; width: min(100%, 460px); background: var(--bg); color: var(--ink); display: grid; grid-template-rows: auto 1fr auto; transform: translateX(102%); transition: transform .6s var(--ease-out); box-shadow: var(--shadow); }
-.drawer.is-open { transform: none; }
-.drawer-head { display: flex; align-items: center; justify-content: space-between; padding: 20px var(--gutter-d, 28px); border-bottom: 1px solid var(--line); }
-.drawer-body { overflow-y: auto; padding: 8px var(--gutter-d, 28px); }
-.drawer-foot { padding: 20px var(--gutter-d, 28px) 28px; border-top: 1px solid var(--line); display: grid; gap: 14px; }
-.line-item { display: grid; grid-template-columns: 88px 1fr auto; gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--line); align-items: start; }
-.line-item .media { --ar: 4 / 5; }
-.line-item .li-name { font-family: var(--font-display); font-size: 1.25rem; line-height: 1.2; }
-.line-item .li-meta { font-size: var(--fs-small); color: var(--ink-2); margin-top: 4px; }
-.line-item .li-remove { font-size: var(--fs-small); color: var(--ink-3); text-decoration: underline; text-underline-offset: .2em; margin-top: 10px; }
-.line-item .li-remove:hover { color: var(--error); }
-.drawer-empty { padding: 48px 0; color: var(--ink-2); display: grid; gap: 20px; }
-.progress { height: 2px; background: var(--line); overflow: hidden; border-radius: 2px; }
-.progress i { display: block; height: 100%; background: var(--accent); transform-origin: left; transform: scaleX(var(--p, 0)); transition: transform .8s var(--ease-out); }
+.cart-backdrop { position: fixed; inset: 0; z-index: 70; background: rgba(26, 27, 29, .35); opacity: 0; pointer-events: none; transition: opacity .4s ease; }
+.cart-backdrop.is-open { opacity: 1; pointer-events: auto; }
+.cart { position: fixed; top: 0; right: 0; bottom: 0; z-index: 71; width: min(100%, 440px); background: var(--bone); color: var(--ink); display: flex; flex-direction: column; transform: translateX(100%); transition: transform .55s var(--ease-out); border-left: 1px solid var(--line); }
+.cart.is-open { transform: none; }
+.cart-head { display: flex; align-items: center; justify-content: space-between; padding: 18px 24px; border-bottom: 1px solid var(--line); }
+.cart-head .t { font-family: var(--font-display); font-weight: 300; font-size: 1.5rem; }
+.cart-body { flex: 1; overflow-y: auto; padding: 0 24px; }
+.cart-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; text-align: center; padding: 64px 24px; height: 100%; }
+.cart-item { display: flex; gap: 16px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+.cart-item .thumb { position: relative; flex: none; width: 64px; height: 76px; border: 1px solid var(--line); background: rgba(26,27,29,.03); display: grid; place-items: center; overflow: hidden; }
+.cart-item .thumb img { width: 88%; height: auto; max-height: 90%; object-fit: contain; position: relative; z-index: 1; }
+.cart-item .thumb .bloom { --bloom-s: 90%; opacity: .6; }
+.cart-item .ci-name { font-family: var(--font-display); font-weight: 300; font-size: 1.05rem; line-height: 1.2; }
+.cart-item .ci-meta { font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: var(--mist); margin-top: 4px; }
+.cart-item .ci-row { display: flex; align-items: center; justify-content: space-between; margin-top: 12px; }
+.cart-item .ci-remove { font-size: .75rem; color: var(--mist); }
+.cart-item .ci-remove:hover { color: var(--ink); }
+.cart-foot { padding: 18px 24px 28px; border-top: 1px solid var(--line); display: grid; gap: 12px; }
+.ship-bar { height: 2px; background: var(--line); overflow: hidden; }
+.ship-bar i { display: block; height: 100%; background: var(--accent-deep); transform-origin: left; transform: scaleX(var(--p, 0)); transition: transform .6s var(--ease-out); }
 
-/* ---------- dialog / lightbox ---------- */
-.lightbox { position: fixed; inset: 0; z-index: 110; background: rgba(30,22,18,.92); color: var(--c-offwhite); display: grid; place-items: center; opacity: 0; visibility: hidden; transition: opacity .4s ease, visibility 0s linear .4s; }
-.lightbox.is-open { opacity: 1; visibility: visible; transition-delay: 0s; }
-.lightbox img { max-width: min(92vw, 1400px); max-height: 86vh; width: auto; height: auto; object-fit: contain; }
-.lightbox .lb-close { position: absolute; top: 16px; right: 16px; width: 48px; height: 48px; display: grid; place-items: center; border-radius: 50%; color: inherit; background: rgba(246,242,236,.1); }
-.lightbox .lb-nav { position: absolute; top: 50%; transform: translateY(-50%); width: 48px; height: 48px; display: grid; place-items: center; border-radius: 50%; color: inherit; background: rgba(246,242,236,.1); }
-.lightbox .lb-nav.prev { left: 16px; } .lightbox .lb-nav.next { right: 16px; }
-.lightbox .lb-count { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); font-size: var(--fs-small); letter-spacing: .1em; }
+/* checkout dialog */
+.checkout { position: fixed; inset: 0; z-index: 80; display: grid; place-items: center; padding: 20px; background: rgba(26, 27, 29, .55); opacity: 0; pointer-events: none; transition: opacity .35s ease; }
+.checkout.is-open { opacity: 1; pointer-events: auto; }
+.checkout-panel { position: relative; width: 100%; max-width: 460px; background: var(--bone); color: var(--ink); padding: clamp(24px, 4vw, 40px); text-align: center; transform: translateY(12px); transition: transform .45s var(--ease-out); display: grid; gap: 16px; }
+.checkout.is-open .checkout-panel { transform: none; }
+.checkout-panel .close { position: absolute; top: 10px; right: 10px; }
+.checkout-panel .order { text-align: left; font-size: .875rem; border-top: 1px solid var(--line); }
+.checkout-panel .order div { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--line); }
 
 /* ---------- loader ---------- */
-.loader { position: fixed; inset: 0; z-index: 200; background: var(--c-espresso); color: var(--c-offwhite); display: grid; place-items: center; overflow: hidden; }
-.loader[hidden] { display: none; }
-.loader .grain { position: absolute; inset: -10%; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.012 .02' numOctaves='4' seed='7'/%3E%3CfeColorMatrix values='0 0 0 0 .55 0 0 0 0 .3 0 0 0 0 .12 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"); background-size: 600px 600px; opacity: .35; mix-blend-mode: screen; transform: scale(1.1); }
-.loader .mark { width: clamp(72px, 10vw, 120px); height: auto; color: var(--c-saddle); position: relative; }
-.loader .mark svg { width: 100%; height: auto; }
-.loader .count { position: absolute; left: var(--gutter); bottom: 28px; font-family: var(--font-display); font-size: clamp(2rem, 6vw, 4rem); line-height: 1; font-variant-numeric: tabular-nums; }
-.loader .word { position: absolute; right: var(--gutter); bottom: 32px; font-size: var(--fs-small); letter-spacing: .2em; text-transform: uppercase; color: rgba(246,242,236,.7); }
-.loader .bar { position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--c-saddle); transform-origin: left; transform: scaleX(0); }
-.loader .skip-btn { position: absolute; top: 20px; right: var(--gutter); font-size: var(--fs-small); letter-spacing: .14em; text-transform: uppercase; color: rgba(246,242,236,.7); padding: 10px; }
-.loader .skip-btn:hover { color: var(--c-offwhite); }
+.loader { position: fixed; inset: 0; z-index: 100; background: var(--bone); color: var(--ink); }
+.loader .pills { position: absolute; inset: 0; }
+.loader .pop { position: absolute; left: var(--x); top: var(--y); display: inline-flex; align-items: center; gap: 8px; padding: 0 16px; height: 36px; border-radius: 999px; background: var(--ink); color: var(--bone); font-size: 12px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; opacity: 0; }
+.loader .pop.light { background: transparent; color: var(--ink); border: 1px solid var(--line-strong); }
+.loader .pop::before { content: ""; width: 6px; height: 6px; background: var(--accent); }
+.loader .mark { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); display: flex; align-items: baseline; }
+.loader .word { font-family: var(--font-wordmark); font-weight: 800; font-size: clamp(44px, 6vw, 72px); letter-spacing: -.03em; line-height: 1; color: transparent; background: linear-gradient(90deg, var(--ink) 0%, var(--ink) 0%, rgba(26,27,29,.12) 0%); -webkit-background-clip: text; background-clip: text; }
+.loader .ldot { display: inline-block; width: .22em; height: .22em; font-size: clamp(44px, 6vw, 72px); background: var(--accent); margin-left: .08em; opacity: 0; }
+.loader .count { position: absolute; left: var(--gutter); bottom: 32px; font-size: 12px; letter-spacing: .24em; color: var(--mist); font-variant-numeric: tabular-nums; }
+.loader .skip-btn { position: absolute; right: var(--gutter); bottom: 28px; font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--mist); padding: 8px; }
+.loader .skip-btn:hover { color: var(--ink); }
+html.no-loader .loader { display: none; }
 
-/* ---------- page transition curtain ---------- */
-.curtain { position: fixed; inset: 0; z-index: 180; pointer-events: none; transform: translateY(101%); background: var(--c-espresso); display: grid; place-items: center; color: var(--c-saddle); }
-.curtain svg { width: 64px; height: auto; opacity: 0; }
+/* page fade (cross-page) */
+.fade { position: fixed; inset: 0; z-index: 90; background: var(--bone); opacity: 0; pointer-events: none; }
+html.is-entering .fade { opacity: 1; }
 
-/* ---------- custom cursor ---------- */
-.cursor { position: fixed; top: 0; left: 0; z-index: 300; pointer-events: none; display: none; opacity: 0; }
-.cursor.is-on { opacity: 1; }
-@media (hover: hover) and (pointer: fine) { .js .cursor { display: block; } .js.has-cursor, .js.has-cursor a, .js.has-cursor button, .js.has-cursor [data-cursor] { cursor: none; } }
-.cursor .dot { position: absolute; width: 6px; height: 6px; margin: -3px; border-radius: 50%; background: var(--accent); }
-.cursor .ring { position: absolute; width: 36px; height: 36px; margin: -18px; border-radius: 50%; border: 1px solid var(--accent); display: grid; place-items: center; transform: scale(1); background: transparent; transition: background-color .25s ease, border-color .25s ease; }
-.cursor .ring span { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--c-offwhite); opacity: 0; transition: opacity .2s ease; }
-.cursor.is-label .ring { background: var(--accent); }
-.cursor.is-label .ring span { opacity: 1; }
-.cursor.is-label .dot { opacity: 0; }
+/* ---------- scroll hint ---------- */
+.scroll-hint { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.scroll-hint .t { font-size: 11px; letter-spacing: .28em; text-transform: uppercase; color: var(--fg-2); }
+.scroll-hint .mouse { position: relative; width: 22px; height: 38px; border: 1px solid var(--line-strong); border-radius: 11px; }
+.scroll-hint .mouse i { position: absolute; left: 50%; top: 7px; width: 5px; height: 5px; margin-left: -2.5px; background: var(--accent); opacity: 0; }
 
 /* ---------- footer ---------- */
-.footer { position: relative; background: var(--c-espresso); color: var(--c-offwhite); padding-top: var(--section-sm); overflow: hidden; }
-.footer a:hover { color: var(--c-saddle); }
-.footer .foot-grid { display: grid; gap: 40px; grid-template-columns: 1fr 1fr; }
-@media (min-width: 768px) { .footer .foot-grid { grid-template-columns: 2fr 1fr 1fr 1fr 1fr; } }
-.footer .foot-col h4 { font-size: var(--fs-small); font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--c-saddle); margin-bottom: 18px; }
-.footer .foot-col li + li { margin-top: 10px; }
-.footer .foot-col a { font-size: var(--fs-body); }
-.footer .news { grid-column: 1 / -1; }
-@media (min-width: 768px) { .footer .news { grid-column: auto; } }
-.footer .news .input { border-bottom-color: rgba(246,242,236,.4); color: var(--c-offwhite); }
-.footer .news .input::placeholder { color: rgba(246,242,236,.5); }
-.footer .news .input:focus { border-bottom-color: var(--c-saddle); box-shadow: 0 1px 0 0 var(--c-saddle); }
-.footer .news .btn { --btn-bg: var(--c-offwhite); --btn-ink: var(--c-espresso); }
-.footer .foot-bottom { display: flex; flex-wrap: wrap; gap: 16px 32px; justify-content: space-between; padding: 28px 0; border-top: 1px solid rgba(246,242,236,.14); margin-top: 48px; font-size: var(--fs-small); color: rgba(246,242,236,.7); }
-.footer .foot-bottom nav { display: flex; gap: 24px; }
-.footer .foot-marquee { padding: 24px 0 0; color: var(--c-offwhite); }
-.footer .foot-marquee span { opacity: .18; }
-.footer .foot-marquee span.alt { opacity: 1; color: var(--c-saddle); -webkit-text-stroke: 0; }
-.socials { display: flex; gap: 8px; }
-.socials a { width: 44px; height: 44px; display: grid; place-items: center; border-radius: 50%; border: 1px solid rgba(246,242,236,.2); transition: border-color var(--t-micro) ease, background-color var(--t-micro) ease; }
-.socials a:hover { border-color: var(--c-saddle); color: var(--c-saddle); }
-.socials svg { width: 18px; height: 18px; }
+.footer { position: relative; background: #232426; color: var(--bone); padding: clamp(36px, 5vw, 56px) 0 24px; overflow: hidden; }
+.footer::before { content: ""; position: absolute; left: -200px; bottom: -160px; width: 670px; height: 770px; border-radius: 50%; filter: blur(90px); background: radial-gradient(circle, #8B4A1F, transparent 70%); opacity: .6; pointer-events: none; }
+.footer .wrap { position: relative; }
+.fcta { position: relative; display: grid; gap: 20px; align-items: center; overflow: hidden; border-radius: 16px; background: var(--accent-deep); padding: clamp(26px, 3.5vw, 46px) clamp(22px, 3.5vw, 52px); }
+.fcta-pic { position: absolute; inset: 0 0 0 40%; pointer-events: none; }
+.fcta-pic img { width: 100%; height: 100%; object-fit: cover; object-position: 60% 50%; opacity: .9; -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 55%); mask-image: linear-gradient(90deg, transparent 0%, #000 55%); }
+.fcta::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(139,74,31,0) 55%, rgba(60,30,12,.35) 100%); pointer-events: none; }
+.fcta-copy { position: relative; z-index: 1; }
+.fcta-title { font-family: var(--font-display); font-weight: 300; font-size: clamp(1.7rem, 1.25rem + 1.6vw, 2.6rem); line-height: 1.06; letter-spacing: -.012em; text-wrap: balance; }
+.fcta-copy p { margin-top: 10px; font-size: .9375rem; color: rgba(239, 237, 230, .86); max-width: 44ch; }
+.fcta-btn.btn { position: relative; z-index: 1; justify-self: start; background: var(--ink); border-color: var(--ink); color: var(--bone); }
+.fcta-btn.btn:hover { background: var(--bone); border-color: var(--bone); color: var(--ink); }
+@media (min-width: 1024px) { .fcta { grid-template-columns: 1fr auto; gap: 40px; } .fcta-btn.btn { justify-self: end; } }
+.fpills { display: grid; gap: 12px; margin-top: 14px; grid-template-columns: 1fr; }
+.fpill { display: flex; align-items: center; gap: 12px; padding: 15px 20px; border-radius: 12px; background: rgba(239, 237, 230, .06); border: 1px solid rgba(239, 237, 230, .08); font-size: .9375rem; font-weight: 600; }
+.fpill svg { flex: none; width: 20px; height: 20px; color: var(--accent); }
+@media (min-width: 768px) { .fpills { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.fcols { display: grid; gap: 32px 28px; grid-template-columns: 1fr 1fr; padding: clamp(40px, 5vw, 60px) 0 32px; }
+@media (min-width: 768px) { .fcols { grid-template-columns: 1.5fr 1fr 1fr 1.3fr; } }
+.fbrand img { height: 72px; width: auto; display: block; }
+.fbrand p { margin-top: 18px; max-width: 30ch; font-size: .9375rem; line-height: 1.55; color: rgba(239, 237, 230, .68); }
+.fbrand .socials { margin-top: 20px; }
+.fcols h4 { font-size: .75rem; letter-spacing: .2em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 16px; }
+.fcols li { font-size: .9375rem; color: rgba(239, 237, 230, .86); line-height: 1.4; }
+.fcols li + li { margin-top: 10px; }
+.fcols a:hover { color: var(--accent); }
+.flegal { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; align-items: center; padding-top: 20px; border-top: 1px solid rgba(239, 237, 230, .12); font-size: .8125rem; color: rgba(239, 237, 230, .6); }
+.flegal span:last-child { display: flex; gap: 20px; }
+.flegal a:hover, .flegal button:hover { color: var(--bone); }
+.flegal .theme-toggle { font-size: .8125rem; color: inherit; }
+.socials { display: flex; gap: 6px; }
+.socials a { width: 40px; height: 40px; display: grid; place-items: center; border: 1px solid rgba(239, 237, 230, .22); border-radius: 50%; transition: border-color .3s ease, color .3s ease; }
+.socials a:hover { border-color: var(--accent); color: var(--accent); }
+.socials svg { width: 16px; height: 16px; }
+@media (max-width: 767px) { .fcols .fbrand, .fcols > div:last-child { grid-column: 1 / -1; } .fpill { font-size: .875rem; } }
 
-/* ---------- scroll cue ---------- */
-.scroll-cue { display: inline-flex; align-items: center; gap: 12px; font-size: var(--fs-small); letter-spacing: .14em; text-transform: uppercase; }
-.scroll-cue i { width: 1px; height: 48px; background: currentColor; display: block; overflow: hidden; position: relative; }
-.scroll-cue i::after { content: ""; position: absolute; inset: 0; background: var(--c-saddle); transform: translateY(-100%); animation: cue 1.8s var(--ease-inout) infinite; }
-@keyframes cue { 0% { transform: translateY(-100%); } 60% { transform: translateY(100%); } 100% { transform: translateY(100%); } }
+/* ---------- toast ---------- */
+.toast { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 20px); z-index: 120; background: var(--ink); color: var(--bone); padding: 12px 18px; border-radius: 999px; font-size: .8125rem; letter-spacing: .04em; opacity: 0; pointer-events: none; transition: opacity .3s ease, transform .3s var(--ease-out); max-width: calc(100vw - 32px); text-align: center; }
+.toast.is-on { opacity: 1; transform: translate(-50%, 0); }
 
-/* ---------- misc ---------- */
-.rule { height: 1px; background: var(--line); }
-.num { font-family: var(--font-display); font-variation-settings: "opsz" 144; font-size: var(--fs-h3); color: var(--accent-soft); line-height: 1; }
-.sticky-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 80; background: var(--bg); border-top: 1px solid var(--line); padding: 12px var(--gutter) calc(12px + env(safe-area-inset-bottom)); display: flex; align-items: center; gap: 16px; transform: translateY(110%); transition: transform .5s var(--ease-out); }
-.sticky-bar.is-on { transform: none; }
-.hide-mobile { display: none !important; }
-@media (min-width: 1024px) { .hide-mobile { display: initial !important; } .hide-desktop { display: none !important; } }
-
-/* ---------- reduced motion ---------- */
+/* ---------- reveal primitives ---------- */
+.js [data-reveal] { opacity: 0; }
+.js [data-text-reveal], .js [data-illuminate] { opacity: 0; }
+.js .is-revealed { opacity: 1; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .2s !important; scroll-behavior: auto !important; }
-  .js [data-reveal], .js .reveal-img img, .js [data-lines] { opacity: 1; transform: none; clip-path: none; visibility: visible; }
+  .js [data-reveal], .js [data-text-reveal], .js [data-illuminate] { opacity: 1; }
   .cursor { display: none !important; }
-  .js.has-cursor, .js.has-cursor a, .js.has-cursor button { cursor: auto; }
-  .scroll-cue i::after { animation: none; transform: none; }
 }
 
-html.is-entering .curtain{transform:none}
-html.no-loader .loader{display:none}
-.mark-icon{display:inline-block;width:34px;height:13px;background:currentColor;-webkit-mask:url(assets/brand/stagr-mark-dark.png) center/contain no-repeat;mask:url(assets/brand/stagr-mark-dark.png) center/contain no-repeat;vertical-align:middle}
-.logo{display:inline-flex;align-items:center;gap:10px}
-.wordmark{font-family:var(--font-display);font-size:1.5rem;letter-spacing:-.01em;line-height:1;font-variation-settings:"opsz" 48}
+/* ---------- quick view ---------- */
+.qv-backdrop { position: fixed; inset: 0; z-index: 100; background: rgba(26,27,29,.45); opacity: 0; pointer-events: none; transition: opacity .35s ease; }
+.qv-backdrop.is-open { opacity: 1; pointer-events: auto; }
+.qv { position: fixed; z-index: 101; inset: auto 0 0 0; max-height: 92svh; overflow: auto; background: var(--bone); color: var(--ink); transform: translateY(102%); visibility: hidden; transition: transform .55s var(--ease-out), visibility 0s linear .55s; }
+.qv.is-open { transform: none; visibility: visible; transition-delay: 0s; }
+@media (min-width: 1024px) { .qv { inset: 50% auto auto 50%; width: min(980px, 92vw); max-height: 86vh; transform: translate(-50%, -50%) scale(.97); opacity: 0; transition: transform .45s var(--ease-out), opacity .35s ease, visibility 0s linear .45s; } .qv.is-open { transform: translate(-50%, -50%) scale(1); opacity: 1; } }
+.qv-inner { display: grid; }
+@media (min-width: 1024px) { .qv-inner { grid-template-columns: 1fr 1fr; } }
+.qv-media { position: relative; aspect-ratio: 1; display: grid; place-items: center; background: rgba(26,27,29,.03); overflow: hidden; }
+@media (min-width: 1024px) { .qv-media { aspect-ratio: auto; min-height: 100%; } }
+.qv-media .bloom { --bloom-s: 70%; }
+.qv-media img { position: relative; z-index: 1; width: 72%; height: auto; max-height: 80%; object-fit: contain; filter: drop-shadow(0 30px 40px rgba(26,27,29,.22)); }
+.qv-thumbs { position: absolute; left: 16px; bottom: 16px; z-index: 2; display: flex; gap: 8px; }
+.qv-thumbs button { width: 52px; height: 52px; border: 1px solid var(--line-strong); background: var(--bone); display: grid; place-items: center; }
+.qv-thumbs button[aria-pressed="true"] { border-color: var(--ink); }
+.qv-thumbs img { width: 80%; height: auto; }
+.qv-body { padding: clamp(20px, 3vw, 40px); display: grid; gap: 16px; align-content: start; }
+.qv-close { position: absolute; top: 10px; right: 10px; z-index: 3; }
+.dotc { color: var(--accent); }
 
-/* ---------- page: Product ---------- */
+/* ---------- catalogue card + grid (shop page, home collection) ---------- */
+.sh-grid { display: grid; gap: 14px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (min-width: 768px) { .sh-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; } }
+@media (min-width: 1200px) { .sh-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; } }
+.scard { position: relative; display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; transition: box-shadow .4s ease, transform .4s var(--ease-out); }
+.scard:hover { box-shadow: 0 18px 40px rgba(26,27,29,.1); transform: translateY(-2px); }
+.scard.is-hidden { display: none; }
+.scard-media { position: relative; aspect-ratio: 1; display: grid; place-items: center; overflow: hidden; background: rgba(26,27,29,.02); }
+.scard-media .bloom { --bloom-s: 70%; opacity: .7; }
+.scard-media img { position: relative; z-index: 1; width: 76%; height: auto; max-height: 84%; object-fit: contain; filter: drop-shadow(0 16px 20px rgba(26,27,29,.18)); transition: transform .6s var(--ease-out), opacity .4s ease; }
+.scard-media img.alt { position: absolute; inset: 0; margin: auto; opacity: 0; }
+.scard.has-alt:hover .scard-media img.main { opacity: 0; }
+.scard.has-alt:hover .scard-media img.alt { opacity: 1; }
+.scard-wish { position: absolute; top: 10px; left: 10px; z-index: 2; width: 36px; height: 36px; border-radius: 50%; background: var(--bg); border: 1px solid var(--line); display: grid; place-items: center; color: var(--fg); transition: color .3s ease, border-color .3s ease, transform .3s var(--ease-out); }
+.scard-wish svg { width: 18px; height: 18px; }
+.scard-wish:hover { border-color: var(--fg); transform: scale(1.06); }
+.scard-wish[aria-pressed="true"] { color: var(--accent-deep); border-color: var(--accent-deep); }
+.scard-wish[aria-pressed="true"] svg { fill: currentColor; }
+.scard-badge { position: absolute; top: 10px; right: 0; z-index: 2; padding: 6px 12px; background: var(--ink); color: var(--bone); font-size: .6875rem; font-weight: 500; letter-spacing: .1em; text-transform: uppercase; border-radius: 6px 0 0 6px; }
+.scard-quick { position: absolute; z-index: 2; left: 50%; top: calc(50% + 34%); transform: translate(-50%, -50%); min-height: 36px; padding: 0 14px; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--bg); color: var(--fg); font-size: .6875rem; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; opacity: 0; transition: opacity .3s ease, background-color .3s ease, color .3s ease; }
+.scard-media { --h: 1; }
+.scard:hover .scard-quick, .scard:focus-within .scard-quick { opacity: 1; }
+.scard-quick:hover { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.scard-body { padding: 14px 14px 16px; display: grid; gap: 6px; justify-items: center; text-align: center; }
+.scard-name { font-family: var(--font-display); font-weight: 300; font-size: 1.35rem; line-height: 1.1; }
+.scard-style { font-size: .75rem; color: var(--fg-2); letter-spacing: .04em; }
+.scard-swatches { gap: 6px; align-items: center; margin-top: 4px; }
+.opt--dot { min-height: 0; width: 24px; height: 24px; padding: 0; border-radius: 50%; border: 1px solid transparent; display: grid; place-items: center; }
+.opt--dot .sw { width: 16px; height: 16px; }
+.opt--dot:hover { border-color: var(--fg); }
+.opt--dot:has(input:checked) { background: transparent; border-color: var(--fg); }
+.scard-ncol { font-size: .6875rem; color: var(--fg-2); margin-left: 4px; }
+.scard-meta { font-size: .75rem; color: var(--fg-2); }
+.scard-meta span { margin: 0 6px; opacity: .5; }
+.scard-price { margin-top: 2px; font-size: .9375rem; }
+.scard-price b { font-weight: 500; }
+.scard-price s { color: var(--fg-2); font-size: .8125rem; margin-left: 8px; }
+.scard-body .btn { margin-top: 8px; }
+.sh-empty { display: none; padding: 64px 0; text-align: center; }
+.sh-empty.is-on { display: block; }
+@media (max-width: 767px) { .scard-body { padding: 12px 10px 14px; } .scard-name { font-size: 1.15rem; } .scard-meta { display: none; } .scard-quick { display: none; } .scard-body .btn { min-height: 36px; font-size: .6875rem; } }
 
+/* ---------- catalogue card (home rail, collection pages, shop) ---------- */
+.cc-track { --rail-w: calc((100% - 12px) / 1); gap: 12px; padding-bottom: 6px; scroll-padding-left: 0; }
+@media (min-width: 590px) { .cc-track { --rail-w: calc((100% - 18px) / 2); gap: 15px; } }
+@media (min-width: 768px) { .cc-track { --rail-w: calc((100% - 36px) / 3); gap: 18px; } }
+@media (min-width: 1200px) { .cc-track { --rail-w: calc((100% - 60px) / 4); gap: 20px; } }
+.cc-track > .ccard { flex: 0 0 var(--rail-w); scroll-snap-align: start; }
+.cc-foot { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 14px; }
+.rail:not(.has-overflow) .rail-nav { visibility: hidden; }
+.ccard { display: flex; flex-direction: column; background: #fff; border-radius: 16px; padding: 12px; box-shadow: 0 1px 2px rgba(26,27,29,.04), 0 10px 30px -18px rgba(26,27,29,.18); transition: transform .4s var(--ease-out), box-shadow .4s ease; }
+.ccard:hover { transform: translateY(-3px); box-shadow: 0 1px 2px rgba(26,27,29,.04), 0 24px 40px -20px rgba(26,27,29,.28); }
+.ccard.is-hidden { display: none; }
+.cc-media { position: relative; display: grid; place-items: center; aspect-ratio: 1; border-radius: 12px; background: #F3F1EC; overflow: hidden; }
+.cc-media img { position: relative; z-index: 1; width: 82%; height: auto; max-height: 86%; object-fit: contain; filter: drop-shadow(0 14px 18px rgba(26,27,29,.16)); transition: opacity .4s ease, transform .6s var(--ease-out); }
+.cc-media img.alt { position: absolute; inset: 0; margin: auto; opacity: 0; }
+.ccard.has-alt:hover .cc-media img.main { opacity: 0; }
+.ccard.has-alt:hover .cc-media img.alt { opacity: 1; }
+.cc-badges { position: absolute; left: 10px; top: 10px; z-index: 2; display: grid; gap: 6px; justify-items: start; }
+.cc-badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 4px; font-size: .6875rem; font-weight: 600; line-height: 1; }
+.cc-sale { background: #5A1E1A; color: var(--bone); }
+.cc-best { background: #D9A866; color: #3A2410; }
+.cc-new { background: var(--ink); color: var(--bone); }
+.cc-body { padding: 14px 6px 6px; display: grid; gap: 6px; }
+.cc-price { display: flex; align-items: baseline; gap: 8px; }
+.cc-price b { font-weight: 700; font-size: 1.1rem; color: var(--accent-deep); }
+.cc-price s { font-size: .75rem; color: var(--fg-2); }
+.cc-name { font-size: 1rem; font-weight: 600; line-height: 1.3; }
+.cc-name a { color: var(--ink); }
+.cc-meta { font-size: .75rem; color: var(--fg-2); }
+.cc-meta i { font-style: normal; margin: 0 4px; opacity: .6; }
+.cc-opts { gap: 6px; }
+.cc-sw { position: relative; width: 22px; height: 22px; border-radius: 50%; border: 1px solid transparent; display: grid; place-items: center; cursor: pointer; }
+.cc-sw input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+.cc-sw i { width: 14px; height: 14px; border-radius: 50%; background: var(--sw); box-shadow: inset 0 0 0 1px rgba(0,0,0,.18); }
+.cc-sw:has(input:checked) { border-color: var(--ink); }
+.cc-stock { display: inline-flex; align-items: center; gap: 6px; font-size: .75rem; font-weight: 500; color: #1F7A3A; }
+.cc-stock i { width: 6px; height: 6px; border-radius: 50%; background: #1F7A3A; }
+.cc-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 8px; }
+.cc-add { min-height: 40px; padding: 0 16px; border-radius: 999px; background: var(--accent-deep); color: var(--bone); font-size: .875rem; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; transition: background-color .3s ease, color .3s ease; }
+.cc-add:hover { background: var(--ink); }
+.cc-wish { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line-strong); display: grid; place-items: center; color: var(--fg-2); background: #fff; transition: color .3s ease, border-color .3s ease; }
+.cc-wish svg { width: 16px; height: 16px; }
+.cc-wish:hover { color: var(--ink); border-color: var(--ink); }
+.cc-wish[aria-pressed="true"] { color: var(--accent-deep); border-color: var(--accent-deep); }
+.cc-wish[aria-pressed="true"] svg { fill: currentColor; }
+@media (max-width: 767px) { .ccard { padding: 8px; border-radius: 12px; } .cc-body { padding: 10px 4px 4px; } .cc-name { font-size: .875rem; } .cc-price b, .cc-price s, .cc-add { white-space: nowrap; } .cc-price b { font-size: 1rem; } .cc-add { padding: 0 10px; font-size: .75rem; min-height: 36px; } .cc-wish { width: 32px; height: 32px; flex: 0 0 auto; } }
+
+/* ---------- why people choose Stagr ---------- */
+.why { padding: clamp(48px, 7vw, 96px) 0 clamp(40px, 6vw, 80px); background: var(--bone); color: var(--ink); }
+.why-head { text-align: center; max-width: 60ch; margin: 0 auto clamp(32px, 4vw, 56px); }
+.why-head .explore-title { white-space: normal; }
+.why-head .explore-sub { margin-top: 14px; font-size: 1rem; }
+.why-grid { display: grid; gap: 28px 32px; grid-template-columns: 1fr; }
+.why-grid li { display: flex; gap: 14px; align-items: flex-start; }
+.why-ic { flex: 0 0 auto; width: 28px; height: 28px; color: var(--accent-deep); }
+.why-ic svg { width: 100%; height: 100%; }
+.why-grid b { display: block; font-weight: 600; font-size: 1rem; }
+.why-grid p { margin-top: 4px; font-size: .9375rem; line-height: 1.45; color: var(--fg-2); }
+@media (min-width: 640px) { .why-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1024px) { .why-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.explore-title { font-family: var(--font-display); font-weight: 300; font-size: clamp(2rem, 1.3rem + 2.8vw, 3.9rem); line-height: 1.06; letter-spacing: -.012em; }
+.explore-sub { margin-top: 12px; color: var(--fg-2); font-size: .9375rem; }
+
+/* ---------- page: Product — STAGR. ---------- */
+.pd-resolve { padding: calc(var(--nav-top) + 48px) 0 96px; }
 </style>
 </head>
-<body class="">
+<body id="top" data-page="product">
 <a class="skip" href="#main">Skip to content</a>
 
-<div class="curtain" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true"><path d="M12 3v18M4 7l8 6 8-6"/></svg></div>
+<div class="loader" role="status" aria-live="polite" aria-label="Loading">
+  <div class="pills" aria-hidden="true"><span class="pop" style="--x:14%;--y:20%">100% crazy horse leather</span><span class="pop light" style="--x:68%;--y:16%">Handmade in Pakistan</span><span class="pop" style="--x:8%;--y:58%">Saddle stitched</span><span class="pop" style="--x:70%;--y:74%">Cash on delivery</span><span class="pop light" style="--x:40%;--y:80%">Rs 1,740 to Rs 3,500</span><span class="pop light" style="--x:30%;--y:36%">Solid brass</span></div>
+  <div class="mark" aria-hidden="true"><span class="word">STAGR</span><span class="ldot"></span></div>
+  <div class="count" aria-hidden="true">000</div>
+  <button type="button" class="skip-btn">Skip</button>
+</div>
+<div class="fade" aria-hidden="true"></div>
 <div class="cursor" aria-hidden="true"><div class="ring"><span></span></div><div class="dot"></div></div>
 
-<header class="header" id="top">
-  <div class="wrap">
-    <div class="nav-left">
-      <button type="button" class="burger" data-menu-open aria-expanded="false" aria-controls="menu" aria-label="Open menu"><i></i><i></i></button>
-      <a class="nav-link u-line" href="wallets.html">Wallets</a><a class="nav-link u-line" href="belts.html">Belts</a><a class="nav-link u-line" href="about.html">About</a>
-    </div>
-    <a class="logo" href="index.html" aria-label="Stagr, home"><i class="mark-icon" aria-hidden="true"></i><span class="wordmark">Stagr</span></a>
-    <div class="nav-right">
-      <button type="button" class="icon-btn theme-toggle" aria-label="Toggle dark mode" aria-pressed="false"><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
-      <button type="button" class="icon-btn" data-cart-open aria-label="Open your bag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span class="cart-count" aria-hidden="true">0</span></button>
+<div class="topbar" data-topbar>
+  <div class="wrap topbar-inner">
+    <a class="topbar-brand" href="index.html"><span class="topbar-badge">Stagr</span><span class="desk-only">stagr.pk</span></a>
+    <p class="topbar-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span class="desk-only">Cash on delivery <span class="topbar-dot" aria-hidden="true">·</span> 3 to 5 working days across Pakistan</span><span class="mob-only">Cash on delivery <span class="topbar-dot" aria-hidden="true">·</span> 3 to 5 days, Pakistan wide</span></p>
+    <a class="topbar-contact" href="https://wa.me/920000000000" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4V5z"/></svg><span>Contact us</span></a>
+  </div>
+</div>
+<nav class="nav" aria-label="Primary" data-nav>
+  <div class="wrap nav-top">
+    <button type="button" class="burger" data-menu-open aria-expanded="false" aria-controls="menu" aria-label="Open menu"><i></i><i></i></button>
+    <ul class="nav-main desk-only" role="list">
+      <li data-mega="wallets"><a href="wallets.html" class="nav-underline" aria-haspopup="true">Wallets</a></li>
+      <li data-mega="belts"><a href="belts.html" class="nav-underline" aria-haspopup="true">Belts</a></li>
+      <li><a href="bulk.html" class="nav-underline">Bulk orders</a></li>
+      <li><a href="shop.html" class="nav-underline">Shop</a></li>
+    </ul>
+    <a class="brand" href="index.html" aria-label="Stagr, home">STAGR<span class="dot"></span></a>
+    <div class="right">
+      <a href="https://wa.me/920000000000" target="_blank" rel="noopener" class="nav-contact nav-underline desk-only">Contact us</a>
+      <button type="button" class="icon-btn" data-cart-open aria-label="Open cart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg><span class="cart-count" aria-hidden="true">0</span></button>
     </div>
   </div>
-</header>
-
-<nav class="menu" id="menu" aria-hidden="true" aria-label="Site menu">
-  <div class="menu-panel l"></div>
-  <div class="menu-panel r"></div>
-  <div class="menu-inner">
-    <div class="menu-top">
-      <span class="label" style="color:var(--c-saddle)">Menu</span>
-      <button type="button" class="menu-close" data-menu-close aria-label="Close menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  
+  <div class="mega" data-mega-panel="wallets" aria-hidden="true">
+    <div class="wrap">
+      <div class="mega-tabs" role="tablist"><button type="button" role="tab" aria-selected="true" data-mega-tab-btn="collections">Collections</button><button type="button" role="tab" aria-selected="false" data-mega-tab-btn="style">By style</button><button type="button" role="tab" aria-selected="false" data-mega-tab-btn="care">Care and sizing</button></div>
+      <div class="mega-row" data-mega-tab="collections"><a class="mega-item" href="wallets.html?cat=bifold"><span class="mega-thumb"><img src="assets/cutouts/kingsmann-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Kingsmann</span></a><a class="mega-item" href="wallets.html?cat=trifold"><span class="mega-thumb"><img src="assets/cutouts/majestic-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Majestic</span></a><a class="mega-item" href="wallets.html?cat=minimalist"><span class="mega-thumb"><img src="assets/cutouts/maverick-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Maverick</span></a><a class="mega-item" href="wallets.html?cat=minimalist"><span class="mega-thumb"><img src="assets/cutouts/purefold-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Purefold</span></a><a class="mega-item" href="wallets.html?cat=long"><span class="mega-thumb"><img src="assets/cutouts/rodeo-tan-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Rodeo</span></a><a class="mega-item" href="wallets.html?cat=bifold"><span class="mega-thumb"><img src="assets/cutouts/regal-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Regal</span></a><a class="mega-item" href="wallets.html?cat=long"><span class="mega-thumb"><img src="assets/cutouts/upbuck-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Upbuck</span></a></div><div class="mega-row" data-mega-tab="style" hidden><a class="mega-item" href="wallets.html?cat=bifold"><span class="mega-thumb"><img src="assets/cutouts/kingsmann-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Bifold</span></a><a class="mega-item" href="wallets.html?cat=trifold"><span class="mega-thumb"><img src="assets/cutouts/majestic-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Trifold</span></a><a class="mega-item" href="wallets.html?cat=minimalist"><span class="mega-thumb"><img src="assets/cutouts/maverick-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Minimalist</span></a><a class="mega-item" href="wallets.html?cat=long"><span class="mega-thumb"><img src="assets/cutouts/rodeo-tan-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Long</span></a></div><div class="mega-row mega-links" data-mega-tab="care" hidden><a class=link href=about.html#craft>How it is made</a><a class=link href=about.html#faq>Leather care</a><a class=link href=about.html#faq>Size guide</a><a class=link href=index.html#delivery>Delivery and returns</a><a class=link href=bulk.html>Bulk orders</a></div>
+      <p class="mega-all"><a class="link" href="shop.html?line=wallets">View all wallets</a></p>
     </div>
-    <div class="menu-links"><a class="menu-link" href="index.html" data-art="assets/products/purefold-brown-1.jpg"><sup>01</sup><span class="u-line">Home</span></a><a class="menu-link" href="wallets.html" data-art="assets/products/kingsmann-brown-1.jpg"><sup>02</sup><span class="u-line">Wallets</span></a><a class="menu-link" href="belts.html" data-art="assets/products/nova-black-1.jpg"><sup>03</sup><span class="u-line">Belts</span></a><a class="menu-link" href="about.html" data-art="assets/lifestyle/ranger-open.jpg"><sup>04</sup><span class="u-line">About</span></a></div>
-    <div class="menu-foot">
-      <span>stagr.pk · Handmade in Pakistan</span>
-      <span><a href="https://wa.me/920000000000" target="_blank" rel="noopener">WhatsApp</a> &nbsp;·&nbsp; <a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a></span>
+  </div>
+  <div class="mega" data-mega-panel="belts" aria-hidden="true">
+    <div class="wrap">
+      <div class="mega-tabs" role="tablist"><button type="button" role="tab" aria-selected="true" data-mega-tab-btn="collections">Collections</button><button type="button" role="tab" aria-selected="false" data-mega-tab-btn="style">By style</button><button type="button" role="tab" aria-selected="false" data-mega-tab-btn="care">Care and sizing</button></div>
+      <div class="mega-row" data-mega-tab="collections"><a class="mega-item" href="belts.html?cat=double"><span class="mega-thumb"><img src="assets/cutouts/nova-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Nova</span></a><a class="mega-item" href="belts.html?cat=classic"><span class="mega-thumb"><img src="assets/cutouts/outlaw-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Outlaw</span></a><a class="mega-item" href="belts.html?cat=black-belts"><span class="mega-thumb"><img src="assets/cutouts/regent-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Regent</span></a><a class="mega-item" href="belts.html?cat=tan-belts"><span class="mega-thumb"><img src="assets/cutouts/monarch-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Monarch</span></a></div><div class="mega-row" data-mega-tab="style" hidden><a class="mega-item" href="belts.html?cat=classic"><span class="mega-thumb"><img src="assets/cutouts/outlaw-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Classic</span></a><a class="mega-item" href="belts.html?cat=double"><span class="mega-thumb"><img src="assets/cutouts/nova-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Double-sided</span></a><a class="mega-item" href="belts.html?cat=tan-belts"><span class="mega-thumb"><img src="assets/cutouts/monarch-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Tan</span></a><a class="mega-item" href="belts.html?cat=black-belts"><span class="mega-thumb"><img src="assets/cutouts/regent-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Black</span></a></div><div class="mega-row mega-links" data-mega-tab="care" hidden><a class=link href=about.html#craft>How it is made</a><a class=link href=about.html#faq>Leather care</a><a class=link href=product-nova.html#details>Size guide</a><a class=link href=index.html#delivery>Delivery and returns</a><a class=link href=bulk.html>Bulk orders</a></div>
+      <p class="mega-all"><a class="link" href="shop.html?line=belts">View all belts</a></p>
     </div>
-    <div class="menu-art media media--studio"><img src="assets/products/kingsmann-brown-1.jpg" alt="" width="1448" height="1086" loading="lazy"></div>
   </div>
 </nav>
 
-<div class="drawer-backdrop" aria-hidden="true"></div>
-<aside class="drawer" aria-hidden="true" aria-label="Your bag" data-lenis-prevent>
-  <div class="drawer-head"><span class="h4">Your bag</span><button type="button" class="btn--icon btn" data-cart-close aria-label="Close bag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
-  <div class="drawer-body"></div>
-  <div class="drawer-foot" hidden>
-    <div class="small muted" data-delivery-note></div>
-    <div class="progress"><i data-delivery-progress></i></div>
-    <div class="between" style="align-items:baseline"><span class="label">Subtotal</span><span class="price h4" data-subtotal>Rs 0</span></div>
-    <button type="button" class="btn btn--wide" data-checkout>Checkout<svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
-    <p class="small muted center" style="margin:0">Cash on delivery, across Pakistan.</p>
-  </div>
-</aside>
+<div class="menu" id="menu" aria-hidden="true">
+  <div class="menu-top"><span class="brand wordmark" style="font-size:1.25rem">STAGR<span class="dot"></span></span><button type="button" class="icon-btn" data-menu-close aria-label="Close menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="menu-links"><a class="menu-link" href="index.html"><sup>01</sup>Home</a><a class="menu-link" href="wallets.html"><sup>02</sup>Wallets</a><a class="menu-link" href="belts.html"><sup>03</sup>Belts</a><a class="menu-link" href="bulk.html"><sup>04</sup>Bulk orders</a><a class="menu-link" href="shop.html"><sup>05</sup>Shop</a></div>
+  <div class="menu-sub desk-hide"><div><p class="label">Wallets</p><a href="product-kingsmann.html">Kingsmann</a><a href="product-majestic.html">Majestic</a><a href="product-maverick.html">Maverick</a><a href="product-purefold.html">Purefold</a><a href="product-rodeo.html">Rodeo</a><a href="product-regal.html">Regal</a><a href="product-upbuck.html">Upbuck</a></div><div><p class="label">Belts</p><a href="product-nova.html">Nova</a><a href="product-outlaw.html">Outlaw</a><a href="product-regent.html">Regent</a><a href="product-monarch.html">Monarch</a></div></div>
+  <div class="menu-foot"><span>stagr.pk · Handmade in Pakistan</span><span><a href="https://wa.me/920000000000" target="_blank" rel="noopener">WhatsApp</a> &nbsp;·&nbsp; <a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a> &nbsp;·&nbsp; <button type="button" class="theme-toggle" aria-pressed="false">Dark mode</button></span></div>
+</div>
 
 <main id="main">
-<section class="section" style="padding-top:calc(var(--header-h) + var(--section-sm))"><div class="wrap"><p class="label label-row">Product</p><h1 class="h2" style="margin-top:20px">Opening the product page…</h1><p class="lead" style="margin-top:20px">If nothing happens, pick a piece: <a class=link href=product-nova.html>nova</a> · <a class=link href=product-outlaw.html>outlaw</a> · <a class=link href=product-regent.html>regent</a> · <a class=link href=product-monarch.html>monarch</a> · <a class=link href=product-kingsmann.html>kingsmann</a> · <a class=link href=product-majestic.html>majestic</a> · <a class=link href=product-maverick.html>maverick</a> · <a class=link href=product-purefold.html>purefold</a> · <a class=link href=product-rodeo.html>rodeo</a> · <a class=link href=product-regal.html>regal</a> · <a class=link href=product-upbuck.html>upbuck</a>.</p></div></section>
+<section class="pd-resolve on-bone"><div class="wrap"><p class="label">Product</p><h1 class="explore-title" style="margin-top:14px">Opening the piece…</h1><p class="explore-sub" style="margin-top:14px">If nothing happens, pick one: <a href=product-nova.html>nova</a> · <a href=product-outlaw.html>outlaw</a> · <a href=product-regent.html>regent</a> · <a href=product-monarch.html>monarch</a> · <a href=product-kingsmann.html>kingsmann</a> · <a href=product-majestic.html>majestic</a> · <a href=product-maverick.html>maverick</a> · <a href=product-purefold.html>purefold</a> · <a href=product-rodeo.html>rodeo</a> · <a href=product-regal.html>regal</a> · <a href=product-upbuck.html>upbuck</a>.</p></div></section>
 </main>
+
+<div class="qv-backdrop" data-qv-close aria-hidden="true"></div>
+<div class="qv" role="dialog" aria-modal="true" aria-label="Quick view" aria-hidden="true" data-lenis-prevent>
+  <button type="button" class="icon-btn qv-close" data-qv-close aria-label="Close quick view"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <div class="qv-inner">
+    <div class="qv-media"><div class="bloom" style="--bloom:#D9B07A" data-bloom></div><img data-qv-img src="" alt="" width="900" height="900"><div class="qv-thumbs" data-qv-thumbs></div></div>
+    <div class="qv-body">
+      <div class="pcard-head" style="margin-top:0"><span class="pcard-num" data-qv-num></span><span class="label" data-qv-meta></span></div>
+      <h2 class="h2" data-qv-name></h2>
+      <p class="serif-i muted" data-qv-sub></p>
+      <p class="muted" data-qv-tagline></p>
+      <div><p class="label" style="margin-bottom:10px">Colour · <span data-qv-colour style="text-transform:none;letter-spacing:0"></span></p><div class="opts" data-qv-opts></div></div>
+      <div data-qv-sizes hidden><p class="label" style="margin-bottom:10px">Size · <span data-qv-size style="text-transform:none;letter-spacing:0"></span></p><div class="opts" data-qv-size-opts></div></div>
+      <div class="pcard-price"><span><span class="num" style="font-size:1.6rem" data-qv-price></span></span><a class="pcard-link" data-qv-link href="#">Full details <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
+      <button type="button" class="btn btn--wide" data-qv-add>Add to cart</button>
+      <p class="small muted">Cash on delivery · 3 to 5 days across Pakistan · 14-day returns</p>
+    </div>
+  </div>
+</div>
 
 <footer class="footer">
   <div class="wrap">
-    <div class="foot-grid">
-      <div class="foot-col news">
-        <a class="logo" href="index.html" aria-label="Stagr, home" style="display:inline-flex;align-items:center;gap:10px;margin-bottom:18px"><i class="mark-icon" aria-hidden="true"></i><span class="wordmark">Stagr</span></a>
-        <p class="small" style="max-width:32ch;color:rgba(246,242,236,.72)">Handmade crazy horse leather belts and wallets. Handmade in Pakistan.</p>
-        <form class="input-row" style="margin-top:28px;max-width:420px" data-newsletter>
-          <label class="sr-only" for="news-email">Email address</label>
-          <input class="input" id="news-email" type="email" name="email" placeholder="Your email" required autocomplete="email">
-          <button class="btn btn--sm" type="submit">Join</button>
-        </form>
-        <p class="small" style="margin-top:10px;color:rgba(246,242,236,.6)">New cuts and gifting dates. Two emails a month.</p>
-      </div>
-      <div class="foot-col"><h4>Shop</h4><ul><li><a href="belts.html">Belts</a></li><li><a href="wallets.html">Wallets</a></li><li><a href="index.html#featured">Featured</a></li></ul></div>
-      <div class="foot-col"><h4>Help</h4><ul><li><a href="product-nova.html#details">Size guide</a></li><li><a href="index.html#trust">Delivery &amp; returns</a></li><li><a href="https://wa.me/920000000000" target="_blank" rel="noopener">Contact on WhatsApp</a></li></ul></div>
-      <div class="foot-col"><h4>Company</h4><ul><li><a href="about.html">About</a></li><li><a href="about.html#craft">How it is made</a></li><li><a href="about.html#bulk">Bulk orders</a></li></ul></div>
-      <div class="foot-col"><h4>Follow</h4><div class="socials"><a href="https://instagram.com" aria-label="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a><a href="https://facebook.com" aria-label="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8z"/></svg></a><a href="https://tiktok.com" aria-label="TikTok" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M14 4v11a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 4c.5 3 2.5 5 5.5 5"/></svg></a><a href="https://wa.me/920000000000" aria-label="WhatsApp" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 20l1.3-3.8A8 8 0 1 1 8.4 19L4 20z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 .8a4 4 0 0 1-2-2l.8-1-1-2L9 9.5z"/></svg></a></div><p class="small" style="margin-top:14px;color:rgba(246,242,236,.6)">@stagr.pk</p></div>
+    <div class="fcta">
+      <div class="fcta-pic" aria-hidden="true"><img src="assets/lifestyle/kingsmen-02-800.jpg" alt="" width="800" height="1000" loading="lazy"></div>
+      <div class="fcta-copy"><h2 class="fcta-title">A little guidance goes a long way.</h2><p>Questions about sizing, embossing or a bulk order? Let&#8217;s talk.</p></div>
+      <a class="btn fcta-btn" href="https://wa.me/920000000000" target="_blank" rel="noopener">Talk to our team <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </div>
-    <div class="foot-bottom">
-      <span>© 2026 stagr.pk</span>
-      <span>Delivery Pakistan wide, 3 to 5 working days.</span>
-      <nav aria-label="Legal"><a href="#" class="u-line">Privacy</a><a href="#" class="u-line">Terms</a></nav>
+    <ul class="fpills" role="list">
+      <li class="fpill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="1"/><path d="M3 11h18M8 7V4h8v3"/></svg>Cash on delivery, pay at the door</li>
+      <li class="fpill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg>14-day returns, unworn pieces</li>
+      <li class="fpill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18"/></svg>One honest price, Rs 1,740 to Rs 3,500</li>
+    </ul>
+    <div class="fcols">
+      <div class="fbrand"><img src="assets/brand/stagr-lockup-beige.png" alt="Stagr" width="200" height="120" loading="lazy"><p>Handmade crazy horse leather belts and wallets. Delivery in 3 to 5 working days across Pakistan.</p><div class="socials"><a href="https://instagram.com" aria-label="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a><a href="https://facebook.com" aria-label="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8z"/></svg></a><a href="https://tiktok.com" aria-label="TikTok" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M14 4v11a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 4c.5 3 2.5 5 5.5 5"/></svg></a><a href="https://wa.me/920000000000" aria-label="WhatsApp" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 20l1.3-3.8A8 8 0 1 1 8.4 19L4 20z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 .8a4 4 0 0 1-2-2l.8-1-1-2L9 9.5z"/></svg></a></div></div>
+      <div><h4>Shop &amp; create</h4><ul><li><a href="belts.html">Belts</a></li><li><a href="wallets.html">Wallets</a></li><li><a href="bulk.html">Bulk orders</a></li><li><a href="about.html#craft">How it is made</a></li></ul></div>
+      <div><h4>Here to help</h4><ul><li><a href="product-nova.html#details">Size guide</a></li><li><a href="index.html#delivery">Delivery &amp; returns</a></li><li><a href="about.html#faq">Leather care</a></li><li><a href="https://wa.me/920000000000" target="_blank" rel="noopener">Contact</a></li></ul></div>
+      <div><h4>Let&#8217;s connect</h4><ul><li><a href="https://wa.me/920000000000" target="_blank" rel="noopener">+92 300 000 0000 (WhatsApp)</a></li><li><a href="https://instagram.com" target="_blank" rel="noopener">@stagr.pk</a></li><li>12 Clifton Arcade, Block 5, Karachi</li><li>Mon to Sat, 11am to 8pm</li></ul></div>
     </div>
-  </div>
-  <div class="marquee marquee--big foot-marquee" data-marquee data-speed="80" aria-hidden="true">
-    <div class="track"><span>Stagr</span><span class="alt">—</span><span>Nothing but leather</span><span class="alt">—</span><span>Handmade in Pakistan</span><span class="alt">—</span></div>
+    <div class="flegal"><span>© 2026 Stagr. Nothing but leather.</span><span><a href="#">Privacy</a><a href="#">Terms</a><button type="button" class="theme-toggle" aria-pressed="false">Dark mode</button></span></div>
   </div>
 </footer>
+
+<div class="cart-backdrop" aria-hidden="true"></div>
+<aside class="cart" aria-hidden="true" aria-label="Cart">
+  <div class="cart-head"><span class="t">Cart <span class="small muted cart-count-inline"></span></span><button type="button" class="icon-btn" data-cart-close aria-label="Close cart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="cart-body">
+    <div class="cart-empty"><p class="h4">Your cart is empty.</p><p class="small muted">Leather, by the piece.</p><button type="button" class="btn btn--ghost btn--sm" data-cart-close style="margin-top:8px">Continue</button></div>
+  </div>
+  <div class="cart-foot" hidden>
+    <p class="small muted" data-ship-text></p>
+    <div class="ship-bar"><i data-ship-bar></i></div>
+    <div class="between" style="align-items:baseline"><span class="label">Subtotal</span><span class="num price" style="font-size:1.4rem" data-subtotal>Rs 0</span></div>
+    <button type="button" class="btn btn--wide" data-checkout-open>Checkout <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    <p class="small muted" style="text-align:center">Cash on delivery across Pakistan. Delivery 3 to 5 working days.</p>
+  </div>
+</aside>
+<div class="checkout" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Checkout">
+  <div class="checkout-panel">
+    <button type="button" class="icon-btn close" data-checkout-close aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <p class="label">Cash on delivery</p>
+    <h2 class="h3">Send your order on WhatsApp.</h2>
+    <p class="small muted">We confirm by message, pack it, and you pay the courier at the door. Nothing is taken up front.</p>
+    <div class="order" data-order></div>
+    <a class="btn btn--wide" data-wa href="https://wa.me/920000000000" target="_blank" rel="noopener">Send on WhatsApp <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    <p class="small muted">Prefer to call? +92 21 3530 0000</p>
+  </div>
+</div>
 <div class="toast" role="status" aria-live="polite"></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/SplitText.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/DrawSVGPlugin.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/Flip.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/Observer.min.js"></script>
 <script src="https://unpkg.com/lenis@1.3.4/dist/lenis.min.js"></script>
-<script>window.STAGR_DATA = {"products":[{"id":"nova","line":"belt","name":"Nova Double-Sided Leather Belt","style":null,"tagline":"Two Sides. One Belt. Made for Every Style.","shortDescription":"Two Sides. One Belt. Made for Every Style.","longDescription":null,"price":2394,"compareAtPrice":3800,"currency":"PKR","materials":{"leather":"Crazy horse leather (full grain cowhide treated with wax)","hardware":"Solid brass buckle on a removable screw post","thickness":"3.5mm (old page: 'Full grain hide, 3.5mm, cut in one piece')","stitching":"Saddle stitched"},"colours":["Black","Brown"],"defaultColour":"Black","sizes":{"label":"Waist size","options":[30,32,34,36,38,40,42,44],"unit":"inches (assumed; old page shows bare numbers 30–44)","guide":["Lay a belt you already wear flat, fastened hole facing up.","Measure from the buckle bar, not the tip, to the hole you use.","Round to the nearest even number. That is your Stagr size.","Between two sizes, take the larger. Leather gives, notches do not."]},"width":null,"images":[{"src":"assets/products/nova-black-1.jpg","width":1200,"height":896,"colour":"black","alt":"Nova Double-Sided Leather Belt in black"},{"src":"assets/products/nova-black-2.jpg","width":1024,"height":1024,"colour":"black","alt":"Nova Double-Sided Leather Belt in black"},{"src":"assets/products/nova-black-3.jpg","width":1200,"height":896,"colour":"black","alt":"Nova Double-Sided Leather Belt in black"}],"lifestyleImages":[{"src":"assets/lifestyle/heritage-01.jpg","width":1200,"height":1500,"alt":"Nova Double-Sided Leather Belt, workshop photograph"},{"src":"assets/lifestyle/nova-02.jpg","width":1200,"height":1500,"alt":"Nova Double-Sided Leather Belt, workshop photograph"},{"src":"assets/lifestyle/heritage-open.jpg","width":1600,"height":1067,"alt":"Nova Double-Sided Leather Belt, workshop photograph"},{"src":"assets/lifestyle/nova-flat.jpg","width":1600,"height":1067,"alt":"Nova Double-Sided Leather Belt, workshop photograph"}],"badges":["Handmade in Pakistan","100% crazy horse leather","Saddle stitched"],"details":{"productDetails":"Full grain hide, 3.5mm, cut in one piece. Solid brass buckle on a removable screw post, so you can change it without tools.","leatherSpecification":"Vegetable tanned, 8 to 9 ounce weight. Edges bevelled, sanded and burnished four times, then sealed with beeswax.","care":"Wipe with a dry cloth. Condition twice a year. Keep it rolled, not folded, and let it dry away from heat if it gets wet.","deliveryAndReturns":"Three to five working days across Pakistan. Cash on delivery available. Unworn returns accepted within 14 days."}},{"id":"outlaw","line":"belt","name":"Outlaw Crazy Horse Leather Belt","style":null,"tagline":"Rugged Character. Timeless Craftsmanship.","shortDescription":"Rugged Character. Timeless Craftsmanship.","longDescription":null,"price":2765,"compareAtPrice":3950,"currency":"PKR","materials":{"leather":"Crazy horse leather (full grain cowhide treated with wax)","hardware":"Solid brass buckle on a removable screw post","thickness":"3.5mm (old page: 'Full grain hide, 3.5mm, cut in one piece')","stitching":"Saddle stitched"},"colours":["Brown"],"defaultColour":"Brown","sizes":{"label":"Waist size","options":[30,32,34,36,38,40,42,44],"unit":"inches (assumed; old page shows bare numbers 30–44)","guide":["Lay a belt you already wear flat, fastened hole facing up.","Measure from the buckle bar, not the tip, to the hole you use.","Round to the nearest even number. That is your Stagr size.","Between two sizes, take the larger. Leather gives, notches do not."]},"width":null,"images":[{"src":"assets/products/outlaw-brown-1.jpg","width":1200,"height":896,"colour":"brown","alt":"Outlaw Crazy Horse Leather Belt in brown"},{"src":"assets/products/outlaw-brown-2.jpg","width":1024,"height":1024,"colour":"brown","alt":"Outlaw Crazy Horse Leather Belt in brown"}],"lifestyleImages":[{"src":"assets/lifestyle/ranger-01.jpg","width":1200,"height":1500,"alt":"Outlaw Crazy Horse Leather Belt, workshop photograph"},{"src":"assets/lifestyle/ranger-02.jpg","width":1200,"height":1500,"alt":"Outlaw Crazy Horse Leather Belt, workshop photograph"},{"src":"assets/lifestyle/ranger-open.jpg","width":1600,"height":1067,"alt":"Outlaw Crazy Horse Leather Belt, workshop photograph"},{"src":"assets/lifestyle/ranger-flat.jpg","width":1600,"height":1067,"alt":"Outlaw Crazy Horse Leather Belt, workshop photograph"},{"src":"assets/lifestyle/ranger-wide.jpg","width":1600,"height":900,"alt":"Outlaw Crazy Horse Leather Belt, workshop photograph"}],"badges":["Handmade in Pakistan","100% crazy horse leather","Saddle stitched"],"details":{"productDetails":"Full grain hide, 3.5mm, cut in one piece. Solid brass buckle on a removable screw post, so you can change it without tools.","leatherSpecification":"Vegetable tanned, 8 to 9 ounce weight. Edges bevelled, sanded and burnished four times, then sealed with beeswax.","care":"Wipe with a dry cloth. Condition twice a year. Keep it rolled, not folded, and let it dry away from heat if it gets wet.","deliveryAndReturns":"Three to five working days across Pakistan. Cash on delivery available. Unworn returns accepted within 14 days."}},{"id":"regent","line":"belt","name":"Regent Premium Leather Belt","style":null,"tagline":"Classic Elegance. Crafted to Last.","shortDescription":"Classic Elegance. Crafted to Last.","longDescription":null,"price":2730,"compareAtPrice":3900,"currency":"PKR","materials":{"leather":"Crazy horse leather (full grain cowhide treated with wax)","hardware":"Solid brass buckle on a removable screw post","thickness":"3.5mm (old page: 'Full grain hide, 3.5mm, cut in one piece')","stitching":"Saddle stitched"},"colours":["Black"],"defaultColour":"Black","sizes":{"label":"Waist size","options":[30,32,34,36,38,40,42,44],"unit":"inches (assumed; old page shows bare numbers 30–44)","guide":["Lay a belt you already wear flat, fastened hole facing up.","Measure from the buckle bar, not the tip, to the hole you use.","Round to the nearest even number. That is your Stagr size.","Between two sizes, take the larger. Leather gives, notches do not."]},"width":null,"images":[{"src":"assets/products/regent-black-1.jpg","width":1200,"height":896,"colour":"black","alt":"Regent Premium Leather Belt in black"},{"src":"assets/products/regent-black-2.jpg","width":1024,"height":1024,"colour":"black","alt":"Regent Premium Leather Belt in black"}],"lifestyleImages":[{"src":"assets/lifestyle/onyx-02.jpg","width":1200,"height":1500,"alt":"Regent Premium Leather Belt, workshop photograph"},{"src":"assets/lifestyle/onyx-01.jpg","width":1200,"height":1500,"alt":"Regent Premium Leather Belt, workshop photograph"},{"src":"assets/lifestyle/onyx-open.jpg","width":1600,"height":1067,"alt":"Regent Premium Leather Belt, workshop photograph"},{"src":"assets/lifestyle/onyx-flat.jpg","width":1600,"height":1067,"alt":"Regent Premium Leather Belt, workshop photograph"}],"badges":["Handmade in Pakistan","100% crazy horse leather","Saddle stitched"],"details":{"productDetails":"Full grain hide, 3.5mm, cut in one piece. Solid brass buckle on a removable screw post, so you can change it without tools.","leatherSpecification":"Vegetable tanned, 8 to 9 ounce weight. Edges bevelled, sanded and burnished four times, then sealed with beeswax.","care":"Wipe with a dry cloth. Condition twice a year. Keep it rolled, not folded, and let it dry away from heat if it gets wet.","deliveryAndReturns":"Three to five working days across Pakistan. Cash on delivery available. Unworn returns accepted within 14 days."}},{"id":"monarch","line":"belt","name":"Monarch Premium Leather Belt","style":null,"tagline":"Premium Character. Timeless Craftsmanship.","shortDescription":"Premium Character. Timeless Craftsmanship.","longDescription":null,"price":2800,"compareAtPrice":4000,"currency":"PKR","materials":{"leather":"Crazy horse leather (full grain cowhide treated with wax)","hardware":"Solid brass buckle on a removable screw post","thickness":"3.5mm (old page: 'Full grain hide, 3.5mm, cut in one piece')","stitching":"Saddle stitched"},"colours":["Tan"],"defaultColour":"Tan","sizes":{"label":"Waist size","options":[30,32,34,36,38,40,42,44],"unit":"inches (assumed; old page shows bare numbers 30–44)","guide":["Lay a belt you already wear flat, fastened hole facing up.","Measure from the buckle bar, not the tip, to the hole you use.","Round to the nearest even number. That is your Stagr size.","Between two sizes, take the larger. Leather gives, notches do not."]},"width":null,"images":[{"src":"assets/products/monarch-tan-1.jpg","width":1200,"height":896,"colour":"tan","alt":"Monarch Premium Leather Belt in tan"},{"src":"assets/products/monarch-tan-2.jpg","width":1024,"height":1024,"colour":"tan","alt":"Monarch Premium Leather Belt in tan"}],"lifestyleImages":[{"src":"assets/lifestyle/monarch-01.jpg","width":1200,"height":1500,"alt":"Monarch Premium Leather Belt, workshop photograph"},{"src":"assets/lifestyle/heritage-02.jpg","width":1200,"height":1500,"alt":"Monarch Premium Leather Belt, workshop photograph"},{"src":"assets/lifestyle/heritage-flat.jpg","width":1600,"height":1067,"alt":"Monarch Premium Leather Belt, workshop photograph"},{"src":"assets/lifestyle/belts-lineup.jpg","width":1600,"height":1067,"alt":"Monarch Premium Leather Belt, workshop photograph"}],"badges":["Handmade in Pakistan","100% crazy horse leather","Saddle stitched"],"details":{"productDetails":"Full grain hide, 3.5mm, cut in one piece. Solid brass buckle on a removable screw post, so you can change it without tools.","leatherSpecification":"Vegetable tanned, 8 to 9 ounce weight. Edges bevelled, sanded and burnished four times, then sealed with beeswax.","care":"Wipe with a dry cloth. Condition twice a year. Keep it rolled, not folded, and let it dry away from heat if it gets wet.","deliveryAndReturns":"Three to five working days across Pakistan. Cash on delivery available. Unworn returns accepted within 14 days."}},{"id":"kingsmann","line":"wallet","name":"Kingsmann Bifold Leather Wallet","style":"Bifold","tagline":"Crafted for the Modern Gentleman","shortDescription":"Crafted for the Modern Gentleman","longDescription":null,"price":2600,"compareAtPrice":3999,"currency":"PKR","materials":{"leather":"Crazy horse leather (full grain cowhide treated with wax)","lining":"Calf (old page: 'lined in calf') — please confirm","thickness":"3 oz (old page value, generic)","stitching":"Saddle stitched / stitched by hand"},"colours":["Brown","Black"],"defaultColour":"Brown","sizes":null,"dimensions":null,"images":[{"src":"assets/products/kingsmann-brown-1.jpg","width":1448,"height":1086,"colour":"Brown","alt":"Kingsmann Bifold Leather Wallet in brown"},{"src":"assets/products/kingsmann-brown-2.jpg","width":1397,"height":768,"colour":"Brown","alt":"Kingsmann Bifold Leather Wallet in brown"},{"src":"assets/products/kingsmann-black-1.jpg","width":1448,"height":1086,"colour":"Black","alt":"Kingsmann Bifold Leather Wallet in black"},{"src":"assets/products/kingsmann-black-2.jpg","width":1397,"height":768,"colour":"Black","alt":"Kingsmann Bifold Leather Wallet in black"}],"lifestyleImages":[{"src":"assets/lifestyle/kingsmen-01.jpg","width":1200,"height":1500,"alt":"Kingsmann Bifold Leather Wallet, workshop photograph"},{"src":"assets/lifestyle/kingsmen-02.jpg","width":1200,"height":1500,"alt":"Kingsmann Bifold Leather Wallet, workshop photograph"},{"src":"assets/lifestyle/kingsmen-open.jpg","width":1600,"height":1067,"alt":"Kingsmann Bifold Leather Wallet, workshop photograph"},{"src":"assets/lifestyle/kingsmen-flat.jpg","width":1600,"height":1067,"alt":"Kingsmann Bifold Leather Wallet, workshop photograph"}],"badges":["Handmade in Pakistan","100% crazy horse leather","Stitched by hand"],"details":{"productDetails":"Four card slots, one note section, no coin pocket. Skived at the folds so it stays flat in a jacket pocket.","leatherSpecification":"Vegetable tanned, 8 to 9 ounce weight. Edges bevelled, sanded and burnished four times, then sealed with beeswax.","care":"Wipe with a dry cloth. Condition twice a year. Keep it rolled, not folded, and let it dry away from heat if it gets wet.","deliveryAndReturns":"Three to five working days across Pakistan. Cash on delivery available. Unworn returns accepted within 14 days."}},{"id":"majestic","line":"wallet","name":"Majestic Trifold Leather Wallet","style":"Trifold","tagline":"Timeless Craftsmanship","shortDescription":"Timeless Craftsmanship","longDescription":null,"price":2600,"compareAtPrice":3999,"currency":"PKR","materials":{"leather":"Crazy horse leather (full grain cowhide treated with wax)","lining":"Calf (old page: 'lined in calf') — please confirm","thickness":"3 oz (old page value, generic)","stitching":"Saddle stitched / stitched by hand"},"colours":["Brown","Black"],"defaultColour":"Brown","sizes":null,"dimensions":null,"images":[{"src":"assets/products/majestic-brown-1.jpg","width":1193,"height":896,"colour":"Brown","alt":"Majestic Trifold Leather Wallet in brown"},{"src":"assets/products/majestic-brown-2.jpg","width":1448,"height":1086,"colour":"Brown","alt":"Majestic Trifold Leather Wallet in brown"},{"src":"assets/products/majestic-black-1.jpg","width":1193,"height":896,"colour":"Black","alt":"Majestic Trifold Leather Wallet in black"},{"src":"assets/products/majestic-black-2.jpg","width":1448,"height":1086,"colour":"Black","alt":"Majestic Trifold Leather Wallet in black"}],"lifestyleImages":[{"src":"assets/lifestyle/majestic-01.jpg","width":1200,"height":1500,"alt":"Majestic Trifold Leather Wallet, workshop photograph"},{"src":"assets/lifestyle/majestic-02.jpg","width":1200,"height":1500,"alt":"Majestic Trifold Leather Wallet, workshop photograph"},{"src":"assets/lifestyle/majestic-open.jpg","width":1600,"height":1067,"alt":"Majestic Trifold Leather Wallet, workshop photograph"},{"src":"assets/lifestyle/majestic-flat.jpg","width":1600,"height":1067,"alt":"Majestic Trifold Leather Wallet, workshop photograph"}],"badges":["Handmade in Pakistan","100% crazy horse leather","Stitched by hand"],"details":{"productDetails":"Four card slots, one note section, no coin pocket. Skived at the folds so it stays flat in a jacket pocket.","leatherSpecification":"Vegetable tanned, 8 to 9 ounce weight. Edges bevelled, sanded and burnished four times, then sealed with beeswax.","care":"Wipe with a dry cloth. Condition twice a year. Keep it rolled, not folded, and let it dry away from heat if it gets wet.","deliveryAndReturns":"Three to five working days across Pakistan. Cash on delivery available. Unworn returns accepted within 14 days."}},{"id":"maverick","line":"wallet","name":"Maverick Minimalist Leather Wallet","style":"Minimalist","tagline":"Where Function Meets Fashion","shortDescription":"Where Function Meets Fashion","longDescription":null,"price":1740,"compareAtPrice":2899,"currency":"PKR","materials":{"leather":"Crazy horse leather (full grain cowhide treated with wax)","lining":"Calf (old page: 'lined in calf') — please confirm","thickness":"3 oz (old page value, generic)","stitching":"Saddle stitched / stitched by hand"},"colours":["Brown","Black"],"defaultColour":"Brown","sizes":null,"dimensions":null,"images":[{"src":"assets/products/maverick-brown-1.jpg","width":1448,"height":1086,"colour":"Brown","alt":"Maverick Minimalist Leather Wallet in brown"},{"src":"assets/products/maverick-brown-2.jpg","width":1448,"height":1086,"colour":"Brown","alt":"Maverick Minimalist Leather Wallet in brown"},{"src":"assets/products/maverick-black-1.jpg","width":1448,"height":1086,"colour":"Black","alt":"Maverick Minimalist Leather Wallet in black"},{"src":"assets/products/maverick-black-2.jpg","width":1448,"height":1086,"colour":"Black","alt":"Maverick Minimalist Leather Wallet in black"}],"lifestyleImages":[{"src":"assets/lifestyle/maverick-01.jpg","width":1200,"height":1500,"alt":"Maverick Minimalist Leather Wallet, workshop photograph"},{"src":"assets/lifestyle/maverick-02.jpg","width":1200,"height":1500,"alt":"Maverick Minimalist Leather Wallet, workshop photograph"},{"src":"assets/lifestyle/maverick-open.jpg","width":1600,"height":1067,"alt":"Maverick Minimalist Leather Wallet, workshop photograph"},{"src":"assets/lifestyle/maverick-flat.jpg","width":1600,"height":1067,"alt":"Maverick Minimalist Leather Wallet, workshop photograph"}],"badges":["Handmade in Pakistan","100% crazy horse leather","Stitched by hand"],"details":{"productDetails":"Four card slots, one note section, no coin pocket. Skived at the folds so it stays flat in a jacket pocket.","leatherSpecification":"Vegetable tanned, 8 to 9 ounce weight. Edges bevelled, sanded and burnished four times, then sealed with beeswax.","care":"Wipe with a dry cloth. Condition twice a year. Keep it rolled, not folded, and let it dry away from heat if it gets wet.","deliveryAndReturns":"Three to five working days across Pakistan. Cash on delivery available. Unworn returns accepted within 14 days."}},{"id":"purefold","line":"wallet","name":"Purefold Minimalist Leather Wallet","style":"Minimalist","tagline":"Minimalism Perfected","shortDescription":"Minimalism Perfected","longDescription":null,"price":1800,"compareAtPrice":2999,"currency":"PKR","materials":{"leather":"Crazy horse leather (full grain cowhide treated with wax)","lining":"Calf (old page: 'lined in calf') — please confirm","thickness":"3 oz (old page value, generic)","stitching":"Saddle stitched / stitched by hand"},"colours":["Brown","Black"],"defaultColour":"Brown","sizes":null,"dimensions":null,"images":[{"src":"assets/products/purefold-brown-1.jpg","width":1448,"height":1086,"colour":"Brown","alt":"Purefold Minimalist Leather Wallet in brown"},{"src":"assets/products/purefold-brown-2.jpg","width":1448,"height":1086,"colour":"Brown","alt":"Purefold Minimalist Leather Wallet in brown"},{"src":"assets/products/purefold-black-1.jpg","width":1448,"height":1086,"colour":"Black","alt":"Purefold Minimalist Leather Wallet in black"},{"src":"assets/products/purefold-black-2.jpg","width":1448,"height":1086,"colour":"Black","alt":"Purefold Minimalist Leather Wallet in black"}],"lifestyleImages":[{"src":"assets/lifestyle/purefold-01.jpg","width":1200,"height":1500,"alt":"Purefold Minimalist Leather Wallet, workshop photograph"},{"src":"assets/lifestyle/purefold-02.jpg","width":1200,"height":1500,"alt":"Purefold Minimalist Leather Wallet, workshop photograph"},{"src":"assets/lifestyle/purefold-open.jpg","width":1600,"height":1067,"alt":"Purefold Minimalist Leather Wallet, workshop photograph"},{"src":"assets/lifestyle/purefold-flat.jpg","width":1600,"height":1067,"alt":"Purefold Minimalist Leather Wallet, workshop photograph"}],"badges":["Handmade in Pakistan","100% crazy horse leather","Stitched by hand"],"details":{"productDetails":"Four card slots, one note section, no coin pocket. Skived at the folds so it stays flat in a jacket pocket.","leatherSpecification":"Vegetable tanned, 8 to 9 ounce weight. Edges bevelled, sanded and burnished four times, then sealed with beeswax.","care":"Wipe with a dry cloth. Condition twice a year. Keep it rolled, not folded, and let it dry away from heat if it gets wet.","deliveryAndReturns":"Three to five working days across Pakistan. Cash on delivery available. Unworn returns accepted within 14 days."}},{"id":"rodeo","line":"wallet","name":"Rodeo Long Leather Wallet","style":"Long","tagline":"Sleek Style, Endless Storage","shortDescription":"Sleek Style, Endless Storage","longDescription":null,"price":3500,"compareAtPrice":4999,"currency":"PKR","materials":{"leather":"Crazy horse leather (full grain cowhide treated with wax)","lining":"Calf (old page: 'lined in calf') — please confirm","thickness":"3 oz (old page value, generic)","stitching":"Saddle stitched / stitched by hand"},"colours":["Tan","Black"],"defaultColour":"Tan","sizes":null,"dimensions":null,"images":[{"src":"assets/products/rodeo-tan-1.jpg","width":784,"height":1353,"colour":"Tan","alt":"Rodeo Long Leather Wallet in tan"},{"src":"assets/products/rodeo-tan-2.jpg","width":843,"height":1264,"colour":"Tan","alt":"Rodeo Long Leather Wallet in tan"},{"src":"assets/products/rodeo-black-1.jpg","width":784,"height":1353,"colour":"Black","alt":"Rodeo Long Leather Wallet in black"},{"src":"assets/products/rodeo-black-2.jpg","width":1024,"height":1536,"colour":"Black","alt":"Rodeo Long Leather Wallet in black"}],"lifestyleImages":[{"src":"assets/lifestyle/rodeo-01.jpg","width":1200,"height":1500,"alt":"Rodeo Long Leather Wallet, workshop photograph"},{"src":"assets/lifestyle/rodeo-02.jpg","width":1200,"height":1500,"alt":"Rodeo Long Leather Wallet, workshop photograph"},{"src":"assets/lifestyle/rodeo-open.jpg","width":1600,"height":1067,"alt":"Rodeo Long Leather Wallet, workshop photograph"},{"src":"assets/lifestyle/rodeo-flat.jpg","width":1600,"height":1067,"alt":"Rodeo Long Leather Wallet, workshop photograph"}],"badges":["Handmade in Pakistan","100% crazy horse leather","Stitched by hand"],"details":{"productDetails":"Four card slots, one note section, no coin pocket. Skived at the folds so it stays flat in a jacket pocket.","leatherSpecification":"Vegetable tanned, 8 to 9 ounce weight. Edges bevelled, sanded and burnished four times, then sealed with beeswax.","care":"Wipe with a dry cloth. Condition twice a year. Keep it rolled, not folded, and let it dry away from heat if it gets wet.","deliveryAndReturns":"Three to five working days across Pakistan. Cash on delivery available. Unworn returns accepted within 14 days."}},{"id":"regal","line":"wallet","name":"Regal Bifold Leather Wallet","style":"Bifold","tagline":"A Fold Above the Rest","shortDescription":"A Fold Above the Rest","longDescription":null,"price":1950,"compareAtPrice":2999,"currency":"PKR","materials":{"leather":"Crazy horse leather (full grain cowhide treated with wax)","lining":"Calf (old page: 'lined in calf') — please confirm","thickness":"3 oz (old page value, generic)","stitching":"Saddle stitched / stitched by hand"},"colours":["Brown","Black"],"defaultColour":"Brown","sizes":null,"dimensions":null,"images":[{"src":"assets/products/regal-brown-1.jpg","width":1536,"height":1024,"colour":"Brown","alt":"Regal Bifold Leather Wallet in brown"},{"src":"assets/products/regal-brown-2.jpg","width":1264,"height":841,"colour":"Brown","alt":"Regal Bifold Leather Wallet in brown"},{"src":"assets/products/regal-black-1.jpg","width":1264,"height":843,"colour":"Black","alt":"Regal Bifold Leather Wallet in black"},{"src":"assets/products/regal-black-2.jpg","width":1537,"height":1023,"colour":"Black","alt":"Regal Bifold Leather Wallet in black"}],"lifestyleImages":[{"src":"assets/lifestyle/regal-01.jpg","width":1200,"height":1500,"alt":"Regal Bifold Leather Wallet, workshop photograph"},{"src":"assets/lifestyle/regal-02.jpg","width":1200,"height":1500,"alt":"Regal Bifold Leather Wallet, workshop photograph"},{"src":"assets/lifestyle/regal-open.jpg","width":1600,"height":1067,"alt":"Regal Bifold Leather Wallet, workshop photograph"},{"src":"assets/lifestyle/regal-flat.jpg","width":1600,"height":1067,"alt":"Regal Bifold Leather Wallet, workshop photograph"}],"badges":["Handmade in Pakistan","100% crazy horse leather","Stitched by hand"],"details":{"productDetails":"Four card slots, one note section, no coin pocket. Skived at the folds so it stays flat in a jacket pocket.","leatherSpecification":"Vegetable tanned, 8 to 9 ounce weight. Edges bevelled, sanded and burnished four times, then sealed with beeswax.","care":"Wipe with a dry cloth. Condition twice a year. Keep it rolled, not folded, and let it dry away from heat if it gets wet.","deliveryAndReturns":"Three to five working days across Pakistan. Cash on delivery available. Unworn returns accepted within 14 days."}},{"id":"upbuck","line":"wallet","name":"Upbuck Long Leather Wallet","style":"Long","tagline":"Chic Storage for the Savvy","shortDescription":"Chic Storage for the Savvy","longDescription":null,"price":3400,"compareAtPrice":4999,"currency":"PKR","materials":{"leather":"Crazy horse leather (full grain cowhide treated with wax)","lining":"Calf (old page: 'lined in calf') — please confirm","thickness":"3 oz (old page value, generic)","stitching":"Saddle stitched / stitched by hand"},"colours":["Brown","Black"],"defaultColour":"Brown","sizes":null,"dimensions":null,"images":[{"src":"assets/products/upbuck-brown-1.jpg","width":1264,"height":842,"colour":"Brown","alt":"Upbuck Long Leather Wallet in brown"},{"src":"assets/products/upbuck-brown-2.jpg","width":928,"height":1152,"colour":"Brown","alt":"Upbuck Long Leather Wallet in brown"},{"src":"assets/products/upbuck-black-1.jpg","width":1264,"height":842,"colour":"Black","alt":"Upbuck Long Leather Wallet in black"},{"src":"assets/products/upbuck-black-2.jpg","width":784,"height":1353,"colour":"Black","alt":"Upbuck Long Leather Wallet in black"}],"lifestyleImages":[{"src":"assets/lifestyle/upbuck-01.jpg","width":1200,"height":1500,"alt":"Upbuck Long Leather Wallet, workshop photograph"},{"src":"assets/lifestyle/upbuck-02.jpg","width":1200,"height":1500,"alt":"Upbuck Long Leather Wallet, workshop photograph"},{"src":"assets/lifestyle/upbuck-open.jpg","width":1600,"height":1067,"alt":"Upbuck Long Leather Wallet, workshop photograph"},{"src":"assets/lifestyle/upbuck-flat.jpg","width":1600,"height":1067,"alt":"Upbuck Long Leather Wallet, workshop photograph"}],"badges":["Handmade in Pakistan","100% crazy horse leather","Stitched by hand"],"details":{"productDetails":"Four card slots, one note section, no coin pocket. Skived at the folds so it stays flat in a jacket pocket.","leatherSpecification":"Vegetable tanned, 8 to 9 ounce weight. Edges bevelled, sanded and burnished four times, then sealed with beeswax.","care":"Wipe with a dry cloth. Condition twice a year. Keep it rolled, not folded, and let it dry away from heat if it gets wet.","deliveryAndReturns":"Three to five working days across Pakistan. Cash on delivery available. Unworn returns accepted within 14 days."}}],"brand":{"freeDeliveryThreshold":5000,"freeDeliveryCopy":"Delivery is on us.","cartEmpty":"Your bag is empty. Start with a belt."}};</script>
+<script>window.STAGR_DATA = {"products":[{"id":"nova","line":"belt","name":"Nova Double-Sided Leather Belt","style":null,"tagline":"Two Sides. One Belt. Made for Every Style.","shortDescription":"Two Sides. One Belt. Made for Every Style.","longDescription":null,"price":2394,"compareAtPrice":3800,"currency":"PKR","colours":["Black","Brown"],"defaultColour":"Black","sizes":{"label":"Waist size","options":[30,32,34,36,38,40,42,44],"unit":"inches (assumed; old page shows bare numbers 30–44)","guide":["Lay a belt you already wear flat, fastened hole facing up.","Measure from the buckle bar, not the tip, to the hole you use.","Round to the nearest even number. That is your Stagr size.","Between two sizes, take the larger. Leather gives, notches do not."]},"width":null,"cutouts":[{"colour":"Black","src":"assets/cutouts/nova-1.webp","small":"assets/cutouts/nova-1-600.webp"},{"colour":"Black","src":"assets/cutouts/nova-2.webp","small":"assets/cutouts/nova-2-600.webp"},{"colour":"Black","src":"assets/cutouts/nova-3.webp","small":"assets/cutouts/nova-3-600.webp"}],"bloom":"#C9B290","lifestyle":[{"src":"assets/lifestyle/heritage-01.jpg","width":1200,"height":1500,"alt":"Nova Double-Sided Leather Belt, workshop photograph","srcSmall":"assets/lifestyle/heritage-01-800.jpg"},{"src":"assets/lifestyle/nova-02.jpg","width":1200,"height":1500,"alt":"Nova Double-Sided Leather Belt, workshop photograph","srcSmall":"assets/lifestyle/nova-02-800.jpg"},{"src":"assets/lifestyle/heritage-open.jpg","width":1600,"height":1067,"alt":"Nova Double-Sided Leather Belt, workshop photograph","srcSmall":"assets/lifestyle/heritage-open-800.jpg"},{"src":"assets/lifestyle/nova-flat.jpg","width":1600,"height":1067,"alt":"Nova Double-Sided Leather Belt, workshop photograph","srcSmall":"assets/lifestyle/nova-flat-800.jpg"}]},{"id":"outlaw","line":"belt","name":"Outlaw Crazy Horse Leather Belt","style":null,"tagline":"Rugged Character. Timeless Craftsmanship.","shortDescription":"Rugged Character. Timeless Craftsmanship.","longDescription":null,"price":2765,"compareAtPrice":3950,"currency":"PKR","colours":["Brown"],"defaultColour":"Brown","sizes":{"label":"Waist size","options":[30,32,34,36,38,40,42,44],"unit":"inches (assumed; old page shows bare numbers 30–44)","guide":["Lay a belt you already wear flat, fastened hole facing up.","Measure from the buckle bar, not the tip, to the hole you use.","Round to the nearest even number. That is your Stagr size.","Between two sizes, take the larger. Leather gives, notches do not."]},"width":null,"cutouts":[{"colour":"Brown","src":"assets/cutouts/outlaw-1.webp","small":"assets/cutouts/outlaw-1-600.webp"},{"colour":"Brown","src":"assets/cutouts/outlaw-2.webp","small":"assets/cutouts/outlaw-2-600.webp"}],"bloom":"#C9B290","lifestyle":[{"src":"assets/lifestyle/ranger-01.jpg","width":1200,"height":1500,"alt":"Outlaw Crazy Horse Leather Belt, workshop photograph","srcSmall":"assets/lifestyle/ranger-01-800.jpg"},{"src":"assets/lifestyle/ranger-02.jpg","width":1200,"height":1500,"alt":"Outlaw Crazy Horse Leather Belt, workshop photograph","srcSmall":"assets/lifestyle/ranger-02-800.jpg"},{"src":"assets/lifestyle/ranger-open.jpg","width":1600,"height":1067,"alt":"Outlaw Crazy Horse Leather Belt, workshop photograph","srcSmall":"assets/lifestyle/ranger-open-800.jpg"},{"src":"assets/lifestyle/ranger-flat.jpg","width":1600,"height":1067,"alt":"Outlaw Crazy Horse Leather Belt, workshop photograph","srcSmall":"assets/lifestyle/ranger-flat-800.jpg"},{"src":"assets/lifestyle/ranger-wide.jpg","width":1600,"height":900,"alt":"Outlaw Crazy Horse Leather Belt, workshop photograph","srcSmall":"assets/lifestyle/ranger-wide-800.jpg"}]},{"id":"regent","line":"belt","name":"Regent Premium Leather Belt","style":null,"tagline":"Classic Elegance. Crafted to Last.","shortDescription":"Classic Elegance. Crafted to Last.","longDescription":null,"price":2730,"compareAtPrice":3900,"currency":"PKR","colours":["Black"],"defaultColour":"Black","sizes":{"label":"Waist size","options":[30,32,34,36,38,40,42,44],"unit":"inches (assumed; old page shows bare numbers 30–44)","guide":["Lay a belt you already wear flat, fastened hole facing up.","Measure from the buckle bar, not the tip, to the hole you use.","Round to the nearest even number. That is your Stagr size.","Between two sizes, take the larger. Leather gives, notches do not."]},"width":null,"cutouts":[{"colour":"Black","src":"assets/cutouts/regent-1.webp","small":"assets/cutouts/regent-1-600.webp"},{"colour":"Black","src":"assets/cutouts/regent-2.webp","small":"assets/cutouts/regent-2-600.webp"}],"bloom":"#C9B290","lifestyle":[{"src":"assets/lifestyle/onyx-02.jpg","width":1200,"height":1500,"alt":"Regent Premium Leather Belt, workshop photograph","srcSmall":"assets/lifestyle/onyx-02-800.jpg"},{"src":"assets/lifestyle/onyx-01.jpg","width":1200,"height":1500,"alt":"Regent Premium Leather Belt, workshop photograph","srcSmall":"assets/lifestyle/onyx-01-800.jpg"},{"src":"assets/lifestyle/onyx-open.jpg","width":1600,"height":1067,"alt":"Regent Premium Leather Belt, workshop photograph","srcSmall":"assets/lifestyle/onyx-open-800.jpg"},{"src":"assets/lifestyle/onyx-flat.jpg","width":1600,"height":1067,"alt":"Regent Premium Leather Belt, workshop photograph","srcSmall":"assets/lifestyle/onyx-flat-800.jpg"}]},{"id":"monarch","line":"belt","name":"Monarch Premium Leather Belt","style":null,"tagline":"Premium Character. Timeless Craftsmanship.","shortDescription":"Premium Character. Timeless Craftsmanship.","longDescription":null,"price":2800,"compareAtPrice":4000,"currency":"PKR","colours":["Tan"],"defaultColour":"Tan","sizes":{"label":"Waist size","options":[30,32,34,36,38,40,42,44],"unit":"inches (assumed; old page shows bare numbers 30–44)","guide":["Lay a belt you already wear flat, fastened hole facing up.","Measure from the buckle bar, not the tip, to the hole you use.","Round to the nearest even number. That is your Stagr size.","Between two sizes, take the larger. Leather gives, notches do not."]},"width":null,"cutouts":[{"colour":"Tan","src":"assets/cutouts/monarch-1.webp","small":"assets/cutouts/monarch-1-600.webp"},{"colour":"Tan","src":"assets/cutouts/monarch-2.webp","small":"assets/cutouts/monarch-2-600.webp"}],"bloom":"#C9B290","lifestyle":[{"src":"assets/lifestyle/monarch-01.jpg","width":1200,"height":1500,"alt":"Monarch Premium Leather Belt, workshop photograph","srcSmall":"assets/lifestyle/monarch-01-800.jpg"},{"src":"assets/lifestyle/heritage-02.jpg","width":1200,"height":1500,"alt":"Monarch Premium Leather Belt, workshop photograph","srcSmall":"assets/lifestyle/heritage-02-800.jpg"},{"src":"assets/lifestyle/heritage-flat.jpg","width":1600,"height":1067,"alt":"Monarch Premium Leather Belt, workshop photograph","srcSmall":"assets/lifestyle/heritage-flat-800.jpg"},{"src":"assets/lifestyle/belts-lineup.jpg","width":1600,"height":1067,"alt":"Monarch Premium Leather Belt, workshop photograph","srcSmall":"assets/lifestyle/belts-lineup-800.jpg"}]},{"id":"kingsmann","line":"wallet","name":"Kingsmann Bifold Leather Wallet","style":"Bifold","tagline":"Crafted for the Modern Gentleman","shortDescription":"Crafted for the Modern Gentleman","longDescription":null,"price":2600,"compareAtPrice":3999,"currency":"PKR","colours":["Brown","Black"],"defaultColour":"Brown","sizes":null,"dimensions":null,"cutouts":[{"colour":"Brown","src":"assets/cutouts/kingsmann-brown-1.webp","small":"assets/cutouts/kingsmann-brown-1-600.webp"},{"colour":"Brown","src":"assets/cutouts/kingsmann-brown-2.webp","small":"assets/cutouts/kingsmann-brown-2-600.webp"},{"colour":"Black","src":"assets/cutouts/kingsmann-black-1.webp","small":"assets/cutouts/kingsmann-black-1-600.webp"},{"colour":"Black","src":"assets/cutouts/kingsmann-black-2.webp","small":"assets/cutouts/kingsmann-black-2-600.webp"}],"bloom":"#D9B07A","lifestyle":[{"src":"assets/lifestyle/kingsmen-01.jpg","width":1200,"height":1500,"alt":"Kingsmann Bifold Leather Wallet, workshop photograph","srcSmall":"assets/lifestyle/kingsmen-01-800.jpg"},{"src":"assets/lifestyle/kingsmen-02.jpg","width":1200,"height":1500,"alt":"Kingsmann Bifold Leather Wallet, workshop photograph","srcSmall":"assets/lifestyle/kingsmen-02-800.jpg"},{"src":"assets/lifestyle/kingsmen-open.jpg","width":1600,"height":1067,"alt":"Kingsmann Bifold Leather Wallet, workshop photograph","srcSmall":"assets/lifestyle/kingsmen-open-800.jpg"},{"src":"assets/lifestyle/kingsmen-flat.jpg","width":1600,"height":1067,"alt":"Kingsmann Bifold Leather Wallet, workshop photograph","srcSmall":"assets/lifestyle/kingsmen-flat-800.jpg"}]},{"id":"majestic","line":"wallet","name":"Majestic Trifold Leather Wallet","style":"Trifold","tagline":"Timeless Craftsmanship","shortDescription":"Timeless Craftsmanship","longDescription":null,"price":2600,"compareAtPrice":3999,"currency":"PKR","colours":["Brown","Black"],"defaultColour":"Brown","sizes":null,"dimensions":null,"cutouts":[{"colour":"Brown","src":"assets/cutouts/majestic-brown-1.webp","small":"assets/cutouts/majestic-brown-1-600.webp"},{"colour":"Brown","src":"assets/cutouts/majestic-brown-2.webp","small":"assets/cutouts/majestic-brown-2-600.webp"},{"colour":"Black","src":"assets/cutouts/majestic-black-1.webp","small":"assets/cutouts/majestic-black-1-600.webp"},{"colour":"Black","src":"assets/cutouts/majestic-black-2.webp","small":"assets/cutouts/majestic-black-2-600.webp"}],"bloom":"#CDA373","lifestyle":[{"src":"assets/lifestyle/majestic-01.jpg","width":1200,"height":1500,"alt":"Majestic Trifold Leather Wallet, workshop photograph","srcSmall":"assets/lifestyle/majestic-01-800.jpg"},{"src":"assets/lifestyle/majestic-02.jpg","width":1200,"height":1500,"alt":"Majestic Trifold Leather Wallet, workshop photograph","srcSmall":"assets/lifestyle/majestic-02-800.jpg"},{"src":"assets/lifestyle/majestic-open.jpg","width":1600,"height":1067,"alt":"Majestic Trifold Leather Wallet, workshop photograph","srcSmall":"assets/lifestyle/majestic-open-800.jpg"},{"src":"assets/lifestyle/majestic-flat.jpg","width":1600,"height":1067,"alt":"Majestic Trifold Leather Wallet, workshop photograph","srcSmall":"assets/lifestyle/majestic-flat-800.jpg"}]},{"id":"maverick","line":"wallet","name":"Maverick Minimalist Leather Wallet","style":"Minimalist","tagline":"Where Function Meets Fashion","shortDescription":"Where Function Meets Fashion","longDescription":null,"price":1740,"compareAtPrice":2899,"currency":"PKR","colours":["Brown","Black"],"defaultColour":"Brown","sizes":null,"dimensions":null,"cutouts":[{"colour":"Brown","src":"assets/cutouts/maverick-brown-1.webp","small":"assets/cutouts/maverick-brown-1-600.webp"},{"colour":"Brown","src":"assets/cutouts/maverick-brown-2.webp","small":"assets/cutouts/maverick-brown-2-600.webp"},{"colour":"Black","src":"assets/cutouts/maverick-black-1.webp","small":"assets/cutouts/maverick-black-1-600.webp"},{"colour":"Black","src":"assets/cutouts/maverick-black-2.webp","small":"assets/cutouts/maverick-black-2-600.webp"}],"bloom":"#DABF9A","lifestyle":[{"src":"assets/lifestyle/maverick-01.jpg","width":1200,"height":1500,"alt":"Maverick Minimalist Leather Wallet, workshop photograph","srcSmall":"assets/lifestyle/maverick-01-800.jpg"},{"src":"assets/lifestyle/maverick-02.jpg","width":1200,"height":1500,"alt":"Maverick Minimalist Leather Wallet, workshop photograph","srcSmall":"assets/lifestyle/maverick-02-800.jpg"},{"src":"assets/lifestyle/maverick-open.jpg","width":1600,"height":1067,"alt":"Maverick Minimalist Leather Wallet, workshop photograph","srcSmall":"assets/lifestyle/maverick-open-800.jpg"},{"src":"assets/lifestyle/maverick-flat.jpg","width":1600,"height":1067,"alt":"Maverick Minimalist Leather Wallet, workshop photograph","srcSmall":"assets/lifestyle/maverick-flat-800.jpg"}]},{"id":"purefold","line":"wallet","name":"Purefold Minimalist Leather Wallet","style":"Minimalist","tagline":"Minimalism Perfected","shortDescription":"Minimalism Perfected","longDescription":null,"price":1800,"compareAtPrice":2999,"currency":"PKR","colours":["Brown","Black"],"defaultColour":"Brown","sizes":null,"dimensions":null,"cutouts":[{"colour":"Brown","src":"assets/cutouts/purefold-brown-1.webp","small":"assets/cutouts/purefold-brown-1-600.webp"},{"colour":"Brown","src":"assets/cutouts/purefold-brown-2.webp","small":"assets/cutouts/purefold-brown-2-600.webp"},{"colour":"Black","src":"assets/cutouts/purefold-black-1.webp","small":"assets/cutouts/purefold-black-1-600.webp"},{"colour":"Black","src":"assets/cutouts/purefold-black-2.webp","small":"assets/cutouts/purefold-black-2-600.webp"}],"bloom":"#DABF9A","lifestyle":[{"src":"assets/lifestyle/purefold-01.jpg","width":1200,"height":1500,"alt":"Purefold Minimalist Leather Wallet, workshop photograph","srcSmall":"assets/lifestyle/purefold-01-800.jpg"},{"src":"assets/lifestyle/purefold-02.jpg","width":1200,"height":1500,"alt":"Purefold Minimalist Leather Wallet, workshop photograph","srcSmall":"assets/lifestyle/purefold-02-800.jpg"},{"src":"assets/lifestyle/purefold-open.jpg","width":1600,"height":1067,"alt":"Purefold Minimalist Leather Wallet, workshop photograph","srcSmall":"assets/lifestyle/purefold-open-800.jpg"},{"src":"assets/lifestyle/purefold-flat.jpg","width":1600,"height":1067,"alt":"Purefold Minimalist Leather Wallet, workshop photograph","srcSmall":"assets/lifestyle/purefold-flat-800.jpg"}]},{"id":"rodeo","line":"wallet","name":"Rodeo Long Leather Wallet","style":"Long","tagline":"Sleek Style, Endless Storage","shortDescription":"Sleek Style, Endless Storage","longDescription":null,"price":3500,"compareAtPrice":4999,"currency":"PKR","colours":["Tan","Black"],"defaultColour":"Tan","sizes":null,"dimensions":null,"cutouts":[{"colour":"Tan","src":"assets/cutouts/rodeo-tan-1.webp","small":"assets/cutouts/rodeo-tan-1-600.webp"},{"colour":"Tan","src":"assets/cutouts/rodeo-tan-2.webp","small":"assets/cutouts/rodeo-tan-2-600.webp"},{"colour":"Black","src":"assets/cutouts/rodeo-black-1.webp","small":"assets/cutouts/rodeo-black-1-600.webp"},{"colour":"Black","src":"assets/cutouts/rodeo-black-2.webp","small":"assets/cutouts/rodeo-black-2-600.webp"}],"bloom":"#C8976A","lifestyle":[{"src":"assets/lifestyle/rodeo-01.jpg","width":1200,"height":1500,"alt":"Rodeo Long Leather Wallet, workshop photograph","srcSmall":"assets/lifestyle/rodeo-01-800.jpg"},{"src":"assets/lifestyle/rodeo-02.jpg","width":1200,"height":1500,"alt":"Rodeo Long Leather Wallet, workshop photograph","srcSmall":"assets/lifestyle/rodeo-02-800.jpg"},{"src":"assets/lifestyle/rodeo-open.jpg","width":1600,"height":1067,"alt":"Rodeo Long Leather Wallet, workshop photograph","srcSmall":"assets/lifestyle/rodeo-open-800.jpg"},{"src":"assets/lifestyle/rodeo-flat.jpg","width":1600,"height":1067,"alt":"Rodeo Long Leather Wallet, workshop photograph","srcSmall":"assets/lifestyle/rodeo-flat-800.jpg"}]},{"id":"regal","line":"wallet","name":"Regal Bifold Leather Wallet","style":"Bifold","tagline":"A Fold Above the Rest","shortDescription":"A Fold Above the Rest","longDescription":null,"price":1950,"compareAtPrice":2999,"currency":"PKR","colours":["Brown","Black"],"defaultColour":"Brown","sizes":null,"dimensions":null,"cutouts":[{"colour":"Brown","src":"assets/cutouts/regal-brown-1.webp","small":"assets/cutouts/regal-brown-1-600.webp"},{"colour":"Brown","src":"assets/cutouts/regal-brown-2.webp","small":"assets/cutouts/regal-brown-2-600.webp"},{"colour":"Black","src":"assets/cutouts/regal-black-1.webp","small":"assets/cutouts/regal-black-1-600.webp"},{"colour":"Black","src":"assets/cutouts/regal-black-2.webp","small":"assets/cutouts/regal-black-2-600.webp"}],"bloom":"#D9B07A","lifestyle":[{"src":"assets/lifestyle/regal-01.jpg","width":1200,"height":1500,"alt":"Regal Bifold Leather Wallet, workshop photograph","srcSmall":"assets/lifestyle/regal-01-800.jpg"},{"src":"assets/lifestyle/regal-02.jpg","width":1200,"height":1500,"alt":"Regal Bifold Leather Wallet, workshop photograph","srcSmall":"assets/lifestyle/regal-02-800.jpg"},{"src":"assets/lifestyle/regal-open.jpg","width":1600,"height":1067,"alt":"Regal Bifold Leather Wallet, workshop photograph","srcSmall":"assets/lifestyle/regal-open-800.jpg"},{"src":"assets/lifestyle/regal-flat.jpg","width":1600,"height":1067,"alt":"Regal Bifold Leather Wallet, workshop photograph","srcSmall":"assets/lifestyle/regal-flat-800.jpg"}]},{"id":"upbuck","line":"wallet","name":"Upbuck Long Leather Wallet","style":"Long","tagline":"Chic Storage for the Savvy","shortDescription":"Chic Storage for the Savvy","longDescription":null,"price":3400,"compareAtPrice":4999,"currency":"PKR","colours":["Brown","Black"],"defaultColour":"Brown","sizes":null,"dimensions":null,"cutouts":[{"colour":"Brown","src":"assets/cutouts/upbuck-brown-1.webp","small":"assets/cutouts/upbuck-brown-1-600.webp"},{"colour":"Brown","src":"assets/cutouts/upbuck-brown-2.webp","small":"assets/cutouts/upbuck-brown-2-600.webp"},{"colour":"Black","src":"assets/cutouts/upbuck-black-1.webp","small":"assets/cutouts/upbuck-black-1-600.webp"},{"colour":"Black","src":"assets/cutouts/upbuck-black-2.webp","small":"assets/cutouts/upbuck-black-2-600.webp"}],"bloom":"#C8976A","lifestyle":[{"src":"assets/lifestyle/upbuck-01.jpg","width":1200,"height":1500,"alt":"Upbuck Long Leather Wallet, workshop photograph","srcSmall":"assets/lifestyle/upbuck-01-800.jpg"},{"src":"assets/lifestyle/upbuck-02.jpg","width":1200,"height":1500,"alt":"Upbuck Long Leather Wallet, workshop photograph","srcSmall":"assets/lifestyle/upbuck-02-800.jpg"},{"src":"assets/lifestyle/upbuck-open.jpg","width":1600,"height":1067,"alt":"Upbuck Long Leather Wallet, workshop photograph","srcSmall":"assets/lifestyle/upbuck-open-800.jpg"},{"src":"assets/lifestyle/upbuck-flat.jpg","width":1600,"height":1067,"alt":"Upbuck Long Leather Wallet, workshop photograph","srcSmall":"assets/lifestyle/upbuck-flat-800.jpg"}]}],"brand":{"freeDeliveryThreshold":5000,"deliveryFee":350,"whatsapp":"https://wa.me/920000000000"}};</script>
 <script src="js/stagr.js"></script>
 <script>
 (function(){var ids=["nova", "outlaw", "regent", "monarch", "kingsmann", "majestic", "maverick", "purefold", "rodeo", "regal", "upbuck"];var id=new URLSearchParams(location.search).get("id");location.replace("product-"+(ids.indexOf(id)>=0?id:ids[0])+".html"+location.hash);})();

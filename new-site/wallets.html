@@ -62,6 +62,7 @@
   --ease-io: cubic-bezier(.65, 0, .35, 1);
   color-scheme: light;
 }
+@media (max-width: 767px) { :root { --gutter: 14px; } }
 :root[data-theme="dark"] {
   --bg: var(--ink);
   --fg: var(--bone);
@@ -341,8 +342,8 @@ address { font-style: normal; }
 .mega-tabs button[aria-selected="true"]::after { transform: scaleX(1); }
 .mega-row { display: flex; justify-content: center; gap: clamp(16px, 2vw, 32px); flex-wrap: wrap; }
 .mega-item { display: grid; justify-items: center; gap: 12px; width: 132px; text-align: center; }
-.mega-thumb { width: 132px; height: 132px; display: grid; place-items: center; background: rgba(26,27,29,.045); transition: background-color .3s ease; }
-.mega-thumb img { width: 84%; height: auto; max-height: 84%; object-fit: contain; filter: drop-shadow(0 10px 14px rgba(26,27,29,.18)); transition: transform .5s var(--ease-out); }
+.mega-thumb { width: 132px; height: 132px; display: flex; align-items: center; justify-content: center; background: rgba(26,27,29,.045); transition: background-color .3s ease; }
+.mega-thumb img { width: auto; height: auto; max-width: 84%; max-height: 84%; object-fit: contain; filter: drop-shadow(0 10px 14px rgba(26,27,29,.18)); transition: transform .5s var(--ease-out); }
 .mega-item:hover .mega-thumb { background: rgba(26,27,29,.08); }
 .mega-item:hover .mega-thumb img { transform: translateY(-4px) scale(1.04); }
 .mega-name { font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: var(--fg-2); }
@@ -432,19 +433,41 @@ html.is-entering .fade { opacity: 1; }
 .scroll-hint .mouse i { position: absolute; left: 50%; top: 7px; width: 5px; height: 5px; margin-left: -2.5px; background: var(--accent); opacity: 0; }
 
 /* ---------- footer ---------- */
-.footer { position: relative; background: var(--bg); color: var(--fg); padding-top: var(--section-sm); overflow: hidden; border-top: 1px solid var(--line); }
-.footer .news { display: grid; gap: 20px; padding-bottom: var(--section-sm); border-bottom: 1px solid var(--line); }
-@media (min-width: 1024px) { .footer .news { grid-template-columns: 1fr 1fr; align-items: end; } }
-.footer .cols { display: grid; gap: 32px; grid-template-columns: 1fr 1fr; padding: 48px 0; }
-@media (min-width: 768px) { .footer .cols { grid-template-columns: 2fr 1fr 1fr 1fr; } }
-.footer .cols h4 { font-size: .75rem; letter-spacing: .2em; text-transform: uppercase; color: var(--fg-2); font-weight: 500; margin-bottom: 14px; }
-.footer .cols li + li { margin-top: 8px; }
-.footer .cols a:hover { color: var(--accent-deep); }
-.footer .legal { display: flex; flex-wrap: wrap; gap: 8px 32px; justify-content: space-between; padding: 20px 0 28px; border-top: 1px solid var(--line); font-size: .75rem; color: var(--fg-2); }
+.footer { position: relative; background: #232426; color: var(--bone); padding: clamp(36px, 5vw, 56px) 0 24px; overflow: hidden; }
+.footer::before { content: ""; position: absolute; left: -200px; bottom: -160px; width: 670px; height: 770px; border-radius: 50%; filter: blur(90px); background: radial-gradient(circle, #8B4A1F, transparent 70%); opacity: .6; pointer-events: none; }
+.footer .wrap { position: relative; }
+.fcta { position: relative; display: grid; gap: 20px; align-items: center; overflow: hidden; border-radius: 16px; background: var(--accent-deep); padding: clamp(26px, 3.5vw, 46px) clamp(22px, 3.5vw, 52px); }
+.fcta-pic { position: absolute; inset: 0 0 0 40%; pointer-events: none; }
+.fcta-pic img { width: 100%; height: 100%; object-fit: cover; object-position: 60% 50%; opacity: .9; -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 55%); mask-image: linear-gradient(90deg, transparent 0%, #000 55%); }
+.fcta::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(139,74,31,0) 55%, rgba(60,30,12,.35) 100%); pointer-events: none; }
+.fcta-copy { position: relative; z-index: 1; }
+.fcta-title { font-family: var(--font-display); font-weight: 300; font-size: clamp(1.7rem, 1.25rem + 1.6vw, 2.6rem); line-height: 1.06; letter-spacing: -.012em; text-wrap: balance; }
+.fcta-copy p { margin-top: 10px; font-size: .9375rem; color: rgba(239, 237, 230, .86); max-width: 44ch; }
+.fcta-btn.btn { position: relative; z-index: 1; justify-self: start; background: var(--ink); border-color: var(--ink); color: var(--bone); }
+.fcta-btn.btn:hover { background: var(--bone); border-color: var(--bone); color: var(--ink); }
+@media (min-width: 1024px) { .fcta { grid-template-columns: 1fr auto; gap: 40px; } .fcta-btn.btn { justify-self: end; } }
+.fpills { display: grid; gap: 12px; margin-top: 14px; grid-template-columns: 1fr; }
+.fpill { display: flex; align-items: center; gap: 12px; padding: 15px 20px; border-radius: 12px; background: rgba(239, 237, 230, .06); border: 1px solid rgba(239, 237, 230, .08); font-size: .9375rem; font-weight: 600; }
+.fpill svg { flex: none; width: 20px; height: 20px; color: var(--accent); }
+@media (min-width: 768px) { .fpills { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.fcols { display: grid; gap: 32px 28px; grid-template-columns: 1fr 1fr; padding: clamp(40px, 5vw, 60px) 0 32px; }
+@media (min-width: 768px) { .fcols { grid-template-columns: 1.5fr 1fr 1fr 1.3fr; } }
+.fbrand img { height: 72px; width: auto; display: block; }
+.fbrand p { margin-top: 18px; max-width: 30ch; font-size: .9375rem; line-height: 1.55; color: rgba(239, 237, 230, .68); }
+.fbrand .socials { margin-top: 20px; }
+.fcols h4 { font-size: .75rem; letter-spacing: .2em; text-transform: uppercase; color: var(--accent); font-weight: 600; margin-bottom: 16px; }
+.fcols li { font-size: .9375rem; color: rgba(239, 237, 230, .86); line-height: 1.4; }
+.fcols li + li { margin-top: 10px; }
+.fcols a:hover { color: var(--accent); }
+.flegal { display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; align-items: center; padding-top: 20px; border-top: 1px solid rgba(239, 237, 230, .12); font-size: .8125rem; color: rgba(239, 237, 230, .6); }
+.flegal span:last-child { display: flex; gap: 20px; }
+.flegal a:hover, .flegal button:hover { color: var(--bone); }
+.flegal .theme-toggle { font-size: .8125rem; color: inherit; }
 .socials { display: flex; gap: 6px; }
-.socials a { width: 40px; height: 40px; display: grid; place-items: center; border: 1px solid var(--line-strong); border-radius: 50%; transition: border-color .3s ease, color .3s ease; }
-.socials a:hover { border-color: var(--fg); }
+.socials a { width: 40px; height: 40px; display: grid; place-items: center; border: 1px solid rgba(239, 237, 230, .22); border-radius: 50%; transition: border-color .3s ease, color .3s ease; }
+.socials a:hover { border-color: var(--accent); color: var(--accent); }
 .socials svg { width: 16px; height: 16px; }
+@media (max-width: 767px) { .fcols .fbrand, .fcols > div:last-child { grid-column: 1 / -1; } .fpill { font-size: .875rem; } }
 
 /* ---------- toast ---------- */
 .toast { position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 20px); z-index: 120; background: var(--ink); color: var(--bone); padding: 12px 18px; border-radius: 999px; font-size: .8125rem; letter-spacing: .04em; opacity: 0; pointer-events: none; transition: opacity .3s ease, transform .3s var(--ease-out); max-width: calc(100vw - 32px); text-align: center; }
@@ -522,89 +545,255 @@ html.is-entering .fade { opacity: 1; }
 .sh-empty.is-on { display: block; }
 @media (max-width: 767px) { .scard-body { padding: 12px 10px 14px; } .scard-name { font-size: 1.15rem; } .scard-meta { display: none; } .scard-quick { display: none; } .scard-body .btn { min-height: 36px; font-size: .6875rem; } }
 
+/* ---------- catalogue card (home rail, collection pages, shop) ---------- */
+.cc-track { --rail-w: calc((100% - 12px) / 1); gap: 12px; padding-bottom: 6px; scroll-padding-left: 0; }
+@media (min-width: 590px) { .cc-track { --rail-w: calc((100% - 18px) / 2); gap: 15px; } }
+@media (min-width: 768px) { .cc-track { --rail-w: calc((100% - 36px) / 3); gap: 18px; } }
+@media (min-width: 1200px) { .cc-track { --rail-w: calc((100% - 60px) / 4); gap: 20px; } }
+.cc-track > .ccard { flex: 0 0 var(--rail-w); scroll-snap-align: start; }
+.cc-foot { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 14px; }
+.rail:not(.has-overflow) .rail-nav { visibility: hidden; }
+.ccard { display: flex; flex-direction: column; background: #fff; border-radius: 16px; padding: 12px; box-shadow: 0 1px 2px rgba(26,27,29,.04), 0 10px 30px -18px rgba(26,27,29,.18); transition: transform .4s var(--ease-out), box-shadow .4s ease; }
+.ccard:hover { transform: translateY(-3px); box-shadow: 0 1px 2px rgba(26,27,29,.04), 0 24px 40px -20px rgba(26,27,29,.28); }
+.ccard.is-hidden { display: none; }
+.cc-media { position: relative; display: grid; place-items: center; aspect-ratio: 1; border-radius: 12px; background: #F3F1EC; overflow: hidden; }
+.cc-media img { position: relative; z-index: 1; width: 82%; height: auto; max-height: 86%; object-fit: contain; filter: drop-shadow(0 14px 18px rgba(26,27,29,.16)); transition: opacity .4s ease, transform .6s var(--ease-out); }
+.cc-media img.alt { position: absolute; inset: 0; margin: auto; opacity: 0; }
+.ccard.has-alt:hover .cc-media img.main { opacity: 0; }
+.ccard.has-alt:hover .cc-media img.alt { opacity: 1; }
+.cc-badges { position: absolute; left: 10px; top: 10px; z-index: 2; display: grid; gap: 6px; justify-items: start; }
+.cc-badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 8px; border-radius: 4px; font-size: .6875rem; font-weight: 600; line-height: 1; }
+.cc-sale { background: #5A1E1A; color: var(--bone); }
+.cc-best { background: #D9A866; color: #3A2410; }
+.cc-new { background: var(--ink); color: var(--bone); }
+.cc-body { padding: 14px 6px 6px; display: grid; gap: 6px; }
+.cc-price { display: flex; align-items: baseline; gap: 8px; }
+.cc-price b { font-weight: 700; font-size: 1.1rem; color: var(--accent-deep); }
+.cc-price s { font-size: .75rem; color: var(--fg-2); }
+.cc-name { font-size: 1rem; font-weight: 600; line-height: 1.3; }
+.cc-name a { color: var(--ink); }
+.cc-meta { font-size: .75rem; color: var(--fg-2); }
+.cc-meta i { font-style: normal; margin: 0 4px; opacity: .6; }
+.cc-opts { gap: 6px; }
+.cc-sw { position: relative; width: 22px; height: 22px; border-radius: 50%; border: 1px solid transparent; display: grid; place-items: center; cursor: pointer; }
+.cc-sw input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+.cc-sw i { width: 14px; height: 14px; border-radius: 50%; background: var(--sw); box-shadow: inset 0 0 0 1px rgba(0,0,0,.18); }
+.cc-sw:has(input:checked) { border-color: var(--ink); }
+.cc-stock { display: inline-flex; align-items: center; gap: 6px; font-size: .75rem; font-weight: 500; color: #1F7A3A; }
+.cc-stock i { width: 6px; height: 6px; border-radius: 50%; background: #1F7A3A; }
+.cc-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 8px; }
+.cc-add { min-height: 40px; padding: 0 16px; border-radius: 999px; background: var(--accent-deep); color: var(--bone); font-size: .875rem; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; transition: background-color .3s ease, color .3s ease; }
+.cc-add:hover { background: var(--ink); }
+.cc-wish { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--line-strong); display: grid; place-items: center; color: var(--fg-2); background: #fff; transition: color .3s ease, border-color .3s ease; }
+.cc-wish svg { width: 16px; height: 16px; }
+.cc-wish:hover { color: var(--ink); border-color: var(--ink); }
+.cc-wish[aria-pressed="true"] { color: var(--accent-deep); border-color: var(--accent-deep); }
+.cc-wish[aria-pressed="true"] svg { fill: currentColor; }
+@media (max-width: 767px) { .ccard { padding: 8px; border-radius: 12px; } .cc-body { padding: 10px 4px 4px; } .cc-name { font-size: .875rem; } .cc-price b, .cc-price s, .cc-add { white-space: nowrap; } .cc-price b { font-size: 1rem; } .cc-add { padding: 0 10px; font-size: .75rem; min-height: 36px; } .cc-wish { width: 32px; height: 32px; flex: 0 0 auto; } }
+
+/* ---------- why people choose Stagr ---------- */
+.why { padding: clamp(48px, 7vw, 96px) 0 clamp(40px, 6vw, 80px); background: var(--bone); color: var(--ink); }
+.why-head { text-align: center; max-width: 60ch; margin: 0 auto clamp(32px, 4vw, 56px); }
+.why-head .explore-title { white-space: normal; }
+.why-head .explore-sub { margin-top: 14px; font-size: 1rem; }
+.why-grid { display: grid; gap: 28px 32px; grid-template-columns: 1fr; }
+.why-grid li { display: flex; gap: 14px; align-items: flex-start; }
+.why-ic { flex: 0 0 auto; width: 28px; height: 28px; color: var(--accent-deep); }
+.why-ic svg { width: 100%; height: 100%; }
+.why-grid b { display: block; font-weight: 600; font-size: 1rem; }
+.why-grid p { margin-top: 4px; font-size: .9375rem; line-height: 1.45; color: var(--fg-2); }
+@media (min-width: 640px) { .why-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1024px) { .why-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.explore-title { font-family: var(--font-display); font-weight: 300; font-size: clamp(2rem, 1.3rem + 2.8vw, 3.9rem); line-height: 1.06; letter-spacing: -.012em; }
+.explore-sub { margin-top: 12px; color: var(--fg-2); font-size: .9375rem; }
+
 /* ---------- page: Wallets — STAGR. ---------- */
 
-/* ---- showcase (Daniel Roth style, static) ---- */
-.showcase { position: relative; background: var(--ink); color: var(--bone); overflow: hidden; }
-.sc-frame { position: relative; height: 100vh; min-height: 720px; }
-.sc-photos { position: absolute; inset: 0; }
-.sc-photo { position: absolute; inset: 0; }
-.sc-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 30% 50%; transform: scale(1.08); will-change: transform; }
-.sc-photo::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, color-mix(in srgb, var(--tint) 55%, transparent), color-mix(in srgb, var(--tint) 20%, transparent) 60%, rgba(26,27,29,.35)); mix-blend-mode: multiply; }
-.sc-brand { position: absolute; left: var(--gutter); top: calc(var(--nav-h) + 16px); z-index: 3; font-size: .75rem; letter-spacing: .24em; text-transform: uppercase; color: rgba(239,237,230,.75); }
-.sc-panel { position: absolute; right: var(--gutter); top: calc(var(--nav-h) + 8px); bottom: 32px; width: min(44vw, 640px); background: var(--bone); color: var(--ink); padding: clamp(24px, 3vw, 44px); display: grid; grid-template-rows: auto 1fr auto; overflow: hidden; }
-.sc-head { text-align: center; }
-.sc-title { font-family: var(--font-display); font-weight: 300; font-size: clamp(2.4rem, 1.6rem + 3vw, 4.6rem); line-height: 1; letter-spacing: .02em; text-transform: uppercase; }
-.sc-kicker { margin-top: 12px; }
-.sc-cats { position: absolute; right: clamp(24px, 3vw, 44px); top: 50%; transform: translateY(-50%); text-align: right; display: grid; gap: 12px; font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; z-index: 2; }
-.sc-cats button { color: var(--mist); transition: color .3s ease; position: relative; padding: 2px 0; }
-.sc-cats button::after { content: ""; position: absolute; left: 0; right: 0; bottom: -2px; height: 1px; background: var(--ink); transform: scaleX(0); transform-origin: right; transition: transform .4s var(--ease-out); }
-.sc-cats button:hover { color: var(--ink); }
-.sc-cats button.is-on { color: var(--ink); }
-.sc-cats button.is-on::after { transform: scaleX(1); transform-origin: left; }
-.sc-count { position: absolute; left: clamp(24px, 3vw, 44px); top: 50%; transform: translateY(-50%); font-size: .75rem; letter-spacing: .2em; color: var(--mist); font-variant-numeric: tabular-nums; }
-.sc-stage { position: relative; align-self: center; justify-self: center; width: min(44%, 280px); aspect-ratio: 1; display: grid; place-items: center; }
-.sc-cut { position: absolute; inset: 0; display: grid; place-items: center; }
-.sc-cut img { width: 100%; height: auto; max-height: 100%; object-fit: contain; filter: drop-shadow(0 30px 40px rgba(26,27,29,.28)); }
-.sc-foot { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; }
-.sc-models { font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; display: flex; flex-wrap: wrap; gap: 6px 8px; }
-.sc-models a { color: var(--ink); border-bottom: 1px solid var(--line-strong); transition: border-color .3s ease; }
-.sc-models a:hover { border-color: var(--ink); }
-.sc-line { margin-top: 12px; font-size: .8125rem; letter-spacing: .12em; text-transform: uppercase; line-height: 1.7; color: var(--mist); max-width: 24ch; }
-.sc-cta { flex: 0 0 auto; }
-@media (max-width: 1023px) {
-  .sc-frame { height: auto; min-height: 0; }
-  .sc-photos { position: relative; height: 60svh; }
-  .sc-photo::after { background: linear-gradient(180deg, rgba(26,27,29,.6) 0%, rgba(26,27,29,0) 32%), linear-gradient(90deg, color-mix(in srgb, var(--tint) 45%, transparent), color-mix(in srgb, var(--tint) 15%, transparent)); mix-blend-mode: normal; }
-  .sc-brand { display: none; }
-  .sc-panel { position: relative; right: auto; top: auto; bottom: auto; width: auto; margin: -40px 20px 0; padding: 24px 20px 28px; display: grid; gap: 16px; z-index: 2; }
-  .sc-stage { width: 58%; margin: 4px auto; }
-  .sc-cats { position: static; transform: none; text-align: left; display: flex; flex-wrap: wrap; gap: 8px; }
-  .sc-cats button { min-height: 36px; padding: 0 12px; border: 1px solid var(--line-strong); color: var(--fg-2); }
-  .sc-cats button::after { display: none; }
-  .sc-cats button.is-on { background: var(--ink); color: var(--bone); border-color: var(--ink); }
-  .sc-count { position: static; transform: none; display: block; text-align: center; }
-  .sc-foot { flex-direction: column; align-items: flex-start; gap: 18px; }
-  .sc-line { max-width: none; }
-}
-
-/* ---- intro line under the showcase ---- */
-.col-intro { padding: var(--section-sm) 0 clamp(16px, 3vw, 32px); }
-.col-intro .display { font-size: clamp(2.6rem, 1.6rem + 4vw, 5.5rem); line-height: 1; }
-.col-intro .lead { margin-top: 18px; }
-.col-facts { max-width: 420px; }
-
-/* ---- one section per category: fixed photo on the left, rail of cards on the right ---- */
-.cat { padding: clamp(32px, 5vw, 64px) 0; border-top: 1px solid var(--line); }
-.cat-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; margin-bottom: clamp(20px, 3vw, 32px); }
-.cat-head .h2 { max-width: 22ch; }
+/* ---- hero ---- */
+.chero { position: relative; height: clamp(440px, 70svh, 620px); min-height: 0; max-height: none; overflow: hidden; background: var(--ink); color: var(--bone); display: flex; align-items: flex-end; }
+.chero picture, .chero img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.chero img { object-fit: cover; object-position: 50% 55%; transform: scale(1.04); will-change: transform; }
+.chero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(26,27,29,.55) 0%, rgba(26,27,29,0) 28%, rgba(26,27,29,0) 45%, rgba(26,27,29,.78) 100%), linear-gradient(90deg, rgba(26,27,29,.5) 0%, rgba(26,27,29,0) 60%); pointer-events: none; }
+.chero-copy { position: relative; z-index: 2; width: 100%; padding-bottom: clamp(36px, 6vh, 64px); }
+.chero-copy > * { max-width: 720px; }
+.hero-kicker { font-size: .6875rem; letter-spacing: .3em; text-transform: uppercase; color: rgba(239,237,230,.8); }
+.hero-h1 { margin-top: 12px; font-family: var(--font-display); font-weight: 500; font-size: clamp(2.2rem, 1.1rem + 3.2vw, 4.2rem); line-height: 1; text-shadow: 0 2px 30px rgba(0,0,0,.45); }
+.hero-sub { margin-top: 18px; max-width: 46ch; font-size: clamp(.9375rem, .9rem + .25vw, 1.0625rem); line-height: 1.55; color: rgba(239,237,230,.88); text-shadow: 0 1px 14px rgba(0,0,0,.45); }
+.hero-ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+.btn--tan { background: var(--accent-deep); border-color: var(--accent-deep); color: var(--bone); }
+.btn--tan:hover { background: var(--accent); border-color: var(--accent); color: var(--ink); }
+.chero .btn--ghost { color: var(--bone); border-color: rgba(239,237,230,.55); background: rgba(26,27,29,.2); backdrop-filter: blur(6px); }
+.chero .btn--ghost:hover { background: var(--bone); color: var(--ink); }
+/* ---- category strip ---- */
+.cstrip { padding: clamp(40px, 6vw, 72px) 0 clamp(8px, 2vw, 16px); background: var(--bone); color: var(--ink); }
+.cstrip .explore-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; margin-bottom: clamp(20px, 3vw, 32px); }
+.cstrip .explore-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.explore-all { display: inline-flex; align-items: center; gap: 8px; font-size: .8125rem; font-weight: 500; color: var(--accent-deep); white-space: nowrap; }
+.explore-all svg { width: 14px; height: 14px; transition: transform .3s var(--ease-out); }
+.explore-all:hover svg { transform: translateX(3px); }
+.explore-grid { display: grid; gap: 14px; }
+.ex-card { display: grid; justify-items: center; text-align: center; gap: 4px; color: var(--ink); }
+.ex-media { position: relative; display: block; width: 100%; aspect-ratio: 3 / 2; border-radius: 8px; overflow: hidden; background: var(--ink); margin-bottom: 10px; }
+.ex-media img { width: 100%; height: 100%; object-fit: cover; display: block; transform: scale(1.02); transition: transform .9s var(--ease-out); }
+.ex-card:hover .ex-media img { transform: scale(1.08); }
+.ex-card b { font-weight: 600; font-size: .9375rem; }
+.ex-card span:last-child { font-size: .8125rem; color: var(--fg-2); }
+/* ---- one section per category ---- */
+.cat { padding: clamp(40px, 6vw, 80px) 0; background: var(--bone); color: var(--ink); }
+.cat + .cat { padding-top: 0; }
+.cat-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; margin-bottom: clamp(20px, 3vw, 28px); }
+.cat-title { font-size: clamp(1.8rem, 1.2rem + 2vw, 3rem); }
 .cat-row { display: grid; gap: 16px; grid-template-columns: 1fr; }
-.cat-photo { position: relative; overflow: hidden; background: var(--ink); aspect-ratio: 16 / 9; }
+.cat-photo { position: relative; overflow: hidden; border-radius: 14px; background: var(--ink); aspect-ratio: 3 / 2; }
 .cat-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
-.cat-track { --rail-w: 78vw; }
-@media (min-width: 640px) { .cat-track { --rail-w: calc((100% - 16px) / 2); } }
-@media (min-width: 1024px) {
-  .cat-row { grid-template-columns: minmax(0, 3fr) minmax(0, 9fr); gap: 20px; align-items: stretch; }
-  .cat-photo { aspect-ratio: auto; min-height: 100%; }
-  .cat-track { --rail-w: calc((100% - 32px) / 3); min-width: 0; }
-}
-@media (min-width: 1440px) { .cat-track { --rail-w: calc((100% - 32px) / 3); } }
+.cat-track { --rail-w: calc((100% - 12px) / 2); gap: 12px; }
 .wrap:not(.has-overflow) .rail-nav { visibility: hidden; }
-@media (min-width: 1024px) { .cat--few .cat-row { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); } .cat--few .cat-track { --rail-w: calc((100% - 16px) / 2); } }
+@media (min-width: 1024px) { .cat-row { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 20px; align-items: stretch; } .cat-photo { aspect-ratio: auto; min-height: 100%; } .cat-track { --rail-w: calc((100% - 20px) / 2); gap: 20px; min-width: 0; } .cat--single .cat-row { grid-template-columns: minmax(0, 4fr) minmax(0, 3.2fr) minmax(0, 4.8fr); } .cat--single .cat-track { --rail-w: 100%; } }
+@media (max-width: 1023px) { .cat-photo-2 { display: none; } .cat--single .cat-track { --rail-w: 100%; } }
+@media (min-width: 640px) and (max-width: 1023px) { .cat--single .cat-row { grid-template-columns: 1fr 1fr; } .cat--single .cat-track { --rail-w: 100%; } }
+@media (min-width: 1400px) { .cat-track { --rail-w: calc((100% - 40px) / 3); } .cat--two .cat-track { --rail-w: calc((100% - 20px) / 2); } }
+/* ---- what is inside ---- */
+.cinside { padding: clamp(32px, 5vw, 64px) 0 0; }
+.cinside-card { display: grid; gap: 24px; background: #F4F2EE; border-radius: 18px; padding: clamp(22px, 3vw, 44px); }
+.cinside-title { font-size: clamp(1.7rem, 1.2rem + 1.6vw, 2.6rem); }
+.cinside-copy .explore-sub { margin-top: 14px; max-width: 54ch; }
+.cinside-copy .spec { margin-top: 22px; }
+.cinside-photo { border-radius: 12px; overflow: hidden; aspect-ratio: 4 / 3; background: var(--ink); }
+.cinside-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+@media (min-width: 1024px) { .cinside-card { grid-template-columns: 1fr 1fr; gap: clamp(28px, 4vw, 56px); align-items: center; } .cinside-photo { aspect-ratio: 4 / 3; } }
+/* ---- which fold / which belt ---- */
+.which { padding: clamp(40px, 6vw, 80px) 0 clamp(24px, 4vw, 48px); }
+.which-grid { display: grid; gap: 16px; grid-template-columns: 1fr; margin-top: clamp(20px, 3vw, 32px); }
+.which-card { position: relative; display: block; aspect-ratio: 4 / 3; border-radius: 14px; overflow: hidden; background: var(--ink); color: var(--bone); }
+.which-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1.02); transition: transform .9s var(--ease-out); }
+.which-card:hover img { transform: scale(1.07); }
+.which-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(26,27,29,0) 45%, rgba(26,27,29,.72) 100%); }
+.which-card span { position: absolute; left: 18px; right: 18px; bottom: 16px; z-index: 2; display: grid; gap: 2px; }
+.which-card b { font-weight: 700; font-size: 1.1rem; }
+.which-card em { font-style: normal; font-size: .8125rem; color: rgba(239,237,230,.82); }
+@media (min-width: 640px) { .which-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 1024px) { .which-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+/* ---- all band + cross ---- */
+.all-band { padding: clamp(40px, 6vw, 80px) 0; background: var(--ink); color: var(--bone); text-align: center; }
+.all-band .explore-title { color: var(--bone); max-width: 20ch; margin: 0 auto; }
+.all-band .explore-sub { color: rgba(239,237,230,.78); margin: 14px auto 24px; max-width: 48ch; }
+.cross { padding: clamp(40px, 6vw, 80px) 0 0; background: var(--bone); color: var(--ink); }
+.cross .cat-head { margin-bottom: clamp(20px, 3vw, 28px); }
+.cross .cc-foot { margin-top: 14px; }
+@media (max-width: 1023px) { .cstrip .explore-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 767px) {
+  .chero { height: 72svh; min-height: 480px; max-height: 640px; }
+  .chero img { object-position: 50% 40%; }
+  .chero::after { background: linear-gradient(180deg, rgba(26,27,29,.6) 0%, rgba(26,27,29,.05) 30%, rgba(26,27,29,.15) 48%, rgba(26,27,29,.86) 100%); }
+  .chero-copy { padding-bottom: 56px; }
+  .hero-ctas .btn { flex: 1 1 auto; justify-content: center; }
+  .cstrip .explore-head { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .cstrip .explore-grid { gap: 10px; }
+  .cat-head { flex-direction: column; align-items: flex-start; }
+}
 
-/* ---- all + cross + delivery ---- */
-.all-band { padding: var(--section-sm) 0; border-top: 1px solid var(--line); text-align: center; }
-.all-band .h2 { margin: 12px auto 18px; max-width: 16ch; }
-.all-band .lead { margin: 0 auto 28px; max-width: 42ch; }
-.cross { padding: var(--section-sm) 0; }
-.cross .between { margin-bottom: 32px; }
-.shop-grid { display: grid; gap: 16px; grid-template-columns: 1fr; }
-@media (min-width: 640px) { .shop-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (min-width: 1024px) { .shop-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; } }
-.delivery { display: grid; gap: 28px; padding: var(--section-sm) 0; }
+.shop-top { padding: calc(var(--nav-top) + clamp(20px, 3vw, 36px)) 0 0; }
+.shop-top--fixed { padding-top: clamp(20px, 3vw, 36px); }
+.shop-top--fixed .sh-cats { margin-top: 0; }
+.shop-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; }
+.shop-head h1 { font-family: var(--font-display); font-weight: 300; font-size: clamp(1.75rem, 1.2rem + 1.6vw, 2.5rem); line-height: 1.1; }
+.shop-head p { color: var(--fg-2); font-size: .9375rem; }
+/* category circles */
+.sh-cats { display: flex; gap: clamp(10px, 1.5vw, 22px); margin-top: clamp(18px, 2.5vw, 28px); overflow-x: auto; scrollbar-width: none; padding: 4px 4px 8px; margin-inline: -4px; scroll-snap-type: x proximity; }
+.sh-cats::-webkit-scrollbar { display: none; }
+.sh-cat { flex: 0 0 auto; width: clamp(84px, 8vw, 108px); display: grid; justify-items: center; gap: 10px; color: var(--fg); scroll-snap-align: start; }
+.sh-cat[hidden] { display: none; }
+.sh-cat-ring { width: clamp(68px, 6.4vw, 88px); aspect-ratio: 1; border-radius: 50%; background: var(--surface); border: 1px solid var(--line); display: grid; place-items: center; overflow: hidden; box-shadow: 0 0 0 0 var(--fg); transition: box-shadow .3s ease, border-color .3s ease, transform .4s var(--ease-out); }
+.sh-cat-ring img { width: 72%; height: 72%; object-fit: contain; filter: drop-shadow(0 6px 8px rgba(26,27,29,.18)); transition: transform .5s var(--ease-out); }
+.sh-cat:hover .sh-cat-ring { border-color: var(--fg); }
+.sh-cat:hover .sh-cat-ring img { transform: scale(1.06); }
+.sh-cat[aria-selected="true"] .sh-cat-ring { border-color: var(--fg); box-shadow: 0 0 0 2px var(--fg); }
+.sh-cat-label { font-size: .75rem; font-weight: 500; letter-spacing: .02em; text-align: center; line-height: 1.3; }
+/* pills row */
+.sh-bar { position: sticky; top: var(--nav-h); z-index: 30; background: color-mix(in srgb, var(--bg) 94%, transparent); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border-bottom: 1px solid var(--line); padding: 10px 0; }
+.sh-bar .wrap { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.sh-pills { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.sh-pill { position: relative; }
+.sh-pill-btn, .sh-all-btn { min-height: 40px; padding: 0 14px 0 16px; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--surface); display: inline-flex; align-items: center; gap: 8px; font-size: .8125rem; font-weight: 500; color: var(--fg); transition: border-color .3s ease, background-color .3s ease, color .3s ease; white-space: nowrap; }
+.sh-pill-btn svg, .sh-all-btn svg { width: 14px; height: 14px; transition: transform .3s ease; }
+.sh-pill-btn:hover, .sh-all-btn:hover { border-color: var(--fg); }
+.sh-pill-btn[aria-expanded="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+.sh-pill-btn[aria-expanded="true"] svg { transform: rotate(180deg); }
+.sh-pill.is-active .sh-pill-btn { border-color: var(--fg); }
+.sh-pill-n { font-style: normal; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px; background: var(--accent); color: var(--bone); font-size: .6875rem; display: inline-grid; place-items: center; }
+.sh-pill-n[hidden] { display: none; }
+.sh-dd { position: absolute; left: 0; top: calc(100% + 8px); z-index: 40; min-width: 260px; background: var(--bg); color: var(--fg); border: 1px solid var(--line); box-shadow: 0 24px 48px rgba(26,27,29,.14); transform-origin: top left; }
+.sh-dd[hidden] { display: none; }
+.sh-dd-body { padding: 8px 6px; max-height: 60vh; overflow: auto; }
+.sh-dd-foot { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 8px 12px 10px; border-top: 1px solid var(--line); }
+.sh-check { position: relative; display: flex; align-items: center; gap: 10px; min-height: 40px; padding: 0 12px; border-radius: 6px; cursor: pointer; font-size: .875rem; }
+.sh-check:hover { background: rgba(26,27,29,.04); }
+.sh-check input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+.sh-box { width: 18px; height: 18px; border: 1px solid var(--line-strong); border-radius: 4px; display: grid; place-items: center; flex: 0 0 auto; transition: background-color .2s ease, border-color .2s ease; }
+.sh-radio .sh-box { border-radius: 50%; }
+.sh-box::after { content: ""; width: 10px; height: 6px; border-left: 2px solid var(--bg); border-bottom: 2px solid var(--bg); transform: rotate(-45deg) translate(1px, -1px); opacity: 0; }
+.sh-radio .sh-box::after { width: 8px; height: 8px; border: 0; border-radius: 50%; background: var(--bg); transform: none; }
+.sh-check:has(input:checked) .sh-box { background: var(--fg); border-color: var(--fg); }
+.sh-check:has(input:checked) .sh-box::after { opacity: 1; }
+.sh-check:has(input:focus-visible) { outline: 2px solid var(--focus); outline-offset: -2px; }
+.sh-check .sw { width: 16px; height: 16px; border-radius: 50%; background: var(--sw); box-shadow: inset 0 0 0 1px rgba(0,0,0,.18); flex: 0 0 auto; }
+.sh-check-label { flex: 1; }
+.sh-check em { font-style: normal; font-size: .6875rem; min-width: 22px; height: 20px; padding: 0 6px; border-radius: 999px; background: rgba(26,27,29,.06); display: inline-grid; place-items: center; color: var(--fg-2); }
+.sh-check.is-empty { opacity: .45; }
+.sh-right { display: flex; align-items: center; gap: 12px; flex: 0 0 auto; }
+.sh-right .sh-dd { left: auto; right: 0; transform-origin: top right; }
+.sh-count { font-size: .8125rem; color: var(--fg-2); white-space: nowrap; }
+/* chips of active filters */
+.sh-active { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 18px; }
+.sh-active:empty { display: none; }
+.sh-chip { display: inline-flex; align-items: center; gap: 8px; min-height: 32px; padding: 0 10px 0 12px; border-radius: 999px; background: var(--fg); color: var(--bg); font-size: .75rem; font-weight: 500; }
+.sh-chip svg { width: 12px; height: 12px; }
+.sh-clear-all { font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; color: var(--fg-2); margin-left: 4px; }
+.sh-clear-all:hover { color: var(--fg); }
+/* drawer */
+.sh-drawer-backdrop { position: fixed; inset: 0; z-index: 90; background: rgba(26,27,29,.4); opacity: 0; pointer-events: none; transition: opacity .35s ease; }
+.sh-drawer-backdrop.is-open { opacity: 1; pointer-events: auto; }
+.sh-drawer { position: fixed; top: 0; left: 0; bottom: 0; z-index: 91; width: min(380px, 92vw); background: var(--bg); color: var(--fg); transform: translateX(-102%); transition: transform .5s var(--ease-out); display: grid; grid-template-rows: auto 1fr auto; box-shadow: 24px 0 48px rgba(26,27,29,.12); }
+.sh-drawer.is-open { transform: none; }
+.sh-drawer { grid-template-columns: minmax(0, 1fr); overflow: hidden; }
+.sh-drawer > * { min-width: 0; }
+.sh-drawer-body { overflow-x: hidden; }
+@media (max-width: 767px) { .sh-drawer-foot { padding: 12px 14px; gap: 8px; } .sh-drawer-foot .btn { min-width: 0; padding: 0 14px; font-size: .75rem; letter-spacing: .1em; } }
+.sh-drawer-head { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; border-bottom: 1px solid var(--line); }
+.sh-drawer-head h2 { font-size: 1rem; font-weight: 500; }
+.sh-drawer-body { overflow: auto; padding: 8px 14px 24px; }
+.sh-drawer-foot { display: flex; gap: 10px; padding: 14px 20px; border-top: 1px solid var(--line); }
+.sh-drawer-foot .btn { flex: 1; }
+.sh-group { padding: 14px 0 6px; border-bottom: 1px solid var(--line); }
+.sh-group summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; padding: 6px; font-weight: 500; font-size: .9375rem; }
+.sh-group summary::-webkit-details-marker { display: none; }
+.sh-group summary svg { width: 14px; height: 14px; transition: transform .3s ease; }
+.sh-group[open] summary svg { transform: rotate(180deg); }
+.sh-group-body { padding: 6px 0 8px; }
+.sh-swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(48px, 1fr)); gap: 8px 8px; padding: 6px 6px 22px; }
+.sh-swatch { position: relative; aspect-ratio: 1; border-radius: 8px; border: 1px solid var(--line); display: grid; place-items: center; cursor: pointer; }
+.sh-swatch input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
+.sh-swatch .sw { width: 24px; height: 24px; border-radius: 50%; background: var(--sw); box-shadow: inset 0 0 0 1px rgba(0,0,0,.18); }
+.sh-swatch:has(input:checked) { border-color: var(--fg); box-shadow: 0 0 0 1px var(--fg); }
+.sh-swatch-label { position: absolute; left: 0; right: 0; bottom: -18px; font-size: .625rem; text-align: center; color: var(--fg-2); }
+/* grid */
+.sh-grid-wrap { padding: clamp(20px, 3vw, 32px) 0 var(--section-sm); }
+.delivery { display: grid; gap: 28px; padding: var(--section-sm) 0 0; border-top: 1px solid var(--line); margin-top: var(--section-sm); }
 @media (min-width: 768px) { .delivery { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
 .delivery h3 { font-family: var(--font-display); font-weight: 300; font-size: 1.5rem; }
 .delivery p { color: var(--fg-2); font-size: .9375rem; margin-top: 8px; max-width: 26ch; }
+@media (max-width: 767px) {
+  .shop-head p { display: none; }
+  .sh-bar { position: static; backdrop-filter: none; -webkit-backdrop-filter: none; }
+  .sh-bar .wrap { flex-wrap: wrap; }
+  .sh-pills { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); width: calc(100% + var(--gutter) * 2); }
+  .sh-pills::-webkit-scrollbar { display: none; }
+  /* dropdowns become a bottom sheet on phones */
+  .sh-dd, .sh-right .sh-dd { position: fixed; left: 10px; right: 10px; top: auto; bottom: calc(10px + env(safe-area-inset-bottom)); z-index: 96; min-width: 0; border-radius: 16px; transform-origin: bottom center; box-shadow: 0 -10px 40px rgba(26,27,29,.28); }
+  .sh-dd-body { max-height: 50vh; }
+  .sh-dd::before { content: attr(data-dd-title); display: block; padding: 16px 18px 4px; font-size: .9375rem; font-weight: 600; }
+  .sh-right { width: 100%; justify-content: space-between; }
+}
 
 </style>
 </head>
@@ -633,7 +822,7 @@ html.is-entering .fade { opacity: 1; }
     <ul class="nav-main desk-only" role="list">
       <li data-mega="wallets"><a href="wallets.html" class="nav-underline is-active" aria-haspopup="true">Wallets</a></li>
       <li data-mega="belts"><a href="belts.html" class="nav-underline" aria-haspopup="true">Belts</a></li>
-      <li><a href="about.html#bulk" class="nav-underline">Bulk orders</a></li>
+      <li><a href="bulk.html" class="nav-underline">Bulk orders</a></li>
       <li><a href="shop.html" class="nav-underline">Shop</a></li>
     </ul>
     <a class="brand" href="index.html" aria-label="Stagr, home">STAGR<span class="dot"></span></a>
@@ -646,14 +835,14 @@ html.is-entering .fade { opacity: 1; }
   <div class="mega" data-mega-panel="wallets" aria-hidden="true">
     <div class="wrap">
       <div class="mega-tabs" role="tablist"><button type="button" role="tab" aria-selected="true" data-mega-tab-btn="collections">Collections</button><button type="button" role="tab" aria-selected="false" data-mega-tab-btn="style">By style</button><button type="button" role="tab" aria-selected="false" data-mega-tab-btn="care">Care and sizing</button></div>
-      <div class="mega-row" data-mega-tab="collections"><a class="mega-item" href="product-kingsmann.html"><span class="mega-thumb"><img src="assets/cutouts/kingsmann-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Kingsmann</span></a><a class="mega-item" href="product-majestic.html"><span class="mega-thumb"><img src="assets/cutouts/majestic-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Majestic</span></a><a class="mega-item" href="product-maverick.html"><span class="mega-thumb"><img src="assets/cutouts/maverick-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Maverick</span></a><a class="mega-item" href="product-purefold.html"><span class="mega-thumb"><img src="assets/cutouts/purefold-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Purefold</span></a><a class="mega-item" href="product-rodeo.html"><span class="mega-thumb"><img src="assets/cutouts/rodeo-tan-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Rodeo</span></a><a class="mega-item" href="product-regal.html"><span class="mega-thumb"><img src="assets/cutouts/regal-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Regal</span></a><a class="mega-item" href="product-upbuck.html"><span class="mega-thumb"><img src="assets/cutouts/upbuck-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Upbuck</span></a></div><div class="mega-row" data-mega-tab="style" hidden><a class="mega-item" href="wallets.html#bifold"><span class="mega-thumb"><img src="assets/cutouts/kingsmann-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Bifold</span></a><a class="mega-item" href="wallets.html#trifold"><span class="mega-thumb"><img src="assets/cutouts/majestic-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Trifold</span></a><a class="mega-item" href="wallets.html#minimalist"><span class="mega-thumb"><img src="assets/cutouts/maverick-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Minimalist</span></a><a class="mega-item" href="wallets.html#long"><span class="mega-thumb"><img src="assets/cutouts/rodeo-tan-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Long</span></a></div><div class="mega-row mega-links" data-mega-tab="care" hidden><a class=link href=about.html#craft>How it is made</a><a class=link href=about.html#faq>Leather care</a><a class=link href=about.html#faq>Size guide</a><a class=link href=index.html#delivery>Delivery and returns</a><a class=link href=about.html#bulk>Bulk orders</a></div>
+      <div class="mega-row" data-mega-tab="collections"><a class="mega-item" href="wallets.html?cat=bifold"><span class="mega-thumb"><img src="assets/cutouts/kingsmann-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Kingsmann</span></a><a class="mega-item" href="wallets.html?cat=trifold"><span class="mega-thumb"><img src="assets/cutouts/majestic-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Majestic</span></a><a class="mega-item" href="wallets.html?cat=minimalist"><span class="mega-thumb"><img src="assets/cutouts/maverick-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Maverick</span></a><a class="mega-item" href="wallets.html?cat=minimalist"><span class="mega-thumb"><img src="assets/cutouts/purefold-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Purefold</span></a><a class="mega-item" href="wallets.html?cat=long"><span class="mega-thumb"><img src="assets/cutouts/rodeo-tan-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Rodeo</span></a><a class="mega-item" href="wallets.html?cat=bifold"><span class="mega-thumb"><img src="assets/cutouts/regal-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Regal</span></a><a class="mega-item" href="wallets.html?cat=long"><span class="mega-thumb"><img src="assets/cutouts/upbuck-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Upbuck</span></a></div><div class="mega-row" data-mega-tab="style" hidden><a class="mega-item" href="wallets.html?cat=bifold"><span class="mega-thumb"><img src="assets/cutouts/kingsmann-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Bifold</span></a><a class="mega-item" href="wallets.html?cat=trifold"><span class="mega-thumb"><img src="assets/cutouts/majestic-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Trifold</span></a><a class="mega-item" href="wallets.html?cat=minimalist"><span class="mega-thumb"><img src="assets/cutouts/maverick-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Minimalist</span></a><a class="mega-item" href="wallets.html?cat=long"><span class="mega-thumb"><img src="assets/cutouts/rodeo-tan-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Long</span></a></div><div class="mega-row mega-links" data-mega-tab="care" hidden><a class=link href=about.html#craft>How it is made</a><a class=link href=about.html#faq>Leather care</a><a class=link href=about.html#faq>Size guide</a><a class=link href=index.html#delivery>Delivery and returns</a><a class=link href=bulk.html>Bulk orders</a></div>
       <p class="mega-all"><a class="link" href="shop.html?line=wallets">View all wallets</a></p>
     </div>
   </div>
   <div class="mega" data-mega-panel="belts" aria-hidden="true">
     <div class="wrap">
       <div class="mega-tabs" role="tablist"><button type="button" role="tab" aria-selected="true" data-mega-tab-btn="collections">Collections</button><button type="button" role="tab" aria-selected="false" data-mega-tab-btn="style">By style</button><button type="button" role="tab" aria-selected="false" data-mega-tab-btn="care">Care and sizing</button></div>
-      <div class="mega-row" data-mega-tab="collections"><a class="mega-item" href="product-nova.html"><span class="mega-thumb"><img src="assets/cutouts/nova-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Nova</span></a><a class="mega-item" href="product-outlaw.html"><span class="mega-thumb"><img src="assets/cutouts/outlaw-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Outlaw</span></a><a class="mega-item" href="product-regent.html"><span class="mega-thumb"><img src="assets/cutouts/regent-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Regent</span></a><a class="mega-item" href="product-monarch.html"><span class="mega-thumb"><img src="assets/cutouts/monarch-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Monarch</span></a></div><div class="mega-row" data-mega-tab="style" hidden><a class="mega-item" href="belts.html#classic"><span class="mega-thumb"><img src="assets/cutouts/outlaw-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Classic</span></a><a class="mega-item" href="belts.html#double-sided"><span class="mega-thumb"><img src="assets/cutouts/nova-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Double-sided</span></a><a class="mega-item" href="belts.html?colour=Tan"><span class="mega-thumb"><img src="assets/cutouts/monarch-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Tan</span></a><a class="mega-item" href="belts.html?colour=Black"><span class="mega-thumb"><img src="assets/cutouts/regent-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Black</span></a></div><div class="mega-row mega-links" data-mega-tab="care" hidden><a class=link href=about.html#craft>How it is made</a><a class=link href=about.html#faq>Leather care</a><a class=link href=product-nova.html#details>Size guide</a><a class=link href=index.html#delivery>Delivery and returns</a><a class=link href=about.html#bulk>Bulk orders</a></div>
+      <div class="mega-row" data-mega-tab="collections"><a class="mega-item" href="belts.html?cat=double"><span class="mega-thumb"><img src="assets/cutouts/nova-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Nova</span></a><a class="mega-item" href="belts.html?cat=classic"><span class="mega-thumb"><img src="assets/cutouts/outlaw-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Outlaw</span></a><a class="mega-item" href="belts.html?cat=black-belts"><span class="mega-thumb"><img src="assets/cutouts/regent-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Regent</span></a><a class="mega-item" href="belts.html?cat=tan-belts"><span class="mega-thumb"><img src="assets/cutouts/monarch-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Monarch</span></a></div><div class="mega-row" data-mega-tab="style" hidden><a class="mega-item" href="belts.html?cat=classic"><span class="mega-thumb"><img src="assets/cutouts/outlaw-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Classic</span></a><a class="mega-item" href="belts.html?cat=double"><span class="mega-thumb"><img src="assets/cutouts/nova-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Double-sided</span></a><a class="mega-item" href="belts.html?cat=tan-belts"><span class="mega-thumb"><img src="assets/cutouts/monarch-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Tan</span></a><a class="mega-item" href="belts.html?cat=black-belts"><span class="mega-thumb"><img src="assets/cutouts/regent-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="mega-name">Black</span></a></div><div class="mega-row mega-links" data-mega-tab="care" hidden><a class=link href=about.html#craft>How it is made</a><a class=link href=about.html#faq>Leather care</a><a class=link href=product-nova.html#details>Size guide</a><a class=link href=index.html#delivery>Delivery and returns</a><a class=link href=bulk.html>Bulk orders</a></div>
       <p class="mega-all"><a class="link" href="shop.html?line=belts">View all belts</a></p>
     </div>
   </div>
@@ -661,222 +850,180 @@ html.is-entering .fade { opacity: 1; }
 
 <div class="menu" id="menu" aria-hidden="true">
   <div class="menu-top"><span class="brand wordmark" style="font-size:1.25rem">STAGR<span class="dot"></span></span><button type="button" class="icon-btn" data-menu-close aria-label="Close menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
-  <div class="menu-links"><a class="menu-link" href="index.html"><sup>01</sup>Home</a><a class="menu-link" href="wallets.html"><sup>02</sup>Wallets</a><a class="menu-link" href="belts.html"><sup>03</sup>Belts</a><a class="menu-link" href="about.html"><sup>04</sup>Story</a><a class="menu-link" href="shop.html"><sup>05</sup>Shop</a></div>
+  <div class="menu-links"><a class="menu-link" href="index.html"><sup>01</sup>Home</a><a class="menu-link" href="wallets.html"><sup>02</sup>Wallets</a><a class="menu-link" href="belts.html"><sup>03</sup>Belts</a><a class="menu-link" href="bulk.html"><sup>04</sup>Bulk orders</a><a class="menu-link" href="shop.html"><sup>05</sup>Shop</a></div>
   <div class="menu-sub desk-hide"><div><p class="label">Wallets</p><a href="product-kingsmann.html">Kingsmann</a><a href="product-majestic.html">Majestic</a><a href="product-maverick.html">Maverick</a><a href="product-purefold.html">Purefold</a><a href="product-rodeo.html">Rodeo</a><a href="product-regal.html">Regal</a><a href="product-upbuck.html">Upbuck</a></div><div><p class="label">Belts</p><a href="product-nova.html">Nova</a><a href="product-outlaw.html">Outlaw</a><a href="product-regent.html">Regent</a><a href="product-monarch.html">Monarch</a></div></div>
   <div class="menu-foot"><span>stagr.pk · Handmade in Pakistan</span><span><a href="https://wa.me/920000000000" target="_blank" rel="noopener">WhatsApp</a> &nbsp;·&nbsp; <a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a> &nbsp;·&nbsp; <button type="button" class="theme-toggle" aria-pressed="false">Dark mode</button></span></div>
 </div>
 
 <main id="main">
 
-<section class="showcase on-ink" aria-label="Wallets collections" data-showcase>
-  <div class="sc-frame">
-    <div class="sc-photos" data-sc-photos><div class="sc-photo" data-sc-photo="0" style="opacity:1;--tint:#6B3F2A"><img src="assets/lifestyle/kingsmen-01.jpg" srcset="assets/lifestyle/kingsmen-01-800.jpg 800w, assets/lifestyle/kingsmen-01.jpg 1600w" sizes="(min-width: 1024px) 60vw, 100vw" alt="" width="1200" height="1500" fetchpriority=high></div><div class="sc-photo" data-sc-photo="1" style="opacity:0;--tint:#4A3A33"><img src="assets/lifestyle/majestic-01.jpg" srcset="assets/lifestyle/majestic-01-800.jpg 800w, assets/lifestyle/majestic-01.jpg 1600w" sizes="(min-width: 1024px) 60vw, 100vw" alt="" width="1200" height="1500" loading=lazy></div><div class="sc-photo" data-sc-photo="2" style="opacity:0;--tint:#7A5A3A"><img src="assets/lifestyle/maverick-01.jpg" srcset="assets/lifestyle/maverick-01-800.jpg 800w, assets/lifestyle/maverick-01.jpg 1600w" sizes="(min-width: 1024px) 60vw, 100vw" alt="" width="1200" height="1500" loading=lazy></div><div class="sc-photo" data-sc-photo="3" style="opacity:0;--tint:#8B4A1F"><img src="assets/lifestyle/rodeo-01.jpg" srcset="assets/lifestyle/rodeo-01-800.jpg 800w, assets/lifestyle/rodeo-01.jpg 1600w" sizes="(min-width: 1024px) 60vw, 100vw" alt="" width="1200" height="1500" loading=lazy></div></div>
-    <p class="sc-brand">Handmade in Pakistan · Crazy horse leather</p>
-    <div class="sc-panel on-bone" data-sc-panel>
-      <div class="sc-head"><h1 class="sc-title" data-sc-title>Bifold</h1><p class="label sc-kicker" data-sc-item>Collection</p></div>
-      <span class="sc-count" data-sc-count data-sc-item>01 – 04</span>
-      <ul class="sc-cats" data-sc-cats role="tablist" aria-label="Wallets categories" data-sc-item><li role="presentation"><button type="button" role="tab" aria-selected="true" class="is-on" data-sc-cat="0">Bifold</button></li><li role="presentation"><button type="button" role="tab" aria-selected="false" class="" data-sc-cat="1">Trifold</button></li><li role="presentation"><button type="button" role="tab" aria-selected="false" class="" data-sc-cat="2">Minimalist</button></li><li role="presentation"><button type="button" role="tab" aria-selected="false" class="" data-sc-cat="3">Long</button></li></ul>
-      <div class="sc-stage" data-sc-stage><div class="sc-cut" data-sc-cut="0" style="opacity:1"><img src="assets/cutouts/kingsmann-brown-1.webp" alt="Bifold wallet in brown" width="900" height="900" decoding="async" ></div><div class="sc-cut" data-sc-cut="1" style="opacity:0"><img src="assets/cutouts/majestic-brown-1.webp" alt="Trifold wallet in brown" width="900" height="900" decoding="async" loading=lazy></div><div class="sc-cut" data-sc-cut="2" style="opacity:0"><img src="assets/cutouts/maverick-brown-1.webp" alt="Minimalist wallet in brown" width="900" height="900" decoding="async" loading=lazy></div><div class="sc-cut" data-sc-cut="3" style="opacity:0"><img src="assets/cutouts/rodeo-tan-1.webp" alt="Long wallet in tan" width="900" height="900" decoding="async" loading=lazy></div></div>
-      <div class="sc-foot">
-        <div><p class="sc-models" data-sc-models data-sc-item><a href="product-kingsmann.html">Kingsmann</a> <span aria-hidden=true>·</span> <a href="product-regal.html">Regal</a></p><p class="sc-line" data-sc-line data-sc-item>A fold that stays flat<br>in a jacket pocket</p></div>
-        <a class="btn sc-cta" data-sc-cta data-sc-item href="#bifold">Discover the collection <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-      </div>
-    </div>
+<section class="chero" aria-label="Wallets">
+  <picture><source media="(max-width: 767px)" srcset="assets/categories/hero-wallets-portrait.jpg"><img data-hero-img src="assets/categories/hero-wallets-1200.jpg" srcset="assets/categories/hero-wallets-800.jpg 800w, assets/categories/hero-wallets-1200.jpg 1200w, assets/categories/hero-wallets-2000.jpg 2000w" sizes="100vw" alt="An open Stagr bifold holding cards, beside thread and tools on burlap" width="2000" height="1333" fetchpriority="high" decoding="async"></picture>
+  <div class="wrap chero-copy">
+    <p class="hero-kicker" data-hero-item>Wallets · 7 pieces, from Rs 1,740</p>
+    <h1 class="hero-h1" data-hero-item>Folded, skived,<br>stitched by hand.</h1>
+    <p class="hero-sub" data-hero-item>Bifolds, trifolds, minimalist and long wallets, cut from full crazy horse hides and lined in calf. Boxed with a handwritten note.</p>
+    <div class="hero-ctas" data-hero-item><a class="btn btn--tan" href="#filters">Browse wallets <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="btn btn--ghost" href="shop.html">Everything</a></div>
   </div>
 </section>
 
-<section class="col-intro on-bone" aria-labelledby="col-title">
-  <div class="wrap grid" style="align-items:end">
-    <div class="col-12 lg:col-7"><p class="label" data-reveal><b>01</b><span class="slash">/</span>All wallets · 7 styles</p><h2 class="display" id="col-title" data-text-reveal="chars" style="margin-top:14px">Wallets<span class="dotc">.</span></h2><p class="lead" data-reveal data-delay=".2">Folded, skived and stitched by hand. Slim enough for a jacket, lined in calf.</p></div>
-    <dl class="col-12 lg:col-4 lg:start-8 spec col-facts" data-reveal data-delay=".3"><div><dt>Leather</dt><dd>Crazy horse, full grain</dd></div><div><dt>Pieces</dt><dd>7 styles</dd></div><div><dt>Colours</dt><dd>Brown / Tan / Black</dd></div><div><dt>From</dt><dd>Rs 1,740</dd></div></dl>
-  </div>
-</section>
 
-<section class="cat on-bone cat--few" id="bifold" aria-labelledby="cat-bifold">
-  <div class="wrap" data-rail>
-    <div class="cat-head">
-      <div><p class="label" data-reveal><b>02</b><span class="slash">/</span>Bifold wallets · 2 styles · from Rs 1,950</p><h2 class="h2" id="cat-bifold" data-text-reveal="lines" style="margin-top:12px">A fold that stays flat in a jacket pocket.</h2></div>
-      <div class="rail-nav" data-reveal data-delay=".15"><button type="button" class="rail-btn" data-rail-prev aria-label="Previous" style="transform:scaleX(-1)"><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button><button type="button" class="rail-btn" data-rail-next aria-label="Next"><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
-    </div>
-    <div class="cat-row">
-      <figure class="cat-photo" data-reveal><img src="assets/lifestyle/kingsmen-02.jpg" srcset="assets/lifestyle/kingsmen-02-800.jpg 800w, assets/lifestyle/kingsmen-02.jpg 1200w" sizes="(min-width: 1024px) 30vw, 100vw" alt="Kingsmann Bifold Leather Wallet, workshop photograph" width="1200" height="1500" loading="lazy"></figure>
-      <div class="rail-track cat-track" data-rail-track data-reveal data-delay=".1">
-<article class="pcard pcard--compact has-alt" data-product="kingsmann" data-tags="" data-line="wallet" data-style="Bifold" data-colours="Brown,Black" data-price="2600" data-index="0" data-name="Kingsmann Bifold Leather Wallet" data-reveal data-delay="0.0">
-  <a class="pcard-media" href="product-kingsmann.html" data-cursor-label="View" aria-label="Kingsmann Bifold Leather Wallet"><div class="bloom" style="--bloom:#D9B07A" data-bloom></div><img class="main" src="assets/cutouts/kingsmann-brown-1-600.webp" alt="Kingsmann Bifold Leather Wallet in brown" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/kingsmann-brown-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
-  <button type="button" class="pcard-quick" data-quick="kingsmann">Quick view</button>
-  <div class="pcard-head"><span class="pcard-num">STAGR.01</span><span class="label">Bifold</span></div>
-  <h3 class="pcard-name"><a href="product-kingsmann.html">Kingsmann<span class="dotc">.</span></a></h3>
-  
-  <div class="pcard-opts opts" data-colour-opts><label class="opt"><input type="radio" name="c-kingsmann-0" value="Brown" checked><span class="sw" style="--sw:#6E4328"></span>Brown</label><label class="opt"><input type="radio" name="c-kingsmann-0" value="Black" ><span class="sw" style="--sw:#1A1512"></span>Black</label></div>
-  <div class="pcard-foot">
-    <div class="pcard-price"><span><span class="num">Rs 2,600</span><s class="small muted" style="margin-left:.5em">Rs 3,999</s></span><a class="pcard-link" href="product-kingsmann.html">View <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
-    <button type="button" class="btn btn--sm" data-add="kingsmann" data-colour="Brown" >Add to cart</button>
-  </div>
-</article>
-<article class="pcard pcard--compact has-alt" data-product="regal" data-tags="" data-line="wallet" data-style="Bifold" data-colours="Brown,Black" data-price="1950" data-index="5" data-name="Regal Bifold Leather Wallet" data-reveal data-delay="0.24">
-  <a class="pcard-media" href="product-regal.html" data-cursor-label="View" aria-label="Regal Bifold Leather Wallet"><div class="bloom" style="--bloom:#D9B07A" data-bloom></div><img class="main" src="assets/cutouts/regal-brown-1-600.webp" alt="Regal Bifold Leather Wallet in brown" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/regal-brown-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
-  <button type="button" class="pcard-quick" data-quick="regal">Quick view</button>
-  <div class="pcard-head"><span class="pcard-num">STAGR.06</span><span class="label">Bifold</span></div>
-  <h3 class="pcard-name"><a href="product-regal.html">Regal<span class="dotc">.</span></a></h3>
-  
-  <div class="pcard-opts opts" data-colour-opts><label class="opt"><input type="radio" name="c-regal-5" value="Brown" checked><span class="sw" style="--sw:#6E4328"></span>Brown</label><label class="opt"><input type="radio" name="c-regal-5" value="Black" ><span class="sw" style="--sw:#1A1512"></span>Black</label></div>
-  <div class="pcard-foot">
-    <div class="pcard-price"><span><span class="num">Rs 1,950</span><s class="small muted" style="margin-left:.5em">Rs 2,999</s></span><a class="pcard-link" href="product-regal.html">View <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
-    <button type="button" class="btn btn--sm" data-add="regal" data-colour="Brown" >Add to cart</button>
-  </div>
-</article></div>
-    </div>
-  </div>
-</section>
-<section class="cat on-bone cat--few" id="trifold" aria-labelledby="cat-trifold">
-  <div class="wrap" data-rail>
-    <div class="cat-head">
-      <div><p class="label" data-reveal><b>03</b><span class="slash">/</span>Trifold wallets · 1 style · from Rs 2,600</p><h2 class="h2" id="cat-trifold" data-text-reveal="lines" style="margin-top:12px">Three folds, one row of saddle stitch.</h2></div>
-      <div class="rail-nav" data-reveal data-delay=".15"><button type="button" class="rail-btn" data-rail-prev aria-label="Previous" style="transform:scaleX(-1)"><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button><button type="button" class="rail-btn" data-rail-next aria-label="Next"><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
-    </div>
-    <div class="cat-row">
-      <figure class="cat-photo" data-reveal><img src="assets/lifestyle/majestic-02.jpg" srcset="assets/lifestyle/majestic-02-800.jpg 800w, assets/lifestyle/majestic-02.jpg 1200w" sizes="(min-width: 1024px) 30vw, 100vw" alt="Majestic Trifold Leather Wallet, workshop photograph" width="1200" height="1500" loading="lazy"></figure>
-      <div class="rail-track cat-track" data-rail-track data-reveal data-delay=".1">
-<article class="pcard pcard--compact has-alt" data-product="majestic" data-tags="" data-line="wallet" data-style="Trifold" data-colours="Brown,Black" data-price="2600" data-index="1" data-name="Majestic Trifold Leather Wallet" data-reveal data-delay="0.12">
-  <a class="pcard-media" href="product-majestic.html" data-cursor-label="View" aria-label="Majestic Trifold Leather Wallet"><div class="bloom" style="--bloom:#CDA373" data-bloom></div><img class="main" src="assets/cutouts/majestic-brown-1-600.webp" alt="Majestic Trifold Leather Wallet in brown" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/majestic-brown-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
-  <button type="button" class="pcard-quick" data-quick="majestic">Quick view</button>
-  <div class="pcard-head"><span class="pcard-num">STAGR.02</span><span class="label">Trifold</span></div>
-  <h3 class="pcard-name"><a href="product-majestic.html">Majestic<span class="dotc">.</span></a></h3>
-  
-  <div class="pcard-opts opts" data-colour-opts><label class="opt"><input type="radio" name="c-majestic-1" value="Brown" checked><span class="sw" style="--sw:#6E4328"></span>Brown</label><label class="opt"><input type="radio" name="c-majestic-1" value="Black" ><span class="sw" style="--sw:#1A1512"></span>Black</label></div>
-  <div class="pcard-foot">
-    <div class="pcard-price"><span><span class="num">Rs 2,600</span><s class="small muted" style="margin-left:.5em">Rs 3,999</s></span><a class="pcard-link" href="product-majestic.html">View <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
-    <button type="button" class="btn btn--sm" data-add="majestic" data-colour="Brown" >Add to cart</button>
-  </div>
-</article></div>
-    </div>
-  </div>
-</section>
-<section class="cat on-bone cat--few" id="minimalist" aria-labelledby="cat-minimalist">
-  <div class="wrap" data-rail>
-    <div class="cat-head">
-      <div><p class="label" data-reveal><b>04</b><span class="slash">/</span>Minimalist wallets · 2 styles · from Rs 1,740</p><h2 class="h2" id="cat-minimalist" data-text-reveal="lines" style="margin-top:12px">The slim ones, for a front pocket.</h2></div>
-      <div class="rail-nav" data-reveal data-delay=".15"><button type="button" class="rail-btn" data-rail-prev aria-label="Previous" style="transform:scaleX(-1)"><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button><button type="button" class="rail-btn" data-rail-next aria-label="Next"><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
-    </div>
-    <div class="cat-row">
-      <figure class="cat-photo" data-reveal><img src="assets/lifestyle/maverick-02.jpg" srcset="assets/lifestyle/maverick-02-800.jpg 800w, assets/lifestyle/maverick-02.jpg 1200w" sizes="(min-width: 1024px) 30vw, 100vw" alt="Maverick Minimalist Leather Wallet, workshop photograph" width="1200" height="1500" loading="lazy"></figure>
-      <div class="rail-track cat-track" data-rail-track data-reveal data-delay=".1">
-<article class="pcard pcard--compact has-alt" data-product="maverick" data-tags="" data-line="wallet" data-style="Minimalist" data-colours="Brown,Black" data-price="1740" data-index="2" data-name="Maverick Minimalist Leather Wallet" data-reveal data-delay="0.24">
-  <a class="pcard-media" href="product-maverick.html" data-cursor-label="View" aria-label="Maverick Minimalist Leather Wallet"><div class="bloom" style="--bloom:#DABF9A" data-bloom></div><img class="main" src="assets/cutouts/maverick-brown-1-600.webp" alt="Maverick Minimalist Leather Wallet in brown" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/maverick-brown-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
-  <button type="button" class="pcard-quick" data-quick="maverick">Quick view</button>
-  <div class="pcard-head"><span class="pcard-num">STAGR.03</span><span class="label">Minimalist</span></div>
-  <h3 class="pcard-name"><a href="product-maverick.html">Maverick<span class="dotc">.</span></a></h3>
-  
-  <div class="pcard-opts opts" data-colour-opts><label class="opt"><input type="radio" name="c-maverick-2" value="Brown" checked><span class="sw" style="--sw:#6E4328"></span>Brown</label><label class="opt"><input type="radio" name="c-maverick-2" value="Black" ><span class="sw" style="--sw:#1A1512"></span>Black</label></div>
-  <div class="pcard-foot">
-    <div class="pcard-price"><span><span class="num">Rs 1,740</span><s class="small muted" style="margin-left:.5em">Rs 2,899</s></span><a class="pcard-link" href="product-maverick.html">View <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
-    <button type="button" class="btn btn--sm" data-add="maverick" data-colour="Brown" >Add to cart</button>
-  </div>
-</article>
-<article class="pcard pcard--compact has-alt" data-product="purefold" data-tags="" data-line="wallet" data-style="Minimalist" data-colours="Brown,Black" data-price="1800" data-index="3" data-name="Purefold Minimalist Leather Wallet" data-reveal data-delay="0.0">
-  <a class="pcard-media" href="product-purefold.html" data-cursor-label="View" aria-label="Purefold Minimalist Leather Wallet"><div class="bloom" style="--bloom:#DABF9A" data-bloom></div><img class="main" src="assets/cutouts/purefold-brown-1-600.webp" alt="Purefold Minimalist Leather Wallet in brown" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/purefold-brown-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
-  <button type="button" class="pcard-quick" data-quick="purefold">Quick view</button>
-  <div class="pcard-head"><span class="pcard-num">STAGR.04</span><span class="label">Minimalist</span></div>
-  <h3 class="pcard-name"><a href="product-purefold.html">Purefold<span class="dotc">.</span></a></h3>
-  
-  <div class="pcard-opts opts" data-colour-opts><label class="opt"><input type="radio" name="c-purefold-3" value="Brown" checked><span class="sw" style="--sw:#6E4328"></span>Brown</label><label class="opt"><input type="radio" name="c-purefold-3" value="Black" ><span class="sw" style="--sw:#1A1512"></span>Black</label></div>
-  <div class="pcard-foot">
-    <div class="pcard-price"><span><span class="num">Rs 1,800</span><s class="small muted" style="margin-left:.5em">Rs 2,999</s></span><a class="pcard-link" href="product-purefold.html">View <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
-    <button type="button" class="btn btn--sm" data-add="purefold" data-colour="Brown" >Add to cart</button>
-  </div>
-</article></div>
-    </div>
-  </div>
-</section>
-<section class="cat on-bone cat--few" id="long" aria-labelledby="cat-long">
-  <div class="wrap" data-rail>
-    <div class="cat-head">
-      <div><p class="label" data-reveal><b>05</b><span class="slash">/</span>Long wallets · 2 styles · from Rs 3,400</p><h2 class="h2" id="cat-long" data-text-reveal="lines" style="margin-top:12px">Cards, notes and a snap closure.</h2></div>
-      <div class="rail-nav" data-reveal data-delay=".15"><button type="button" class="rail-btn" data-rail-prev aria-label="Previous" style="transform:scaleX(-1)"><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button><button type="button" class="rail-btn" data-rail-next aria-label="Next"><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
-    </div>
-    <div class="cat-row">
-      <figure class="cat-photo" data-reveal><img src="assets/lifestyle/rodeo-02.jpg" srcset="assets/lifestyle/rodeo-02-800.jpg 800w, assets/lifestyle/rodeo-02.jpg 1200w" sizes="(min-width: 1024px) 30vw, 100vw" alt="Rodeo Long Leather Wallet, workshop photograph" width="1200" height="1500" loading="lazy"></figure>
-      <div class="rail-track cat-track" data-rail-track data-reveal data-delay=".1">
-<article class="pcard pcard--compact has-alt" data-product="rodeo" data-tags="" data-line="wallet" data-style="Long" data-colours="Tan,Black" data-price="3500" data-index="4" data-name="Rodeo Long Leather Wallet" data-reveal data-delay="0.12">
-  <a class="pcard-media" href="product-rodeo.html" data-cursor-label="View" aria-label="Rodeo Long Leather Wallet"><div class="bloom" style="--bloom:#C8976A" data-bloom></div><img class="main" src="assets/cutouts/rodeo-tan-1-600.webp" alt="Rodeo Long Leather Wallet in tan" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/rodeo-tan-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
-  <button type="button" class="pcard-quick" data-quick="rodeo">Quick view</button>
-  <div class="pcard-head"><span class="pcard-num">STAGR.05</span><span class="label">Long</span></div>
-  <h3 class="pcard-name"><a href="product-rodeo.html">Rodeo<span class="dotc">.</span></a></h3>
-  
-  <div class="pcard-opts opts" data-colour-opts><label class="opt"><input type="radio" name="c-rodeo-4" value="Tan" checked><span class="sw" style="--sw:#B0773F"></span>Tan</label><label class="opt"><input type="radio" name="c-rodeo-4" value="Black" ><span class="sw" style="--sw:#1A1512"></span>Black</label></div>
-  <div class="pcard-foot">
-    <div class="pcard-price"><span><span class="num">Rs 3,500</span><s class="small muted" style="margin-left:.5em">Rs 4,999</s></span><a class="pcard-link" href="product-rodeo.html">View <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
-    <button type="button" class="btn btn--sm" data-add="rodeo" data-colour="Tan" >Add to cart</button>
-  </div>
-</article>
-<article class="pcard pcard--compact has-alt" data-product="upbuck" data-tags="" data-line="wallet" data-style="Long" data-colours="Brown,Black" data-price="3400" data-index="6" data-name="Upbuck Long Leather Wallet" data-reveal data-delay="0.0">
-  <a class="pcard-media" href="product-upbuck.html" data-cursor-label="View" aria-label="Upbuck Long Leather Wallet"><div class="bloom" style="--bloom:#C8976A" data-bloom></div><img class="main" src="assets/cutouts/upbuck-brown-1-600.webp" alt="Upbuck Long Leather Wallet in brown" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/upbuck-brown-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
-  <button type="button" class="pcard-quick" data-quick="upbuck">Quick view</button>
-  <div class="pcard-head"><span class="pcard-num">STAGR.07</span><span class="label">Long</span></div>
-  <h3 class="pcard-name"><a href="product-upbuck.html">Upbuck<span class="dotc">.</span></a></h3>
-  
-  <div class="pcard-opts opts" data-colour-opts><label class="opt"><input type="radio" name="c-upbuck-6" value="Brown" checked><span class="sw" style="--sw:#6E4328"></span>Brown</label><label class="opt"><input type="radio" name="c-upbuck-6" value="Black" ><span class="sw" style="--sw:#1A1512"></span>Black</label></div>
-  <div class="pcard-foot">
-    <div class="pcard-price"><span><span class="num">Rs 3,400</span><s class="small muted" style="margin-left:.5em">Rs 4,999</s></span><a class="pcard-link" href="product-upbuck.html">View <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
-    <button type="button" class="btn btn--sm" data-add="upbuck" data-colour="Brown" >Add to cart</button>
-  </div>
-</article></div>
-    </div>
-  </div>
-</section>
-<section class="all-band on-bone" aria-labelledby="all-title">
+<section class="shop-top on-bone shop-top--fixed" aria-labelledby="shop-title">
   <div class="wrap">
-    <p class="label" data-reveal><b>06</b><span class="slash">/</span>The full shelf</p>
-    <h2 class="h2" id="all-title" data-text-reveal="lines">Every wallet, side by side.</h2>
-    <p class="lead" data-reveal data-delay=".15">Filter by colour, style and price, sort, and compare all 7 wallets in one grid.</p>
-    <a class="btn" href="shop.html?line=wallets" data-reveal data-delay=".25">View all wallets <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+    <div class="shop-head" hidden><h1 id="shop-title" data-shop-title>All pieces</h1><p>Handmade crazy horse leather belts and wallets. Cash on delivery across Pakistan.</p></div>
+    <div class="sh-cats" role="tablist" aria-label="Categories" data-cats><button type="button" class="sh-cat" role="tab" aria-selected="true" data-cat="all" data-scope=" wallet belt"><span class="sh-cat-ring"><img src="assets/cutouts/kingsmann-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="sh-cat-label">All</span></button><button type="button" class="sh-cat" role="tab" aria-selected="false" data-cat="bifold" data-scope=" wallet"><span class="sh-cat-ring"><img src="assets/cutouts/kingsmann-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="sh-cat-label">Bifold</span></button><button type="button" class="sh-cat" role="tab" aria-selected="false" data-cat="trifold" data-scope=" wallet"><span class="sh-cat-ring"><img src="assets/cutouts/majestic-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="sh-cat-label">Trifold</span></button><button type="button" class="sh-cat" role="tab" aria-selected="false" data-cat="minimalist" data-scope=" wallet"><span class="sh-cat-ring"><img src="assets/cutouts/maverick-brown-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="sh-cat-label">Minimalist</span></button><button type="button" class="sh-cat" role="tab" aria-selected="false" data-cat="long" data-scope=" wallet"><span class="sh-cat-ring"><img src="assets/cutouts/rodeo-tan-1-600.webp" alt="" width="300" height="300" loading="lazy"></span><span class="sh-cat-label">Long wallets</span></button></div>
   </div>
 </section>
 
-<section class="cross on-ink" aria-labelledby="cross-title">
+<div class="sh-catalogue">
+<div class="sh-bar" data-bar>
   <div class="wrap">
-    <div class="between"><div><p class="label" data-reveal><b style="color:var(--bone)">07</b><span class="slash">/</span>Complete the look</p><h2 class="h2" id="cross-title" data-text-reveal="lines" style="margin-top:12px">A belt to match.</h2></div><a class="btn btn--ghost" href="belts.html" data-reveal>All belts <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
-    <div class="shop-grid">
-<article class="pcard has-alt" data-product="nova" data-tags="" data-line="belt" data-style="Belt" data-colours="Black,Brown" data-price="2394" data-index="0" data-name="Nova Double-Sided Leather Belt" data-reveal data-delay="0.0">
-  <a class="pcard-media" href="product-nova.html" data-cursor-label="View" aria-label="Nova Double-Sided Leather Belt"><div class="bloom" style="--bloom:#C9B290" data-bloom></div><img class="main" src="assets/cutouts/nova-1-600.webp" alt="Nova Double-Sided Leather Belt in black" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/nova-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
-  
-  <div class="pcard-head"><span class="pcard-num">STAGR.01</span><span class="label">Belt</span></div>
-  <h3 class="pcard-name"><a href="product-nova.html">Nova<span class="dotc">.</span></a></h3>
-  <p class="pcard-sub">Nova Double-Sided Leather Belt</p><p class="pcard-copy">Two Sides. One Belt. Made for Every Style.</p>
-  <div class="pcard-opts opts" data-colour-opts><label class="opt"><input type="radio" name="c-nova-0" value="Black" checked><span class="sw" style="--sw:#1A1512"></span>Black</label><label class="opt"><input type="radio" name="c-nova-0" value="Brown" ><span class="sw" style="--sw:#6E4328"></span>Brown</label></div>
-  <div class="pcard-foot">
-    <div class="pcard-price"><span><span class="num">Rs 2,394</span><s class="small muted" style="margin-left:.5em">Rs 3,800</s></span><a class="pcard-link" href="product-nova.html">View <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
-    <button type="button" class="btn btn--wide" data-add="nova" data-colour="Black" data-size=34>Add to cart</button>
+    <div class="sh-pills" data-pills>
+      <div class="sh-pill" data-dd="colour"><button type="button" class="sh-pill-btn" aria-expanded="false" aria-haspopup="true"><span data-pill-label>Colour</span><i class="sh-pill-n" data-pill-n hidden></i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 9l6 6 6-6"/></svg></button><div class="sh-dd" data-dd-title="Colour" hidden><div class="sh-dd-body"><label class="sh-check"><input type="checkbox" data-f="colour" value="Brown"><span class="sh-box"></span><span class=sw style=--sw:#6E4328></span><span class="sh-check-label">Brown</span><em data-count></em></label><label class="sh-check"><input type="checkbox" data-f="colour" value="Tan"><span class="sh-box"></span><span class=sw style=--sw:#B0773F></span><span class="sh-check-label">Tan</span><em data-count></em></label><label class="sh-check"><input type="checkbox" data-f="colour" value="Black"><span class="sh-box"></span><span class=sw style=--sw:#1A1512></span><span class="sh-check-label">Black</span><em data-count></em></label></div><div class="sh-dd-foot"><button type="button" class="btn btn--text" data-clear-group="colour">Clear</button><button type="button" class="btn btn--sm" data-dd-close>Done</button></div></div></div>
+      <div class="sh-pill" data-dd="price"><button type="button" class="sh-pill-btn" aria-expanded="false" aria-haspopup="true"><span data-pill-label>Price</span><i class="sh-pill-n" data-pill-n hidden></i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 9l6 6 6-6"/></svg></button><div class="sh-dd" data-dd-title="Price" hidden><div class="sh-dd-body"><label class="sh-check"><input type="checkbox" data-f="price" value="0-2000"><span class="sh-box"></span><span class="sh-check-label">Under Rs 2,000</span><em data-count></em></label><label class="sh-check"><input type="checkbox" data-f="price" value="2000-3000"><span class="sh-box"></span><span class="sh-check-label">Rs 2,000 – 3,000</span><em data-count></em></label><label class="sh-check"><input type="checkbox" data-f="price" value="3000-99999"><span class="sh-box"></span><span class="sh-check-label">Over Rs 3,000</span><em data-count></em></label></div><div class="sh-dd-foot"><button type="button" class="btn btn--text" data-clear-group="price">Clear</button><button type="button" class="btn btn--sm" data-dd-close>Done</button></div></div></div>
+      <div class="sh-pill" data-dd="style"><button type="button" class="sh-pill-btn" aria-expanded="false" aria-haspopup="true"><span data-pill-label>Style</span><i class="sh-pill-n" data-pill-n hidden></i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 9l6 6 6-6"/></svg></button><div class="sh-dd" data-dd-title="Style" hidden><div class="sh-dd-body"><span data-style-line="wallet"><label class="sh-check"><input type="checkbox" data-f="style" value="Bifold"><span class="sh-box"></span><span class="sh-check-label">Bifold</span><em data-count></em></label></span><span data-style-line="wallet"><label class="sh-check"><input type="checkbox" data-f="style" value="Trifold"><span class="sh-box"></span><span class="sh-check-label">Trifold</span><em data-count></em></label></span><span data-style-line="wallet"><label class="sh-check"><input type="checkbox" data-f="style" value="Minimalist"><span class="sh-box"></span><span class="sh-check-label">Minimalist</span><em data-count></em></label></span><span data-style-line="wallet"><label class="sh-check"><input type="checkbox" data-f="style" value="Long"><span class="sh-box"></span><span class="sh-check-label">Long</span><em data-count></em></label></span><span data-style-line="belt"><label class="sh-check"><input type="checkbox" data-f="style" value="Belt"><span class="sh-box"></span><span class="sh-check-label">Belts</span><em data-count></em></label></span></div><div class="sh-dd-foot"><button type="button" class="btn btn--text" data-clear-group="style">Clear</button><button type="button" class="btn btn--sm" data-dd-close>Done</button></div></div></div>
+      <button type="button" class="sh-all-btn" data-drawer-open>All filters <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg></button>
+    </div>
+    <div class="sh-right">
+      <span class="sh-count"><span data-count-total>7</span> <span data-count-word>pieces</span></span>
+      <div class="sh-pill" data-dd="sort"><button type="button" class="sh-pill-btn" aria-expanded="false" aria-haspopup="true"><span data-sort-label>Recommended</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 9l6 6 6-6"/></svg></button><div class="sh-dd" data-dd-title="Sort by" hidden><div class="sh-dd-body" data-sort-body><label class="sh-check sh-radio"><input type="radio" name="sort" value="recommended" checked><span class="sh-box"></span><span class="sh-check-label">Recommended</span></label><label class="sh-check sh-radio"><input type="radio" name="sort" value="new" ><span class="sh-box"></span><span class="sh-check-label">Newest</span></label><label class="sh-check sh-radio"><input type="radio" name="sort" value="price-asc" ><span class="sh-box"></span><span class="sh-check-label">Price, low to high</span></label><label class="sh-check sh-radio"><input type="radio" name="sort" value="price-desc" ><span class="sh-box"></span><span class="sh-check-label">Price, high to low</span></label><label class="sh-check sh-radio"><input type="radio" name="sort" value="name" ><span class="sh-box"></span><span class="sh-check-label">Name, A to Z</span></label></div></div></div>
+    </div>
+  </div>
+</div>
+
+<section class="sh-grid-wrap on-bone" aria-label="All pieces">
+  <div class="wrap">
+    <div class="sh-active" data-active></div>
+    <div class="sh-grid" data-grid>
+<article class="ccard has-alt" data-product="kingsmann" data-tags="new best" data-line="wallet" data-style="Bifold" data-colours="Brown,Black" data-price="2600" data-index="0" data-name="Kingsmann Bifold Leather Wallet">
+  <a class="cc-media" href="product-kingsmann.html" aria-label="Kingsmann Bifold Leather Wallet"><img class="main" src="assets/cutouts/kingsmann-brown-1-600.webp" alt="Kingsmann Bifold Leather Wallet in brown" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/kingsmann-brown-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"><span class="cc-badges"><span class="cc-badge cc-sale">Sale -35%</span><span class="cc-badge cc-best">&#9733; Bestseller</span></span></a>
+  <div class="cc-body">
+<p class="cc-price"><b>Rs 2,600</b><s>Rs 3,999</s></p>
+<h3 class="cc-name"><a href="product-kingsmann.html">Kingsmann Bifold Leather Wallet</a></h3>
+<p class="cc-meta">Brown / Black</p>
+<div class="cc-opts opts" data-colour-opts><label class="cc-sw" title="Brown"><input type="radio" name="h-kingsmann" value="Brown" checked><i style="--sw:#6E4328"></i><span class="sr-only">Brown</span></label><label class="cc-sw" title="Black"><input type="radio" name="h-kingsmann" value="Black" ><i style="--sw:#1A1512"></i><span class="sr-only">Black</span></label></div>
+<p class="cc-stock"><i></i>In stock</p>
+<div class="cc-foot"><button type="button" class="cc-add" data-add="kingsmann" data-colour="Brown" ><span aria-hidden="true">+</span> Add to cart</button><button type="button" class="cc-wish" data-wish="kingsmann" aria-pressed="false" aria-label="Save Kingsmann Bifold Leather Wallet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-7.5-10A4.2 4.2 0 0 1 12 8.2a4.2 4.2 0 0 1 7.5 2.3c0 5.4-7.5 10-7.5 10z"/></svg></button></div>
   </div>
 </article>
-<article class="pcard has-alt" data-product="outlaw" data-tags="" data-line="belt" data-style="Belt" data-colours="Brown" data-price="2765" data-index="1" data-name="Outlaw Crazy Horse Leather Belt" data-reveal data-delay="0.12">
-  <a class="pcard-media" href="product-outlaw.html" data-cursor-label="View" aria-label="Outlaw Crazy Horse Leather Belt"><div class="bloom" style="--bloom:#C9B290" data-bloom></div><img class="main" src="assets/cutouts/outlaw-1-600.webp" alt="Outlaw Crazy Horse Leather Belt in brown" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/outlaw-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
-  
-  <div class="pcard-head"><span class="pcard-num">STAGR.02</span><span class="label">Belt</span></div>
-  <h3 class="pcard-name"><a href="product-outlaw.html">Outlaw<span class="dotc">.</span></a></h3>
-  <p class="pcard-sub">Outlaw Crazy Horse Leather Belt</p><p class="pcard-copy">Rugged Character. Timeless Craftsmanship.</p>
-  <div class="pcard-opts opts" data-colour-opts><label class="opt"><input type="radio" name="c-outlaw-1" value="Brown" checked><span class="sw" style="--sw:#6E4328"></span>Brown</label></div>
-  <div class="pcard-foot">
-    <div class="pcard-price"><span><span class="num">Rs 2,765</span><s class="small muted" style="margin-left:.5em">Rs 3,950</s></span><a class="pcard-link" href="product-outlaw.html">View <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
-    <button type="button" class="btn btn--wide" data-add="outlaw" data-colour="Brown" data-size=34>Add to cart</button>
+<article class="ccard has-alt" data-product="majestic" data-tags="best" data-line="wallet" data-style="Trifold" data-colours="Brown,Black" data-price="2600" data-index="1" data-name="Majestic Trifold Leather Wallet">
+  <a class="cc-media" href="product-majestic.html" aria-label="Majestic Trifold Leather Wallet"><img class="main" src="assets/cutouts/majestic-brown-1-600.webp" alt="Majestic Trifold Leather Wallet in brown" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/majestic-brown-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"><span class="cc-badges"><span class="cc-badge cc-sale">Sale -35%</span><span class="cc-badge cc-best">&#9733; Bestseller</span></span></a>
+  <div class="cc-body">
+<p class="cc-price"><b>Rs 2,600</b><s>Rs 3,999</s></p>
+<h3 class="cc-name"><a href="product-majestic.html">Majestic Trifold Leather Wallet</a></h3>
+<p class="cc-meta">Brown / Black</p>
+<div class="cc-opts opts" data-colour-opts><label class="cc-sw" title="Brown"><input type="radio" name="h-majestic" value="Brown" checked><i style="--sw:#6E4328"></i><span class="sr-only">Brown</span></label><label class="cc-sw" title="Black"><input type="radio" name="h-majestic" value="Black" ><i style="--sw:#1A1512"></i><span class="sr-only">Black</span></label></div>
+<p class="cc-stock"><i></i>In stock</p>
+<div class="cc-foot"><button type="button" class="cc-add" data-add="majestic" data-colour="Brown" ><span aria-hidden="true">+</span> Add to cart</button><button type="button" class="cc-wish" data-wish="majestic" aria-pressed="false" aria-label="Save Majestic Trifold Leather Wallet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-7.5-10A4.2 4.2 0 0 1 12 8.2a4.2 4.2 0 0 1 7.5 2.3c0 5.4-7.5 10-7.5 10z"/></svg></button></div>
   </div>
 </article>
-<article class="pcard has-alt" data-product="regent" data-tags="" data-line="belt" data-style="Belt" data-colours="Black" data-price="2730" data-index="2" data-name="Regent Premium Leather Belt" data-reveal data-delay="0.24">
-  <a class="pcard-media" href="product-regent.html" data-cursor-label="View" aria-label="Regent Premium Leather Belt"><div class="bloom" style="--bloom:#C9B290" data-bloom></div><img class="main" src="assets/cutouts/regent-1-600.webp" alt="Regent Premium Leather Belt in black" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/regent-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"></a>
-  
-  <div class="pcard-head"><span class="pcard-num">STAGR.03</span><span class="label">Belt</span></div>
-  <h3 class="pcard-name"><a href="product-regent.html">Regent<span class="dotc">.</span></a></h3>
-  <p class="pcard-sub">Regent Premium Leather Belt</p><p class="pcard-copy">Classic Elegance. Crafted to Last.</p>
-  <div class="pcard-opts opts" data-colour-opts><label class="opt"><input type="radio" name="c-regent-2" value="Black" checked><span class="sw" style="--sw:#1A1512"></span>Black</label></div>
-  <div class="pcard-foot">
-    <div class="pcard-price"><span><span class="num">Rs 2,730</span><s class="small muted" style="margin-left:.5em">Rs 3,900</s></span><a class="pcard-link" href="product-regent.html">View <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div>
-    <button type="button" class="btn btn--wide" data-add="regent" data-colour="Black" data-size=34>Add to cart</button>
+<article class="ccard has-alt" data-product="maverick" data-tags="new under" data-line="wallet" data-style="Minimalist" data-colours="Brown,Black" data-price="1740" data-index="2" data-name="Maverick Minimalist Leather Wallet">
+  <a class="cc-media" href="product-maverick.html" aria-label="Maverick Minimalist Leather Wallet"><img class="main" src="assets/cutouts/maverick-brown-1-600.webp" alt="Maverick Minimalist Leather Wallet in brown" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/maverick-brown-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"><span class="cc-badges"><span class="cc-badge cc-sale">Sale -40%</span><span class="cc-badge cc-new">New in</span></span></a>
+  <div class="cc-body">
+<p class="cc-price"><b>Rs 1,740</b><s>Rs 2,899</s></p>
+<h3 class="cc-name"><a href="product-maverick.html">Maverick Minimalist Leather Wallet</a></h3>
+<p class="cc-meta">Brown / Black</p>
+<div class="cc-opts opts" data-colour-opts><label class="cc-sw" title="Brown"><input type="radio" name="h-maverick" value="Brown" checked><i style="--sw:#6E4328"></i><span class="sr-only">Brown</span></label><label class="cc-sw" title="Black"><input type="radio" name="h-maverick" value="Black" ><i style="--sw:#1A1512"></i><span class="sr-only">Black</span></label></div>
+<p class="cc-stock"><i></i>In stock</p>
+<div class="cc-foot"><button type="button" class="cc-add" data-add="maverick" data-colour="Brown" ><span aria-hidden="true">+</span> Add to cart</button><button type="button" class="cc-wish" data-wish="maverick" aria-pressed="false" aria-label="Save Maverick Minimalist Leather Wallet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-7.5-10A4.2 4.2 0 0 1 12 8.2a4.2 4.2 0 0 1 7.5 2.3c0 5.4-7.5 10-7.5 10z"/></svg></button></div>
+  </div>
+</article>
+<article class="ccard has-alt" data-product="purefold" data-tags="under gift" data-line="wallet" data-style="Minimalist" data-colours="Brown,Black" data-price="1800" data-index="3" data-name="Purefold Minimalist Leather Wallet">
+  <a class="cc-media" href="product-purefold.html" aria-label="Purefold Minimalist Leather Wallet"><img class="main" src="assets/cutouts/purefold-brown-1-600.webp" alt="Purefold Minimalist Leather Wallet in brown" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/purefold-brown-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"><span class="cc-badges"><span class="cc-badge cc-sale">Sale -40%</span></span></a>
+  <div class="cc-body">
+<p class="cc-price"><b>Rs 1,800</b><s>Rs 2,999</s></p>
+<h3 class="cc-name"><a href="product-purefold.html">Purefold Minimalist Leather Wallet</a></h3>
+<p class="cc-meta">Brown / Black</p>
+<div class="cc-opts opts" data-colour-opts><label class="cc-sw" title="Brown"><input type="radio" name="h-purefold" value="Brown" checked><i style="--sw:#6E4328"></i><span class="sr-only">Brown</span></label><label class="cc-sw" title="Black"><input type="radio" name="h-purefold" value="Black" ><i style="--sw:#1A1512"></i><span class="sr-only">Black</span></label></div>
+<p class="cc-stock"><i></i>In stock</p>
+<div class="cc-foot"><button type="button" class="cc-add" data-add="purefold" data-colour="Brown" ><span aria-hidden="true">+</span> Add to cart</button><button type="button" class="cc-wish" data-wish="purefold" aria-pressed="false" aria-label="Save Purefold Minimalist Leather Wallet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-7.5-10A4.2 4.2 0 0 1 12 8.2a4.2 4.2 0 0 1 7.5 2.3c0 5.4-7.5 10-7.5 10z"/></svg></button></div>
+  </div>
+</article>
+<article class="ccard has-alt" data-product="rodeo" data-tags="new gift" data-line="wallet" data-style="Long" data-colours="Tan,Black" data-price="3500" data-index="4" data-name="Rodeo Long Leather Wallet">
+  <a class="cc-media" href="product-rodeo.html" aria-label="Rodeo Long Leather Wallet"><img class="main" src="assets/cutouts/rodeo-tan-1-600.webp" alt="Rodeo Long Leather Wallet in tan" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/rodeo-tan-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"><span class="cc-badges"><span class="cc-badge cc-sale">Sale -30%</span><span class="cc-badge cc-new">New in</span></span></a>
+  <div class="cc-body">
+<p class="cc-price"><b>Rs 3,500</b><s>Rs 4,999</s></p>
+<h3 class="cc-name"><a href="product-rodeo.html">Rodeo Long Leather Wallet</a></h3>
+<p class="cc-meta">Tan / Black</p>
+<div class="cc-opts opts" data-colour-opts><label class="cc-sw" title="Tan"><input type="radio" name="h-rodeo" value="Tan" checked><i style="--sw:#B0773F"></i><span class="sr-only">Tan</span></label><label class="cc-sw" title="Black"><input type="radio" name="h-rodeo" value="Black" ><i style="--sw:#1A1512"></i><span class="sr-only">Black</span></label></div>
+<p class="cc-stock"><i></i>In stock</p>
+<div class="cc-foot"><button type="button" class="cc-add" data-add="rodeo" data-colour="Tan" ><span aria-hidden="true">+</span> Add to cart</button><button type="button" class="cc-wish" data-wish="rodeo" aria-pressed="false" aria-label="Save Rodeo Long Leather Wallet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-7.5-10A4.2 4.2 0 0 1 12 8.2a4.2 4.2 0 0 1 7.5 2.3c0 5.4-7.5 10-7.5 10z"/></svg></button></div>
+  </div>
+</article>
+<article class="ccard has-alt" data-product="regal" data-tags="gift under" data-line="wallet" data-style="Bifold" data-colours="Brown,Black" data-price="1950" data-index="5" data-name="Regal Bifold Leather Wallet">
+  <a class="cc-media" href="product-regal.html" aria-label="Regal Bifold Leather Wallet"><img class="main" src="assets/cutouts/regal-brown-1-600.webp" alt="Regal Bifold Leather Wallet in brown" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/regal-brown-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"><span class="cc-badges"><span class="cc-badge cc-sale">Sale -35%</span></span></a>
+  <div class="cc-body">
+<p class="cc-price"><b>Rs 1,950</b><s>Rs 2,999</s></p>
+<h3 class="cc-name"><a href="product-regal.html">Regal Bifold Leather Wallet</a></h3>
+<p class="cc-meta">Brown / Black</p>
+<div class="cc-opts opts" data-colour-opts><label class="cc-sw" title="Brown"><input type="radio" name="h-regal" value="Brown" checked><i style="--sw:#6E4328"></i><span class="sr-only">Brown</span></label><label class="cc-sw" title="Black"><input type="radio" name="h-regal" value="Black" ><i style="--sw:#1A1512"></i><span class="sr-only">Black</span></label></div>
+<p class="cc-stock"><i></i>In stock</p>
+<div class="cc-foot"><button type="button" class="cc-add" data-add="regal" data-colour="Brown" ><span aria-hidden="true">+</span> Add to cart</button><button type="button" class="cc-wish" data-wish="regal" aria-pressed="false" aria-label="Save Regal Bifold Leather Wallet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-7.5-10A4.2 4.2 0 0 1 12 8.2a4.2 4.2 0 0 1 7.5 2.3c0 5.4-7.5 10-7.5 10z"/></svg></button></div>
+  </div>
+</article>
+<article class="ccard has-alt" data-product="upbuck" data-tags="gift" data-line="wallet" data-style="Long" data-colours="Brown,Black" data-price="3400" data-index="6" data-name="Upbuck Long Leather Wallet">
+  <a class="cc-media" href="product-upbuck.html" aria-label="Upbuck Long Leather Wallet"><img class="main" src="assets/cutouts/upbuck-brown-1-600.webp" alt="Upbuck Long Leather Wallet in brown" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/upbuck-brown-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"><span class="cc-badges"><span class="cc-badge cc-sale">Sale -32%</span></span></a>
+  <div class="cc-body">
+<p class="cc-price"><b>Rs 3,400</b><s>Rs 4,999</s></p>
+<h3 class="cc-name"><a href="product-upbuck.html">Upbuck Long Leather Wallet</a></h3>
+<p class="cc-meta">Brown / Black</p>
+<div class="cc-opts opts" data-colour-opts><label class="cc-sw" title="Brown"><input type="radio" name="h-upbuck" value="Brown" checked><i style="--sw:#6E4328"></i><span class="sr-only">Brown</span></label><label class="cc-sw" title="Black"><input type="radio" name="h-upbuck" value="Black" ><i style="--sw:#1A1512"></i><span class="sr-only">Black</span></label></div>
+<p class="cc-stock"><i></i>In stock</p>
+<div class="cc-foot"><button type="button" class="cc-add" data-add="upbuck" data-colour="Brown" ><span aria-hidden="true">+</span> Add to cart</button><button type="button" class="cc-wish" data-wish="upbuck" aria-pressed="false" aria-label="Save Upbuck Long Leather Wallet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-7.5-10A4.2 4.2 0 0 1 12 8.2a4.2 4.2 0 0 1 7.5 2.3c0 5.4-7.5 10-7.5 10z"/></svg></button></div>
   </div>
 </article></div>
+    <div class="sh-empty" data-empty><p class="h3">Nothing matches that yet.</p><p class="muted" style="margin-top:10px">Loosen a filter and the shelf fills up again.</p><p style="margin-top:24px"><button type="button" class="btn btn--ghost btn--sm" data-clear-all>Clear filters</button></p></div>
+  </div>
+</section>
+</div>
+
+<div class="sh-drawer-backdrop" data-drawer-close aria-hidden="true"></div>
+<aside class="sh-drawer" data-drawer aria-hidden="true" aria-label="All filters" data-lenis-prevent>
+  <div class="sh-drawer-head"><h2>Select filters</h2><button type="button" class="icon-btn" data-drawer-close aria-label="Close filters"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="sh-drawer-body">
+    <details class="sh-group" open><summary>Colour <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 9l6 6 6-6"/></svg></summary><div class="sh-group-body sh-swatches"><label class="sh-swatch" title="Brown"><input type="checkbox" data-f="colour" value="Brown"><span class="sw" style="--sw:#6E4328"></span><span class="sh-swatch-label">Brown</span></label><label class="sh-swatch" title="Tan"><input type="checkbox" data-f="colour" value="Tan"><span class="sw" style="--sw:#B0773F"></span><span class="sh-swatch-label">Tan</span></label><label class="sh-swatch" title="Black"><input type="checkbox" data-f="colour" value="Black"><span class="sw" style="--sw:#1A1512"></span><span class="sh-swatch-label">Black</span></label></div></details>
+    <details class="sh-group" open><summary>Price <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 9l6 6 6-6"/></svg></summary><div class="sh-group-body"><label class="sh-check"><input type="checkbox" data-f="price" value="0-2000"><span class="sh-box"></span><span class="sh-check-label">Under Rs 2,000</span><em data-count></em></label><label class="sh-check"><input type="checkbox" data-f="price" value="2000-3000"><span class="sh-box"></span><span class="sh-check-label">Rs 2,000 – 3,000</span><em data-count></em></label><label class="sh-check"><input type="checkbox" data-f="price" value="3000-99999"><span class="sh-box"></span><span class="sh-check-label">Over Rs 3,000</span><em data-count></em></label></div></details>
+    <details class="sh-group" open><summary>Style <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 9l6 6 6-6"/></svg></summary><div class="sh-group-body"><span data-style-line="wallet"><label class="sh-check"><input type="checkbox" data-f="style" value="Bifold"><span class="sh-box"></span><span class="sh-check-label">Bifold</span><em data-count></em></label></span><span data-style-line="wallet"><label class="sh-check"><input type="checkbox" data-f="style" value="Trifold"><span class="sh-box"></span><span class="sh-check-label">Trifold</span><em data-count></em></label></span><span data-style-line="wallet"><label class="sh-check"><input type="checkbox" data-f="style" value="Minimalist"><span class="sh-box"></span><span class="sh-check-label">Minimalist</span><em data-count></em></label></span><span data-style-line="wallet"><label class="sh-check"><input type="checkbox" data-f="style" value="Long"><span class="sh-box"></span><span class="sh-check-label">Long</span><em data-count></em></label></span><span data-style-line="belt"><label class="sh-check"><input type="checkbox" data-f="style" value="Belt"><span class="sh-box"></span><span class="sh-check-label">Belts</span><em data-count></em></label></span></div></details>
+    
+  </div>
+  <div class="sh-drawer-foot"><button type="button" class="btn btn--ghost" data-clear-all>Clear all</button><button type="button" class="btn" data-drawer-close>Show <span data-count-total>7</span> <span data-count-word>pieces</span></button></div>
+</aside>
+
+
+<section class="cinside on-bone" aria-labelledby="cinside-title">
+  <div class="wrap cinside-card">
+    <div class="cinside-copy">
+      <p class="label" data-reveal>What is inside</p>
+      <h2 class="explore-title cinside-title" id="cinside-title" data-reveal data-delay=".05">Folded, skived, stitched by hand</h2>
+      <p class="explore-sub" data-reveal data-delay=".1">Skived at the folds so it stays flat in a jacket pocket. One row of saddle stitch, two needles, waxed linen thread. It cannot unravel the way a machine seam can.</p>
+      <dl class="spec" data-reveal data-delay=".15"><div><dt>Leather</dt><dd>Crazy horse, full grain cowhide</dd></div><div><dt>Lining</dt><dd>Calf</dd></div><div><dt>Stitching</dt><dd>Saddle stitch, by hand</dd></div><div><dt>Colours</dt><dd>Brown, Black (Rodeo in Tan)</dd></div><div><dt>Care</dt><dd>Wipe dry, condition twice a year</dd></div></dl>
+    </div>
+    <figure class="cinside-photo" data-reveal data-delay=".1"><img src="assets/categories/long-1400.jpg" alt="A Stagr long wallet open beside its box" width="1400" height="933" loading="lazy"></figure>
   </div>
 </section>
 
-<section class="on-bone" aria-label="Delivery and returns"><div class="wrap"><div class="delivery"><div data-reveal data-delay="0.0"><h3>Cash on delivery</h3><p>Pay at the door</p></div><div data-reveal data-delay="0.1"><h3>3 to 5 days</h3><p>Across Pakistan</p></div><div data-reveal data-delay="0.2"><h3>14-day returns</h3><p>Unworn pieces</p></div><div data-reveal data-delay="0.30000000000000004"><h3>Handwritten note</h3><p>Free, add at checkout</p></div></div></div></section>
+<section class="which on-bone" aria-labelledby="which-title">
+  <div class="wrap">
+    <h2 class="explore-title" id="which-title" data-reveal>Which fold?</h2>
+    <p class="explore-sub" data-reveal data-delay=".05">Four shapes, one hide. Pick by pocket, not by price.</p>
+    <div class="which-grid"><a class="which-card" href="shop.html?line=wallets&cat=bifold" data-reveal data-delay="0.1"><img src="assets/categories/bifold.jpg" srcset="assets/categories/bifold.jpg 900w, assets/categories/bifold-1400.jpg 1400w" sizes="(min-width: 1024px) 22vw, (min-width: 640px) 46vw, 100vw" alt="Bifold wallets" width="1400" height="933" loading="lazy"><span><b>Bifold</b><em>Kingsmann, Regal</em></span></a><a class="which-card" href="shop.html?line=wallets&cat=trifold" data-reveal data-delay="0.16"><img src="assets/categories/trifold.jpg" srcset="assets/categories/trifold.jpg 900w, assets/categories/trifold-1400.jpg 1400w" sizes="(min-width: 1024px) 22vw, (min-width: 640px) 46vw, 100vw" alt="Trifold wallets" width="1400" height="933" loading="lazy"><span><b>Trifold</b><em>Majestic</em></span></a><a class="which-card" href="shop.html?line=wallets&cat=minimalist" data-reveal data-delay="0.22"><img src="assets/categories/minimalist.jpg" srcset="assets/categories/minimalist.jpg 900w, assets/categories/minimalist-1400.jpg 1400w" sizes="(min-width: 1024px) 22vw, (min-width: 640px) 46vw, 100vw" alt="Minimalist" width="1400" height="933" loading="lazy"><span><b>Minimalist</b><em>Maverick, Purefold</em></span></a><a class="which-card" href="shop.html?line=wallets&cat=long" data-reveal data-delay="0.28"><img src="assets/categories/long.jpg" srcset="assets/categories/long.jpg 900w, assets/categories/long-1400.jpg 1400w" sizes="(min-width: 1024px) 22vw, (min-width: 640px) 46vw, 100vw" alt="Long wallets" width="1400" height="933" loading="lazy"><span><b>Long</b><em>Rodeo, Upbuck</em></span></a></div>
+  </div>
+</section>
+
+<section id="why" class="why on-bone" aria-labelledby="why-title">
+  <div class="wrap">
+    <div class="why-head">
+      <h2 class="explore-title" id="why-title" data-reveal>Why people choose Stagr</h2>
+      <p class="explore-sub" data-reveal data-delay=".1">One workshop, a small bench, no subcontracting. A belt leaves us when it is right, not when the week ends.</p>
+    </div>
+    <ul class="why-grid" role="list">
+      <li data-reveal><span class="why-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M12 4l9 16H3z"/></svg></span><div><b>Handcrafted since 2025</b><p>Every piece cut and stitched in Karachi.</p></div></li>
+      <li data-reveal data-delay=".08"><span class="why-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><rect x="3" y="7" width="18" height="13" rx="1"/><path d="M3 11h18M8 7V4h8v3"/></svg></span><div><b>One price, any quantity</b><p>Rs 1,740 to Rs 3,500. The same for one or a hundred.</p></div></li>
+      <li data-reveal data-delay=".16"><span class="why-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7z"/><circle cx="7" cy="17" r="1.6"/><circle cx="17" cy="17" r="1.6"/></svg></span><div><b>Delivered across Pakistan</b><p>3 to 5 working days. Cash on delivery.</p></div></li>
+      <li data-reveal data-delay=".24"><span class="why-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4V5z"/></svg></span><div><b>People you can talk to</b><p>WhatsApp us. The person who made it answers.</p></div></li>
+    </ul>
+  </div>
+</section>
 
 </main>
 
@@ -901,17 +1048,23 @@ html.is-entering .fade { opacity: 1; }
 
 <footer class="footer">
   <div class="wrap">
-    <div class="news">
-      <div><p class="label">Newsletter</p><h2 class="h3" style="margin-top:14px;max-width:16ch">New cuts and gifting dates.</h2></div>
-      <div><form class="input-row" data-notify><label class="sr-only" for="news-email">Email address</label><input class="input" id="news-email" type="email" placeholder="Email address" required autocomplete="email"><button class="btn btn--text" type="submit">Sign up <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></form><p class="small muted" data-notify-status style="margin-top:10px;min-height:1.5em">Two emails a month. Nothing else.</p></div>
+    <div class="fcta">
+      <div class="fcta-pic" aria-hidden="true"><img src="assets/lifestyle/kingsmen-02-800.jpg" alt="" width="800" height="1000" loading="lazy"></div>
+      <div class="fcta-copy"><h2 class="fcta-title">A little guidance goes a long way.</h2><p>Questions about sizing, embossing or a bulk order? Let&#8217;s talk.</p></div>
+      <a class="btn fcta-btn" href="https://wa.me/920000000000" target="_blank" rel="noopener">Talk to our team <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
     </div>
-    <div class="cols">
-      <div><span class="brand wordmark" style="font-size:1.25rem">STAGR<span class="dot"></span></span><p class="small muted" style="margin-top:14px;max-width:28ch">Handmade crazy horse leather belts and wallets. Handmade in Pakistan.</p><div class="socials" style="margin-top:18px"><a href="https://instagram.com" aria-label="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a><a href="https://facebook.com" aria-label="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8z"/></svg></a><a href="https://tiktok.com" aria-label="TikTok" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M14 4v11a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 4c.5 3 2.5 5 5.5 5"/></svg></a><a href="https://wa.me/920000000000" aria-label="WhatsApp" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 20l1.3-3.8A8 8 0 1 1 8.4 19L4 20z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 .8a4 4 0 0 1-2-2l.8-1-1-2L9 9.5z"/></svg></a></div></div>
-      <div><h4>Site</h4><ul><li><a href="index.html#range">Range</a></li><li><a href="index.html#inside">Inside</a></li><li><a href="about.html">Story</a></li><li><a href="shop.html">Shop</a></li></ul></div>
-      <div><h4>Shop</h4><ul><li><a href="wallets.html">Wallets</a></li><li><a href="belts.html">Belts</a></li><li><a href="about.html#bulk">Bulk orders</a></li><li><a href="https://wa.me/920000000000" target="_blank" rel="noopener">WhatsApp</a></li></ul></div>
-      <div><h4>Help</h4><ul><li><a href="index.html#delivery">Delivery &amp; returns</a></li><li><a href="about.html#faq">Questions</a></li><li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li></ul></div>
+    <ul class="fpills" role="list">
+      <li class="fpill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="1"/><path d="M3 11h18M8 7V4h8v3"/></svg>Cash on delivery, pay at the door</li>
+      <li class="fpill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg>14-day returns, unworn pieces</li>
+      <li class="fpill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18"/></svg>One honest price, Rs 1,740 to Rs 3,500</li>
+    </ul>
+    <div class="fcols">
+      <div class="fbrand"><img src="assets/brand/stagr-lockup-beige.png" alt="Stagr" width="200" height="120" loading="lazy"><p>Handmade crazy horse leather belts and wallets. Delivery in 3 to 5 working days across Pakistan.</p><div class="socials"><a href="https://instagram.com" aria-label="Instagram" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a><a href="https://facebook.com" aria-label="Facebook" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8z"/></svg></a><a href="https://tiktok.com" aria-label="TikTok" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M14 4v11a3.5 3.5 0 1 1-3.5-3.5"/><path d="M14 4c.5 3 2.5 5 5.5 5"/></svg></a><a href="https://wa.me/920000000000" aria-label="WhatsApp" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 20l1.3-3.8A8 8 0 1 1 8.4 19L4 20z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 .8a4 4 0 0 1-2-2l.8-1-1-2L9 9.5z"/></svg></a></div></div>
+      <div><h4>Shop &amp; create</h4><ul><li><a href="belts.html">Belts</a></li><li><a href="wallets.html">Wallets</a></li><li><a href="bulk.html">Bulk orders</a></li><li><a href="about.html#craft">How it is made</a></li></ul></div>
+      <div><h4>Here to help</h4><ul><li><a href="product-nova.html#details">Size guide</a></li><li><a href="index.html#delivery">Delivery &amp; returns</a></li><li><a href="about.html#faq">Leather care</a></li><li><a href="https://wa.me/920000000000" target="_blank" rel="noopener">Contact</a></li></ul></div>
+      <div><h4>Let&#8217;s connect</h4><ul><li><a href="https://wa.me/920000000000" target="_blank" rel="noopener">+92 300 000 0000 (WhatsApp)</a></li><li><a href="https://instagram.com" target="_blank" rel="noopener">@stagr.pk</a></li><li>12 Clifton Arcade, Block 5, Karachi</li><li>Mon to Sat, 11am to 8pm</li></ul></div>
     </div>
-    <div class="legal"><span>© 2026 stagr.pk</span><span>Delivery Pakistan wide, 3 to 5 working days.</span></div>
+    <div class="flegal"><span>© 2026 Stagr. Nothing but leather.</span><span><a href="#">Privacy</a><a href="#">Terms</a><button type="button" class="theme-toggle" aria-pressed="false">Dark mode</button></span></div>
   </div>
 </footer>
 
@@ -953,67 +1106,111 @@ html.is-entering .fade { opacity: 1; }
 <script src="js/stagr.js"></script>
 <script>
 
-const GROUPS = [{"key": "bifold", "name": "Bifold", "line1": "A fold that stays flat", "line2": "in a jacket pocket", "href": "#bifold", "models": [{"name": "Kingsmann", "href": "product-kingsmann.html"}, {"name": "Regal", "href": "product-regal.html"}], "meta": "2 styles · from Rs 1,950"}, {"key": "trifold", "name": "Trifold", "line1": "Three folds, one row", "line2": "of saddle stitch", "href": "#trifold", "models": [{"name": "Majestic", "href": "product-majestic.html"}], "meta": "1 style · from Rs 2,600"}, {"key": "minimalist", "name": "Minimalist", "line1": "The slim ones,", "line2": "for a front pocket", "href": "#minimalist", "models": [{"name": "Maverick", "href": "product-maverick.html"}, {"name": "Purefold", "href": "product-purefold.html"}], "meta": "2 styles · from Rs 1,740"}, {"key": "long", "name": "Long", "line1": "Cards, notes and", "line2": "a snap closure", "href": "#long", "models": [{"name": "Rodeo", "href": "product-rodeo.html"}, {"name": "Upbuck", "href": "product-upbuck.html"}], "meta": "2 styles · from Rs 3,400"}];
-function initAnimations() {
-  const S = window.STAGR, G = S.gsap, ST = window.ScrollTrigger, $ = S.$, $$ = S.$$, reduced = S.reduced, isMobile = S.isMobile;
+function initHero() {
+  const S = window.STAGR, G = S.gsap, ST = window.ScrollTrigger, $ = S.$, $$ = S.$$, reduced = S.reduced;
   if (!G) return;
+  const img = $("[data-hero-img]"), items = $$("[data-hero-item]");
+  if (!reduced) { G.set(items, { y: 18, opacity: 0 }); }
+  S.onLoaderDone.push(() => { if (reduced) return; G.fromTo(img, { scale: 1.14 }, { scale: 1.04, duration: 2.6, ease: "power2.out", clearProps: "transform" }); G.to(items, { y: 0, opacity: 1, duration: .7, ease: "power3.out", stagger: .08, delay: .2, clearProps: "transform" }); });
+  $$(".cinside, .which, #why, footer").forEach((el) => S.initReveals(el));
+  S.initRails(document);
+  // deep links from the mega menu: wallets.html#long, ?style=Long
+  $$('a[href^="#"]').forEach((a) => a.addEventListener("click", (e) => { const el = $(a.getAttribute("href")); if (!el) return; e.preventDefault(); S.scrollTo(el, 1.1); }));
+  window.addEventListener("load", () => ST.refresh());
+}
+STAGR.onReady.push(initHero);
 
-  /* ================= showcase: click a category, nothing scroll-bound ================= */
-  const panel = $("[data-sc-panel]"), photos = $$("[data-sc-photo]"), cuts = $$("[data-sc-cut]"), cats = $$("[data-sc-cat]"), count = $("[data-sc-count]");
-  const title = $("[data-sc-title]"), models = $("[data-sc-models]"), line = $("[data-sc-line]"), cta = $("[data-sc-cta]");
-  const n = GROUPS.length; let active = 0, titleSplit = null, floatTween = null;
-  const pad = (i) => "0" + (i + 1);
-  const esc = (t) => String(t).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
-  const fill = (g) => {
-    if (titleSplit) titleSplit.revert(); titleSplit = null;   // revert first: SplitText restores the old markup
-    title.textContent = g.name;
-    models.innerHTML = g.models.length === 1 && g.models[0].name.toLowerCase() === g.name.toLowerCase() ? '<a href="' + g.models[0].href + '">' + esc(g.meta) + '</a>' : g.models.map((m) => '<a href="' + m.href + '">' + esc(m.name) + "</a>").join(' <span aria-hidden="true">·</span> ');
-    line.innerHTML = esc(g.line1) + "<br>" + esc(g.line2);
-    cta.href = g.href;
+const CATS = [{"key": "all"}, {"key": "bifold", "style": "Bifold"}, {"key": "trifold", "style": "Trifold"}, {"key": "minimalist", "style": "Minimalist"}, {"key": "long", "style": "Long"}];
+const PRICE_LABEL = { "0-2000": "Under Rs 2,000", "2000-3000": "Rs 2,000 – 3,000", "3000-99999": "Over Rs 3,000" };
+function initAnimations() {
+  const S = window.STAGR, G = S.gsap, ST = window.ScrollTrigger, $ = S.$, $$ = S.$$, reduced = S.reduced;
+  if (!G) return;
+  S.initReveals($(".sh-grid-wrap")); S.initReveals($("#why")); S.initReveals($("footer"));
+
+  const grid = $("[data-grid]"), cards = $$("[data-product]", grid), empty = $("[data-empty]"), catBtns = $$("[data-cat]"), title = $("[data-shop-title]");
+  const FIXED = "wallet";
+  const state = { line: FIXED, cat: "all", colour: [], price: [], style: [], sort: "recommended" };
+
+  /* ---- read the URL ---- */
+  const qs = new URLSearchParams(location.search);
+  const ql = (qs.get("line") || "").toLowerCase(); if (!FIXED) { if (ql.startsWith("wallet")) state.line = "wallet"; else if (ql.startsWith("belt")) state.line = "belt"; }
+  if (qs.get("cat") && CATS.some((c) => c.key === qs.get("cat"))) state.cat = qs.get("cat");
+  ["colour", "price", "style"].forEach((k) => { if (qs.get(k)) state[k] = qs.get(k).split(",").filter(Boolean); });
+  if (qs.get("sort")) state.sort = qs.get("sort");
+  // a style deep link from the mega menu acts like the matching category
+  if (state.style.length === 1 && state.cat === "all") { const c = CATS.find((x) => x.style === state.style[0]); if (c) { state.cat = c.key; state.style = []; } }
+
+  /* ---- predicates ---- */
+  const cat = () => CATS.find((c) => c.key === state.cat) || CATS[0];
+  const inCat = (c, k) => { if (k.line) return c.dataset.line === k.line; if (k.style) return c.dataset.style === k.style; if (k.ids) return k.ids.indexOf(c.dataset.product) >= 0; return true; };
+  const group = { colour: (c, v) => c.dataset.colours.split(",").indexOf(v) >= 0, price: (c, v) => { const [lo, hi] = v.split("-").map(Number), p = +c.dataset.price; return p >= lo && p <= hi; }, style: (c, v) => c.dataset.style === v, line: (c, v) => c.dataset.line === v };
+  const passGroup = (c, k) => !state[k].length || state[k].some((v) => group[k](c, v));
+  const passLine = (c) => !state.line || c.dataset.line === state.line;
+  const passes = (c, skip) => passLine(c) && inCat(c, cat()) && ["colour", "price", "style"].every((k) => k === skip || passGroup(c, k));
+  const sorters = { recommended: (a, b) => +a.dataset.index - +b.dataset.index, new: (a, b) => (b.dataset.tags.indexOf("new") >= 0) - (a.dataset.tags.indexOf("new") >= 0) || +a.dataset.index - +b.dataset.index, "price-asc": (a, b) => +a.dataset.price - +b.dataset.price, "price-desc": (a, b) => +b.dataset.price - +a.dataset.price, name: (a, b) => a.dataset.name.localeCompare(b.dataset.name) };
+
+  /* ---- paint everything but the grid ---- */
+  const inputs = $$("[data-f]");
+  const paint = () => {
+    if (title) title.textContent = state.line === "wallet" ? "All wallets" : state.line === "belt" ? "All belts" : "All pieces";
+    catBtns.forEach((b) => { const scopes = b.dataset.scope.split(" "); b.hidden = scopes.indexOf(state.line) < 0; b.setAttribute("aria-selected", String(b.dataset.cat === state.cat)); const lab = $(".sh-cat-label", b); if (b.dataset.cat === "all") lab.textContent = state.line === "wallet" ? "All wallets" : state.line === "belt" ? "All belts" : "All"; });
+    $$("[data-style-line]").forEach((w) => { w.hidden = !!state.line && w.dataset.styleLine !== state.line; });
+    // checkboxes mirror the state; the count is what ticking that option would show
+    inputs.forEach((i) => { const k = i.dataset.f; if (k === "line") { i.checked = state.line === i.value; const em = $("em", i.parentElement); if (em) em.textContent = cards.filter((c) => c.dataset.line === i.value && ["colour", "price", "style"].every((g) => passGroup(c, g))).length; return; } i.checked = state[k].indexOf(i.value) >= 0; const n = cards.filter((c) => passes(c, k) && group[k](c, i.value)).length; const em = $("em", i.parentElement); if (em) em.textContent = n; i.parentElement.classList.toggle("is-empty", n === 0 && !i.checked); });
+    $$("[data-dd]").forEach((p) => { const k = p.dataset.dd; if (!Array.isArray(state[k])) return; const n = state[k].length, badge = $("[data-pill-n]", p); badge.hidden = !n; badge.textContent = n; p.classList.toggle("is-active", n > 0); });
+    $$('input[name="sort"]').forEach((r) => r.checked = r.value === state.sort);
+    const sr = $('input[name="sort"][value="' + state.sort + '"]'); if (sr) $("[data-sort-label]").textContent = $(".sh-check-label", sr.parentElement).textContent;
+    const chips = []; ["colour", "price", "style"].forEach((k) => state[k].forEach((v) => chips.push({ k, v, label: k === "price" ? PRICE_LABEL[v] : v + (k === "style" && v === "Belt" ? "s" : "") })));
+    $("[data-active]").innerHTML = chips.map((c) => '<button type="button" class="sh-chip" data-chip="' + c.k + '" data-value="' + c.v + '">' + c.label + '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button>').join("") + (chips.length ? '<button type="button" class="sh-clear-all" data-clear-all>Clear all</button>' : "");
+    sync();
   };
-  const riseTitle = () => { G.set(title, { opacity: 1 }); if (reduced) return; titleSplit = S.charRise(title, { from: 110, to: { duration: .6, stagger: .03, overwrite: "auto" } }); };
-  const floatCut = (i) => { if (floatTween) floatTween.kill(); floatTween = null; if (reduced) return; floatTween = G.to($("img", cuts[i]), { y: -8, duration: 3.2, yoyo: true, repeat: -1, ease: "sine.inOut", delay: 1 }); };
-  const setActive = (next, instant) => {
-    if (next === active && !instant) return;
-    const fwd = next > active, prev = active; active = next; const g = GROUPS[next];
-    cats.forEach((b, i) => { b.classList.toggle("is-on", i === next); b.setAttribute("aria-selected", String(i === next)); });
-    if (count) count.textContent = pad(next) + " – " + pad(n - 1);
-    if (instant || reduced) {
-      photos.forEach((ph, i) => G.set(ph, { opacity: i === next ? 1 : 0 }));
-      cuts.forEach((c, i) => G.set(c, { opacity: i === next ? 1 : 0, x: 0, rotation: 0, scale: 1 }));
-      fill(g); G.set([title, models, line], { opacity: 1, y: 0 }); return;
-    }
-    photos.forEach((ph, i) => { G.to(ph, { opacity: i === next ? 1 : 0, duration: .9, ease: "power2.inOut", overwrite: "auto" }); if (i === next) G.fromTo($("img", ph), { scale: 1.16, xPercent: fwd ? 2 : -2 }, { scale: 1.08, xPercent: 0, duration: 1.6, ease: "power3.out", overwrite: "auto" }); });
-    cuts.forEach((c, i) => { if (i === next) G.fromTo(c, { opacity: 0, x: fwd ? 60 : -60, rotation: fwd ? 6 : -6, scale: .9 }, { opacity: 1, x: 0, rotation: 0, scale: 1, duration: .8, ease: "power3.out", delay: .1, overwrite: "auto" }); else G.to(c, { opacity: 0, x: fwd ? -40 : 40, scale: .92, duration: .4, ease: "power2.in", overwrite: "auto" }); });
-    G.set($("img", cuts[prev]), { y: 0 }); floatCut(next);
-    G.to([title, models, line], { y: -10, opacity: 0, duration: .2, ease: "power2.in", overwrite: "auto", onComplete: () => { fill(g); G.set(title, { y: 0 }); riseTitle(); G.fromTo([models, line], { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: .5, ease: "power2.out", stagger: .06, overwrite: "auto" }); } });
+  const mutate = () => {
+    cards.slice().sort(sorters[state.sort] || sorters.recommended).forEach((c) => grid.appendChild(c));
+    let k = 0; cards.forEach((c) => { const ok = passes(c); c.classList.toggle("is-hidden", !ok); if (ok) k++; });
+    $$("[data-count-total]").forEach((el) => el.textContent = k); $$("[data-count-word]").forEach((el) => el.textContent = k === 1 ? "piece" : "pieces");
+    empty.classList.toggle("is-on", k === 0);
   };
-  cats.forEach((b, i) => b.addEventListener("click", () => setActive(i)));
-  const list = $("[data-sc-cats]");
-  list && list.addEventListener("keydown", (e) => { const d = e.key === "ArrowDown" || e.key === "ArrowRight" ? 1 : e.key === "ArrowUp" || e.key === "ArrowLeft" ? -1 : 0; if (!d) return; e.preventDefault(); const next = (active + d + n) % n; setActive(next); cats[next].focus(); });
-  // deep links: wallets.html#long, wallets.html?style=Long, belts.html#nova
-  const want = (location.hash || "").slice(1).toLowerCase() || (new URLSearchParams(location.search).get("style") || "").toLowerCase();
-  const start = Math.max(0, GROUPS.findIndex((g) => g.key === want));
-  if (start) setActive(start, true);
-  // entrance, once the loader has gone
-  G.set(panel, { opacity: 0, x: isMobile ? 0 : 40, y: isMobile ? 24 : 0 });
-  G.set($$("[data-sc-item]", panel), { opacity: 0 });
-  G.set(title, { opacity: 0 });
-  S.onLoaderDone.push(() => {
-    G.to(panel, { opacity: 1, x: 0, y: 0, duration: 1, ease: "power3.out", delay: .1 });
-    G.fromTo($("img", photos[active]), { scale: 1.2 }, { scale: 1.08, duration: 2, ease: "power3.out" });
-    G.set(title, { opacity: 1 }); riseTitle();
-    G.fromTo($$("[data-sc-item]", panel), { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: .5, ease: "power2.out", stagger: .05, delay: .3, overwrite: "auto" });
-    G.fromTo(cuts[active], { opacity: 0, y: 30, scale: .9 }, { opacity: 1, y: 0, scale: 1, duration: 1, ease: "power3.out", delay: .35 });
-    floatCut(active);
+  const sync = () => {
+    const p = new URLSearchParams(); if (state.line && !FIXED) p.set("line", state.line + "s"); if (state.cat !== "all") p.set("cat", state.cat); ["colour", "price", "style"].forEach((k) => { if (state[k].length) p.set(k, state[k].join(",")); }); if (state.sort !== "recommended") p.set("sort", state.sort);
+    const q = p.toString(); history.replaceState(null, "", location.pathname + (q ? "?" + q : ""));
+  };
+  const apply = (animate) => { paint(); if (animate) S.swapGrid(grid, mutate); else { mutate(); ST.refresh(); } };
+
+  /* ---- events ---- */
+  catBtns.forEach((b) => b.addEventListener("click", () => { const c = CATS.find((x) => x.key === b.dataset.cat); if (c.line) { state.line = c.line; state.cat = "all"; } else state.cat = c.key; if (c.line || c.style) state.style = []; apply(true); }));
+  document.addEventListener("change", (e) => {
+    const i = e.target.closest("[data-f]");
+    if (i) { const k = i.dataset.f; if (k === "line") { state.line = i.checked ? i.value : ""; state.cat = "all"; } else { const has = state[k].indexOf(i.value); if (i.checked && has < 0) state[k].push(i.value); if (!i.checked && has >= 0) state[k].splice(has, 1); } apply(true); return; }
+    if (e.target.name === "sort") { state.sort = e.target.value; apply(true); closeDd(); }
+  });
+  document.addEventListener("click", (e) => {
+    const chip = e.target.closest("[data-chip]"); if (chip) { const k = chip.dataset.chip; state[k] = state[k].filter((v) => v !== chip.dataset.value); apply(true); return; }
+    if (e.target.closest("[data-clear-all]")) { state.colour = []; state.price = []; state.style = []; state.cat = "all"; apply(true); return; }
+    const cg = e.target.closest("[data-clear-group]"); if (cg) { state[cg.dataset.clearGroup] = []; apply(true); }
   });
 
-  /* ================= everything below the fold ================= */
-  $$(".col-intro, .cat, .all-band, .cross, footer").forEach((el) => S.initReveals(el));
-  $$(".cat-photo img").forEach((img) => { if (reduced) return; G.fromTo(img, { scale: 1.1 }, { scale: 1, ease: "none", scrollTrigger: { trigger: img.parentElement, start: "top bottom", end: "bottom top", scrub: true } }); });
-  S.initRails(document);
-  // "Discover the collection" scrolls with Lenis
-  cta && cta.addEventListener("click", (e) => { const target = $(cta.getAttribute("href")); if (!target) return; e.preventDefault(); S.scrollTo(target, 1.2); });
+  /* ---- dropdown pills ---- */
+  let openDd = null;
+  const closeDd = () => { if (!openDd) return; if (!drawerOpen) $(".sh-drawer-backdrop").classList.remove("is-open"); const dd = $(".sh-dd", openDd), btn = $(".sh-pill-btn", openDd); btn.setAttribute("aria-expanded", "false"); if (G && !reduced) G.to(dd, { opacity: 0, y: -6, duration: .18, ease: "power2.in", overwrite: true, onComplete: () => { dd.hidden = true; G.set(dd, { clearProps: "all" }); } }); else dd.hidden = true; openDd = null; };
+  const showDd = (pill) => { if (openDd === pill) return closeDd(); closeDd(); openDd = pill; if (window.matchMedia("(max-width: 767px)").matches) $(".sh-drawer-backdrop").classList.add("is-open"); const dd = $(".sh-dd", pill), btn = $(".sh-pill-btn", pill); btn.setAttribute("aria-expanded", "true"); dd.hidden = false; if (G && !reduced) G.fromTo(dd, { opacity: 0, y: -6 }, { opacity: 1, y: 0, duration: .3, ease: "power3.out", overwrite: true, clearProps: "transform" }); };
+  $$("[data-dd]").forEach((pill) => $(".sh-pill-btn", pill).addEventListener("click", (e) => { e.stopPropagation(); showDd(pill); }));
+  $$("[data-dd-close]").forEach((b) => b.addEventListener("click", closeDd));
+  document.addEventListener("click", (e) => { if (openDd && !openDd.contains(e.target)) closeDd(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeDd(); });
+
+  /* ---- drawer ---- */
+  const drawer = $("[data-drawer]"), backdrop = $(".sh-drawer-backdrop"); let drawerOpen = false, lastFocus = null;
+  const openDrawer = () => { closeDd(); drawerOpen = true; drawer.classList.add("is-open"); backdrop.classList.add("is-open"); drawer.setAttribute("aria-hidden", "false"); S.lock("filters"); lastFocus = document.activeElement; setTimeout(() => $("[data-drawer-close]", drawer).focus(), 300); };
+  const closeDrawer = () => { if (!drawerOpen) return; drawerOpen = false; drawer.classList.remove("is-open"); backdrop.classList.remove("is-open"); drawer.setAttribute("aria-hidden", "true"); S.unlock("filters"); lastFocus && lastFocus.focus && lastFocus.focus(); };
+  $$("[data-drawer-open]").forEach((b) => b.addEventListener("click", openDrawer));
+  $$("[data-drawer-close]").forEach((b) => b.addEventListener("click", closeDrawer));
+  $(".sh-drawer-backdrop").addEventListener("click", closeDd);
+  S.closeOverlay = () => { if (drawerOpen) closeDrawer(); };
+
+  /* ---- first paint: categories and cards rise in once ---- */
+  apply(false);
+  if (!reduced) G.fromTo(cards.filter((c) => !c.classList.contains("is-hidden")), { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: .7, ease: "power3.out", stagger: .04, delay: .2, clearProps: "opacity,transform", scrollTrigger: { trigger: grid, start: "top 85%", once: true } });
+  if (!reduced) G.fromTo($$("[data-cat]:not([hidden])"), { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: .5, ease: "power2.out", stagger: .04, delay: .1, clearProps: "opacity,transform" });
 }
 STAGR.onReady.push(initAnimations);
 

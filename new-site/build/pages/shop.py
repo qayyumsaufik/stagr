@@ -15,13 +15,14 @@ BADGE = {"best": "Bestseller", "new": "New in", "gift": "Gift pick"}
 PRICES = [("0-2000", "Under Rs 2,000"), ("2000-3000", "Rs 2,000 – 3,000"), ("3000-99999", "Over Rs 3,000")]
 
 
-def render(ctx):
-    P = ctx["products"]
+def catalogue(ctx, fixed_line=None):
+    """The filterable catalogue: category circles, pills, drawer, sort, grid. fixed_line pins it to one line."""
+    P = ctx["products"] if not fixed_line else [p for p in ctx["products"] if p["line"] == fixed_line]
     B = ctx["brand"]
     I = ctx["icon"]
     cut = ctx["cutouts"]
     TAGS = ctx["tags"]
-    by = {p["id"]: p for p in P}
+    by = {p["id"]: p for p in ctx["products"]}
     fmt = lambda n: "Rs " + format(n, ",d")
     colours = sorted({c for p in P for c in p["colours"]}, key=lambda c: ["Brown", "Tan", "Black"].index(c) if c in ["Brown", "Tan", "Black"] else 9)
     styles = [("Bifold", "wallet"), ("Trifold", "wallet"), ("Minimalist", "wallet"), ("Long", "wallet"), ("Belt", "belt")]
@@ -44,10 +45,13 @@ def render(ctx):
         dict(key="black-belts", label="Black belts", scope=["belt"], thumb="regent", ids=["regent", "nova"]),
         dict(key="tan-belts", label="Tan belts", scope=["belt"], thumb="monarch", ids=["monarch"]),
     ]
+    if fixed_line:
+        cats = [c for c in cats if fixed_line in c["scope"]]
+        if fixed_line == "belt": cats[0]["thumb"] = "outlaw"
     cats_html = "".join(f'<button type="button" class="sh-cat" role="tab" aria-selected="{str(c["key"] == "all").lower()}" data-cat="{c["key"]}" data-scope="{" ".join(c["scope"])}"><span class="sh-cat-ring"><img src="{cut(by[c["thumb"]])[0]["small"]}" alt="" width="300" height="300" loading="lazy"></span><span class="sh-cat-label">{c["label"]}</span></button>' for c in cats)
     cats_json = json.dumps([{k: v for k, v in c.items() if k in ("key", "line", "style", "ids")} for c in cats]).replace("</", "<\\/")
 
-    cards = "".join(ctx["scard"](ctx, p, i) for i, p in enumerate(P))
+    cards = "".join(ctx["ccard"](ctx, p, i) for i, p in enumerate(P))
 
     # ---- filter option lists (used twice: in the dropdowns and in the drawer) ----
     def opt(group, value, label, swatch=None):
@@ -60,10 +64,12 @@ def render(ctx):
     sort_opts = "".join(f'<label class="sh-check sh-radio"><input type="radio" name="sort" value="{v}" {"checked" if v == "recommended" else ""}><span class="sh-box"></span><span class="sh-check-label">{l}</span></label>' for v, l in sorts)
 
     def pill(key, label, body):
-        return f'<div class="sh-pill" data-dd="{key}"><button type="button" class="sh-pill-btn" aria-expanded="false" aria-haspopup="true"><span data-pill-label>{label}</span><i class="sh-pill-n" data-pill-n hidden></i>{chev}</button><div class="sh-dd" hidden><div class="sh-dd-body">{body}</div><div class="sh-dd-foot"><button type="button" class="btn btn--text" data-clear-group="{key}">Clear</button><button type="button" class="btn btn--sm" data-dd-close>Done</button></div></div></div>'
+        return f'<div class="sh-pill" data-dd="{key}"><button type="button" class="sh-pill-btn" aria-expanded="false" aria-haspopup="true"><span data-pill-label>{label}</span><i class="sh-pill-n" data-pill-n hidden></i>{chev}</button><div class="sh-dd" data-dd-title="{label}" hidden><div class="sh-dd-body">{body}</div><div class="sh-dd-foot"><button type="button" class="btn btn--text" data-clear-group="{key}">Clear</button><button type="button" class="btn btn--sm" data-dd-close>Done</button></div></div></div>'
 
     css = r'''
 .shop-top { padding: calc(var(--nav-top) + clamp(20px, 3vw, 36px)) 0 0; }
+.shop-top--fixed { padding-top: clamp(20px, 3vw, 36px); }
+.shop-top--fixed .sh-cats { margin-top: 0; }
 .shop-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; }
 .shop-head h1 { font-family: var(--font-display); font-weight: 300; font-size: clamp(1.75rem, 1.2rem + 1.6vw, 2.5rem); line-height: 1.1; }
 .shop-head p { color: var(--fg-2); font-size: .9375rem; }
@@ -124,6 +130,10 @@ def render(ctx):
 .sh-drawer-backdrop.is-open { opacity: 1; pointer-events: auto; }
 .sh-drawer { position: fixed; top: 0; left: 0; bottom: 0; z-index: 91; width: min(380px, 92vw); background: var(--bg); color: var(--fg); transform: translateX(-102%); transition: transform .5s var(--ease-out); display: grid; grid-template-rows: auto 1fr auto; box-shadow: 24px 0 48px rgba(26,27,29,.12); }
 .sh-drawer.is-open { transform: none; }
+.sh-drawer { grid-template-columns: minmax(0, 1fr); overflow: hidden; }
+.sh-drawer > * { min-width: 0; }
+.sh-drawer-body { overflow-x: hidden; }
+@media (max-width: 767px) { .sh-drawer-foot { padding: 12px 14px; gap: 8px; } .sh-drawer-foot .btn { min-width: 0; padding: 0 14px; font-size: .75rem; letter-spacing: .1em; } }
 .sh-drawer-head { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; border-bottom: 1px solid var(--line); }
 .sh-drawer-head h2 { font-size: 1rem; font-weight: 500; }
 .sh-drawer-body { overflow: auto; padding: 8px 14px 24px; }
@@ -149,23 +159,27 @@ def render(ctx):
 .delivery p { color: var(--fg-2); font-size: .9375rem; margin-top: 8px; max-width: 26ch; }
 @media (max-width: 767px) {
   .shop-head p { display: none; }
-  .sh-bar { position: static; }
+  .sh-bar { position: static; backdrop-filter: none; -webkit-backdrop-filter: none; }
   .sh-bar .wrap { flex-wrap: wrap; }
   .sh-pills { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); width: calc(100% + var(--gutter) * 2); }
   .sh-pills::-webkit-scrollbar { display: none; }
-  .sh-pill:not([data-dd="sort"]) .sh-dd { display: none !important; }
+  /* dropdowns become a bottom sheet on phones */
+  .sh-dd, .sh-right .sh-dd { position: fixed; left: 10px; right: 10px; top: auto; bottom: calc(10px + env(safe-area-inset-bottom)); z-index: 96; min-width: 0; border-radius: 16px; transform-origin: bottom center; box-shadow: 0 -10px 40px rgba(26,27,29,.28); }
+  .sh-dd-body { max-height: 50vh; }
+  .sh-dd::before { content: attr(data-dd-title); display: block; padding: 16px 18px 4px; font-size: .9375rem; font-weight: 600; }
   .sh-right { width: 100%; justify-content: space-between; }
 }
 '''
 
     body = f'''
-<section class="shop-top on-bone" aria-labelledby="shop-title">
+<section class="shop-top on-bone{" shop-top--fixed" if fixed_line else ""}" aria-labelledby="shop-title">
   <div class="wrap">
-    <div class="shop-head"><h1 id="shop-title" data-shop-title>All pieces</h1><p>{B["descriptor"]} Cash on delivery across Pakistan.</p></div>
+    <div class="shop-head"{" hidden" if fixed_line else ""}><h1 id="shop-title" data-shop-title>All pieces</h1><p>{B["descriptor"]} Cash on delivery across Pakistan.</p></div>
     <div class="sh-cats" role="tablist" aria-label="Categories" data-cats>{cats_html}</div>
   </div>
 </section>
 
+<div class="sh-catalogue">
 <div class="sh-bar" data-bar>
   <div class="wrap">
     <div class="sh-pills" data-pills>
@@ -175,8 +189,8 @@ def render(ctx):
       <button type="button" class="sh-all-btn" data-drawer-open>All filters {sliders}</button>
     </div>
     <div class="sh-right">
-      <span class="sh-count"><span data-count-total>{len(P)}</span> pieces</span>
-      <div class="sh-pill" data-dd="sort"><button type="button" class="sh-pill-btn" aria-expanded="false" aria-haspopup="true"><span data-sort-label>Recommended</span>{chev}</button><div class="sh-dd" hidden><div class="sh-dd-body" data-sort-body>{sort_opts}</div></div></div>
+      <span class="sh-count"><span data-count-total>{len(P)}</span> <span data-count-word>pieces</span></span>
+      <div class="sh-pill" data-dd="sort"><button type="button" class="sh-pill-btn" aria-expanded="false" aria-haspopup="true"><span data-sort-label>Recommended</span>{chev}</button><div class="sh-dd" data-dd-title="Sort by" hidden><div class="sh-dd-body" data-sort-body>{sort_opts}</div></div></div>
     </div>
   </div>
 </div>
@@ -186,9 +200,9 @@ def render(ctx):
     <div class="sh-active" data-active></div>
     <div class="sh-grid" data-grid>{cards}</div>
     <div class="sh-empty" data-empty><p class="h3">Nothing matches that yet.</p><p class="muted" style="margin-top:10px">Loosen a filter and the shelf fills up again.</p><p style="margin-top:24px"><button type="button" class="btn btn--ghost btn--sm" data-clear-all>Clear filters</button></p></div>
-    <div class="delivery">{"".join(f'<div data-reveal data-delay="{i * .1}"><h3>{t["title"]}</h3><p>{t["sub"]}</p></div>' for i, t in enumerate(B["trust"]["items"]))}</div>
   </div>
 </section>
+</div>
 
 <div class="sh-drawer-backdrop" data-drawer-close aria-hidden="true"></div>
 <aside class="sh-drawer" data-drawer aria-hidden="true" aria-label="All filters" data-lenis-prevent>
@@ -197,9 +211,9 @@ def render(ctx):
     <details class="sh-group" open><summary>Colour {chev}</summary><div class="sh-group-body sh-swatches">{"".join(f'<label class="sh-swatch" title="{c}"><input type="checkbox" data-f="colour" value="{c}"><span class="sw" style="--sw:{SWATCH.get(c, "#6E4328")}"></span><span class="sh-swatch-label">{c}</span></label>' for c in colours)}</div></details>
     <details class="sh-group" open><summary>Price {chev}</summary><div class="sh-group-body">{price_opts}</div></details>
     <details class="sh-group" open><summary>Style {chev}</summary><div class="sh-group-body">{style_opts}</div></details>
-    <details class="sh-group" open><summary>Line {chev}</summary><div class="sh-group-body">{line_opts}</div></details>
+    {"" if fixed_line else f'<details class="sh-group" open><summary>Line {chev}</summary><div class="sh-group-body">{line_opts}</div></details>'}
   </div>
-  <div class="sh-drawer-foot"><button type="button" class="btn btn--ghost" data-clear-all>Clear all</button><button type="button" class="btn" data-drawer-close>Show <span data-count-total>{len(P)}</span> pieces</button></div>
+  <div class="sh-drawer-foot"><button type="button" class="btn btn--ghost" data-clear-all>Clear all</button><button type="button" class="btn" data-drawer-close>Show <span data-count-total>{len(P)}</span> <span data-count-word>pieces</span></button></div>
 </aside>
 '''
 
@@ -209,14 +223,15 @@ const PRICE_LABEL = { "0-2000": "Under Rs 2,000", "2000-3000": "Rs 2,000 – 3,0
 function initAnimations() {
   const S = window.STAGR, G = S.gsap, ST = window.ScrollTrigger, $ = S.$, $$ = S.$$, reduced = S.reduced;
   if (!G) return;
-  S.initReveals($(".sh-grid-wrap")); S.initReveals($("footer"));
+  S.initReveals($(".sh-grid-wrap")); S.initReveals($("#why")); S.initReveals($("footer"));
 
   const grid = $("[data-grid]"), cards = $$("[data-product]", grid), empty = $("[data-empty]"), catBtns = $$("[data-cat]"), title = $("[data-shop-title]");
-  const state = { line: "", cat: "all", colour: [], price: [], style: [], sort: "recommended" };
+  const FIXED = __FIXED__;
+  const state = { line: FIXED, cat: "all", colour: [], price: [], style: [], sort: "recommended" };
 
   /* ---- read the URL ---- */
   const qs = new URLSearchParams(location.search);
-  const ql = (qs.get("line") || "").toLowerCase(); if (ql.startsWith("wallet")) state.line = "wallet"; else if (ql.startsWith("belt")) state.line = "belt";
+  const ql = (qs.get("line") || "").toLowerCase(); if (!FIXED) { if (ql.startsWith("wallet")) state.line = "wallet"; else if (ql.startsWith("belt")) state.line = "belt"; }
   if (qs.get("cat") && CATS.some((c) => c.key === qs.get("cat"))) state.cat = qs.get("cat");
   ["colour", "price", "style"].forEach((k) => { if (qs.get(k)) state[k] = qs.get(k).split(",").filter(Boolean); });
   if (qs.get("sort")) state.sort = qs.get("sort");
@@ -235,7 +250,7 @@ function initAnimations() {
   /* ---- paint everything but the grid ---- */
   const inputs = $$("[data-f]");
   const paint = () => {
-    title.textContent = state.line === "wallet" ? "All wallets" : state.line === "belt" ? "All belts" : "All pieces";
+    if (title) title.textContent = state.line === "wallet" ? "All wallets" : state.line === "belt" ? "All belts" : "All pieces";
     catBtns.forEach((b) => { const scopes = b.dataset.scope.split(" "); b.hidden = scopes.indexOf(state.line) < 0; b.setAttribute("aria-selected", String(b.dataset.cat === state.cat)); const lab = $(".sh-cat-label", b); if (b.dataset.cat === "all") lab.textContent = state.line === "wallet" ? "All wallets" : state.line === "belt" ? "All belts" : "All"; });
     $$("[data-style-line]").forEach((w) => { w.hidden = !!state.line && w.dataset.styleLine !== state.line; });
     // checkboxes mirror the state; the count is what ticking that option would show
@@ -250,11 +265,11 @@ function initAnimations() {
   const mutate = () => {
     cards.slice().sort(sorters[state.sort] || sorters.recommended).forEach((c) => grid.appendChild(c));
     let k = 0; cards.forEach((c) => { const ok = passes(c); c.classList.toggle("is-hidden", !ok); if (ok) k++; });
-    $$("[data-count-total]").forEach((el) => el.textContent = k);
+    $$("[data-count-total]").forEach((el) => el.textContent = k); $$("[data-count-word]").forEach((el) => el.textContent = k === 1 ? "piece" : "pieces");
     empty.classList.toggle("is-on", k === 0);
   };
   const sync = () => {
-    const p = new URLSearchParams(); if (state.line) p.set("line", state.line + "s"); if (state.cat !== "all") p.set("cat", state.cat); ["colour", "price", "style"].forEach((k) => { if (state[k].length) p.set(k, state[k].join(",")); }); if (state.sort !== "recommended") p.set("sort", state.sort);
+    const p = new URLSearchParams(); if (state.line && !FIXED) p.set("line", state.line + "s"); if (state.cat !== "all") p.set("cat", state.cat); ["colour", "price", "style"].forEach((k) => { if (state[k].length) p.set(k, state[k].join(",")); }); if (state.sort !== "recommended") p.set("sort", state.sort);
     const q = p.toString(); history.replaceState(null, "", location.pathname + (q ? "?" + q : ""));
   };
   const apply = (animate) => { paint(); if (animate) S.swapGrid(grid, mutate); else { mutate(); ST.refresh(); } };
@@ -274,9 +289,9 @@ function initAnimations() {
 
   /* ---- dropdown pills ---- */
   let openDd = null;
-  const closeDd = () => { if (!openDd) return; const dd = $(".sh-dd", openDd), btn = $(".sh-pill-btn", openDd); btn.setAttribute("aria-expanded", "false"); if (G && !reduced) G.to(dd, { opacity: 0, y: -6, duration: .18, ease: "power2.in", overwrite: true, onComplete: () => { dd.hidden = true; G.set(dd, { clearProps: "all" }); } }); else dd.hidden = true; openDd = null; };
-  const showDd = (pill) => { if (openDd === pill) return closeDd(); closeDd(); openDd = pill; const dd = $(".sh-dd", pill), btn = $(".sh-pill-btn", pill); btn.setAttribute("aria-expanded", "true"); dd.hidden = false; if (G && !reduced) G.fromTo(dd, { opacity: 0, y: -6 }, { opacity: 1, y: 0, duration: .3, ease: "power3.out", overwrite: true, clearProps: "transform" }); };
-  $$("[data-dd]").forEach((pill) => $(".sh-pill-btn", pill).addEventListener("click", (e) => { e.stopPropagation(); if (S.isMobile && pill.dataset.dd !== "sort") return openDrawer(); showDd(pill); }));
+  const closeDd = () => { if (!openDd) return; if (!drawerOpen) $(".sh-drawer-backdrop").classList.remove("is-open"); const dd = $(".sh-dd", openDd), btn = $(".sh-pill-btn", openDd); btn.setAttribute("aria-expanded", "false"); if (G && !reduced) G.to(dd, { opacity: 0, y: -6, duration: .18, ease: "power2.in", overwrite: true, onComplete: () => { dd.hidden = true; G.set(dd, { clearProps: "all" }); } }); else dd.hidden = true; openDd = null; };
+  const showDd = (pill) => { if (openDd === pill) return closeDd(); closeDd(); openDd = pill; if (window.matchMedia("(max-width: 767px)").matches) $(".sh-drawer-backdrop").classList.add("is-open"); const dd = $(".sh-dd", pill), btn = $(".sh-pill-btn", pill); btn.setAttribute("aria-expanded", "true"); dd.hidden = false; if (G && !reduced) G.fromTo(dd, { opacity: 0, y: -6 }, { opacity: 1, y: 0, duration: .3, ease: "power3.out", overwrite: true, clearProps: "transform" }); };
+  $$("[data-dd]").forEach((pill) => $(".sh-pill-btn", pill).addEventListener("click", (e) => { e.stopPropagation(); showDd(pill); }));
   $$("[data-dd-close]").forEach((b) => b.addEventListener("click", closeDd));
   document.addEventListener("click", (e) => { if (openDd && !openDd.contains(e.target)) closeDd(); });
   document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeDd(); });
@@ -287,6 +302,7 @@ function initAnimations() {
   const closeDrawer = () => { if (!drawerOpen) return; drawerOpen = false; drawer.classList.remove("is-open"); backdrop.classList.remove("is-open"); drawer.setAttribute("aria-hidden", "true"); S.unlock("filters"); lastFocus && lastFocus.focus && lastFocus.focus(); };
   $$("[data-drawer-open]").forEach((b) => b.addEventListener("click", openDrawer));
   $$("[data-drawer-close]").forEach((b) => b.addEventListener("click", closeDrawer));
+  $(".sh-drawer-backdrop").addEventListener("click", closeDd);
   S.closeOverlay = () => { if (drawerOpen) closeDrawer(); };
 
   /* ---- first paint: categories and cards rise in once ---- */
@@ -295,15 +311,20 @@ function initAnimations() {
   if (!reduced) G.fromTo($$("[data-cat]:not([hidden])"), { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: .5, ease: "power2.out", stagger: .04, delay: .1, clearProps: "opacity,transform" });
 }
 STAGR.onReady.push(initAnimations);
-'''.replace("__CATS__", cats_json)
+'''.replace("__CATS__", cats_json).replace("__FIXED__", json.dumps(fixed_line or ""))
 
+    return css, body, js
+
+
+def render(ctx):
+    css, body, js = catalogue(ctx)
     return {
         "file": "shop.html",
         "key": "shop",
         "title": "Shop — STAGR.",
-        "description": f"All {len(P)} STAGR. wallets and belts. Filter by colour, style and price. Cash on delivery across Pakistan.",
+        "description": f"All {len(ctx['products'])} STAGR. wallets and belts. Filter by colour, style and price. Cash on delivery across Pakistan.",
         "css": css,
-        "body": body,
+        "body": body + ctx["why"](ctx),
         "js": js,
         "header_dark": False,
         "shop_href": "#shop-title",
