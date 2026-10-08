@@ -750,6 +750,7 @@ html.is-entering .fade { opacity: 1; }
   </div>
 </section>
 
+<div class="sh-catalogue">
 <div class="sh-bar" data-bar>
   <div class="wrap">
     <div class="sh-pills" data-pills>
@@ -894,6 +895,7 @@ html.is-entering .fade { opacity: 1; }
     <div class="delivery"><div data-reveal data-delay="0.0"><h3>Cash on delivery</h3><p>Pay at the door</p></div><div data-reveal data-delay="0.1"><h3>3 to 5 days</h3><p>Across Pakistan</p></div><div data-reveal data-delay="0.2"><h3>14-day returns</h3><p>Unworn pieces</p></div><div data-reveal data-delay="0.30000000000000004"><h3>Handwritten note</h3><p>Free, add at checkout</p></div></div>
   </div>
 </section>
+</div>
 
 <div class="sh-drawer-backdrop" data-drawer-close aria-hidden="true"></div>
 <aside class="sh-drawer" data-drawer aria-hidden="true" aria-label="All filters" data-lenis-prevent>
@@ -1000,7 +1002,7 @@ const PRICE_LABEL = { "0-2000": "Under Rs 2,000", "2000-3000": "Rs 2,000 – 3,0
 function initAnimations() {
   const S = window.STAGR, G = S.gsap, ST = window.ScrollTrigger, $ = S.$, $$ = S.$$, reduced = S.reduced;
   if (!G) return;
-  S.initReveals($(".sh-grid-wrap")); S.initReveals($("footer"));
+  S.initReveals($(".sh-grid-wrap")); S.initReveals($("#why")); S.initReveals($("footer"));
 
   const grid = $("[data-grid]"), cards = $$("[data-product]", grid), empty = $("[data-empty]"), catBtns = $$("[data-cat]"), title = $("[data-shop-title]");
   const FIXED = "";

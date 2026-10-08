@@ -172,6 +172,7 @@ def catalogue(ctx, fixed_line=None):
   </div>
 </section>
 
+<div class="sh-catalogue">
 <div class="sh-bar" data-bar>
   <div class="wrap">
     <div class="sh-pills" data-pills>
@@ -195,6 +196,7 @@ def catalogue(ctx, fixed_line=None):
     <div class="delivery">{"".join(f'<div data-reveal data-delay="{i * .1}"><h3>{t["title"]}</h3><p>{t["sub"]}</p></div>' for i, t in enumerate(B["trust"]["items"]))}</div>
   </div>
 </section>
+</div>
 
 <div class="sh-drawer-backdrop" data-drawer-close aria-hidden="true"></div>
 <aside class="sh-drawer" data-drawer aria-hidden="true" aria-label="All filters" data-lenis-prevent>
@@ -215,7 +217,7 @@ const PRICE_LABEL = { "0-2000": "Under Rs 2,000", "2000-3000": "Rs 2,000 – 3,0
 function initAnimations() {
   const S = window.STAGR, G = S.gsap, ST = window.ScrollTrigger, $ = S.$, $$ = S.$$, reduced = S.reduced;
   if (!G) return;
-  S.initReveals($(".sh-grid-wrap")); S.initReveals($("footer"));
+  S.initReveals($(".sh-grid-wrap")); S.initReveals($("#why")); S.initReveals($("footer"));
 
   const grid = $("[data-grid]"), cards = $$("[data-product]", grid), empty = $("[data-empty]"), catBtns = $$("[data-cat]"), title = $("[data-shop-title]");
   const FIXED = __FIXED__;
