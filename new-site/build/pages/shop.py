@@ -193,7 +193,6 @@ def catalogue(ctx, fixed_line=None):
     <div class="sh-active" data-active></div>
     <div class="sh-grid" data-grid>{cards}</div>
     <div class="sh-empty" data-empty><p class="h3">Nothing matches that yet.</p><p class="muted" style="margin-top:10px">Loosen a filter and the shelf fills up again.</p><p style="margin-top:24px"><button type="button" class="btn btn--ghost btn--sm" data-clear-all>Clear filters</button></p></div>
-    <div class="delivery">{"".join(f'<div data-reveal data-delay="{i * .1}"><h3>{t["title"]}</h3><p>{t["sub"]}</p></div>' for i, t in enumerate(B["trust"]["items"]))}</div>
   </div>
 </section>
 </div>
