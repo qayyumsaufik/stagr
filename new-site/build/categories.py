@@ -54,7 +54,8 @@ for key, (f, fx, fy, zoom) in TILES.items():
 # ---- collection page heroes and category rows (3:2, 1800 / 900) ----
 COLL = {
     "hero-wallets": (f"{SRC}/Majestic/WhatsApp Image 2025-03-11 at 10.20.46 AM.jpeg", .5, .5, 1.0),
-    "hero-belts":   (f"{W1}/DSC08959.JPG", .5, .5, 1.0),
+    "hero-belts":   (f"{W1}/DSC08966.JPG", .5, .5, 1.0),
+    "inside-belts": (f"{W1}/DSC08998.JPG", .5, .5, 1.0),
 }
 for key, (f, fx, fy, zoom) in COLL.items():
     im = load(f); W, H = im.size

@@ -30,7 +30,7 @@ def page(ctx, line):
             dict(key="long", name="Long wallets", short="Long", ids=["rodeo", "upbuck"], line1="Cards, notes, a snap.", sub="Full-length slots, a snap closure, a phone-sized pocket."),
         ]
     else:
-        hero = dict(img="hero-belts", alt="Four Stagr belts laid on a walnut bench", kicker=f"Belts · {n_p} pieces, from {fmt(min_p)} · Sizes 30 to 44", h1="Cut along<br>the spine.", sub="Straps are cut where the hide is tightest, so a belt holds its shape instead of curling. Solid buckle on a removable screw post.")
+        hero = dict(img="hero-belts", alt="The Monarch belt coiled among shells and coffee beans on walnut", kicker=f"Belts · {n_p} pieces, from {fmt(min_p)} · Sizes 30 to 44", h1="Cut along<br>the spine.", sub="Straps are cut where the hide is tightest, so a belt holds its shape instead of curling. Solid buckle on a removable screw post.")
         groups = [
             dict(key="nova", name="Nova", short="Nova", ids=["nova"], line1="Two sides, one belt.", sub="Black on one face, brown on the other, with a swivel buckle."),
             dict(key="outlaw", name="Outlaw", short="Outlaw", ids=["outlaw"], line1="Rugged, with a brass buckle.", sub="The thickest strap in the range. Wears in, never out."),
@@ -43,7 +43,7 @@ def page(ctx, line):
         which = dict(h="Which fold?", sub="Four shapes, one hide. Pick by pocket, not by price.")
     else:
         inside = dict(h="Cut along the spine, finished by hand", body="Straps are cut where the hide is tightest, so a belt holds its shape instead of curling. Edges bevelled, sanded and burnished, then sealed with beeswax. Solid buckle on a removable screw post.",
-                      rows=[("Leather", "Crazy horse, full grain cowhide"), ("Thickness", "3.5 mm, cut in one piece"), ("Buckle", "Solid, on a removable screw post"), ("Sizes", "30 to 44"), ("Care", "Keep it rolled, condition twice a year")], img="hero-belts", alt="Four Stagr belts on walnut")
+                      rows=[("Leather", "Crazy horse, full grain cowhide"), ("Thickness", "3.5 mm, cut in one piece"), ("Buckle", "Solid, on a removable screw post"), ("Sizes", "30 to 44"), ("Care", "Keep it rolled, condition twice a year")], img="inside-belts", alt="The Nova belt coiled beside a pine cone, coffee beans on walnut")
         which = dict(h="Which belt?", sub="Four straps, one hide. Pick by buckle and colour, not by price.")
     for g in groups:
         g["products"] = [by[i] for i in g["ids"]]
@@ -177,7 +177,7 @@ def page(ctx, line):
       <p class="explore-sub" data-reveal data-delay=".1">{inside["body"]}</p>
       <dl class="spec" data-reveal data-delay=".15">{"".join(f'<div><dt>{k}</dt><dd>{v}</dd></div>' for k, v in inside["rows"])}</dl>
     </div>
-    <figure class="cinside-photo" data-reveal data-delay=".1"><img src="assets/categories/{inside["img"]}{"-1200" if inside["img"].startswith("hero") else "-1400"}.jpg" alt="{inside["alt"]}" width="1400" height="933" loading="lazy"></figure>
+    <figure class="cinside-photo" data-reveal data-delay=".1"><img src="assets/categories/{inside["img"]}{"-1200" if inside["img"] in ("hero-belts", "hero-wallets", "inside-belts") else "-1400"}.jpg" alt="{inside["alt"]}" width="1400" height="933" loading="lazy"></figure>
   </div>
 </section>
 
