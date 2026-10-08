@@ -54,7 +54,7 @@ def render(ctx):
 <div class="bk-field"><label for="bk-occasion">Occasion</label><select id="bk-occasion" name="occasion"><option>Client gifts</option><option>Staff gifts</option><option>Festive giving</option><option>Wedding or event</option><option>Something else</option></select></div>
 <div class="bk-field"><label for="bk-date">Needed by <span>(optional)</span></label><input id="bk-date" name="date" type="date"></div>
 <div class="bk-field bk-field--wide"><span class="bk-label">Pieces</span><div class="bk-pieces" data-bo-form-summary><p class="bk-pieces-empty">Nothing added yet. <a href="#build">Build your order</a>, or tell us below.</p></div></div>
-<div class="bk-field bk-field--wide"><label for="bk-qty">Total pieces</label><input id="bk-qty" name="quantity" type="number" min="10" step="1" value="10" required></div>
+<div class="bk-field bk-field--wide" data-bk-qty-field><label for="bk-qty">Total pieces</label><input id="bk-qty" name="quantity" type="number" min="10" step="1" value="10" required></div>
 <div class="bk-field bk-field--wide"><span class="bk-label">Add</span><div class="bk-chips" data-bk-addons><button type="button" class="bk-chip" aria-pressed="false" data-addon="Embossing or monogram">Embossing or monogram</button><button type="button" class="bk-chip" aria-pressed="true" data-addon="Gift boxes">Gift boxes</button><button type="button" class="bk-chip" aria-pressed="false" data-addon="Handwritten cards">Handwritten cards</button><button type="button" class="bk-chip" aria-pressed="false" data-addon="Several addresses">Several addresses</button></div></div>
 <div class="bk-field bk-field--wide"><label for="bk-notes">Anything else <span>(optional)</span></label><textarea id="bk-notes" name="notes" rows="4" placeholder="Colours, sizes, the message for the card, a logo you will send…"></textarea></div>'''
 
@@ -63,17 +63,17 @@ def render(ctx):
         cuts = ctx["cutouts"](p); main = cuts[0]
         sw = "".join(f'<label class="cc-sw" title="{c}"><input type="radio" name="bo-{p["id"]}" value="{c}" {"checked" if c == p["defaultColour"] else ""}><i style="--sw:{ctx["swatch"].get(c, "#6E4328")}"></i><span class="sr-only">{c}</span></label>' for c in p["colours"])
         size = f'<select class="bo-size" aria-label="Size"><option value="Mixed sizes">Mixed sizes</option>{"".join(f"<option>{x}</option>" for x in p["sizes"]["options"])}</select>' if p.get("sizes") else ""
+        short = p["name"].replace(" Leather", "").replace(" Premium", "")
         return f'''<article class="bo-card" data-bo="{p["id"]}" data-line="{p["line"]}" data-name="{esc(p["name"])}" data-price="{p["price"]}">
-  <div class="bo-media"><img class="main" src="{main["small"]}" alt="{esc(p["name"])}" width="600" height="600" loading="lazy" draggable="false"></div>
+  <div class="bo-media"><img class="main" src="{main["small"]}" alt="{esc(p["name"])}" width="600" height="600" loading="lazy" draggable="false"><span class="bo-count" data-bo-count hidden>0</span></div>
   <div class="bo-body">
-    <div class="bo-head"><h3>{esc(p["name"].split(" ")[0])}</h3><span>{fmt(p["price"])}</span></div>
-    <p class="bo-style">{p["style"] or "Belt"} · {" / ".join(p["colours"])}</p>
-    <div class="bo-row"><div class="opts cc-opts" data-bo-colours>{sw}</div>{size}</div>
-    <div class="bo-row"><div class="qty"><button type="button" data-bo-dec aria-label="Fewer">−</button><span data-bo-qty>10</span><button type="button" data-bo-inc aria-label="More">+</button></div><button type="button" class="bo-add" data-bo-add>Add</button></div>
+    <h3>{esc(short)}</h3>
+    <div class="bo-meta"><div class="opts cc-opts" data-bo-colours>{sw}</div><span class="bo-colour" data-bo-colour>{p["defaultColour"]}</span>{size}</div>
+    <p class="bo-price"><b>{fmt(p["price"])}</b> each</p>
+    <div class="qty bo-qty"><button type="button" data-bo-dec aria-label="Fewer">−</button><span data-bo-qty>0</span><button type="button" data-bo-inc aria-label="More">+</button></div>
   </div>
 </article>'''
-    bo_belts = "".join(bo_card(p) for p in belts)
-    bo_wallets = "".join(bo_card(p) for p in wallets)
+    bo_cards = "".join(bo_card(p) for p in belts + wallets)
 
     css = r'''
 /* ---- hero ---- */
@@ -169,51 +169,50 @@ def render(ctx):
 
 /* ---- build your order ---- */
 .bo { padding: clamp(48px, 7vw, 96px) 0 0; }
-.bo-tabs { display: flex; gap: 8px; margin-bottom: 18px; }
-.bo-tab { min-height: 40px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--line-strong); font-size: .8125rem; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--fg); transition: background-color .25s ease, color .25s ease, border-color .25s ease; }
+.bo-tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.bo-tab { min-height: 40px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--line-strong); background: #fff; font-size: .8125rem; font-weight: 500; color: var(--fg); transition: background-color .25s ease, color .25s ease, border-color .25s ease; }
 .bo-tab[aria-selected="true"] { background: var(--ink); color: var(--bone); border-color: var(--ink); }
-.bo-layout { display: grid; gap: 20px; }
-.bo-grid { display: grid; gap: 12px; grid-template-columns: 1fr; }
-.bo-grid[hidden] { display: none; }
-.bo-card { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 12px; background: #fff; border-radius: 14px; padding: 10px; box-shadow: 0 1px 2px rgba(26,27,29,.04), 0 10px 30px -18px rgba(26,27,29,.18); }
-.bo-media { display: grid; place-items: center; aspect-ratio: 1; border-radius: 10px; background: #F3F1EC; overflow: hidden; }
-.bo-media img { width: 84%; height: auto; max-height: 86%; object-fit: contain; filter: drop-shadow(0 10px 14px rgba(26,27,29,.16)); transition: opacity .3s ease; }
-.bo-body { display: grid; gap: 8px; align-content: start; padding: 4px 4px 2px 0; }
-.bo-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
-.bo-head h3 { font-size: 1rem; font-weight: 600; }
-.bo-head span { font-weight: 700; color: var(--accent-deep); font-size: .9375rem; white-space: nowrap; }
-.bo-style { font-size: .75rem; color: var(--fg-2); margin-top: -4px; }
-.bo-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
-.bo-size { min-height: 34px; padding: 0 10px; border: 1px solid var(--line-strong); border-radius: 8px; background: #FBFAF7; font: inherit; font-size: .8125rem; color: var(--ink); }
-.bo-row .qty { height: 36px; }
-.bo-row .qty button { width: 32px; }
-.bo-add { min-height: 36px; padding: 0 16px; border-radius: 999px; background: var(--accent-deep); color: var(--bone); font-size: .8125rem; font-weight: 600; transition: background-color .3s ease; }
-.bo-add:hover { background: var(--ink); }
-.bo-add.is-added { background: var(--success); }
-@media (min-width: 640px) { .bo-grid { grid-template-columns: 1fr 1fr; } }
-@media (min-width: 1024px) { .bo-layout { grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); gap: 24px; align-items: start; } }
-.bo-summary { position: sticky; top: calc(var(--nav-h) + 16px); background: #F4F2EE; border-radius: 16px; padding: 22px; display: grid; gap: 14px; }
-.bo-summary h3 { font-family: var(--font-display); font-weight: 300; font-size: 1.6rem; line-height: 1.1; }
-.bo-lines { display: grid; gap: 8px; }
-.bo-line { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: .875rem; }
-.bo-line b { display: block; font-weight: 600; }
-.bo-line small { color: var(--fg-2); font-size: .8125rem; }
-.bo-line .bo-line-qty { font-variant-numeric: tabular-nums; white-space: nowrap; }
-.bo-line .bo-remove { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; color: var(--fg-2); border: 1px solid var(--line-strong); }
-.bo-line .bo-remove:hover { color: var(--ink); border-color: var(--ink); }
-.bo-line .bo-remove svg { width: 12px; height: 12px; }
-.bo-empty { font-size: .875rem; color: var(--fg-2); padding: 8px 0; }
-.bo-totals { display: grid; gap: 6px; font-size: .875rem; }
-.bo-totals div { display: flex; justify-content: space-between; gap: 12px; }
-.bo-totals b { font-weight: 700; }
-.bo-totals .bo-est { font-size: 1.1rem; color: var(--accent-deep); }
-.bo-totals p { font-size: .75rem; color: var(--fg-2); margin-top: 2px; }
-.bo-min { font-size: .8125rem; color: var(--error); min-height: 1.3em; }
-.bo-summary .btn { width: 100%; }
+.bo-grid { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
+.bo-card { display: flex; flex-direction: column; background: #fff; border-radius: 14px; padding: 10px; border: 1.5px solid transparent; box-shadow: 0 1px 2px rgba(26,27,29,.04), 0 10px 30px -18px rgba(26,27,29,.18); transition: border-color .3s ease, transform .3s var(--ease-out); }
+.bo-card.is-hidden { display: none; }
+.bo-card.is-in { border-color: var(--accent-deep); }
+.bo-media { position: relative; display: grid; place-items: center; aspect-ratio: 1; border-radius: 10px; background: #F3F1EC; overflow: hidden; }
+.bo-media img { width: 82%; height: auto; max-height: 86%; object-fit: contain; filter: drop-shadow(0 12px 16px rgba(26,27,29,.16)); transition: opacity .3s ease; }
+.bo-count { position: absolute; top: 10px; right: 10px; min-width: 26px; height: 26px; padding: 0 8px; border-radius: 999px; background: var(--accent-deep); color: var(--bone); font-size: .75rem; font-weight: 700; display: grid; place-items: center; }
+.bo-count[hidden] { display: none; }
+.bo-body { display: grid; gap: 8px; padding: 12px 4px 4px; }
+.bo-body h3 { font-size: .9375rem; font-weight: 600; line-height: 1.3; }
+.bo-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.bo-colour { font-size: .75rem; color: var(--fg-2); }
+.bo-size { min-height: 30px; padding: 0 8px; margin-left: auto; border: 1px solid var(--line-strong); border-radius: 8px; background: #FBFAF7; font: inherit; font-size: .75rem; color: var(--ink); }
+.bo-price { font-size: .8125rem; color: var(--fg-2); }
+.bo-price b { font-weight: 700; font-size: 1rem; color: var(--accent-deep); }
+.bo-qty { width: 100%; justify-content: space-between; height: 42px; }
+.bo-qty button { width: 44px; }
+.bo-qty span { flex: 1; }
+@media (min-width: 768px) { .bo-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; } }
+@media (min-width: 1024px) { .bo-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } .bo-card { padding: 12px; } }
+/* sticky order bar */
+.bo-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; padding: 0 var(--gutter) calc(12px + env(safe-area-inset-bottom)); transform: translateY(120%); transition: transform .45s var(--ease-out); pointer-events: none; }
+.bo-bar.is-on { transform: none; pointer-events: auto; }
+.bo-bar-inner { position: relative; max-width: var(--max); margin: 0 auto; display: flex; align-items: center; gap: 16px; padding: 14px 20px 18px; border-radius: 16px; background: #232426; color: var(--bone); box-shadow: 0 20px 50px -20px rgba(0,0,0,.6); overflow: hidden; }
+.bo-bar-text { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.bo-bar-text b { font-size: 1.05rem; font-weight: 700; }
+.bo-bar-text b span { font-weight: 400; color: rgba(239,237,230,.75); }
+.bo-bar-text small { font-size: .8125rem; color: rgba(239,237,230,.7); }
+.bo-bar-prog { position: absolute; left: 20px; right: 20px; bottom: 8px; height: 3px; border-radius: 2px; background: rgba(239,237,230,.14); }
+.bo-bar-prog i { display: block; height: 100%; width: 0; border-radius: 2px; background: linear-gradient(90deg, var(--accent-deep), var(--accent)); transition: width .4s var(--ease-out); }
+.bo-bar .btn { flex: none; background: var(--accent-deep); border-color: var(--accent-deep); color: var(--bone); }
+.bo-bar .btn:hover { background: var(--accent); border-color: var(--accent); color: var(--ink); }
+.bo-bar .btn[disabled] { opacity: .55; pointer-events: none; }
+@media (max-width: 639px) { .bo-bar-inner { padding: 12px 16px 16px; gap: 10px; } .bo-bar-text b { font-size: .9375rem; } .bo-bar .btn { min-height: 42px; padding: 0 18px; } .bo-bar-prog { left: 16px; right: 16px; } }
 /* form additions */
 .bk-field label span, .bk-label span { text-transform: none; letter-spacing: 0; color: var(--fg-2); font-weight: 400; }
 .bk-label { font-size: .75rem; letter-spacing: .14em; text-transform: uppercase; color: var(--fg-2); font-weight: 500; }
 .bk-pieces { min-height: 50px; padding: 12px 14px; border: 1px dashed var(--line-strong); border-radius: 10px; background: #FBFAF7; font-size: .875rem; display: grid; gap: 6px; }
+.bk-pieces .bk-pieces-head b { font-weight: 700; }
+.bk-pieces .bk-piece { color: var(--fg-2); justify-content: flex-start; }
+.bk-field[hidden] { display: none; }
 .bk-pieces-empty { color: var(--fg-2); }
 .bk-pieces a { color: var(--accent-deep); font-weight: 600; }
 .bk-pieces .bk-piece { display: flex; justify-content: space-between; gap: 10px; }
@@ -294,23 +293,18 @@ def render(ctx):
 
 <section class="bo on-bone" id="build" aria-labelledby="bo-title">
   <div class="wrap">
-    <div class="bk-head"><div><p class="label" data-reveal>Build your order</p><h2 class="explore-title" id="bo-title" data-reveal data-delay=".05">Pick the pieces, we do the rest.</h2><p class="explore-sub" data-reveal data-delay=".1">Choose colours and quantities. For belts, leave the size as mixed and send us the list later, or pick one size for everyone.</p></div></div>
-    <div class="bo-layout">
-      <div>
-        <div class="bo-tabs" role="tablist" data-reveal><button type="button" class="bo-tab" role="tab" aria-selected="true" data-bo-tab="belt">Belts</button><button type="button" class="bo-tab" role="tab" aria-selected="false" data-bo-tab="wallet">Wallets</button></div>
-        <div class="bo-grid" data-bo-grid="belt">{bo_belts}</div>
-        <div class="bo-grid" data-bo-grid="wallet" hidden>{bo_wallets}</div>
-      </div>
-      <aside class="bo-summary" data-reveal data-delay=".1" aria-live="polite">
-        <h3>Your order</h3>
-        <div class="bo-lines" data-bo-lines><p class="bo-empty">Nothing added yet. Add pieces from the left.</p></div>
-        <div class="bo-totals"><div><span>Total pieces</span><b data-bo-total>0</b></div><div><span>Estimate at shop price</span><b class="bo-est" data-bo-est>Rs 0</b></div><p>We confirm the final price and timing in your quote.</p></div>
-        <p class="bo-min" data-bo-min></p>
-        <a class="btn btn--tan" href="#enquire">Request a quote {I["arrow"]}</a>
-      </aside>
-    </div>
+    <div class="bk-head"><div><p class="label" data-reveal>Build your order</p><h2 class="explore-title" id="bo-title" data-reveal data-delay=".05">Pick the pieces, we do the rest.</h2><p class="explore-sub" data-reveal data-delay=".1">Add pieces to start a quote. Mix belts and wallets freely; the minimum is 10 in total. For belts, leave the size as mixed and send us the list later.</p></div><div class="bo-tabs" role="tablist" data-reveal data-delay=".15"><button type="button" class="bo-tab" role="tab" aria-selected="true" data-bo-tab="all">All</button><button type="button" class="bo-tab" role="tab" aria-selected="false" data-bo-tab="belt">Belts</button><button type="button" class="bo-tab" role="tab" aria-selected="false" data-bo-tab="wallet">Wallets</button></div></div>
+    <div class="bo-grid" data-bo-grid data-reveal data-delay=".1">{bo_cards}</div>
   </div>
 </section>
+
+<div class="bo-bar" data-bo-bar aria-live="polite">
+  <div class="bo-bar-inner">
+    <div class="bo-bar-text"><b><span data-bo-total>0</span> <span data-bo-word>pieces</span> <span>· <span data-bo-est>Rs 0</span></span></b><small data-bo-note>Add 10 more to reach the 10-piece minimum</small></div>
+    <a class="btn btn--sm" href="#enquire" data-bo-continue>Continue {I["arrow"]}</a>
+    <div class="bo-bar-prog" aria-hidden="true"><i data-bo-prog></i></div>
+  </div>
+</div>
 
 <section class="bk-enquire on-bone" id="enquire" aria-labelledby="bk-enquire-title">
   <div class="wrap">
@@ -346,35 +340,38 @@ function initBulk() {
   $$(".bk-points, .bk-sec, .bo, .bk-enquire, #why, footer").forEach((el) => S.initReveals(el));
   $$('a[href^="#"]').forEach((a) => a.addEventListener("click", (e) => { const el = $(a.getAttribute("href")); if (!el) return; e.preventDefault(); S.scrollTo(el, 1.1); }));
   /* ---- build your order ---- */
-  const KEY = "stagr-bulk"; let lines = []; try { lines = JSON.parse(localStorage.getItem(KEY) || "[]"); } catch (e) {}
+  const KEY = "stagr-bulk"; let saved = {}; try { saved = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) {}
   const fmt = S.fmt, esc = (t) => String(t).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
-  const totalEl = $("[data-bo-total]"), estEl = $("[data-bo-est]"), minEl = $("[data-bo-min]"), linesEl = $("[data-bo-lines]"), formSum = $("[data-bo-form-summary]"), qtyInput = $("#bk-qty");
-  const total = () => lines.reduce((n, l) => n + l.qty, 0);
+  const cards = $$("[data-bo]"), bar = $("[data-bo-bar]"), formSum = $("[data-bo-form-summary]"), qtyField = $("[data-bk-qty-field]"), qtyInput = $("#bk-qty"), enquire = $("#enquire");
+  const state = {};
+  cards.forEach((card) => { const id = card.dataset.bo, p = S.product(id), sv = saved[id] || {}; state[id] = { qty: sv.qty || 0, colour: sv.colour || p.defaultColour, size: sv.size || ($(".bo-size", card) ? "Mixed sizes" : "") }; });
+  const lines = () => cards.map((c) => ({ id: c.dataset.bo, name: c.dataset.name, price: +c.dataset.price, ...state[c.dataset.bo] })).filter((l) => l.qty > 0);
+  const total = () => lines().reduce((n, l) => n + l.qty, 0);
+  let barOn = false;
+  const paintBar = () => { const t = total(), show = t > 0 && enquire.getBoundingClientRect().top > window.innerHeight - 80; if (show !== barOn) { barOn = show; bar.classList.toggle("is-on", show); } };
   const paint = () => {
-    try { localStorage.setItem(KEY, JSON.stringify(lines)); } catch (e) {}
-    const t = total(), est = lines.reduce((n, l) => n + l.qty * l.price, 0);
-    linesEl.innerHTML = lines.length ? lines.map((l, i) => '<div class="bo-line"><div><b>' + esc(l.name) + '</b><small>' + esc(l.colour) + (l.size ? " · " + esc(l.size) : "") + '</small></div><span class="bo-line-qty">× ' + l.qty + '</span><button type="button" class="bo-remove" data-bo-remove="' + i + '" aria-label="Remove"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>').join("") : '<p class="bo-empty">Nothing added yet. Add pieces from the left.</p>';
-    totalEl.textContent = t; estEl.textContent = fmt(est);
-    minEl.textContent = t && t < 10 ? "Bulk orders start at 10 pieces. Add " + (10 - t) + " more." : "";
-    formSum.innerHTML = lines.length ? lines.map((l) => '<div class="bk-piece"><span>' + esc(l.name) + ' · ' + esc(l.colour) + (l.size ? " · " + esc(l.size) : "") + '</span><span>× ' + l.qty + '</span></div>').join("") + '<p class="bk-pieces-empty"><a href="#build">Change the pieces</a></p>' : '<p class="bk-pieces-empty">Nothing added yet. <a href="#build">Build your order</a>, or tell us below.</p>';
-    if (lines.length) { qtyInput.value = t; qtyInput.readOnly = true; } else { qtyInput.readOnly = false; }
+    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+    const L = lines(), t = total(), est = L.reduce((n, l) => n + l.qty * l.price, 0);
+    cards.forEach((c) => { const st = state[c.dataset.bo]; $("[data-bo-qty]", c).textContent = st.qty; const badge = $("[data-bo-count]", c); badge.textContent = st.qty; badge.hidden = !st.qty; c.classList.toggle("is-in", st.qty > 0); $("[data-bo-colour]", c).textContent = st.colour; });
+    $("[data-bo-total]").textContent = t; $("[data-bo-word]").textContent = t === 1 ? "piece" : "pieces"; $("[data-bo-est]").textContent = fmt(est);
+    $("[data-bo-note]").textContent = t < 10 ? "Add " + (10 - t) + " more to reach the 10-piece minimum" : "Ready for a quote, at shop price";
+    $("[data-bo-prog]").style.width = Math.min(100, t / 10 * 100) + "%";
+    formSum.innerHTML = L.length ? '<p class="bk-pieces-head"><b>' + t + ' ' + (t === 1 ? 'piece' : 'pieces') + '</b>, about ' + fmt(est) + ' at shop price</p>' + L.map((l) => '<div class="bk-piece"><span>' + l.qty + ' × ' + esc(l.name) + ' · ' + esc(l.colour) + (l.size ? ' · ' + esc(l.size) : '') + '</span></div>').join("") + '<p><a href="#build">Edit pieces</a></p>' : '<p class="bk-pieces-empty">Nothing added yet. <a href="#build">Build your order</a>, or tell us below.</p>';
+    if (L.length) { qtyInput.value = t; qtyField.hidden = true; } else { qtyField.hidden = false; }
     $$('.bk-pieces a[href^="#"]').forEach((a) => a.addEventListener("click", (e) => { e.preventDefault(); S.scrollTo($("#build"), 1.1); }));
+    paintBar();
   };
-  $$("[data-bo-tab]").forEach((b) => b.addEventListener("click", () => { $$("[data-bo-tab]").forEach((x) => x.setAttribute("aria-selected", String(x === b))); $$("[data-bo-grid]").forEach((g) => { g.hidden = g.dataset.boGrid !== b.dataset.boTab; }); if (G && !reduced) G.fromTo($$("[data-bo-grid]:not([hidden]) .bo-card"), { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .4, ease: "power2.out", stagger: .04, clearProps: "opacity,transform" }); }));
-  $$("[data-bo]").forEach((card) => {
-    const p = S.product(card.dataset.bo), img = $("img.main", card), qtyOut = $("[data-bo-qty]", card); let qty = 10;
-    $$("[data-bo-colours] input", card).forEach((r) => r.addEventListener("change", () => { const c = (p.cutouts || []).find((x) => x.colour === r.value); if (c && img.getAttribute("src") !== c.small) { if (G && !reduced) G.to(img, { opacity: 0, duration: .15, onComplete: () => { img.src = c.small; G.to(img, { opacity: 1, duration: .25 }); } }); else img.src = c.small; } }));
-    $("[data-bo-inc]", card).addEventListener("click", () => { qty = Math.min(999, qty + 1); qtyOut.textContent = qty; });
-    $("[data-bo-dec]", card).addEventListener("click", () => { qty = Math.max(1, qty - 1); qtyOut.textContent = qty; });
-    $("[data-bo-add]", card).addEventListener("click", (e) => {
-      const colour = ($('[data-bo-colours] input:checked', card) || {}).value || p.defaultColour, sel = $(".bo-size", card), size = sel ? sel.value : "";
-      const f = lines.find((l) => l.id === p.id && l.colour === colour && l.size === size);
-      if (f) f.qty += qty; else lines.push({ id: p.id, name: card.dataset.name, colour, size, qty, price: +card.dataset.price });
-      paint(); const b = e.currentTarget; b.classList.add("is-added"); b.textContent = "Added"; clearTimeout(b._t); b._t = setTimeout(() => { b.classList.remove("is-added"); b.textContent = "Add"; }, 1400);
-      S.toast && S.toast(qty + " × " + p.name.split(" ")[0] + " added to your order");
-    });
+  $$("[data-bo-tab]").forEach((b) => b.addEventListener("click", () => { $$("[data-bo-tab]").forEach((x) => x.setAttribute("aria-selected", String(x === b))); const k = b.dataset.boTab; cards.forEach((c) => c.classList.toggle("is-hidden", k !== "all" && c.dataset.line !== k)); if (G && !reduced) G.fromTo(cards.filter((c) => !c.classList.contains("is-hidden")), { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .4, ease: "power2.out", stagger: .03, clearProps: "opacity,transform" }); ST && ST.refresh(); }));
+  cards.forEach((card) => {
+    const id = card.dataset.bo, p = S.product(id), img = $("img.main", card), st = state[id];
+    $$("[data-bo-colours] input", card).forEach((r) => { r.checked = r.value === st.colour; r.addEventListener("change", () => { st.colour = r.value; const c = (p.cutouts || []).find((x) => x.colour === r.value); if (c && img.getAttribute("src") !== c.small) { if (G && !reduced) G.to(img, { opacity: 0, duration: .15, onComplete: () => { img.src = c.small; G.to(img, { opacity: 1, duration: .25 }); } }); else img.src = c.small; } paint(); }); });
+    const init = (p.cutouts || []).find((x) => x.colour === st.colour); if (init) img.src = init.small;
+    const sel = $(".bo-size", card); if (sel) { sel.value = st.size; sel.addEventListener("change", () => { st.size = sel.value; paint(); }); }
+    $("[data-bo-inc]", card).addEventListener("click", () => { st.qty = Math.min(999, st.qty + 1); paint(); if (G && !reduced) G.fromTo($("[data-bo-count]", card), { scale: .7 }, { scale: 1, duration: .35, ease: "back.out(3)", clearProps: "transform" }); });
+    $("[data-bo-dec]", card).addEventListener("click", () => { st.qty = Math.max(0, st.qty - 1); paint(); });
   });
-  linesEl.addEventListener("click", (e) => { const b = e.target.closest("[data-bo-remove]"); if (!b) return; lines.splice(+b.dataset.boRemove, 1); paint(); });
+  $("[data-bo-continue]").addEventListener("click", (e) => { e.preventDefault(); S.scrollTo(enquire, 1.1); });
+  window.addEventListener("scroll", paintBar, { passive: true }); window.addEventListener("resize", paintBar);
   $$("[data-addon]").forEach((b) => b.addEventListener("click", () => b.setAttribute("aria-pressed", String(b.getAttribute("aria-pressed") !== "true"))));
   const dateIn = $("#bk-date"); if (dateIn) dateIn.min = new Date().toISOString().slice(0, 10);
   paint();
@@ -384,11 +381,11 @@ function initBulk() {
   if (form) form.addEventListener("submit", (e) => {
     e.preventDefault();
     const v = (n) => (form.elements[n] ? form.elements[n].value || "" : "").trim();
-    const missing = ["name", "phone"].filter((n) => !v(n)).concat(!lines.length && !v("quantity") ? ["quantity"] : []);
+    const L = lines(); const missing = ["name", "phone"].filter((n) => !v(n)).concat(!L.length && !v("quantity") ? ["quantity"] : []);
     if (missing.length) { status.style.color = "var(--error)"; status.textContent = "Please add your name, WhatsApp number and how many pieces."; form.elements[missing[0]].focus(); return; }
-    const addons = $$('[data-addon][aria-pressed="true"]').map((b) => b.dataset.addon);
-    const pieces = lines.length ? lines.map((l) => "- " + l.qty + " × " + l.name + ", " + l.colour + (l.size ? ", " + l.size : "")) : ["- To discuss"];
-    const out = ["Hello Stagr, I would like a quote for a bulk order.", "Name: " + v("name"), v("company") ? "Company: " + v("company") : "", "WhatsApp: " + v("phone"), v("email") ? "Email: " + v("email") : "", "Occasion: " + v("occasion"), v("date") ? "Needed by: " + v("date") : "", "Pieces (" + (lines.length ? total() : v("quantity")) + " in total):"].concat(pieces).concat([addons.length ? "Add: " + addons.join(", ") : "", v("notes") ? "Notes: " + v("notes") : ""]).filter(Boolean);
+    const addons = $$('[data-addon][aria-pressed="true"]').map((b) => b.dataset.addon); const est = L.reduce((n, l) => n + l.qty * l.price, 0);
+    const pieces = L.length ? L.map((l) => "- " + l.qty + " × " + l.name + ", " + l.colour + (l.size ? ", " + l.size : "")) : ["- To discuss"];
+    const out = ["Hello Stagr, I would like a quote for a bulk order.", "Name: " + v("name"), v("company") ? "Company: " + v("company") : "", "WhatsApp: " + v("phone"), v("email") ? "Email: " + v("email") : "", "Occasion: " + v("occasion"), v("date") ? "Needed by: " + v("date") : "", "Pieces (" + (L.length ? total() : v("quantity")) + " in total):"].concat(pieces).concat([L.length ? "Estimate at shop price: " + fmt(est) : "", addons.length ? "Add: " + addons.join(", ") : "", v("notes") ? "Notes: " + v("notes") : ""]).filter(Boolean);
     window.open(S.data.brand.whatsapp + "?text=" + encodeURIComponent(out.join("\n")), "_blank", "noopener");
     status.style.color = ""; status.textContent = "Your request is ready in WhatsApp. Press send there and we reply within one working day.";
   });
