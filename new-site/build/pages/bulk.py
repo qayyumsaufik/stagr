@@ -79,7 +79,7 @@ def render(ctx):
 /* ---- hero ---- */
 .chero { position: relative; height: clamp(460px, 64svh, 640px); overflow: hidden; background: var(--ink); color: var(--bone); display: flex; align-items: flex-end; }
 .chero picture, .chero img { position: absolute; inset: 0; width: 100%; height: 100%; }
-.chero img { object-fit: cover; object-position: 50% 55%; transform: scale(1.04); will-change: transform; }
+.chero img { object-fit: cover; object-position: 60% 60%; transform: scale(1.04); will-change: transform; }
 .chero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(26,27,29,.5) 0%, rgba(26,27,29,0) 28%, rgba(26,27,29,0) 45%, rgba(26,27,29,.8) 100%), linear-gradient(90deg, rgba(26,27,29,.5) 0%, rgba(26,27,29,0) 60%); pointer-events: none; }
 .chero-copy { position: relative; z-index: 2; width: 100%; padding-bottom: clamp(36px, 6vh, 64px); }
 .chero-copy > * { max-width: 720px; }
@@ -225,7 +225,7 @@ def render(ctx):
 .bk-form-foot .btn { justify-self: stretch; width: 100%; }
 @media (max-width: 767px) {
   .chero { height: 72svh; min-height: 500px; max-height: 660px; }
-  .chero img { object-position: 50% 45%; }
+  .chero img { object-position: 50% 60%; }
   .chero::after { background: linear-gradient(180deg, rgba(26,27,29,.6) 0%, rgba(26,27,29,.05) 30%, rgba(26,27,29,.15) 48%, rgba(26,27,29,.86) 100%); }
   .chero-copy { padding-bottom: 56px; }
   .hero-ctas .btn { flex: 1 1 auto; justify-content: center; }
@@ -235,7 +235,7 @@ def render(ctx):
 
     body = f'''
 <section class="chero" aria-label="Bulk orders">
-  <picture><source media="(max-width: 767px)" srcset="assets/bulk/hero-portrait.jpg"><img data-hero-img src="assets/bulk/hero-1600.jpg" srcset="assets/bulk/hero-1000.jpg 1000w, assets/bulk/hero-1600.jpg 1600w, assets/bulk/hero-2400.jpg 2400w" sizes="100vw" alt="Three Stagr belts, tan, black and brown, laid side by side on walnut" width="2400" height="1600" fetchpriority="high" decoding="async"></picture>
+  <picture><source media="(max-width: 767px)" srcset="assets/hero/belt-wallet-sherpa-portrait.jpg"><img data-hero-img src="assets/hero/belt-wallet-sherpa-1200.jpg" srcset="assets/hero/belt-wallet-sherpa-800.jpg 800w, assets/hero/belt-wallet-sherpa-1200.jpg 1200w, assets/hero/belt-wallet-sherpa-2000.jpg 2000w" sizes="100vw" alt="Two Stagr belts coiled in front of a bifold wallet, thread and tools on sheepskin" width="2000" height="1449" fetchpriority="high" decoding="async"></picture>
   <div class="wrap chero-copy">
     <p class="hero-kicker" data-hero-item>Bulk orders · 10 pieces or more</p>
     <h1 class="hero-h1" data-hero-item>One price,<br>any quantity.</h1>
