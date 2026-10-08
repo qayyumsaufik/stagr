@@ -221,7 +221,7 @@ def chrome(ctx, page):
     on_dark = " on-dark" if page.get("header_dark") else ""
     nav_links = page.get("nav") or [("Wallets", "wallets.html"), ("Belts", "belts.html"), ("Story", "about.html")]
     links = "".join(f'<a href="{h}" class="nav-underline">{t}</a>' for t, h in nav_links)
-    menu_links = [("Home", "index.html"), ("Wallets", "wallets.html"), ("Belts", "belts.html"), ("Story", "about.html"), ("Shop", "shop.html")]
+    menu_links = [("Home", "index.html"), ("Wallets", "wallets.html"), ("Belts", "belts.html"), ("Bulk orders", "bulk.html"), ("Shop", "shop.html")]
     menu = "".join(f'<a class="menu-link" href="{h}"><sup>0{i + 1}</sup>{t}</a>' for i, (t, h) in enumerate(menu_links))
     socials = "".join(f'<a href="{B["social"]["links"][k]}" aria-label="{n}" target="_blank" rel="noopener">{ICON[i]}</a>' for k, n, i in [("instagram", "Instagram", "insta"), ("facebook", "Facebook", "fb"), ("tiktok", "TikTok", "tiktok"), ("whatsapp", "WhatsApp", "wa")])
     loader = ""

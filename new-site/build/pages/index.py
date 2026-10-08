@@ -367,7 +367,7 @@ def render(ctx):
 <section id="hero" class="hero on-ink" aria-label="Introduction">
   <div class="slider" data-slider aria-roledescription="carousel" aria-label="Belts and wallets">
     <div class="slide is-on" data-slide="0" aria-roledescription="slide" aria-label="1 of 2">
-      <picture><source media="(max-width: 767px)" srcset="assets/hero/slide-wallet-portrait.jpg"><img data-slide-img src="assets/hero/slide-wallet-1600.jpg" srcset="assets/hero/slide-wallet-900.jpg 900w, assets/hero/slide-wallet-1600.jpg 1600w, assets/hero/slide-wallet-2000.jpg 2000w" sizes="100vw" alt="A Stagr long wallet open beside its gift box and a tan belt" width="2000" height="1333" fetchpriority="high" decoding="async"></picture>
+      <picture><source media="(max-width: 767px)" srcset="assets/hero/slide-wallet-portrait.jpg"><img data-slide-img src="assets/hero/slide-wallet-1600.jpg" srcset="assets/hero/slide-wallet-900.jpg 900w, assets/hero/slide-wallet-1600.jpg 1600w, assets/hero/slide-wallet-2000.jpg 1672w" sizes="100vw" alt="A Stagr bifold wallet with the stag mark, on walnut beside coffee beans and a wooden box" width="1672" height="941" fetchpriority="high" decoding="async"></picture>
       <div class="wrap slide-copy">
         <p class="hero-kicker" data-slide-item>Wallets <span aria-hidden="true">·</span> {n_wallets} pieces, from {fmt(min_wallet)}</p>
         <h1 class="hero-h1" data-slide-item><span class="serif-i">Folded, skived,</span><br>stitched by hand.</h1>
@@ -376,7 +376,7 @@ def render(ctx):
       </div>
     </div>
     <div class="slide" data-slide="1" aria-roledescription="slide" aria-label="2 of 2" aria-hidden="true">
-      <picture><source media="(max-width: 767px)" srcset="assets/hero/slide-belts-portrait.jpg"><img data-slide-img src="assets/hero/slide-belts-1600.jpg" srcset="assets/hero/slide-belts-900.jpg 900w, assets/hero/slide-belts-1600.jpg 1600w, assets/hero/slide-belts-2400.jpg 2400w" sizes="100vw" alt="Four Stagr belts laid on a walnut bench" width="2400" height="1474" loading="lazy" decoding="async"></picture>
+      <picture><source media="(max-width: 767px)" srcset="assets/hero/slide-belts-portrait.jpg"><img data-slide-img src="assets/hero/slide-belts-1600.jpg" srcset="assets/hero/slide-belts-900.jpg 900w, assets/hero/slide-belts-1600.jpg 1600w, assets/hero/slide-belts-2400.jpg 1672w" sizes="100vw" alt="A Stagr tan belt coiled on walnut beside coffee beans and shells" width="1672" height="941" loading="lazy" decoding="async"></picture>
       <div class="wrap slide-copy">
         <p class="hero-kicker" data-slide-item>Belts <span aria-hidden="true">·</span> {n_belts} pieces, from {fmt(min_belt)}</p>
         <h2 class="hero-h1" data-slide-item><span class="serif-i">{B["hero"]["headline"][0]}</span><br>{B["hero"]["headline"][1]}</h2>
