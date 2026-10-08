@@ -552,6 +552,13 @@ def render(ctx):
     </div>
 </section>
 
+<section id="anatomy" class="anatomy on-bone" aria-labelledby="anatomy-title">
+  <div class="wrap">
+    <div class="inside-head" style="text-align:center"><h2 class="label" id="anatomy-title" data-reveal>Taken apart · every detail, named</h2><div class="inside-pills" data-reveal data-delay=".1">{an_pills}</div></div>
+    {an_panels}
+  </div>
+</section>
+
 <section id="inside" class="inside on-ink" aria-labelledby="inside-title">
   <div class="inside-pin desk-only" data-inside-pin>
     <div class="inside-head"><p class="label inside-kicker">Your hide. Our bench.</p><h2 class="inside-title" id="inside-title" data-inside-title>Two lines. One great finish.</h2><p class="inside-lead">Every piece is cut from full hides by local artisans and saddle stitched by hand. Pick the line, then the cut.</p><div class="inside-pills">{pills}</div></div>
@@ -577,12 +584,6 @@ def render(ctx):
   </div>
 </section>
 
-<section id="anatomy" class="anatomy on-bone" aria-labelledby="anatomy-title">
-  <div class="wrap">
-    <div class="inside-head" style="text-align:center"><h2 class="label" id="anatomy-title" data-reveal>Taken apart · every detail, named</h2><div class="inside-pills" data-reveal data-delay=".1">{an_pills}</div></div>
-    {an_panels}
-  </div>
-</section>
 
 <!-- feature tiles (how it is made / bulk / note) removed -->
 
@@ -839,7 +840,7 @@ function initAnimations() {
 
   /* ================= boot (top to bottom so pinned blocks measure in order) ================= */
   const startHero = initHero();
-  initScrollHint(); S.initReveals($("#hero")); S.initReveals($("#explore")); initShop(); S.initReveals($("#shop")); initInside(); S.initReveals($("#inside")); initPromise(); initAnatomy(); S.initReveals($("#anatomy"));
+  initScrollHint(); S.initReveals($("#hero")); S.initReveals($("#explore")); initShop(); S.initReveals($("#shop")); initAnatomy(); S.initReveals($("#anatomy")); initInside(); S.initReveals($("#inside")); initPromise();
   (function initExplore() {
     const tabs = $$("[data-ex-tab]"), grids = $$("[data-ex-grid]"), all = $("[data-ex-all]"); if (!tabs.length) return;
     tabs.forEach((t) => t.addEventListener("click", () => {
