@@ -201,38 +201,72 @@ def render(ctx):
 .rp-copy { margin-top: 18px; max-width: 46ch; color: var(--fg-2); }
 .rp-spec { margin-top: 22px; max-width: 420px; }
 
-/* ---- 01 hero: belts left, wallets right, the words on the seam, bulk band beneath ---- */
+/* ---- 01 hero: the wallet, lit, over a giant wordmark ---- */
 .hero { position: relative; background: var(--ink); color: var(--bone); }
-.slider { position: relative; height: calc(100svh - 76px); min-height: 620px; max-height: 980px; overflow: hidden; }
-.slide { position: absolute; inset: 0; display: flex; align-items: flex-end; opacity: 0; visibility: hidden; }
-.slide.is-on { opacity: 1; visibility: visible; }
-.slide img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 55%; transform: scale(1.04); will-change: transform; }
-.slide::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(26,27,29,.55) 0%, rgba(26,27,29,0) 28%, rgba(26,27,29,0) 45%, rgba(26,27,29,.78) 100%), linear-gradient(90deg, rgba(26,27,29,.5) 0%, rgba(26,27,29,0) 60%); pointer-events: none; }
-.slide-copy { position: relative; z-index: 2; width: 100%; padding-bottom: clamp(84px, 11vh, 120px); max-width: none; }
-.slide-copy > * { max-width: 760px; }
-.hero-kicker { font-size: .6875rem; letter-spacing: .3em; text-transform: uppercase; color: rgba(239,237,230,.8); }
-.hero-kicker span { margin: 0 6px; opacity: .6; }
-.hero-h1 { margin-top: 14px; font-family: var(--font-display); font-weight: 500; font-size: clamp(2.6rem, 1.2rem + 4.2vw, 5.375rem); line-height: 1; letter-spacing: 0; text-shadow: 0 2px 30px rgba(0,0,0,.45); }
-.hero-h1 .serif-i { font-family: var(--font-display); font-style: normal; }
-.hero-sub { margin-top: 18px; max-width: 44ch; font-size: clamp(.9375rem, .9rem + .25vw, 1.0625rem); line-height: 1.55; color: rgba(239,237,230,.88); text-shadow: 0 1px 14px rgba(0,0,0,.45); }
-.hero-ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+.phero { position: relative; min-height: calc(100svh - 76px); display: flex; flex-direction: column; justify-content: space-between; padding: calc(var(--nav-top) + 28px) 0 0; overflow: hidden; }
+.ph-bg { position: absolute; inset: -6%; z-index: 0; }
+.ph-bg img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 60%; filter: blur(22px) saturate(1.1) brightness(.42); transform: scale(1.08); opacity: 0; }
+.ph-bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(26,27,29,.55) 0%, rgba(26,27,29,.2) 40%, rgba(26,27,29,.85) 100%); }
+.ph-glow { position: absolute; z-index: 0; left: 50%; top: 52%; width: 70vmin; height: 70vmin; transform: translate(-30%, -50%); border-radius: 50%; background: radial-gradient(circle, rgba(217,176,122,.42), rgba(197,139,74,.18) 40%, transparent 70%); filter: blur(30px); pointer-events: none; }
+.ph-word { position: absolute; z-index: 0; left: 50%; top: 50%; transform: translate(-50%, -54%); font-family: var(--font-wordmark); font-weight: 800; font-size: clamp(9rem, 26vw, 24rem); line-height: 1; letter-spacing: -.03em; color: transparent; -webkit-text-stroke: 1px rgba(239,237,230,.14); white-space: nowrap; pointer-events: none; user-select: none; }
+.ph-grid { position: relative; z-index: 1; display: grid; gap: 24px; grid-template-columns: 1fr; align-items: center; flex: 1; }
+.ph-eyebrow { display: flex; align-items: center; gap: 12px; font-size: .6875rem; letter-spacing: .28em; text-transform: uppercase; color: rgba(239,237,230,.75); }
+.ph-eyebrow i { width: 28px; height: 1px; background: var(--accent); }
+.ph-h1 { margin-top: 18px; font-family: var(--font-display); font-weight: 500; font-size: clamp(3rem, 1.6rem + 5vw, 6rem); line-height: .98; letter-spacing: -.015em; }
+.ph-h1 .line { display: block; overflow: hidden; }
+.ph-sub { margin-top: 20px; max-width: 42ch; font-size: clamp(.9375rem, .9rem + .25vw, 1.0625rem); line-height: 1.6; color: rgba(239,237,230,.82); }
+.hero-ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
 .btn--tan { background: var(--accent-deep); border-color: var(--accent-deep); color: var(--bone); }
 .btn--tan:hover { background: var(--accent); border-color: var(--accent); color: var(--ink); }
-.hero .btn--ghost { color: var(--bone); border-color: rgba(239,237,230,.55); background: rgba(26,27,29,.2); backdrop-filter: blur(6px); }
+.hero .btn--ghost { color: var(--bone); border-color: rgba(239,237,230,.5); background: rgba(26,27,29,.25); backdrop-filter: blur(6px); }
 .hero .btn--ghost:hover { background: var(--bone); color: var(--ink); }
-.slider-ui { position: absolute; left: 0; right: 0; bottom: clamp(22px, 3vh, 36px); z-index: 3; display: flex; justify-content: space-between; align-items: center; gap: 16px; pointer-events: none; }
-.slider-ui > * { pointer-events: auto; }
-.slider-dots { display: flex; gap: 10px; }
-.slider-dots button { width: 56px; height: 20px; display: grid; align-items: center; }
-.slider-dots i { display: block; height: 2px; background: rgba(239,237,230,.35); position: relative; overflow: hidden; }
-.slider-dots i::after { content: ""; position: absolute; inset: 0; background: var(--bone); transform: scaleX(var(--p, 0)); transform-origin: left; }
-.slider-dots button[aria-selected="true"] i { background: rgba(239,237,230,.35); }
-.slider-nav { display: flex; align-items: center; gap: 10px; }
-.slider-count { font-size: .75rem; letter-spacing: .2em; color: rgba(239,237,230,.75); margin-right: 8px; font-variant-numeric: tabular-nums; }
-.slider-count b { font-weight: 500; color: var(--bone); }
-.half-arrow { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(239,237,230,.5); display: grid; place-items: center; color: var(--bone); background: rgba(26,27,29,.25); backdrop-filter: blur(6px); transition: background-color .3s ease, color .3s ease, border-color .3s ease; }
-.half-arrow svg { width: 16px; height: 16px; }
-.half-arrow:hover { background: var(--bone); color: var(--ink); border-color: var(--bone); }
+.ph-stage { position: relative; width: 100%; aspect-ratio: 1 / .9; }
+.ph-ring { position: absolute; left: 50%; top: 50%; width: 92%; aspect-ratio: 1; transform: translate(-50%, -50%) scale(.9); border-radius: 50%; border: 1px solid rgba(239,237,230,.14); opacity: 0; }
+.ph-ring::after { content: ""; position: absolute; inset: 10%; border-radius: 50%; border: 1px dashed rgba(197,139,74,.4); }
+.ph-piece { position: absolute; display: block; opacity: 0; }
+.ph-piece img { width: 100%; height: auto; display: block; }
+.ph-wallet { left: 4%; top: 6%; width: 86%; z-index: 2; }
+.ph-wallet img { filter: drop-shadow(0 40px 50px rgba(0,0,0,.6)) drop-shadow(0 6px 10px rgba(0,0,0,.35)); }
+.ph-belt { right: -8%; bottom: -4%; width: 58%; z-index: 3; transform: rotate(-8deg); }
+.ph-belt img { filter: drop-shadow(0 30px 36px rgba(0,0,0,.6)); }
+.ph-tag { position: absolute; z-index: 4; display: inline-flex; align-items: center; gap: 10px; padding: 8px 14px 8px 10px; border-radius: 999px; background: rgba(239,237,230,.1); border: 1px solid rgba(239,237,230,.22); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); color: var(--bone); font-size: .75rem; white-space: nowrap; opacity: 0; transition: background-color .3s ease, border-color .3s ease; }
+.ph-tag:hover { background: rgba(239,237,230,.18); border-color: rgba(239,237,230,.45); }
+.ph-tag i { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px rgba(197,139,74,.25); }
+.ph-tag b { font-weight: 600; }
+.ph-tag--w { left: 0; top: 0; } .ph-tag--b { right: 0; top: 60%; }
+.ph-foot { position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; padding-top: 24px; padding-bottom: 22px; border-top: 1px solid rgba(239,237,230,.12); margin-top: 24px; }
+.ph-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 28px; }
+.ph-stats li { display: grid; gap: 2px; opacity: 0; }
+.ph-stats b { font-family: var(--font-display); font-weight: 400; font-size: 1.25rem; line-height: 1.1; }
+.ph-stats span { font-size: .75rem; color: rgba(239,237,230,.62); letter-spacing: .04em; }
+.ph-scroll { display: none; align-items: center; gap: 12px; font-size: .6875rem; letter-spacing: .3em; text-transform: uppercase; color: rgba(239,237,230,.6); opacity: 0; }
+.ph-scroll i { width: 1px; height: 44px; background: rgba(239,237,230,.3); position: relative; overflow: hidden; }
+.ph-scroll i::after { content: ""; position: absolute; left: 0; top: -100%; width: 100%; height: 100%; background: var(--accent); animation: ph-drop 2.2s ease-in-out infinite; }
+@keyframes ph-drop { 0% { top: -100%; } 60% { top: 100%; } 100% { top: 100%; } }
+@media (min-width: 1024px) {
+  .phero { padding-top: calc(var(--nav-top) + 10px); }
+  .ph-grid { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(24px, 4vw, 64px); }
+  .ph-stage { aspect-ratio: 1 / .78; margin-right: -4%; }
+  .ph-wallet { left: 6%; top: 2%; width: 78%; }
+  .ph-belt { right: -2%; bottom: -2%; width: 52%; }
+  .ph-tag--w { left: 2%; top: 4%; } .ph-tag--b { right: 4%; top: 58%; }
+  .ph-stats { grid-template-columns: repeat(4, auto); gap: 40px; }
+  .ph-scroll { display: flex; }
+}
+@media (max-width: 767px) {
+  .phero { padding-top: calc(var(--nav-top) + 14px); }
+  .ph-word { font-size: 32vw; top: 56%; }
+  .ph-h1 { font-size: 2.9rem; }
+  .ph-stage { aspect-ratio: 1 / .84; margin-top: 6px; }
+  .ph-wallet { left: 2%; top: 4%; width: 84%; }
+  .ph-belt { right: -10%; bottom: -2%; width: 60%; }
+  .ph-tag { font-size: .6875rem; padding: 6px 11px 6px 8px; }
+  .ph-tag--b { top: 64%; }
+  .ph-foot { margin-top: 10px; padding-top: 18px; }
+  .ph-stats { gap: 12px 16px; }
+  .ph-stats b { font-size: 1.05rem; }
+  .hero-ctas .btn { flex: 1 1 auto; justify-content: center; }
+}
 /* bulk-order band */
 .bulk-band { position: relative; background: var(--accent-deep); color: var(--bone); overflow: hidden; }
 .bulk-band::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: clamp(60px, 7vw, 110px); background: var(--accent); clip-path: polygon(0 0, 100% 0, 55% 100%, 0 100%); opacity: .9; }
@@ -473,30 +507,33 @@ def render(ctx):
         return (f'<div class="pair"><img class="p-belt" src="{bl[size]}" alt="" width="900" height="900" draggable="false" decoding="async">'
                 f'<img class="p-wallet" src="{w[size]}" alt="{a}" width="900" height="900" draggable="false" decoding="async"></div>')
     body = f'''
-<section id="hero" class="hero on-ink" aria-label="Introduction">
-  <div class="slider" data-slider aria-roledescription="carousel" aria-label="Belts and wallets">
-    <div class="slide is-on" data-slide="0" aria-roledescription="slide" aria-label="1 of 2">
-      <picture><source media="(max-width: 767px)" srcset="assets/hero/slide-wallet-portrait.jpg"><img data-slide-img src="assets/hero/slide-wallet-1600.jpg" srcset="assets/hero/slide-wallet-900.jpg 900w, assets/hero/slide-wallet-1600.jpg 1600w, assets/hero/slide-wallet-2000.jpg 1672w" sizes="100vw" alt="A Stagr bifold wallet with the stag mark, on walnut beside coffee beans and a wooden box" width="1672" height="941" fetchpriority="high" decoding="async"></picture>
-      <div class="wrap slide-copy">
-        <p class="hero-kicker" data-slide-item>Wallets <span aria-hidden="true">·</span> {n_wallets} pieces, from {fmt(min_wallet)}</p>
-        <h1 class="hero-h1" data-slide-item><span class="serif-i">Folded, skived,</span><br>stitched by hand.</h1>
-        <p class="hero-sub" data-slide-item>Bifolds, trifolds and long wallets, boxed with a handwritten note. Cash on delivery across Pakistan.</p>
-        <div class="hero-ctas" data-slide-item><a class="btn btn--tan" href="wallets.html">Shop wallets {I["arrow"]}</a><a class="btn btn--ghost" href="shop.html">Everything</a></div>
-      </div>
+<section id="hero" class="hero phero on-ink" aria-label="Introduction">
+  <div class="ph-bg" aria-hidden="true"><img src="assets/hero/slide-wallet-1600.jpg" alt="" width="1672" height="941" fetchpriority="high" decoding="async" data-ph-bg></div>
+  <div class="ph-glow" aria-hidden="true" data-ph-glow></div>
+  <div class="ph-word" aria-hidden="true" data-ph-word>STAGR</div>
+  <div class="wrap ph-grid">
+    <div class="ph-copy">
+      <p class="ph-eyebrow" data-ph-item><span>Handmade in Pakistan</span><i></i><span>Full-grain crazy horse</span></p>
+      <h1 class="ph-h1" data-ph-title>Nothing but<br>leather.</h1>
+      <p class="ph-sub" data-ph-item>Belts and wallets cut from full hides, saddle stitched on one bench, and boxed with a handwritten note. Cash on delivery, anywhere in Pakistan.</p>
+      <div class="hero-ctas" data-ph-item><a class="btn btn--tan" href="shop.html">Shop the range {I["arrow"]}</a><a class="btn btn--ghost" href="bulk.html">Bulk orders</a></div>
     </div>
-    <div class="slide" data-slide="1" aria-roledescription="slide" aria-label="2 of 2" aria-hidden="true">
-      <picture><source media="(max-width: 767px)" srcset="assets/hero/slide-belts-portrait.jpg"><img data-slide-img src="assets/hero/slide-belts-1600.jpg" srcset="assets/hero/slide-belts-900.jpg 900w, assets/hero/slide-belts-1600.jpg 1600w, assets/hero/slide-belts-2400.jpg 1672w" sizes="100vw" alt="A Stagr tan belt coiled on walnut beside coffee beans and shells" width="1672" height="941" loading="lazy" decoding="async"></picture>
-      <div class="wrap slide-copy">
-        <p class="hero-kicker" data-slide-item>Belts <span aria-hidden="true">·</span> {n_belts} pieces, from {fmt(min_belt)}</p>
-        <h2 class="hero-h1" data-slide-item><span class="serif-i">{B["hero"]["headline"][0]}</span><br>{B["hero"]["headline"][1]}</h2>
-        <p class="hero-sub" data-slide-item>Full-grain crazy horse, cut in one piece, with a solid buckle on a screw post. Sizes 30 to 44.</p>
-        <div class="hero-ctas" data-slide-item><a class="btn btn--tan" href="belts.html">Shop belts {I["arrow"]}</a><a class="btn btn--ghost" href="shop.html">Everything</a></div>
-      </div>
+    <div class="ph-stage" data-ph-stage>
+      <div class="ph-ring" aria-hidden="true" data-ph-ring></div>
+      <a class="ph-piece ph-wallet" href="product-kingsmann.html" data-ph-wallet aria-label="Kingsmann bifold wallet"><img src="assets/hero/ph-wallet-900.webp" srcset="assets/hero/ph-wallet-900.webp 900w, assets/hero/ph-wallet.webp 1800w" sizes="(min-width: 1024px) 44vw, 90vw" alt="Kingsmann bifold wallet in brown, with the stag mark" width="1800" height="1541" fetchpriority="high" draggable="false"></a>
+      <a class="ph-piece ph-belt" href="product-monarch.html" data-ph-belt aria-label="Monarch belt"><img src="assets/cutouts/inside-belt.webp" alt="Monarch belt in tan, coiled" width="1024" height="602" draggable="false"></a>
+      <a class="ph-tag ph-tag--w" href="product-kingsmann.html" data-ph-tag><i></i><span><b>Kingsmann</b> bifold · {fmt(min(p["price"] for p in P if p["id"] == "kingsmann"))}</span></a>
+      <a class="ph-tag ph-tag--b" href="product-monarch.html" data-ph-tag><i></i><span><b>Monarch</b> belt · {fmt(min(p["price"] for p in P if p["id"] == "monarch"))}</span></a>
     </div>
-    <div class="wrap slider-ui">
-      <div class="slider-dots" role="tablist" aria-label="Choose slide"><button type="button" role="tab" aria-selected="true" data-slide-dot="0" aria-label="Wallets"><i></i></button><button type="button" role="tab" aria-selected="false" data-slide-dot="1" aria-label="Belts"><i></i></button></div>
-      <div class="slider-nav"><span class="slider-count"><b data-slide-n>01</b> / 02</span><button type="button" class="half-arrow" data-slide-prev aria-label="Previous slide" style="transform:scaleX(-1)">{I["arrow"]}</button><button type="button" class="half-arrow" data-slide-next aria-label="Next slide">{I["arrow"]}</button></div>
-    </div>
+  </div>
+  <div class="wrap ph-foot">
+    <ul class="ph-stats" role="list">
+      <li data-ph-stat><b>{fmt(min_wallet if min_wallet < min_belt else min_belt)} to {fmt(max(p["price"] for p in P))}</b><span>One price, any quantity</span></li>
+      <li data-ph-stat><b>3 to 5 days</b><span>Cash on delivery, Pakistan wide</span></li>
+      <li data-ph-stat><b>Saddle stitched</b><span>Two needles, waxed linen, by hand</span></li>
+      <li data-ph-stat><b>{len(P)} pieces</b><span>{n_wallets} wallets, {n_belts} belts, two colours</span></li>
+    </ul>
+    <a class="ph-scroll" href="#explore" data-ph-stat><span>Scroll</span><i></i></a>
   </div>
   <div class="bulk-band" data-bulk-band>
     <div class="wrap bulk-inner">
@@ -603,37 +640,37 @@ function initAnimations() {
   function initScrollHint() { const dot = $("[data-scroll-dot]"); if (!dot || !isRendered(dot)) return; if (reduced) { G.set(dot, { opacity: 1, y: 9 }); return; } G.timeline({ repeat: -1, repeatDelay: .5 }).set(dot, { y: 0, opacity: 0 }).to(dot, { opacity: 1, duration: .25 }).to(dot, { y: 19, duration: 1, ease: "power2.inOut" }, .1).to(dot, { opacity: 0, duration: .3, ease: "power1.in" }, .85); }
 
   function initHero() {
-    const root = $("[data-slider]"), slides = $$("[data-slide]", root), dots = $$("[data-slide-dot]", root), count = $("[data-slide-n]", root), band = $("[data-bulk-band]");
-    const n = slides.length, HOLD = 6.5; let active = 0, busy = false, timer = null, started = false;
-    const items = (i) => $$("[data-slide-item]", slides[i]), img = (i) => $("[data-slide-img]", slides[i]);
-    const pad = (i) => String(i + 1).padStart(2, "0");
-    const paintDots = () => dots.forEach((d, i) => d.setAttribute("aria-selected", String(i === active)));
-    // the active dot fills up over the hold, then we move on
-    const arm = () => { clearTimeout(timer); dots.forEach((d) => $("i", d).style.setProperty("--p", 0)); if (reduced || document.hidden) return; const bar = $("i", dots[active]); G.fromTo(bar, { "--p": 0 }, { "--p": 1, duration: HOLD, ease: "none", overwrite: true }); timer = setTimeout(() => go(active + 1), HOLD * 1000); };
-    const enter = (i, delay) => { if (reduced) { G.set(items(i), { opacity: 1, y: 0 }); return; } G.fromTo(img(i), { scale: 1.12 }, { scale: 1.04, duration: 2.6, ease: "power2.out", overwrite: true, delay }); G.fromTo(items(i), { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: .7, ease: "power3.out", stagger: .08, delay: delay + .25, overwrite: true, clearProps: "transform" }); };
-    const go = (next, user) => {
-      next = (next + n) % n; if (next === active || busy) return; busy = true;
-      const from = slides[active], to = slides[next]; active = next; paintDots(); if (count) count.textContent = pad(next);
-      to.classList.add("is-on"); to.setAttribute("aria-hidden", "false"); from.setAttribute("aria-hidden", "true");
-      if (reduced) { from.classList.remove("is-on"); G.set(items(next), { opacity: 1 }); busy = false; arm(); return; }
-      G.set(to, { zIndex: 2 }); G.set(from, { zIndex: 1 });
-      G.fromTo(to, { opacity: 0 }, { opacity: 1, duration: 1, ease: "power2.inOut", onComplete: () => { from.classList.remove("is-on"); G.set([from, to], { clearProps: "zIndex,opacity" }); busy = false; } });
-      G.to($$("[data-slide-item]", from), { opacity: 0, y: -10, duration: .35, ease: "power2.in", overwrite: true });
-      enter(next, 0); arm();
+    const hero = $("#hero"), bg = $("[data-ph-bg]"), glow = $("[data-ph-glow]"), word = $("[data-ph-word]"), title = $("[data-ph-title]"), items = $$("[data-ph-item]"), stage = $("[data-ph-stage]"), ring = $("[data-ph-ring]"), wallet = $("[data-ph-wallet]"), belt = $("[data-ph-belt]"), tags = $$("[data-ph-tag]"), stats = $$("[data-ph-stat]"), band = $("[data-bulk-band]");
+    if (!reduced) { G.set(items, { opacity: 0, y: 18 }); G.set(title, { opacity: 0 }); if (band) G.set(band, { y: 24, opacity: 0 }); }
+    else { G.set([bg, ring, wallet, belt, ...tags, ...stats], { opacity: 1 }); G.set(title, { opacity: 1 }); }
+    return function start() {
+      if (reduced) return;
+      const tl = G.timeline({ defaults: { ease: "power3.out" } });
+      tl.to(bg, { opacity: 1, duration: 1.6, ease: "power2.out" }, 0)
+        .fromTo(word, { opacity: 0, scale: 1.08 }, { opacity: 1, scale: 1, duration: 1.8, ease: "power2.out" }, .1)
+        .fromTo(ring, { opacity: 0, scale: .85 }, { opacity: 1, scale: 1, duration: 1.4, ease: "power2.out" }, .25)
+        .fromTo(wallet, { opacity: 0, y: 70, rotate: -6, scale: .92 }, { opacity: 1, y: 0, rotate: 0, scale: 1, duration: 1.3, ease: "power4.out" }, .35)
+        .fromTo(belt, { opacity: 0, x: 80, y: 60, rotate: 6 }, { opacity: 1, x: 0, y: 0, rotate: -8, duration: 1.2, ease: "power4.out" }, .6);
+      // the headline rises line by line behind a mask
+      if (window.SplitText) { window.SplitText.create(title, { type: "lines", mask: "lines", linesClass: "line", onSplit: (self) => { G.set(title, { opacity: 1 }); return G.fromTo(self.lines, { yPercent: 110 }, { yPercent: 0, duration: 1.1, ease: "power4.out", stagger: .12, delay: .3 }); } }); }
+      else tl.to(title, { opacity: 1, duration: .8 }, .3);
+      tl.to(items, { opacity: 1, y: 0, duration: .8, stagger: .1, clearProps: "transform" }, .55)
+        .fromTo(tags, { opacity: 0, y: 10, scale: .9 }, { opacity: 1, y: 0, scale: 1, duration: .6, ease: "back.out(1.8)", stagger: .15 }, 1.3)
+        .fromTo(stats, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: .6, stagger: .08, clearProps: "transform" }, 1.2);
+      if (band) tl.to(band, { y: 0, opacity: 1, duration: .6, clearProps: "transform" }, 1.4);
+      // after the entrance: a slow breathing float on the pieces and the glow
+      tl.add(() => {
+        G.to(wallet, { y: -10, duration: 3.2, ease: "sine.inOut", yoyo: true, repeat: -1 });
+        G.to(belt, { y: 8, duration: 3.8, ease: "sine.inOut", yoyo: true, repeat: -1, delay: .4 });
+        G.to(glow, { scale: 1.08, opacity: .85, duration: 4, ease: "sine.inOut", yoyo: true, repeat: -1 });
+      }, 1.8);
+      // depth on pointer: background drifts least, wallet most
+      if (fine) { const mx = G.quickTo(bg, "x", { duration: 1.2, ease: "power2.out" }), my = G.quickTo(bg, "y", { duration: 1.2, ease: "power2.out" }), wx = G.quickTo(stage, "x", { duration: .9, ease: "power2.out" }), wy = G.quickTo(stage, "y", { duration: .9, ease: "power2.out" }), kx = G.quickTo(word, "x", { duration: 1.4, ease: "power2.out" });
+        hero.addEventListener("pointermove", (e) => { const px = e.clientX / innerWidth - .5, py = e.clientY / innerHeight - .5; mx(-px * 14); my(-py * 10); wx(px * 18); wy(py * 12); kx(-px * 30 - innerWidth * 0); }, { passive: true }); }
+      // on scroll the pieces lift away a little faster than the copy
+      if (ST) { G.to(stage, { yPercent: -14, ease: "none", scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true } }); G.to(word, { yPercent: 22, ease: "none", scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true } }); }
     };
-    dots.forEach((d, i) => d.addEventListener("click", () => go(i, true)));
-    $("[data-slide-prev]", root).addEventListener("click", () => go(active - 1, true));
-    $("[data-slide-next]", root).addEventListener("click", () => go(active + 1, true));
-    root.addEventListener("keydown", (e) => { if (e.key === "ArrowRight") go(active + 1, true); if (e.key === "ArrowLeft") go(active - 1, true); });
-    root.addEventListener("pointerenter", () => clearTimeout(timer)); root.addEventListener("pointerleave", () => { if (started) arm(); });
-    document.addEventListener("visibilitychange", () => { if (!started) return; if (document.hidden) clearTimeout(timer); else arm(); });
-    // swipe
-    let sx = 0, sy = 0; root.addEventListener("touchstart", (e) => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
-    root.addEventListener("touchend", (e) => { const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy; if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.5) go(active + (dx < 0 ? 1 : -1), true); }, { passive: true });
-    if (!reduced) { G.set(items(0), { opacity: 0 }); if (band) G.set(band, { y: 24, opacity: 0 }); }
-    return function start() { started = true; enter(0, 0); if (band && !reduced) G.to(band, { y: 0, opacity: 1, duration: .6, ease: "power3.out", delay: .6, clearProps: "transform" }); arm(); };
   }
-
   /* ================= 02 RANGE ================= */
   function initRangeDesktop() {
     const section = $("#range"); if (!section) return; const pin = $("[data-range-pin]"), title = $("[data-range-title-main]"), label = $("[data-range-label]"), count = $("[data-range-count]"), panels = $$("[data-range-panel]"), bgs = $$("[data-range-bloom]"), ghosts = $$("[data-range-ghost]"), cuts = $$("[data-range-cut]"), stage = $("[data-range-stage]"), dots = $$("[data-range-dot]");
