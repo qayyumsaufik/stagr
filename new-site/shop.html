@@ -671,6 +671,10 @@ html.is-entering .fade { opacity: 1; }
 .sh-drawer-backdrop.is-open { opacity: 1; pointer-events: auto; }
 .sh-drawer { position: fixed; top: 0; left: 0; bottom: 0; z-index: 91; width: min(380px, 92vw); background: var(--bg); color: var(--fg); transform: translateX(-102%); transition: transform .5s var(--ease-out); display: grid; grid-template-rows: auto 1fr auto; box-shadow: 24px 0 48px rgba(26,27,29,.12); }
 .sh-drawer.is-open { transform: none; }
+.sh-drawer { grid-template-columns: minmax(0, 1fr); overflow: hidden; }
+.sh-drawer > * { min-width: 0; }
+.sh-drawer-body { overflow-x: hidden; }
+@media (max-width: 767px) { .sh-drawer-foot { padding: 12px 14px; gap: 8px; } .sh-drawer-foot .btn { min-width: 0; padding: 0 14px; font-size: .75rem; letter-spacing: .1em; } }
 .sh-drawer-head { display: flex; justify-content: space-between; align-items: center; padding: 18px 20px; border-bottom: 1px solid var(--line); }
 .sh-drawer-head h2 { font-size: 1rem; font-weight: 500; }
 .sh-drawer-body { overflow: auto; padding: 8px 14px 24px; }
