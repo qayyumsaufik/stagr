@@ -7,6 +7,9 @@ a cross-sell rail for the other line; the "Why people choose Stagr" block.
 """
 
 
+from pages.shop import catalogue
+
+
 def page(ctx, line):
     P = [p for p in ctx["products"] if p["line"] == line]
     by = {p["id"]: p for p in ctx["products"]}
@@ -58,20 +61,20 @@ def page(ctx, line):
   </div>
 </section>'''
 
-    cat_sections = "".join(cat_section(i, g) for i, g in enumerate(groups))
+    sh_css, cat_body, sh_js = catalogue(ctx, line)
     cross = [p for p in ctx["products"] if p["line"] == other]
     cross_cards = "".join(ctx["ccard"](ctx, p, i) for i, p in enumerate(cross))
 
     css = r'''
 /* ---- hero ---- */
-.chero { position: relative; height: calc(100svh - 76px); min-height: 560px; max-height: 860px; overflow: hidden; background: var(--ink); color: var(--bone); display: flex; align-items: flex-end; }
+.chero { position: relative; height: clamp(440px, 62svh, 620px); min-height: 0; max-height: none; overflow: hidden; background: var(--ink); color: var(--bone); display: flex; align-items: flex-end; }
 .chero picture, .chero img { position: absolute; inset: 0; width: 100%; height: 100%; }
 .chero img { object-fit: cover; object-position: 50% 55%; transform: scale(1.04); will-change: transform; }
 .chero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(26,27,29,.55) 0%, rgba(26,27,29,0) 28%, rgba(26,27,29,0) 45%, rgba(26,27,29,.78) 100%), linear-gradient(90deg, rgba(26,27,29,.5) 0%, rgba(26,27,29,0) 60%); pointer-events: none; }
-.chero-copy { position: relative; z-index: 2; width: 100%; padding-bottom: clamp(48px, 8vh, 96px); }
+.chero-copy { position: relative; z-index: 2; width: 100%; padding-bottom: clamp(36px, 6vh, 64px); }
 .chero-copy > * { max-width: 720px; }
 .hero-kicker { font-size: .6875rem; letter-spacing: .3em; text-transform: uppercase; color: rgba(239,237,230,.8); }
-.hero-h1 { margin-top: 14px; font-family: var(--font-display); font-weight: 500; font-size: clamp(2.6rem, 1.2rem + 4.2vw, 5.375rem); line-height: 1; text-shadow: 0 2px 30px rgba(0,0,0,.45); }
+.hero-h1 { margin-top: 12px; font-family: var(--font-display); font-weight: 500; font-size: clamp(2.2rem, 1.1rem + 3.2vw, 4.2rem); line-height: 1; text-shadow: 0 2px 30px rgba(0,0,0,.45); }
 .hero-sub { margin-top: 18px; max-width: 46ch; font-size: clamp(.9375rem, .9rem + .25vw, 1.0625rem); line-height: 1.55; color: rgba(239,237,230,.88); text-shadow: 0 1px 14px rgba(0,0,0,.45); }
 .hero-ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
 .btn--tan { background: var(--accent-deep); border-color: var(--accent-deep); color: var(--bone); }
@@ -115,7 +118,7 @@ def page(ctx, line):
 .cross .cc-foot { margin-top: 14px; }
 @media (max-width: 1023px) { .cstrip .explore-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 767px) {
-  .chero { height: 100svh; min-height: 560px; max-height: 820px; }
+  .chero { height: 72svh; min-height: 480px; max-height: 640px; }
   .chero img { object-position: 50% 40%; }
   .chero::after { background: linear-gradient(180deg, rgba(26,27,29,.6) 0%, rgba(26,27,29,.05) 30%, rgba(26,27,29,.15) 48%, rgba(26,27,29,.86) 100%); }
   .chero-copy { padding-bottom: 56px; }
@@ -133,27 +136,11 @@ def page(ctx, line):
     <p class="hero-kicker" data-hero-item>{hero["kicker"]}</p>
     <h1 class="hero-h1" data-hero-item>{hero["h1"]}</h1>
     <p class="hero-sub" data-hero-item>{hero["sub"]}</p>
-    <div class="hero-ctas" data-hero-item><a class="btn btn--tan" href="#{groups[0]["key"]}">Browse {title.lower()} {I["arrow"]}</a><a class="btn btn--ghost" href="shop.html?line={title.lower()}">View all pieces</a></div>
+    <div class="hero-ctas" data-hero-item><a class="btn btn--tan" href="#filters">Browse {title.lower()} {I["arrow"]}</a><a class="btn btn--ghost" href="shop.html">Everything</a></div>
   </div>
 </section>
 
-<section class="cstrip" aria-labelledby="cstrip-title">
-  <div class="wrap">
-    <div class="explore-head">
-      <div><h2 class="explore-title" id="cstrip-title" data-reveal>{title} by category</h2><p class="explore-sub" data-reveal data-delay=".1">Start with the right cut. Everything else follows.</p></div>
-      <a class="explore-all" href="shop.html?line={title.lower()}" data-reveal data-delay=".15">View all {title.lower()} {I["arrow"]}</a>
-    </div>
-    <div class="explore-grid">{cat_cards}</div>
-  </div>
-</section>
-{cat_sections}
-<section class="all-band" aria-labelledby="all-title">
-  <div class="wrap">
-    <h2 class="explore-title" id="all-title" data-reveal>Every {title.lower()[:-1]}, side by side.</h2>
-    <p class="explore-sub" data-reveal data-delay=".1">Filter by colour, style and price, sort, and compare all {n_p} {title.lower()} in one grid.</p>
-    <a class="btn btn--tan" href="shop.html?line={title.lower()}" data-reveal data-delay=".2">View all {title.lower()} {I["arrow"]}</a>
-  </div>
-</section>
+{cat_body}
 
 <section class="cross" aria-labelledby="cross-title">
   <div class="wrap" data-rail>
@@ -170,22 +157,19 @@ def page(ctx, line):
 '''
 
     js = r'''
-function initAnimations() {
+function initHero() {
   const S = window.STAGR, G = S.gsap, ST = window.ScrollTrigger, $ = S.$, $$ = S.$$, reduced = S.reduced;
   if (!G) return;
   const img = $("[data-hero-img]"), items = $$("[data-hero-item]");
   if (!reduced) { G.set(items, { y: 18, opacity: 0 }); }
   S.onLoaderDone.push(() => { if (reduced) return; G.fromTo(img, { scale: 1.14 }, { scale: 1.04, duration: 2.6, ease: "power2.out", clearProps: "transform" }); G.to(items, { y: 0, opacity: 1, duration: .7, ease: "power3.out", stagger: .08, delay: .2, clearProps: "transform" }); });
   $$(".cstrip, .cat, .all-band, .cross, #why, footer").forEach((el) => S.initReveals(el));
-  $$(".cat-photo img").forEach((im) => { if (reduced) return; G.fromTo(im, { scale: 1.1 }, { scale: 1, ease: "none", scrollTrigger: { trigger: im.parentElement, start: "top bottom", end: "bottom top", scrub: true } }); });
   S.initRails(document);
   // deep links from the mega menu: wallets.html#long, ?style=Long
-  const want = (new URLSearchParams(location.search).get("style") || "").toLowerCase();
-  if (want && !location.hash) { const el = $("#" + want); if (el) setTimeout(() => S.scrollTo(el, 1), 800); }
   $$('a[href^="#"]').forEach((a) => a.addEventListener("click", (e) => { const el = $(a.getAttribute("href")); if (!el) return; e.preventDefault(); S.scrollTo(el, 1.1); }));
   window.addEventListener("load", () => ST.refresh());
 }
-STAGR.onReady.push(initAnimations);
+STAGR.onReady.push(initHero);
 '''
 
     return {
@@ -193,9 +177,9 @@ STAGR.onReady.push(initAnimations);
         "key": line + "s",
         "title": f"{title} — STAGR.",
         "description": ctx["products_doc"]["lines"][line]["blurb"],
-        "css": css,
+        "css": css + sh_css,
         "body": body,
-        "js": js,
+        "js": js + sh_js,
         "header_dark": True,
         "shop_href": f"shop.html?line={title.lower()}",
     }
