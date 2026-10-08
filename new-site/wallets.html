@@ -638,7 +638,7 @@ html.is-entering .fade { opacity: 1; }
 .cinside-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
 @media (min-width: 1024px) { .cinside-card { grid-template-columns: 1fr 1fr; gap: clamp(28px, 4vw, 56px); align-items: center; } .cinside-photo { aspect-ratio: 4 / 3; } }
 /* ---- which fold / which belt ---- */
-.which { padding: clamp(40px, 6vw, 80px) 0 0; }
+.which { padding: clamp(40px, 6vw, 80px) 0 clamp(24px, 4vw, 48px); }
 .which-grid { display: grid; gap: 16px; grid-template-columns: 1fr; margin-top: clamp(20px, 3vw, 32px); }
 .which-card { position: relative; display: block; aspect-ratio: 4 / 3; border-radius: 14px; overflow: hidden; background: var(--ink); color: var(--bone); }
 .which-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1.02); transition: transform .9s var(--ease-out); }
@@ -980,61 +980,6 @@ html.is-entering .fade { opacity: 1; }
   </div>
 </section>
 
-<section class="cross" aria-labelledby="cross-title">
-  <div class="wrap" data-rail>
-    <div class="cat-head">
-      <div><p class="label" data-reveal>Complete the look</p><h2 class="explore-title cat-title" id="cross-title" data-reveal data-delay=".05">A belt to match.</h2></div>
-      <a class="explore-all" href="belts.html" data-reveal data-delay=".1">All belts <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
-    </div>
-    <div class="rail-track cc-track" data-rail-track data-reveal data-delay=".1">
-<article class="ccard has-alt" data-product="nova" data-tags="new best" data-line="belt" data-style="Belt" data-colours="Black,Brown" data-price="2394" data-index="0" data-name="Nova Double-Sided Leather Belt">
-  <a class="cc-media" href="product-nova.html" aria-label="Nova Double-Sided Leather Belt"><img class="main" src="assets/cutouts/nova-1-600.webp" alt="Nova Double-Sided Leather Belt in black" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/nova-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"><span class="cc-badges"><span class="cc-badge cc-sale">Sale -37%</span><span class="cc-badge cc-best">&#9733; Bestseller</span></span></a>
-  <div class="cc-body">
-<p class="cc-price"><b>Rs 2,394</b><s>Rs 3,800</s></p>
-<h3 class="cc-name"><a href="product-nova.html">Nova Double-Sided Leather Belt</a></h3>
-<p class="cc-meta">Black / Brown <i>·</i> Sizes 30 to 44</p>
-<div class="cc-opts opts" data-colour-opts><label class="cc-sw" title="Black"><input type="radio" name="h-nova" value="Black" checked><i style="--sw:#1A1512"></i><span class="sr-only">Black</span></label><label class="cc-sw" title="Brown"><input type="radio" name="h-nova" value="Brown" ><i style="--sw:#6E4328"></i><span class="sr-only">Brown</span></label></div>
-<p class="cc-stock"><i></i>In stock</p>
-<div class="cc-foot"><button type="button" class="cc-add" data-add="nova" data-colour="Black" data-size=34><span aria-hidden="true">+</span> Add to cart</button><button type="button" class="cc-wish" data-wish="nova" aria-pressed="false" aria-label="Save Nova Double-Sided Leather Belt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-7.5-10A4.2 4.2 0 0 1 12 8.2a4.2 4.2 0 0 1 7.5 2.3c0 5.4-7.5 10-7.5 10z"/></svg></button></div>
-  </div>
-</article>
-<article class="ccard has-alt" data-product="outlaw" data-tags="best" data-line="belt" data-style="Belt" data-colours="Brown" data-price="2765" data-index="1" data-name="Outlaw Crazy Horse Leather Belt">
-  <a class="cc-media" href="product-outlaw.html" aria-label="Outlaw Crazy Horse Leather Belt"><img class="main" src="assets/cutouts/outlaw-1-600.webp" alt="Outlaw Crazy Horse Leather Belt in brown" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/outlaw-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"><span class="cc-badges"><span class="cc-badge cc-sale">Sale -30%</span><span class="cc-badge cc-best">&#9733; Bestseller</span></span></a>
-  <div class="cc-body">
-<p class="cc-price"><b>Rs 2,765</b><s>Rs 3,950</s></p>
-<h3 class="cc-name"><a href="product-outlaw.html">Outlaw Crazy Horse Leather Belt</a></h3>
-<p class="cc-meta">Brown <i>·</i> Sizes 30 to 44</p>
-<div class="cc-opts opts" data-colour-opts><label class="cc-sw" title="Brown"><input type="radio" name="h-outlaw" value="Brown" checked><i style="--sw:#6E4328"></i><span class="sr-only">Brown</span></label></div>
-<p class="cc-stock"><i></i>In stock</p>
-<div class="cc-foot"><button type="button" class="cc-add" data-add="outlaw" data-colour="Brown" data-size=34><span aria-hidden="true">+</span> Add to cart</button><button type="button" class="cc-wish" data-wish="outlaw" aria-pressed="false" aria-label="Save Outlaw Crazy Horse Leather Belt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-7.5-10A4.2 4.2 0 0 1 12 8.2a4.2 4.2 0 0 1 7.5 2.3c0 5.4-7.5 10-7.5 10z"/></svg></button></div>
-  </div>
-</article>
-<article class="ccard has-alt" data-product="regent" data-tags="new" data-line="belt" data-style="Belt" data-colours="Black" data-price="2730" data-index="2" data-name="Regent Premium Leather Belt">
-  <a class="cc-media" href="product-regent.html" aria-label="Regent Premium Leather Belt"><img class="main" src="assets/cutouts/regent-1-600.webp" alt="Regent Premium Leather Belt in black" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/regent-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"><span class="cc-badges"><span class="cc-badge cc-sale">Sale -30%</span><span class="cc-badge cc-new">New in</span></span></a>
-  <div class="cc-body">
-<p class="cc-price"><b>Rs 2,730</b><s>Rs 3,900</s></p>
-<h3 class="cc-name"><a href="product-regent.html">Regent Premium Leather Belt</a></h3>
-<p class="cc-meta">Black <i>·</i> Sizes 30 to 44</p>
-<div class="cc-opts opts" data-colour-opts><label class="cc-sw" title="Black"><input type="radio" name="h-regent" value="Black" checked><i style="--sw:#1A1512"></i><span class="sr-only">Black</span></label></div>
-<p class="cc-stock"><i></i>In stock</p>
-<div class="cc-foot"><button type="button" class="cc-add" data-add="regent" data-colour="Black" data-size=34><span aria-hidden="true">+</span> Add to cart</button><button type="button" class="cc-wish" data-wish="regent" aria-pressed="false" aria-label="Save Regent Premium Leather Belt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-7.5-10A4.2 4.2 0 0 1 12 8.2a4.2 4.2 0 0 1 7.5 2.3c0 5.4-7.5 10-7.5 10z"/></svg></button></div>
-  </div>
-</article>
-<article class="ccard has-alt" data-product="monarch" data-tags="best gift" data-line="belt" data-style="Belt" data-colours="Tan" data-price="2800" data-index="3" data-name="Monarch Premium Leather Belt">
-  <a class="cc-media" href="product-monarch.html" aria-label="Monarch Premium Leather Belt"><img class="main" src="assets/cutouts/monarch-1-600.webp" alt="Monarch Premium Leather Belt in tan" width="600" height="600" loading="lazy" draggable="false"><img class="alt" src="assets/cutouts/monarch-2-600.webp" alt="" width="600" height="600" loading="lazy" aria-hidden="true" draggable="false"><span class="cc-badges"><span class="cc-badge cc-sale">Sale -30%</span><span class="cc-badge cc-best">&#9733; Bestseller</span></span></a>
-  <div class="cc-body">
-<p class="cc-price"><b>Rs 2,800</b><s>Rs 4,000</s></p>
-<h3 class="cc-name"><a href="product-monarch.html">Monarch Premium Leather Belt</a></h3>
-<p class="cc-meta">Tan <i>·</i> Sizes 30 to 44</p>
-<div class="cc-opts opts" data-colour-opts><label class="cc-sw" title="Tan"><input type="radio" name="h-monarch" value="Tan" checked><i style="--sw:#B0773F"></i><span class="sr-only">Tan</span></label></div>
-<p class="cc-stock"><i></i>In stock</p>
-<div class="cc-foot"><button type="button" class="cc-add" data-add="monarch" data-colour="Tan" data-size=34><span aria-hidden="true">+</span> Add to cart</button><button type="button" class="cc-wish" data-wish="monarch" aria-pressed="false" aria-label="Save Monarch Premium Leather Belt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-7.5-10A4.2 4.2 0 0 1 12 8.2a4.2 4.2 0 0 1 7.5 2.3c0 5.4-7.5 10-7.5 10z"/></svg></button></div>
-  </div>
-</article></div>
-    <div class="cc-foot"><span></span><div class="rail-nav"><button type="button" class="rail-btn" data-rail-prev aria-label="Previous" style="transform:scaleX(-1)"><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button><button type="button" class="rail-btn" data-rail-next aria-label="Next"><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div></div>
-  </div>
-</section>
-
 <section id="why" class="why on-bone" aria-labelledby="why-title">
   <div class="wrap">
     <div class="why-head">
@@ -1131,7 +1076,7 @@ function initHero() {
   const img = $("[data-hero-img]"), items = $$("[data-hero-item]");
   if (!reduced) { G.set(items, { y: 18, opacity: 0 }); }
   S.onLoaderDone.push(() => { if (reduced) return; G.fromTo(img, { scale: 1.14 }, { scale: 1.04, duration: 2.6, ease: "power2.out", clearProps: "transform" }); G.to(items, { y: 0, opacity: 1, duration: .7, ease: "power3.out", stagger: .08, delay: .2, clearProps: "transform" }); });
-  $$(".cinside, .which, .cross, #why, footer").forEach((el) => S.initReveals(el));
+  $$(".cinside, .which, #why, footer").forEach((el) => S.initReveals(el));
   S.initRails(document);
   // deep links from the mega menu: wallets.html#long, ?style=Long
   $$('a[href^="#"]').forEach((a) => a.addEventListener("click", (e) => { const el = $(a.getAttribute("href")); if (!el) return; e.preventDefault(); S.scrollTo(el, 1.1); }));

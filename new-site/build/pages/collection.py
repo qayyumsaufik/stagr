@@ -70,8 +70,6 @@ def page(ctx, line):
 </section>'''
 
     sh_css, cat_body, sh_js = catalogue(ctx, line)
-    cross = [p for p in ctx["products"] if p["line"] == other]
-    cross_cards = "".join(ctx["ccard"](ctx, p, i) for i, p in enumerate(cross))
 
     css = r'''
 /* ---- hero ---- */
@@ -127,7 +125,7 @@ def page(ctx, line):
 .cinside-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
 @media (min-width: 1024px) { .cinside-card { grid-template-columns: 1fr 1fr; gap: clamp(28px, 4vw, 56px); align-items: center; } .cinside-photo { aspect-ratio: 4 / 3; } }
 /* ---- which fold / which belt ---- */
-.which { padding: clamp(40px, 6vw, 80px) 0 0; }
+.which { padding: clamp(40px, 6vw, 80px) 0 clamp(24px, 4vw, 48px); }
 .which-grid { display: grid; gap: 16px; grid-template-columns: 1fr; margin-top: clamp(20px, 3vw, 32px); }
 .which-card { position: relative; display: block; aspect-ratio: 4 / 3; border-radius: 14px; overflow: hidden; background: var(--ink); color: var(--bone); }
 .which-card img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1.02); transition: transform .9s var(--ease-out); }
@@ -191,17 +189,6 @@ def page(ctx, line):
   </div>
 </section>
 
-<section class="cross" aria-labelledby="cross-title">
-  <div class="wrap" data-rail>
-    <div class="cat-head">
-      <div><p class="label" data-reveal>Complete the look</p><h2 class="explore-title cat-title" id="cross-title" data-reveal data-delay=".05">{"A belt to match." if line == "wallet" else "A wallet to match."}</h2></div>
-      <a class="explore-all" href="{other}s.html" data-reveal data-delay=".1">All {other_title.lower()} {I["arrow"]}</a>
-    </div>
-    <div class="rail-track cc-track" data-rail-track data-reveal data-delay=".1">{cross_cards}</div>
-    <div class="cc-foot"><span></span><div class="rail-nav"><button type="button" class="rail-btn" data-rail-prev aria-label="Previous" style="transform:scaleX(-1)">{I["arrow"]}</button><button type="button" class="rail-btn" data-rail-next aria-label="Next">{I["arrow"]}</button></div></div>
-  </div>
-</section>
-
 {ctx["why"](ctx)}
 '''
 
@@ -212,7 +199,7 @@ function initHero() {
   const img = $("[data-hero-img]"), items = $$("[data-hero-item]");
   if (!reduced) { G.set(items, { y: 18, opacity: 0 }); }
   S.onLoaderDone.push(() => { if (reduced) return; G.fromTo(img, { scale: 1.14 }, { scale: 1.04, duration: 2.6, ease: "power2.out", clearProps: "transform" }); G.to(items, { y: 0, opacity: 1, duration: .7, ease: "power3.out", stagger: .08, delay: .2, clearProps: "transform" }); });
-  $$(".cinside, .which, .cross, #why, footer").forEach((el) => S.initReveals(el));
+  $$(".cinside, .which, #why, footer").forEach((el) => S.initReveals(el));
   S.initRails(document);
   // deep links from the mega menu: wallets.html#long, ?style=Long
   $$('a[href^="#"]').forEach((a) => a.addEventListener("click", (e) => { const el = $(a.getAttribute("href")); if (!el) return; e.preventDefault(); S.scrollTo(el, 1.1); }));
