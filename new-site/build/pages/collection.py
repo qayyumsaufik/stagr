@@ -73,7 +73,7 @@ def page(ctx, line):
 
     css = r'''
 /* ---- hero ---- */
-.chero { position: relative; height: clamp(440px, 62svh, 620px); min-height: 0; max-height: none; overflow: hidden; background: var(--ink); color: var(--bone); display: flex; align-items: flex-end; }
+.chero { position: relative; height: clamp(440px, 70svh, 620px); min-height: 0; max-height: none; overflow: hidden; background: var(--ink); color: var(--bone); display: flex; align-items: flex-end; }
 .chero picture, .chero img { position: absolute; inset: 0; width: 100%; height: 100%; }
 .chero img { object-fit: cover; object-position: 50% 55%; transform: scale(1.04); will-change: transform; }
 .chero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(26,27,29,.55) 0%, rgba(26,27,29,0) 28%, rgba(26,27,29,0) 45%, rgba(26,27,29,.78) 100%), linear-gradient(90deg, rgba(26,27,29,.5) 0%, rgba(26,27,29,0) 60%); pointer-events: none; }
