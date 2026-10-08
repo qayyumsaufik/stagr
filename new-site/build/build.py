@@ -259,7 +259,7 @@ def chrome(ctx, page):
 <a class="skip" href="#main">Skip to content</a>
 {loader}
 <div class="fade" aria-hidden="true"></div>
-<div class="cursor" aria-hidden="true"><div class="ring"><span></span></div><div class="dot"></div></div>
+
 
 <div class="topbar" data-topbar>
   <div class="wrap topbar-inner">

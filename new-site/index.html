@@ -372,7 +372,7 @@ address { font-style: normal; }
 
 /* ---------- cursor ---------- */
 .cursor { position: fixed; inset: 0; z-index: 200; pointer-events: none; display: none; }
-@media (hover: hover) and (pointer: fine) { .js .cursor { display: block; } .js.has-cursor, .js.has-cursor a, .js.has-cursor button, .js.has-cursor [data-cursor-label] { cursor: none; } }
+/* custom cursor disabled: the native cursor is used everywhere */
 .cursor .ring { position: absolute; top: 0; left: 0; width: 36px; height: 36px; margin: -18px 0 0 -18px; border-radius: 50%; border: 1px solid rgba(255,255,255,.55); mix-blend-mode: difference; display: grid; place-items: center; opacity: 0; }
 .cursor .ring span { font-size: 10px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--bone); opacity: 0; white-space: nowrap; }
 .cursor .dot { position: absolute; top: 0; left: 0; width: 6px; height: 6px; margin: -3px 0 0 -3px; border-radius: 50%; background: var(--accent); opacity: 0; }
@@ -756,12 +756,12 @@ html.is-entering .fade { opacity: 1; }
 .inside-sci svg { width: 44px; height: 44px; flex: none; }
 .inside-stage { position: relative; display: grid; place-items: center; min-height: 0; align-self: stretch; }
 .inside-halo { position: absolute; inset: 0; margin: auto; width: 46vh; height: 46vh; transform: scale(1.6); border-radius: 50%; background: #D9B07A; opacity: .5; filter: blur(60px); pointer-events: none; }
-.inside-float { position: relative; z-index: 1; width: min(40vh, 28vw); aspect-ratio: 1; display: grid; place-items: center; pointer-events: none; }
+.inside-float { position: relative; z-index: 1; width: min(54vh, 100%); aspect-ratio: 1; display: grid; place-items: center; pointer-events: none; }
 .inside-pills { position: relative; z-index: 2; }
 .inside-float img { position: absolute; width: 100%; height: auto; max-height: 100%; object-fit: contain; filter: drop-shadow(0 40px 60px rgba(0,0,0,.5)); }
 .inside-right { max-width: 420px; justify-self: end; width: 100%; }
 .inside-right .spec > div { padding: 8px 0; }
-@media (max-height: 820px) { .inside-measure, .inside-foot { display: none; } .inside-desc { margin-top: 10px; font-size: .9375rem; } .inside-point { margin-top: 12px; padding-top: 10px; } .inside-cta { margin-top: 12px; min-height: 44px; } .inside-float { width: min(34vh, 26vw); } .inside-pills .pill { min-height: 34px; } }
+@media (max-height: 820px) { .inside-measure, .inside-foot { display: none; } .inside-desc { margin-top: 10px; font-size: .9375rem; } .inside-point { margin-top: 12px; padding-top: 10px; } .inside-cta { margin-top: 12px; min-height: 44px; } .inside-float { width: min(46vh, 100%); } .inside-pills .pill { min-height: 34px; } }
 .inside-desc { margin-top: 14px; color: rgba(239,237,230,.8); max-width: 40ch; }
 .inside-bar { height: 1px; background: rgba(239,237,230,.15); margin-top: 10px; }
 .inside-point { margin-top: 18px; padding-top: 14px; border-top: 1px solid rgba(239,237,230,.15); font-size: .9375rem; color: var(--bone); display: flex; gap: 10px; align-items: baseline; }
@@ -771,11 +771,11 @@ html.is-entering .fade { opacity: 1; }
 .inside-foot { text-align: center; font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: rgba(239,237,230,.5); padding-top: 12px; }
 /* mobile deck */
 .inside-mobile { padding: var(--section-sm) 0 56px; }
-.inside-mobile .mstage { position: relative; height: 46vw; display: grid; place-items: center; margin: 8px 0 20px; touch-action: pan-y; }
+.inside-mobile .mstage { position: relative; height: 58vw; display: grid; place-items: center; margin: 8px 0 20px; touch-action: pan-y; }
 .inside-mobile .inside-pills { margin-top: 16px; }
 .inside-mobile .inside-lead { margin-top: 12px; }
 .inside-mobile .inside-halo { width: 60vw; height: 60vw; transform: scale(1.3); }
-.inside-mobile .inside-float { width: 44vw; }
+.inside-mobile .inside-float { width: 62vw; }
 .deck { display: flex; gap: 5vw; overflow-x: auto; scroll-snap-type: x mandatory; padding: 8px 9vw 16px; scrollbar-width: none; }
 .deck::-webkit-scrollbar { display: none; }
 .deck-card { flex: 0 0 82vw; scroll-snap-align: center; }
@@ -896,7 +896,7 @@ html.is-entering .fade { opacity: 1; }
   <button type="button" class="skip-btn">Skip</button>
 </div>
 <div class="fade" aria-hidden="true"></div>
-<div class="cursor" aria-hidden="true"><div class="ring"><span></span></div><div class="dot"></div></div>
+
 
 <div class="topbar" data-topbar>
   <div class="wrap topbar-inner">
@@ -1149,7 +1149,7 @@ html.is-entering .fade { opacity: 1; }
   <div data-inside-hover><h3 class="inside-name" data-inside-name>Folded,<br>skived, stitched</h3></div>
   <div class="inside-sci" data-inside-sci><svg data-inside-svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" aria-hidden="true"><path data-bot d="M4 24l6-6 6 6 6-6 6 6 6-6 6 6"/><path data-bot d="M4 32l6-6 6 6 6-6 6 6 6-6 6 6"/></svg><span class="serif-i">Wallets · 7 pieces · Stitched by hand</span></div>
 </div></div>
-      <div class="inside-stage" data-inside-stage><div class="inside-halo" data-inside-halo></div><div class="inside-float" data-inside-float><img data-inside-img="0" src="assets/cutouts/monarch-1.webp" alt="" width="900" height="900" draggable="false" decoding="async" style="opacity:1"><img data-inside-img="1" src="assets/cutouts/kingsmann-brown-1.webp" alt="" width="900" height="900" draggable="false" decoding="async" style="opacity:0"></div></div>
+      <div class="inside-stage" data-inside-stage><div class="inside-halo" data-inside-halo></div><div class="inside-float" data-inside-float><img data-inside-img="0" src="assets/cutouts/inside-belt.webp" alt="" width="900" height="900" draggable="false" decoding="async" style="opacity:1"><img data-inside-img="1" src="assets/cutouts/inside-wallet.webp" alt="" width="900" height="900" draggable="false" decoding="async" style="opacity:0"></div></div>
       <div class="inside-right">
 <div data-inside-right="0" >
   <p class="label"><b>01</b><span class="slash">/</span>02</p>
@@ -1172,7 +1172,7 @@ html.is-entering .fade { opacity: 1; }
   </div>
   <div class="inside-mobile mob-only" data-inside-mobile>
     <div style="padding:0 20px;text-align:center"><p class="label inside-kicker" data-reveal>Your hide. Our bench.</p><h2 class="inside-title" data-inside-title-mobile style="opacity:1;margin-top:10px">Two lines. One<br>great finish.</h2><p class="inside-lead" data-reveal data-delay=".1">Every piece is cut from full hides by local artisans and saddle stitched by hand. Pick the line, then the cut.</p><div class="inside-pills" data-reveal data-delay=".15"><button type="button" class="pill" data-mpill="0" aria-pressed="true">Belts</button><button type="button" class="pill" data-mpill="1" aria-pressed="false">Wallets</button></div></div>
-    <div class="mstage"><div class="inside-halo" data-inside-halo-mobile></div><div class="inside-float" data-inside-float-mobile><img data-inside-img="0" src="assets/cutouts/monarch-1-600.webp" alt="" width="900" height="900" draggable="false" decoding="async" style="opacity:1"><img data-inside-img="1" src="assets/cutouts/kingsmann-brown-1-600.webp" alt="" width="900" height="900" draggable="false" decoding="async" style="opacity:0"></div></div>
+    <div class="mstage"><div class="inside-halo" data-inside-halo-mobile></div><div class="inside-float" data-inside-float-mobile><img data-inside-img="0" src="assets/cutouts/inside-belt-600.webp" alt="" width="900" height="900" draggable="false" decoding="async" style="opacity:1"><img data-inside-img="1" src="assets/cutouts/inside-wallet-600.webp" alt="" width="900" height="900" draggable="false" decoding="async" style="opacity:0"></div></div>
     <div class="deck" data-deck-track>
 <article class="deck-card" data-halo="#CDA373">
   <p class="label"><b>01</b><span class="slash">/</span>02</p>

@@ -68,7 +68,7 @@ def render(ctx):
              svg='<path data-bot d="M4 24l6-6 6 6 6-6 6 6 6-6 6 6"/><path data-bot d="M4 32l6-6 6 6 6-6 6 6 6-6 6 6"/>'),
     ]
     N_INSIDE = len(inside)
-    inside_imgs = [cut("monarch"), cut("kingsmann")]
+    inside_imgs = [{"src": "assets/cutouts/inside-belt.webp", "small": "assets/cutouts/inside-belt-600.webp"}, {"src": "assets/cutouts/inside-wallet.webp", "small": "assets/cutouts/inside-wallet-600.webp"}]
     inside_stack = lambda size: "".join(f'<img data-inside-img="{i}" src="{im[size]}" alt="" width="900" height="900" draggable="false" decoding="async" style="opacity:{1 if i == 0 else 0}">' for i, im in enumerate(inside_imgs))
     pills = "".join(f'<button type="button" class="pill" data-inside-pill="{i}" aria-pressed="{str(i == 0).lower()}">{d["tab"]}</button>' for i, d in enumerate(inside))
     lefts = "".join(f'''
@@ -335,12 +335,12 @@ def render(ctx):
 .inside-sci svg { width: 44px; height: 44px; flex: none; }
 .inside-stage { position: relative; display: grid; place-items: center; min-height: 0; align-self: stretch; }
 .inside-halo { position: absolute; inset: 0; margin: auto; width: 46vh; height: 46vh; transform: scale(1.6); border-radius: 50%; background: #D9B07A; opacity: .5; filter: blur(60px); pointer-events: none; }
-.inside-float { position: relative; z-index: 1; width: min(40vh, 28vw); aspect-ratio: 1; display: grid; place-items: center; pointer-events: none; }
+.inside-float { position: relative; z-index: 1; width: min(54vh, 100%); aspect-ratio: 1; display: grid; place-items: center; pointer-events: none; }
 .inside-pills { position: relative; z-index: 2; }
 .inside-float img { position: absolute; width: 100%; height: auto; max-height: 100%; object-fit: contain; filter: drop-shadow(0 40px 60px rgba(0,0,0,.5)); }
 .inside-right { max-width: 420px; justify-self: end; width: 100%; }
 .inside-right .spec > div { padding: 8px 0; }
-@media (max-height: 820px) { .inside-measure, .inside-foot { display: none; } .inside-desc { margin-top: 10px; font-size: .9375rem; } .inside-point { margin-top: 12px; padding-top: 10px; } .inside-cta { margin-top: 12px; min-height: 44px; } .inside-float { width: min(34vh, 26vw); } .inside-pills .pill { min-height: 34px; } }
+@media (max-height: 820px) { .inside-measure, .inside-foot { display: none; } .inside-desc { margin-top: 10px; font-size: .9375rem; } .inside-point { margin-top: 12px; padding-top: 10px; } .inside-cta { margin-top: 12px; min-height: 44px; } .inside-float { width: min(46vh, 100%); } .inside-pills .pill { min-height: 34px; } }
 .inside-desc { margin-top: 14px; color: rgba(239,237,230,.8); max-width: 40ch; }
 .inside-bar { height: 1px; background: rgba(239,237,230,.15); margin-top: 10px; }
 .inside-point { margin-top: 18px; padding-top: 14px; border-top: 1px solid rgba(239,237,230,.15); font-size: .9375rem; color: var(--bone); display: flex; gap: 10px; align-items: baseline; }
@@ -350,11 +350,11 @@ def render(ctx):
 .inside-foot { text-align: center; font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: rgba(239,237,230,.5); padding-top: 12px; }
 /* mobile deck */
 .inside-mobile { padding: var(--section-sm) 0 56px; }
-.inside-mobile .mstage { position: relative; height: 46vw; display: grid; place-items: center; margin: 8px 0 20px; touch-action: pan-y; }
+.inside-mobile .mstage { position: relative; height: 58vw; display: grid; place-items: center; margin: 8px 0 20px; touch-action: pan-y; }
 .inside-mobile .inside-pills { margin-top: 16px; }
 .inside-mobile .inside-lead { margin-top: 12px; }
 .inside-mobile .inside-halo { width: 60vw; height: 60vw; transform: scale(1.3); }
-.inside-mobile .inside-float { width: 44vw; }
+.inside-mobile .inside-float { width: 62vw; }
 .deck { display: flex; gap: 5vw; overflow-x: auto; scroll-snap-type: x mandatory; padding: 8px 9vw 16px; scrollbar-width: none; }
 .deck::-webkit-scrollbar { display: none; }
 .deck-card { flex: 0 0 82vw; scroll-snap-align: center; }

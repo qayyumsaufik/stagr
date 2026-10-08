@@ -344,7 +344,7 @@
     $$("[data-qv-close]").forEach((b) => b.addEventListener("click", closeQv));
   }
 
-    initNav(); initQuickView(); initWish(); S.initCards(document); S.initRails(document); initCursor(); initCart(); initForms(); initFade(); S.initBlooms(); S.magnetic(document);
+    initNav(); initQuickView(); initWish(); S.initCards(document); S.initRails(document); initCart(); initForms(); initFade(); S.initBlooms(); S.magnetic(document);
     S.onReady.forEach((f) => { try { f(); } catch (e) { console.error(e); } });
     if (ST) { ST.sort(); ST.refresh(); window.addEventListener("load", () => ST.refresh()); }
     initLoader(() => { S.onLoaderDone.forEach((f) => { try { f(); } catch (e) { console.error(e); } }); ST && ST.refresh(); const h = location.hash; if (h && h !== "#top" && $(h)) setTimeout(() => S.scrollTo(h), 900); });
