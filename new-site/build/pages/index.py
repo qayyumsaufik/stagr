@@ -69,10 +69,6 @@ def render(ctx):
     ]
     N_INSIDE = len(inside)
     inside_imgs = [cut("monarch"), cut("kingsmann")]
-    # circular zoom-in details around the piece (crops of the same cutouts, build/details.py); dot = % of the product image
-    zoom_spots = [dict(piece="belt", spots={"tl": (45, 27), "bl": (18, 65), "tr": (80, 42), "br": (55, 62)}),
-                  dict(piece="wallet", spots={"tl": (50, 9), "bl": (30, 55), "tr": (89, 13), "br": (77, 75)})]
-    zoom_html = "".join(f'<div class="zoom" data-zoom="{i}" {"hidden" if i else ""}>' + "".join(f'<span class="zoom-c zoom-{pos}" data-zoom-c data-zx="{x}" data-zy="{y}"><img src="assets/details/{z["piece"]}-{pos}.webp" alt="" width="360" height="360" loading="lazy" draggable="false"></span>' for pos, (x, y) in z["spots"].items()) + '<svg class="zoom-lines" data-zoom-lines aria-hidden="true"></svg></div>' for i, z in enumerate(zoom_spots))
     inside_stack = lambda size: "".join(f'<img data-inside-img="{i}" src="{im[size]}" alt="" width="900" height="900" draggable="false" decoding="async" style="opacity:{1 if i == 0 else 0}">' for i, im in enumerate(inside_imgs))
     pills = "".join(f'<button type="button" class="pill" data-inside-pill="{i}" aria-pressed="{str(i == 0).lower()}">{d["tab"]}</button>' for i, d in enumerate(inside))
     lefts = "".join(f'''
@@ -342,17 +338,6 @@ def render(ctx):
 .inside-float { position: relative; z-index: 1; width: min(40vh, 28vw); aspect-ratio: 1; display: grid; place-items: center; pointer-events: none; }
 .inside-pills { position: relative; z-index: 2; }
 .inside-float img { position: absolute; width: 100%; height: auto; max-height: 100%; object-fit: contain; filter: drop-shadow(0 40px 60px rgba(0,0,0,.5)); }
-/* zoom-in details: four round crops at the stage corners, thin gold lines to the piece */
-.zoom { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
-.zoom[hidden] { display: none; }
-.zoom-c { --zc: clamp(72px, 11vh, 118px); position: absolute; width: var(--zc); height: var(--zc); border-radius: 50%; overflow: hidden; background: var(--ink); box-shadow: 0 0 0 1.5px var(--accent), 0 0 0 6px rgba(197,139,74,.16), 0 22px 34px rgba(0,0,0,.5); transform: scale(0); }
-.zoom-c img { width: 100%; height: 100%; display: block; }
-.zoom-tl { left: 0; top: 7%; } .zoom-bl { left: 0; bottom: 7%; } .zoom-tr { right: 0; top: 7%; } .zoom-br { right: 0; bottom: 7%; }
-.zoom-lines { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
-.zoom-lines path { fill: none; stroke: var(--accent); stroke-width: 1; stroke-linejoin: round; stroke-linecap: round; opacity: .9; }
-.zoom-lines circle { fill: var(--accent); stroke: var(--ink); stroke-width: 1.5; }
-.inside-mobile .zoom-c { --zc: 62px; box-shadow: 0 0 0 1.5px var(--accent), 0 0 0 4px rgba(197,139,74,.16), 0 14px 22px rgba(0,0,0,.5); }
-.inside-mobile .zoom-tl { left: 3%; top: 0; } .inside-mobile .zoom-bl { left: 3%; bottom: 0; } .inside-mobile .zoom-tr { right: 3%; top: 0; } .inside-mobile .zoom-br { right: 3%; bottom: 0; }
 .inside-right { max-width: 420px; justify-self: end; width: 100%; }
 .inside-right .spec > div { padding: 8px 0; }
 @media (max-height: 820px) { .inside-measure, .inside-foot { display: none; } .inside-desc { margin-top: 10px; font-size: .9375rem; } .inside-point { margin-top: 12px; padding-top: 10px; } .inside-cta { margin-top: 12px; min-height: 44px; } .inside-float { width: min(34vh, 26vw); } .inside-pills .pill { min-height: 34px; } }
@@ -572,14 +557,14 @@ def render(ctx):
     <div class="inside-head"><p class="label inside-kicker">Your hide. Our bench.</p><h2 class="inside-title" id="inside-title" data-inside-title>Two lines. One great finish.</h2><p class="inside-lead">Every piece is cut from full hides by local artisans and saddle stitched by hand. Pick the line, then the cut.</p><div class="inside-pills">{pills}</div></div>
     <div class="inside-grid">
       <div class="inside-left">{lefts}</div>
-      <div class="inside-stage" data-inside-stage><div class="inside-halo" data-inside-halo></div><div class="inside-float" data-inside-float>{inside_stack("src")}</div>{zoom_html}</div>
+      <div class="inside-stage" data-inside-stage><div class="inside-halo" data-inside-halo></div><div class="inside-float" data-inside-float>{inside_stack("src")}</div></div>
       <div class="inside-right">{rights}</div>
     </div>
     <p class="inside-foot">One hide. One workshop. Nothing else.</p>
   </div>
   <div class="inside-mobile mob-only" data-inside-mobile>
     <div style="padding:0 20px;text-align:center"><p class="label inside-kicker" data-reveal>Your hide. Our bench.</p><h2 class="inside-title" data-inside-title-mobile style="opacity:1;margin-top:10px">Two lines. One<br>great finish.</h2><p class="inside-lead" data-reveal data-delay=".1">Every piece is cut from full hides by local artisans and saddle stitched by hand. Pick the line, then the cut.</p><div class="inside-pills" data-reveal data-delay=".15">{"".join(f'<button type="button" class="pill" data-mpill="{i}" aria-pressed="{str(i == 0).lower()}">{d["tab"]}</button>' for i, d in enumerate(inside))}</div></div>
-    <div class="mstage"><div class="inside-halo" data-inside-halo-mobile></div><div class="inside-float" data-inside-float-mobile>{inside_stack("small")}</div>{zoom_html}</div>
+    <div class="mstage"><div class="inside-halo" data-inside-halo-mobile></div><div class="inside-float" data-inside-float-mobile>{inside_stack("small")}</div></div>
     <div class="deck" data-deck-track>{deck}</div>
     <div class="mdots">{"".join(f'<button type="button" data-deck-dot="{i}" style="color:{"var(--bone)" if i == 0 else "rgba(239,237,230,.35)"}">0{i + 1}</button>' for i in range(N_INSIDE))}</div>
     <p class="inside-foot" style="padding:24px 20px 0">One hide. One workshop. Nothing else.</p>
@@ -674,7 +659,6 @@ function initAnimations() {
     S.charRise(title, { to: { duration: .8, stagger: .022, scrollTrigger: { trigger: section, start: "top 80%", once: true } } }); G.set(title, { opacity: 1 });
     G.fromTo([panels[0].parentElement, stage], { y: 70, opacity: 0 }, { y: 0, opacity: 1, duration: 1, ease: "power2.out", stagger: .12, scrollTrigger: { trigger: section, start: "top 55%", once: true } });
     let active = 0, shown = 0, swapping = false, nameSplit = null;
-    const zoomD = makeZoom($("[data-inside-stage]"), img); let zr = 0; window.addEventListener("resize", () => { clearTimeout(zr); zr = setTimeout(() => zoomD.refresh(shown), 120); });
     const showPanel = (panel) => { G.fromTo(panel, { y: 26, opacity: 0 }, { y: 0, opacity: 1, duration: .45, ease: "power3.out" }); G.fromTo($$("[data-stage-item]", panel), { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: .45, ease: "power2.out", stagger: .05, delay: .05 }); if (nameSplit) nameSplit.revert(); nameSplit = S.charRise($("[data-range-title]", panel), { from: 108, to: { duration: .55, stagger: .025, overwrite: "auto" } }); };
     const swapText = () => { if (shown === active || swapping) return; swapping = true; G.to(panels[shown], { y: -26, opacity: 0, duration: .25, ease: "power3.in", onComplete: () => { panels[shown].hidden = true; shown = active; panels[shown].hidden = false; showPanel(panels[shown]); swapping = false; swapText(); } }); };
     const setActive = (next) => {
@@ -699,35 +683,6 @@ function initAnimations() {
   }
 
   /* ================= 03 INSIDE ================= */
-  // round zoom-in details around the piece: positions are measured, so the lines stay attached at any size
-  function makeZoom(stage, floatEl) {
-    const NS = "http://www.w3.org/2000/svg", zoomEl = (i) => $('[data-zoom="' + i + '"]', stage);
-    const layout = (i) => {
-      const z = zoomEl(i), img = $$("[data-inside-img]", floatEl)[i], svg = $("[data-zoom-lines]", z), sr = stage.getBoundingClientRect(), ir = img.getBoundingClientRect();
-      svg.innerHTML = ""; svg.setAttribute("viewBox", "0 0 " + sr.width + " " + sr.height);
-      const paths = [], dots = [], circles = $$("[data-zoom-c]", z);
-      circles.forEach((c) => {
-        const cr = c.getBoundingClientRect(), cx = cr.left + cr.width / 2 - sr.left, cy = cr.top + cr.height / 2 - sr.top, r = cr.width / 2;
-        const x1 = ir.left + ir.width * (+c.dataset.zx) / 100 - sr.left, y1 = ir.top + ir.height * (+c.dataset.zy) / 100 - sr.top;
-        const left = cx < sr.width / 2, ex = cx + (left ? r + 2 : -r - 2), kx = ex + (x1 - ex) * .5;
-        const p = document.createElementNS(NS, "path"); p.setAttribute("d", "M" + ex + " " + cy + " L" + kx + " " + cy + " L" + x1 + " " + y1); svg.appendChild(p); paths.push(p);
-        const d = document.createElementNS(NS, "circle"); d.setAttribute("cx", x1); d.setAttribute("cy", y1); d.setAttribute("r", 3.5); svg.appendChild(d); dots.push(d);
-      });
-      return { circles, paths, dots };
-    };
-    return {
-      show(i) { const z = zoomEl(i); if (!z) return; z.hidden = false; const L = layout(i);
-        if (reduced) { G.set(L.circles, { scale: 1 }); G.set(L.paths, { drawSVG: "100%" }); return; }
-        G.set(L.dots, { scale: 0, transformOrigin: "50% 50%" });
-        G.fromTo(L.circles, { scale: 0 }, { scale: 1, duration: .65, ease: "back.out(1.8)", stagger: .09, delay: .3, overwrite: "auto" });
-        if (window.DrawSVGPlugin) G.fromTo(L.paths, { drawSVG: "0%" }, { drawSVG: "100%", duration: .55, ease: "power2.inOut", stagger: .09, delay: .5, overwrite: "auto" });
-        G.to(L.dots, { scale: 1, duration: .35, ease: "back.out(3)", stagger: .09, delay: .9, overwrite: "auto" }); },
-      hide(i) { const z = zoomEl(i); if (!z || z.hidden) return; const marks = $$("path, circle", z);
-        G.to($$("[data-zoom-c]", z), { scale: 0, duration: .22, ease: "power2.in", overwrite: "auto", onComplete: () => { z.hidden = true; } });
-        G.to(marks, { opacity: 0, duration: .18, overwrite: "auto", onComplete: () => G.set(marks, { clearProps: "opacity" }) }); },
-      refresh(i) { const z = zoomEl(i); if (!z || z.hidden) return; const L = layout(i); G.set(L.paths, { drawSVG: "100%" }); G.set(L.dots, { scale: 1, transformOrigin: "50% 50%" }); },
-    };
-  }
   function turnPiece(float, next) { const imgs = $$("[data-inside-img]", float); const show = () => imgs.forEach((im, i) => im.style.opacity = i === next ? 1 : 0); if (reduced) { show(); return; } G.timeline({ overwrite: true }).to(float, { scaleX: .8, rotation: -3, duration: .22, ease: "power2.in", onComplete: show }).to(float, { scaleX: 1, rotation: 0, duration: .6, ease: "power3.out" }); }
   function initInside() {
     const section = $("#inside"); if (!section) return;
@@ -735,14 +690,12 @@ function initAnimations() {
     if (isMobile) {
       const title = $("[data-inside-title-mobile]"); G.fromTo(title, { y: 22, opacity: 0 }, { y: 0, opacity: 1, duration: .9, ease: "power2.out", scrollTrigger: { trigger: section, start: "top 75%", once: true } });
       const halo = $("[data-inside-halo-mobile]"), img = $("[data-inside-float-mobile]"), track = $("[data-deck-track]"), dots = $$("[data-deck-dot]"), titles = $$("[data-deck-title]", track); let split = null, pending = true;
-      let cur = 0; const zoomM = makeZoom($(".inside-mobile .mstage"), img); let zr = 0; window.addEventListener("resize", () => { clearTimeout(zr); zr = setTimeout(() => zoomM.refresh(cur), 120); });
       const reveal = (i) => { const t = titles[i], items = $$("[data-deck-item]", t.closest("article")); if (reduced) { G.set([t, ...items], { opacity: 1 }); return; } if (split) split.revert(); split = window.SplitText.create(t, { type: "words,chars", mask: "words", onSplit: (self) => { G.set(t, { opacity: 1 }); return G.fromTo(self.chars, { yPercent: 108 }, { yPercent: 0, duration: .5, ease: "power2.out", stagger: .02, overwrite: "auto" }); } }); G.fromTo(items, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: .5, ease: "power2.out", stagger: .07, delay: .08, overwrite: "auto" }); };
       ST.create({ trigger: track, start: "top 85%", once: true, onEnter: () => { if (!pending) return; pending = false; reveal(0); } });
-      ST.create({ trigger: $(".inside-mobile .mstage"), start: "top 80%", once: true, onEnter: () => zoomM.show(0) });
-      S.watchCarousel(track, (next, prev) => { pending = false; dots.forEach((d, i) => d.style.color = i === next ? "var(--bone)" : "rgba(239,237,230,.35)"); G.to(halo, { backgroundColor: colors[next], duration: .5, overwrite: "auto" }); turnPiece(img, next); zoomM.hide(prev); zoomM.show(next); const old = titles[prev]; G.to([old, ...$$("[data-deck-item]", old.closest("article"))], { opacity: 0, duration: .12, overwrite: "auto" }); reveal(next); });
+      S.watchCarousel(track, (next, prev) => { pending = false; dots.forEach((d, i) => d.style.color = i === next ? "var(--bone)" : "rgba(239,237,230,.35)"); G.to(halo, { backgroundColor: colors[next], duration: .5, overwrite: "auto" }); turnPiece(img, next); const old = titles[prev]; G.to([old, ...$$("[data-deck-item]", old.closest("article"))], { opacity: 0, duration: .12, overwrite: "auto" }); reveal(next); });
       dots.forEach((d, i) => d.addEventListener("click", () => S.scrollCarouselTo(track, i)));
       // tabs above the stage, and a swipe on the picture itself, both drive the deck
-      const mpills = $$("[data-mpill]");
+      const mpills = $$("[data-mpill]"); let cur = 0;
       const paintPills = (i) => mpills.forEach((p, k) => p.setAttribute("aria-pressed", String(k === i)));
       mpills.forEach((p, i) => p.addEventListener("click", () => S.scrollCarouselTo(track, i)));
       S.watchCarousel(track, (next) => { cur = next; paintPills(next); });
@@ -754,7 +707,6 @@ function initAnimations() {
     const title = $("[data-inside-title]"), halo = $("[data-inside-halo]"), img = $("[data-inside-float]"), pills = $$("[data-inside-pill]"), lefts = $$("[data-inside-left]"), rights = $$("[data-inside-right]");
     window.SplitText.create(title, { type: "chars", onSplit: (self) => G.fromTo(self.chars, { yPercent: 22, opacity: 0 }, { yPercent: 0, opacity: 1, duration: .8, ease: "power2.out", stagger: .022, scrollTrigger: { trigger: section, start: "top 75%", once: true } }) }); G.set(title, { opacity: 1 });
     let active = 0, shown = 0, swapping = false, nameSplit = null;
-    const zoomD = makeZoom($("[data-inside-stage]"), img); let zr = 0; window.addEventListener("resize", () => { clearTimeout(zr); zr = setTimeout(() => zoomD.refresh(shown), 120); });
     const parts = (i) => [$("[data-inside-name]", lefts[i]), $("[data-inside-sci]", lefts[i]), rights[i]];
     const stylePills = () => pills.forEach((p, i) => p.setAttribute("aria-pressed", String(i === active)));
     const show = (i) => {
@@ -763,13 +715,12 @@ function initAnimations() {
       if (nameSplit) nameSplit.revert(); nameSplit = null;
       if (!reduced) nameSplit = window.SplitText.create(name, { type: "chars", onSplit: (self) => G.fromTo(self.chars, { yPercent: 60, opacity: 0 }, { yPercent: 0, opacity: 1, duration: .55, ease: "power2.out", stagger: .028, delay: .12, overwrite: "auto" }) });
       G.fromTo(halo, { scale: 1.45 }, { scale: 1.6, duration: .9, ease: "power2.out", overwrite: "auto" });
-      zoomD.show(i);
       if (window.DrawSVGPlugin) G.fromTo($$("[data-bot]", lefts[i]), { drawSVG: "0%" }, { drawSVG: "100%", duration: .9, ease: "power1.inOut", stagger: .08, delay: .15, overwrite: "auto" });
       const bar = $("[data-inside-bar]", right), dose = $("[data-inside-dose]", right);
       G.fromTo(bar, { scaleX: 0 }, { scaleX: parseFloat(bar.dataset.insideBar), duration: .8, delay: .25, ease: "power2.inOut", overwrite: "auto" });
       const c = { v: 0 }; G.to(c, { v: parseFloat(dose.dataset.insideDose), duration: .8, delay: .25, ease: "power2.out", onUpdate: () => dose.textContent = String(Math.round(c.v)) });
     };
-    const swap = () => { if (shown === active || swapping) return; swapping = true; zoomD.hide(shown); G.to(parts(shown), { opacity: 0, y: -26, duration: .22, ease: "power3.in", overwrite: "auto", onComplete: () => { lefts[shown].hidden = true; rights[shown].hidden = true; shown = active; lefts[shown].hidden = false; rights[shown].hidden = false; show(shown); swapping = false; swap(); } }); };
+    const swap = () => { if (shown === active || swapping) return; swapping = true; G.to(parts(shown), { opacity: 0, y: -26, duration: .22, ease: "power3.in", overwrite: "auto", onComplete: () => { lefts[shown].hidden = true; rights[shown].hidden = true; shown = active; lefts[shown].hidden = false; rights[shown].hidden = false; show(shown); swapping = false; swap(); } }); };
     const setActive = (next) => { if (next === active) return; active = next; stylePills(); G.to(halo, { backgroundColor: colors[next], duration: .5, overwrite: "auto" }); turnPiece(img, next); swap(); };
     // 4 topics sit at progress 0, 1/3, 2/3, 1 (the snap points); the active one only changes once
     // the scroll has moved clearly past the midpoint between two topics, so nothing flips on its own
@@ -786,6 +737,7 @@ function initAnimations() {
     }));
     G.set(parts(0), { opacity: 0 }); ST.create({ trigger: section, start: "top 60%", once: true, onEnter: () => show(0) });
     lefts.forEach((left) => { const hover = $("[data-inside-hover]", left); hover.addEventListener("pointerenter", () => { G.to(halo, { opacity: .7, scale: 1.75, duration: .6, overwrite: "auto" }); if (window.DrawSVGPlugin) G.fromTo($$("[data-bot]", left), { drawSVG: "0%" }, { drawSVG: "100%", duration: .7, ease: "power1.inOut", stagger: .06, overwrite: "auto" }); }); hover.addEventListener("pointerleave", () => G.to(halo, { opacity: .5, scale: 1.6, duration: .7, overwrite: "auto" })); if (!reduced) G.fromTo($("[data-inside-svg]", left), { rotation: -3.5, transformOrigin: "50% 50%" }, { rotation: 3.5, duration: 5, yoyo: true, repeat: -1, ease: "sine.inOut" }); });
+    if (fine && !reduced) { const wrap = $("[data-inside-float]"); const sx = G.quickTo(wrap, "x", { duration: .9, ease: "power2.out" }), sy = G.quickTo(wrap, "y", { duration: .9, ease: "power2.out" }); section.addEventListener("pointermove", (e) => { sx((e.clientX / innerWidth - .5) * 22); sy((e.clientY / innerHeight - .5) * 12); }, { passive: true }); }
   }
 
   /* ================= 03b ANATOMY ================= */
