@@ -27,11 +27,11 @@ def render(ctx):
     points = "".join(f'<li class="bk-point" data-reveal data-delay="{i * .07}"><span class="bk-point-ic">{POINT_ICONS[i]}</span><b>{pt["title"]}</b><p>{pt["body"]}</p></li>' for i, pt in enumerate(G["points"]))
 
     made_for = [
-        ("gifts", "Client gifts", "A belt or a wallet with your mark on it, boxed with a card. Something a client keeps on them."),
-        ("teams", "Staff gifts", "One consignment for the whole team, the same piece in everyone's hands, or a mix of sizes and colours."),
-        ("events", "Festive giving", "Eid, year end, a launch or a wedding. Tell us the date and we work back from it."),
+        ("gifts", "Client gifts", "A belt or wallet with your logo, boxed with a card."),
+        ("teams", "Staff gifts", "Sized per person. We collect sizes for you."),
+        ("events", "Festive giving", "Eid and year-end orders, planned ahead."),
     ]
-    tiles = "".join(f'''<a class="bk-tile" href="#enquire" data-reveal data-delay="{i * .08}"><div class="bk-tile-copy"><h3>{t}</h3><p>{body}</p></div><div class="bk-tile-pic"><img src="assets/bulk/{k}-800.jpg" srcset="assets/bulk/{k}-800.jpg 800w, assets/bulk/{k}-1600.jpg 1600w" sizes="(min-width: 1024px) 32vw, 100vw" alt="{t}" width="1600" height="1200" loading="lazy" decoding="async"></div></a>''' for i, (k, t, body) in enumerate(made_for))
+    tiles = "".join(f'''<a class="bk-tile" href="#enquire" data-reveal data-delay="{i * .08}"><img src="assets/bulk/{k}-800.jpg" srcset="assets/bulk/{k}-800.jpg 800w, assets/bulk/{k}-1600.jpg 1600w" sizes="(min-width: 1024px) 32vw, 100vw" alt="{t}" width="1600" height="1200" loading="lazy" decoding="async"><span><b>{t}</b><em>{body}</em></span></a>''' for i, (k, t, body) in enumerate(made_for))
 
     range_cards = f'''
 <a class="bk-range-card" href="#build" data-bo-go="belt" data-reveal><img src="assets/categories/all-belts.jpg" srcset="assets/categories/all-belts.jpg 900w, assets/categories/all-belts-1400.jpg 1400w" sizes="(min-width: 1024px) 32vw, 100vw" alt="Stagr belts" width="1400" height="933" loading="lazy"><span><b>Belts</b><em>{len(belts)} styles · sizes 30 to 44 · from {fmt(min(p["price"] for p in belts))}</em></span></a>
@@ -107,15 +107,14 @@ def render(ctx):
 .bk-head .explore-sub { max-width: 54ch; }
 /* ---- made for tiles ---- */
 .bk-tiles { display: grid; gap: 16px; grid-template-columns: 1fr; }
-.bk-tile { position: relative; display: flex; flex-direction: column; overflow: hidden; border-radius: 14px; background: #F4F2EE; color: var(--ink); aspect-ratio: 4 / 4.6; box-shadow: 0 1px 2px rgba(26,27,29,.04), 0 12px 30px -20px rgba(26,27,29,.2); transition: transform .4s var(--ease-out), box-shadow .4s ease; }
-.bk-tile:hover { transform: translateY(-3px); box-shadow: 0 1px 2px rgba(26,27,29,.04), 0 26px 44px -22px rgba(26,27,29,.28); }
-.bk-tile-copy { padding: clamp(18px, 2.2vw, 24px) clamp(20px, 2.4vw, 26px) 16px; }
-.bk-tile h3 { font-family: var(--font-display); font-weight: 300; font-size: clamp(1.5rem, 1.1rem + 1.2vw, 2rem); line-height: 1.06; letter-spacing: -.012em; }
-.bk-tile p { margin-top: 6px; font-size: .9375rem; line-height: 1.45; color: var(--fg-2); }
-.bk-tile-pic { position: relative; flex: 1; min-height: 0; overflow: hidden; }
-.bk-tile-pic img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1.02); transition: transform 1.1s var(--ease-out); }
-.bk-tile:hover img { transform: scale(1.06); }
-@media (min-width: 768px) { .bk-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); } .bk-tile { aspect-ratio: 4 / 5; } }
+.bk-tile { position: relative; display: block; aspect-ratio: 4 / 3; border-radius: 14px; overflow: hidden; background: var(--ink); color: var(--bone); box-shadow: 0 1px 2px rgba(26,27,29,.04), 0 12px 30px -20px rgba(26,27,29,.25); }
+.bk-tile img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1.02); transition: transform 1.1s var(--ease-out); }
+.bk-tile:hover img { transform: scale(1.07); }
+.bk-tile::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(26,27,29,0) 40%, rgba(26,27,29,.82) 100%); }
+.bk-tile span { position: absolute; left: 20px; right: 20px; bottom: 18px; z-index: 2; display: grid; gap: 4px; }
+.bk-tile b { font-weight: 700; font-size: 1.2rem; line-height: 1.2; }
+.bk-tile em { font-style: normal; font-size: .8125rem; line-height: 1.45; color: rgba(239,237,230,.85); max-width: 30ch; }
+@media (min-width: 768px) { .bk-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); } .bk-tile { aspect-ratio: 1; } }
 /* ---- the range ---- */
 .bk-range { display: grid; gap: 16px; grid-template-columns: 1fr; }
 .bk-range-card { position: relative; display: block; aspect-ratio: 4 / 3; border-radius: 14px; overflow: hidden; background: var(--ink); color: var(--bone); }
