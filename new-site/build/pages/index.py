@@ -201,64 +201,38 @@ def render(ctx):
 .rp-copy { margin-top: 18px; max-width: 46ch; color: var(--fg-2); }
 .rp-spec { margin-top: 22px; max-width: 420px; }
 
-/* ---- 01 hero: the piece in orbit, cards that drift, three stages ---- */
-.hero { position: relative; background: var(--bone); color: var(--ink); }
-.mhero { padding: calc(var(--nav-top) + 24px) 0 0; overflow: hidden; }
-.mhero .mh-grid { min-height: calc(100svh - 76px - 76px); align-content: center; padding-bottom: 28px; }
-.mh-grid { display: grid; gap: 18px; grid-template-columns: 1fr; width: 100%; }
-.mh-h1 { font-family: var(--font-display); font-weight: 500; font-size: clamp(2.4rem, 1.4rem + 3.4vw, 4.6rem); line-height: 1; letter-spacing: -.01em; }
-.mh-copy .hero-ctas { margin-top: 22px; }
-.mh-aside { font-size: .9375rem; line-height: 1.5; color: var(--fg-2); padding-left: 16px; border-left: 1px solid var(--accent-deep); max-width: 34ch; }
-.mh-aside b { color: var(--accent-deep); font-weight: 500; }
+/* ---- 01 hero: belts left, wallets right, the words on the seam, bulk band beneath ---- */
+.hero { position: relative; background: var(--ink); color: var(--bone); }
+.slider { position: relative; height: calc(100svh - 76px); min-height: 620px; max-height: 980px; overflow: hidden; }
+.slide { position: absolute; inset: 0; display: flex; align-items: flex-end; opacity: 0; visibility: hidden; }
+.slide.is-on { opacity: 1; visibility: visible; }
+.slide img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 55%; transform: scale(1.04); will-change: transform; }
+.slide::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(26,27,29,.55) 0%, rgba(26,27,29,0) 28%, rgba(26,27,29,0) 45%, rgba(26,27,29,.78) 100%), linear-gradient(90deg, rgba(26,27,29,.5) 0%, rgba(26,27,29,0) 60%); pointer-events: none; }
+.slide-copy { position: relative; z-index: 2; width: 100%; padding-bottom: clamp(84px, 11vh, 120px); max-width: none; }
+.slide-copy > * { max-width: 760px; }
+.hero-kicker { font-size: .6875rem; letter-spacing: .3em; text-transform: uppercase; color: rgba(239,237,230,.8); }
+.hero-kicker span { margin: 0 6px; opacity: .6; }
+.hero-h1 { margin-top: 14px; font-family: var(--font-display); font-weight: 500; font-size: clamp(2.6rem, 1.2rem + 4.2vw, 5.375rem); line-height: 1; letter-spacing: 0; text-shadow: 0 2px 30px rgba(0,0,0,.45); }
+.hero-h1 .serif-i { font-family: var(--font-display); font-style: normal; }
+.hero-sub { margin-top: 18px; max-width: 44ch; font-size: clamp(.9375rem, .9rem + .25vw, 1.0625rem); line-height: 1.55; color: rgba(239,237,230,.88); text-shadow: 0 1px 14px rgba(0,0,0,.45); }
+.hero-ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
 .btn--tan { background: var(--accent-deep); border-color: var(--accent-deep); color: var(--bone); }
 .btn--tan:hover { background: var(--accent); border-color: var(--accent); color: var(--ink); }
-.mh-stage { --cs: 1; position: relative; width: min(100%, 720px); aspect-ratio: 1 / .86; margin: 0 auto; }
-.mh-orbit { position: absolute; inset: 6% 10%; width: 80%; height: 88%; fill: none; stroke: rgba(26,27,29,.16); stroke-width: 1; }
-.mh-ghost { position: absolute; width: 44px; height: 44px; color: rgba(26,27,29,.16); }
-.mh-ghost.g1 { left: 12%; top: 14%; } .mh-ghost.g2 { right: 8%; top: 22%; } .mh-ghost.g3 { right: 16%; bottom: 10%; } .mh-ghost.g4 { left: 6%; bottom: 20%; } .mh-ghost.g5 { left: 48%; top: 2%; }
-.mh-path { position: absolute; width: 36%; height: auto; fill: none; stroke: var(--accent-deep); stroke-width: 1.2; stroke-linecap: round; opacity: 0; }
-.mh-path circle { fill: var(--accent-deep); stroke: none; }
-.mh-path--l { left: -4%; top: 30%; } .mh-path--r { right: -2%; top: 24%; }
-.mh-piece { position: absolute; left: 50%; top: 50%; width: 52%; aspect-ratio: 1; transform: translate(-50%, -50%); }
-.mh-piece img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 24px 30px rgba(26,27,29,.22)); }
-.mh-card { position: absolute; left: var(--x); top: var(--y); z-index: 3; background: #fff; border-radius: 14px; box-shadow: 0 1px 2px rgba(26,27,29,.05), 0 16px 34px -18px rgba(26,27,29,.3); font-size: calc(.8125rem * var(--cs)); color: var(--ink); opacity: 0; }
-.mh-row { display: flex; align-items: center; gap: 12px; padding: 10px 14px 10px 10px; white-space: nowrap; }
-.mh-row span { display: grid; gap: 1px; font-weight: 600; }
-.mh-row em { font-style: normal; font-weight: 400; font-size: .85em; color: var(--fg-2); }
-.mh-ic { flex: none; width: 34px; height: 34px; border-radius: 50%; background: #F3F1EC; color: var(--accent-deep); display: grid; place-items: center; font-weight: 600; }
-.mh-ic svg { width: 16px; height: 16px; }
-.mh-ok { flex: none; margin-left: 6px; padding: 5px 10px; border-radius: 999px; background: #E6F1E8; color: #1F6B33; font-style: normal; font-size: .8em; font-weight: 600; }
-.mh-row--avatar img { width: 44px; height: 44px; border-radius: 10px; object-fit: cover; }
-.mh-pill { display: inline-flex; align-items: center; gap: 8px; padding: 9px 14px; border-radius: 999px; font-weight: 600; white-space: nowrap; }
-.mh-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
-.mh-ring { width: calc(150px * var(--cs)); height: calc(150px * var(--cs)); border-radius: 50%; background: var(--ink); color: var(--bone); display: grid; place-content: center; text-align: center; gap: 2px; box-shadow: 0 0 0 8px rgba(26,27,29,.06), 0 18px 30px -16px rgba(26,27,29,.5); }
-.mh-ring small { font-size: .7em; color: rgba(239,237,230,.7); letter-spacing: .06em; }
-.mh-ring b { font-family: var(--font-display); font-weight: 400; font-size: 2.6em; line-height: 1; }
-.mh-ring span { font-size: .75em; color: rgba(239,237,230,.75); line-height: 1.3; }
-.mh-dark { background: var(--ink); color: var(--bone); padding: 12px 16px; display: grid; gap: 3px; max-width: 220px; }
-.mh-dark b { font-weight: 600; } .mh-dark span { font-size: .85em; color: rgba(239,237,230,.72); }
-.mh-list { padding: 12px 16px; display: grid; gap: 6px; }
-.mh-list b { font-weight: 600; margin-bottom: 4px; }
-.mh-list span { display: flex; align-items: center; gap: 10px; color: var(--fg-2); font-size: .9em; }
-.mh-list span::before { content: ""; width: 9px; height: 9px; border-radius: 50%; border: 1.5px solid var(--line-strong); }
-.mh-list span.on { color: var(--ink); } .mh-list span.on::before { background: var(--accent-deep); border-color: var(--accent-deep); }
-.mh-caption { position: absolute; left: 50%; bottom: -6px; transform: translateX(-50%); z-index: 3; }
-.mh-caption span { display: inline-block; padding: 10px 18px; border-radius: 999px; background: var(--ink); color: var(--bone); font-size: .8125rem; font-weight: 600; white-space: nowrap; }
-.mh-caption span[hidden] { display: none; }
-.mh-tabs { display: flex; justify-content: center; gap: clamp(20px, 5vw, 64px); margin-top: 10px; }
-.mh-tab { display: inline-flex; align-items: center; gap: 8px; font-size: .9375rem; font-weight: 500; color: var(--fg-2); transition: color .3s ease; }
-.mh-tab[aria-selected="true"] { color: var(--ink); }
-.mh-tab svg { width: 16px; height: 16px; transform: rotate(-90deg); }
-.mh-tab .bg { fill: none; stroke: var(--line-strong); stroke-width: 2; }
-.mh-tab .fg { fill: none; stroke: var(--accent-deep); stroke-width: 2; stroke-dasharray: 56.55; stroke-dashoffset: 56.55; }
-.mh-tab[aria-selected="false"] .fg { stroke-dashoffset: 56.55 !important; }
-@media (min-width: 1024px) {
-  .mhero { padding-top: calc(var(--nav-top) + 8px); }
-  .mh-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: "copy aside" "stage stage" "tabs tabs"; row-gap: 0; align-items: start; }
-  .mh-copy { grid-area: copy; } .mh-aside { grid-area: aside; justify-self: end; margin-top: 10px; } .mh-stage { grid-area: stage; margin-top: 4px; aspect-ratio: 1 / .74; width: min(100%, 760px); } .mh-tabs { grid-area: tabs; }
-}
-@media (max-width: 1023px) { .mh-aside { max-width: none; } .mh-stage { --cs: .86; } .mh-ghost { width: 34px; height: 34px; } }
-@media (max-width: 767px) { .mh-card--r { left: auto; right: 0; } .mh-row { max-width: 62vw; } .mh-row span { min-width: 0; } .mh-row b, .mh-row span { white-space: normal; } .mh-card[data-mh-card="0"]:nth-of-type(1) { --y: 0%; } .mh-card[data-mh-card="0"]:nth-of-type(3) { --y: 84%; } .mh-card[data-mh-card="2"]:nth-of-type(2) { --x: 60%; } .mhero { min-height: 0; padding-top: calc(var(--nav-top) + 16px); } .mh-h1 { font-size: 2.3rem; } .mh-stage { --cs: .66; aspect-ratio: 1 / 1.12; margin-top: 8px; } .mh-piece { width: 58%; } .mh-ring { width: 96px; height: 96px; box-shadow: 0 0 0 5px rgba(26,27,29,.06); } .mh-dark, .mh-list { max-width: 160px; } .mh-row em { display: none; } .mh-row { padding: 8px 12px 8px 8px; } .mh-ic { width: 28px; height: 28px; } .mh-path, .mh-ghost { display: none; } .mh-orbit { inset: 10% 6%; width: 88%; } .mh-tabs { gap: 14px; margin-top: 14px; } .mh-tab { font-size: .75rem; white-space: nowrap; } .hero-ctas .btn { flex: 1 1 auto; justify-content: center; } }
+.hero .btn--ghost { color: var(--bone); border-color: rgba(239,237,230,.55); background: rgba(26,27,29,.2); backdrop-filter: blur(6px); }
+.hero .btn--ghost:hover { background: var(--bone); color: var(--ink); }
+.slider-ui { position: absolute; left: 0; right: 0; bottom: clamp(22px, 3vh, 36px); z-index: 3; display: flex; justify-content: space-between; align-items: center; gap: 16px; pointer-events: none; }
+.slider-ui > * { pointer-events: auto; }
+.slider-dots { display: flex; gap: 10px; }
+.slider-dots button { width: 56px; height: 20px; display: grid; align-items: center; }
+.slider-dots i { display: block; height: 2px; background: rgba(239,237,230,.35); position: relative; overflow: hidden; }
+.slider-dots i::after { content: ""; position: absolute; inset: 0; background: var(--bone); transform: scaleX(var(--p, 0)); transform-origin: left; }
+.slider-dots button[aria-selected="true"] i { background: rgba(239,237,230,.35); }
+.slider-nav { display: flex; align-items: center; gap: 10px; }
+.slider-count { font-size: .75rem; letter-spacing: .2em; color: rgba(239,237,230,.75); margin-right: 8px; font-variant-numeric: tabular-nums; }
+.slider-count b { font-weight: 500; color: var(--bone); }
+.half-arrow { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(239,237,230,.5); display: grid; place-items: center; color: var(--bone); background: rgba(26,27,29,.25); backdrop-filter: blur(6px); transition: background-color .3s ease, color .3s ease, border-color .3s ease; }
+.half-arrow svg { width: 16px; height: 16px; }
+.half-arrow:hover { background: var(--bone); color: var(--ink); border-color: var(--bone); }
 /* bulk-order band */
 .bulk-band { position: relative; background: var(--accent-deep); color: var(--bone); overflow: hidden; }
 .bulk-band::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: clamp(60px, 7vw, 110px); background: var(--accent); clip-path: polygon(0 0, 100% 0, 55% 100%, 0 100%); opacity: .9; }
@@ -499,43 +473,29 @@ def render(ctx):
         return (f'<div class="pair"><img class="p-belt" src="{bl[size]}" alt="" width="900" height="900" draggable="false" decoding="async">'
                 f'<img class="p-wallet" src="{w[size]}" alt="{a}" width="900" height="900" draggable="false" decoding="async"></div>')
     body = f'''
-<section id="hero" class="hero mhero on-bone" aria-label="Introduction">
-  <div class="wrap mh-grid">
-    <div class="mh-copy"><h1 class="mh-h1" data-mh-copy>Nothing but<br>leather.</h1><div class="hero-ctas" data-mh-copy><a class="btn btn--tan" href="shop.html">Shop the range {I["arrow"]}</a><a class="btn btn--ghost" href="bulk.html">Bulk orders</a></div></div>
-    <p class="mh-aside" data-mh-copy>Every piece is cut, stitched and boxed on one bench in Pakistan. <b>Cash on delivery</b>, at your door in 3 to 5 days.</p>
-    <div class="mh-stage" data-mh-stage>
-      <svg class="mh-orbit" viewBox="0 0 600 600" aria-hidden="true"><circle cx="300" cy="300" r="268" /><circle cx="300" cy="300" r="214" stroke-dasharray="3 7" /></svg>
-      <span class="mh-ghost g1" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 34l20-20 6 6-20 20H8z"/><path d="M28 14l6-6 6 6-6 6"/></svg></span>
-      <span class="mh-ghost g2" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 30c8-12 16-12 24 0s12 12 12 0"/><path d="M14 22l2 4M30 26l2 4"/></svg></span>
-      <span class="mh-ghost g3" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="14" width="32" height="22" rx="4"/><path d="M8 24h20"/><circle cx="28" cy="24" r="2.5"/></svg></span>
-      <span class="mh-ghost g4" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16l18-8 18 8-18 8z"/><path d="M6 16v16l18 8 18-8V16"/><path d="M24 24v16"/></svg></span>
-      <span class="mh-ghost g5" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="8" y="10" width="32" height="28" rx="3"/><path d="M14 20h20M14 27h14"/></svg></span>
-      <svg class="mh-path mh-path--l" viewBox="0 0 320 300" aria-hidden="true"><path data-mh-path="0" d="M310 20H120c-50 0-90 30-90 70s40 60 90 60h100c40 0 70 30 70 60s-30 60-70 60H60"/><circle data-mh-pathdot="0" cx="60" cy="270" r="4"/></svg>
-      <svg class="mh-path mh-path--r" viewBox="0 0 320 300" aria-hidden="true"><path data-mh-path="1" d="M10 150h120c60 0 60-100 120-100h60"/><circle data-mh-pathdot="1" cx="10" cy="150" r="4"/></svg>
-      <div class="mh-piece" data-mh-piece>
-        <img data-mh-img="0" src="assets/cutouts/inside-belt.webp" alt="A Stagr tan belt, coiled" width="1024" height="602" fetchpriority="high" draggable="false">
-        <img data-mh-img="1" src="assets/cutouts/inside-wallet.webp" alt="A Stagr bifold wallet with the stag mark" width="730" height="642" draggable="false" style="opacity:0">
-        <img data-mh-img="2" src="assets/cutouts/inside-boxed.webp" alt="A Stagr wallet on its gift box" width="893" height="787" draggable="false" style="opacity:0">
+<section id="hero" class="hero on-ink" aria-label="Introduction">
+  <div class="slider" data-slider aria-roledescription="carousel" aria-label="Belts and wallets">
+    <div class="slide is-on" data-slide="0" aria-roledescription="slide" aria-label="1 of 2">
+      <picture><source media="(max-width: 767px)" srcset="assets/hero/slide-wallet-portrait.jpg"><img data-slide-img src="assets/hero/slide-wallet-1600.jpg" srcset="assets/hero/slide-wallet-900.jpg 900w, assets/hero/slide-wallet-1600.jpg 1600w, assets/hero/slide-wallet-2000.jpg 1672w" sizes="100vw" alt="A Stagr bifold wallet with the stag mark, on walnut beside coffee beans and a wooden box" width="1672" height="941" fetchpriority="high" decoding="async"></picture>
+      <div class="wrap slide-copy">
+        <p class="hero-kicker" data-slide-item>Wallets <span aria-hidden="true">·</span> {n_wallets} pieces, from {fmt(min_wallet)}</p>
+        <h1 class="hero-h1" data-slide-item><span class="serif-i">Folded, skived,</span><br>stitched by hand.</h1>
+        <p class="hero-sub" data-slide-item>Bifolds, trifolds and long wallets, boxed with a handwritten note. Cash on delivery across Pakistan.</p>
+        <div class="hero-ctas" data-slide-item><a class="btn btn--tan" href="wallets.html">Shop wallets {I["arrow"]}</a><a class="btn btn--ghost" href="shop.html">Everything</a></div>
       </div>
-      <!-- stage 0: the hide -->
-      <div class="mh-card mh-ring" data-mh-card="0" style="--x:6%;--y:4%"><small>Graded</small><b>100%</b><span>Full-grain<br>crazy horse</span></div>
-      <div class="mh-card mh-row mh-card--r" data-mh-card="0" style="--x:66%;--y:10%"><i class="mh-ic">{I["arrow"]}</i><span>Cut along the spine<em>Where the hide is tightest</em></span></div>
-      <div class="mh-card mh-row" data-mh-card="0" style="--x:2%;--y:76%"><span>Hide chosen, one piece<em>3.5 mm, no splits, no joins</em></span><i class="mh-ok">&#10003; Done</i></div>
-      <div class="mh-card mh-pill mh-card--r" data-mh-card="0" style="--x:72%;--y:68%"><i class="mh-dot"></i>Sizes 30 to 44</div>
-      <!-- stage 1: the bench -->
-      <div class="mh-card mh-row" data-mh-card="1" style="--x:4%;--y:12%"><i class="mh-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 15c3-6 7-6 10 0s4 6 6 0"/></svg></i><span>Saddle stitch<em>Two needles, waxed linen</em></span></div>
-      <div class="mh-card mh-row" data-mh-card="1" style="--x:0%;--y:62%"><i class="mh-ic">+</i><span>Burnished edges<em>Four passes, sealed with beeswax</em></span></div>
-      <div class="mh-card mh-row mh-row--avatar mh-card--r" data-mh-card="1" style="--x:64%;--y:6%"><img src="assets/details/anat-wallet-2.webp" alt="" width="360" height="360"><span>Stitched by hand<em>One row, it cannot unravel</em></span></div>
-      <div class="mh-card mh-row mh-card--r" data-mh-card="1" style="--x:70%;--y:60%"><i class="mh-ic">&#10003;</i><span>Stag mark embossed</span></div>
-      <!-- stage 2: your door -->
-      <div class="mh-card mh-dark" data-mh-card="2" style="--x:2%;--y:8%"><b>A handwritten note</b><span>Add a message at checkout. We write it by hand.</span></div>
-      <div class="mh-card mh-list mh-card--r" data-mh-card="2" style="--x:68%;--y:14%"><b>Where is it now?</b><span class="on">Order placed</span><span class="on">Packed</span><span class="on">Dispatched</span><span>Delivered</span></div>
-      <div class="mh-card mh-row" data-mh-card="2" style="--x:4%;--y:72%"><i class="mh-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="7" width="18" height="13" rx="1"/><path d="M3 11h18M8 7V4h8v3"/></svg></i><span>Cash on delivery<em>Pay at the door, nothing up front</em></span></div>
-      <div class="mh-card mh-pill mh-card--r" data-mh-card="2" style="--x:70%;--y:74%"><i class="mh-dot"></i>3 to 5 days, Pakistan wide</div>
-      <div class="mh-caption"><span data-mh-caption="0">Cut from the full hide</span><span data-mh-caption="1" hidden>Stitched on the bench</span><span data-mh-caption="2" hidden>Boxed, at your door</span></div>
     </div>
-    <div class="mh-tabs" role="tablist" aria-label="How a piece is made">
-      {"".join(f'<button type="button" class="mh-tab" role="tab" aria-selected="{str(i == 0).lower()}" data-mh-tab="{i}">{t}<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" class="bg"/><circle cx="12" cy="12" r="9" class="fg" data-mh-ring/></svg></button>' for i, t in enumerate(["The hide", "The bench", "Your door"]))}
+    <div class="slide" data-slide="1" aria-roledescription="slide" aria-label="2 of 2" aria-hidden="true">
+      <picture><source media="(max-width: 767px)" srcset="assets/hero/slide-belts-portrait.jpg"><img data-slide-img src="assets/hero/slide-belts-1600.jpg" srcset="assets/hero/slide-belts-900.jpg 900w, assets/hero/slide-belts-1600.jpg 1600w, assets/hero/slide-belts-2400.jpg 1672w" sizes="100vw" alt="A Stagr tan belt coiled on walnut beside coffee beans and shells" width="1672" height="941" loading="lazy" decoding="async"></picture>
+      <div class="wrap slide-copy">
+        <p class="hero-kicker" data-slide-item>Belts <span aria-hidden="true">·</span> {n_belts} pieces, from {fmt(min_belt)}</p>
+        <h2 class="hero-h1" data-slide-item><span class="serif-i">{B["hero"]["headline"][0]}</span><br>{B["hero"]["headline"][1]}</h2>
+        <p class="hero-sub" data-slide-item>Full-grain crazy horse, cut in one piece, with a solid buckle on a screw post. Sizes 30 to 44.</p>
+        <div class="hero-ctas" data-slide-item><a class="btn btn--tan" href="belts.html">Shop belts {I["arrow"]}</a><a class="btn btn--ghost" href="shop.html">Everything</a></div>
+      </div>
+    </div>
+    <div class="wrap slider-ui">
+      <div class="slider-dots" role="tablist" aria-label="Choose slide"><button type="button" role="tab" aria-selected="true" data-slide-dot="0" aria-label="Wallets"><i></i></button><button type="button" role="tab" aria-selected="false" data-slide-dot="1" aria-label="Belts"><i></i></button></div>
+      <div class="slider-nav"><span class="slider-count"><b data-slide-n>01</b> / 02</span><button type="button" class="half-arrow" data-slide-prev aria-label="Previous slide" style="transform:scaleX(-1)">{I["arrow"]}</button><button type="button" class="half-arrow" data-slide-next aria-label="Next slide">{I["arrow"]}</button></div>
     </div>
   </div>
   <div class="bulk-band" data-bulk-band>
@@ -643,41 +603,37 @@ function initAnimations() {
   function initScrollHint() { const dot = $("[data-scroll-dot]"); if (!dot || !isRendered(dot)) return; if (reduced) { G.set(dot, { opacity: 1, y: 9 }); return; } G.timeline({ repeat: -1, repeatDelay: .5 }).set(dot, { y: 0, opacity: 0 }).to(dot, { opacity: 1, duration: .25 }).to(dot, { y: 19, duration: 1, ease: "power2.inOut" }, .1).to(dot, { opacity: 0, duration: .3, ease: "power1.in" }, .85); }
 
   function initHero() {
-    const stage = $("[data-mh-stage]"), tabs = $$("[data-mh-tab]"), band = $("[data-bulk-band]"), imgs = $$("[data-mh-img]"), caps = $$("[data-mh-caption]");
-    const cards = (i) => $$('[data-mh-card="' + i + '"]'), ring = (i) => $("[data-mh-ring]", tabs[i]);
-    const paths = [$('[data-mh-path="0"]'), $('[data-mh-path="1"]')], pdots = [$('[data-mh-pathdot="0"]'), $('[data-mh-pathdot="1"]')], psvg = $$(".mh-path");
-    const n = tabs.length, HOLD = 6; let active = 0, busy = false, timer = null, started = false, floats = [];
-    const paintTabs = () => tabs.forEach((t, i) => t.setAttribute("aria-selected", String(i === active)));
-    const arm = () => { clearTimeout(timer); tabs.forEach((t, i) => G.set(ring(i), { strokeDashoffset: 56.55 })); if (reduced || document.hidden) return; G.fromTo(ring(active), { strokeDashoffset: 56.55 }, { strokeDashoffset: 0, duration: HOLD, ease: "none", overwrite: true }); timer = setTimeout(() => go(active + 1), HOLD * 1000); };
-    const drift = (els) => { floats.forEach((t) => t.kill()); floats = els.map((el, i) => G.to(el, { y: i % 2 ? 7 : -7, duration: 2.6 + i * .3, ease: "sine.inOut", yoyo: true, repeat: -1, delay: .2 * i })); };
-    const show = (i) => {
-      const c = cards(i); caps.forEach((cp, k) => { cp.hidden = k !== i; });
-      if (reduced) { G.set(c, { opacity: 1 }); imgs.forEach((im, k) => im.style.opacity = k === i ? 1 : 0); busy = false; return; }
-      G.set(c, { opacity: 0 }); G.set(psvg, { opacity: 0 });
-      const tl = G.timeline({ defaults: { ease: "power3.out" }, onComplete: () => { busy = false; } });
-      imgs.forEach((im, k) => { if (k === i) tl.fromTo(im, { opacity: 0, scale: .92, y: 16 }, { opacity: 1, scale: 1, y: 0, duration: .9, clearProps: "transform" }, 0); });
-      tl.fromTo(c, { opacity: 0, y: 18, scale: .92 }, { opacity: 1, y: 0, scale: 1, duration: .6, ease: "back.out(1.6)", stagger: .09, onComplete: () => drift(c) }, .2);
-      const use = i === 0 ? [0] : i === 1 ? [1] : [0, 1];
-      if (window.DrawSVGPlugin) use.forEach((k, j) => { tl.set(psvg[k], { opacity: 1 }, .35 + j * .2).fromTo(paths[k], { drawSVG: "0%" }, { drawSVG: "100%", duration: 1.1, ease: "power2.inOut" }, .35 + j * .2).fromTo(pdots[k], { scale: 0, transformOrigin: "50% 50%" }, { scale: 1, duration: .35, ease: "back.out(3)" }, 1.3 + j * .2); });
-      tl.fromTo(caps[i], { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: .5, clearProps: "transform" }, .5);
+    const root = $("[data-slider]"), slides = $$("[data-slide]", root), dots = $$("[data-slide-dot]", root), count = $("[data-slide-n]", root), band = $("[data-bulk-band]");
+    const n = slides.length, HOLD = 6.5; let active = 0, busy = false, timer = null, started = false;
+    const items = (i) => $$("[data-slide-item]", slides[i]), img = (i) => $("[data-slide-img]", slides[i]);
+    const pad = (i) => String(i + 1).padStart(2, "0");
+    const paintDots = () => dots.forEach((d, i) => d.setAttribute("aria-selected", String(i === active)));
+    // the active dot fills up over the hold, then we move on
+    const arm = () => { clearTimeout(timer); dots.forEach((d) => $("i", d).style.setProperty("--p", 0)); if (reduced || document.hidden) return; const bar = $("i", dots[active]); G.fromTo(bar, { "--p": 0 }, { "--p": 1, duration: HOLD, ease: "none", overwrite: true }); timer = setTimeout(() => go(active + 1), HOLD * 1000); };
+    const enter = (i, delay) => { if (reduced) { G.set(items(i), { opacity: 1, y: 0 }); return; } G.fromTo(img(i), { scale: 1.12 }, { scale: 1.04, duration: 2.6, ease: "power2.out", overwrite: true, delay }); G.fromTo(items(i), { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: .7, ease: "power3.out", stagger: .08, delay: delay + .25, overwrite: true, clearProps: "transform" }); };
+    const go = (next, user) => {
+      next = (next + n) % n; if (next === active || busy) return; busy = true;
+      const from = slides[active], to = slides[next]; active = next; paintDots(); if (count) count.textContent = pad(next);
+      to.classList.add("is-on"); to.setAttribute("aria-hidden", "false"); from.setAttribute("aria-hidden", "true");
+      if (reduced) { from.classList.remove("is-on"); G.set(items(next), { opacity: 1 }); busy = false; arm(); return; }
+      G.set(to, { zIndex: 2 }); G.set(from, { zIndex: 1 });
+      G.fromTo(to, { opacity: 0 }, { opacity: 1, duration: 1, ease: "power2.inOut", onComplete: () => { from.classList.remove("is-on"); G.set([from, to], { clearProps: "zIndex,opacity" }); busy = false; } });
+      G.to($$("[data-slide-item]", from), { opacity: 0, y: -10, duration: .35, ease: "power2.in", overwrite: true });
+      enter(next, 0); arm();
     };
-    const go = (next) => {
-      next = (next + n) % n; if (next === active || busy) return; busy = true; const prev = active; active = next; paintTabs();
-      floats.forEach((t) => t.kill());
-      if (reduced) { G.set(cards(prev), { opacity: 0 }); show(next); arm(); return; }
-      G.to(cards(prev), { opacity: 0, y: -10, scale: .96, duration: .25, ease: "power2.in", overwrite: true });
-      G.to(imgs[prev], { opacity: 0, scale: 1.04, duration: .3, ease: "power2.in" });
-      G.to(psvg, { opacity: 0, duration: .25 });
-      G.to(caps[prev], { opacity: 0, duration: .2, onComplete: () => { show(next); arm(); } });
-    };
-    tabs.forEach((t, i) => t.addEventListener("click", () => go(i)));
-    stage.addEventListener("pointerenter", () => clearTimeout(timer)); stage.addEventListener("pointerleave", () => { if (started && !busy) arm(); });
+    dots.forEach((d, i) => d.addEventListener("click", () => go(i, true)));
+    $("[data-slide-prev]", root).addEventListener("click", () => go(active - 1, true));
+    $("[data-slide-next]", root).addEventListener("click", () => go(active + 1, true));
+    root.addEventListener("keydown", (e) => { if (e.key === "ArrowRight") go(active + 1, true); if (e.key === "ArrowLeft") go(active - 1, true); });
+    root.addEventListener("pointerenter", () => clearTimeout(timer)); root.addEventListener("pointerleave", () => { if (started) arm(); });
     document.addEventListener("visibilitychange", () => { if (!started) return; if (document.hidden) clearTimeout(timer); else arm(); });
-    let sx = 0, sy = 0; stage.addEventListener("touchstart", (e) => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
-    stage.addEventListener("touchend", (e) => { const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy; if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.5) go(active + (dx < 0 ? 1 : -1)); }, { passive: true });
-    if (!reduced) { G.set($$("[data-mh-copy]"), { opacity: 0, y: 16 }); G.set(cards(0), { opacity: 0 }); G.set(imgs[0], { opacity: 0 }); if (band) G.set(band, { y: 24, opacity: 0 }); $$(".mh-ghost").forEach((g, i) => G.to(g, { y: i % 2 ? 10 : -10, x: i % 3 ? 6 : -6, duration: 4 + i, ease: "sine.inOut", yoyo: true, repeat: -1 })); }
-    return function start() { started = true; busy = true; if (!reduced) G.to($$("[data-mh-copy]"), { opacity: 1, y: 0, duration: .7, ease: "power3.out", stagger: .08, clearProps: "transform" }); show(0); arm(); if (band && !reduced) G.to(band, { y: 0, opacity: 1, duration: .6, ease: "power3.out", delay: .6, clearProps: "transform" }); };
+    // swipe
+    let sx = 0, sy = 0; root.addEventListener("touchstart", (e) => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+    root.addEventListener("touchend", (e) => { const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy; if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.5) go(active + (dx < 0 ? 1 : -1), true); }, { passive: true });
+    if (!reduced) { G.set(items(0), { opacity: 0 }); if (band) G.set(band, { y: 24, opacity: 0 }); }
+    return function start() { started = true; enter(0, 0); if (band && !reduced) G.to(band, { y: 0, opacity: 1, duration: .6, ease: "power3.out", delay: .6, clearProps: "transform" }); arm(); };
   }
+
   /* ================= 02 RANGE ================= */
   function initRangeDesktop() {
     const section = $("#range"); if (!section) return; const pin = $("[data-range-pin]"), title = $("[data-range-title-main]"), label = $("[data-range-label]"), count = $("[data-range-count]"), panels = $$("[data-range-panel]"), bgs = $$("[data-range-bloom]"), ghosts = $$("[data-range-ghost]"), cuts = $$("[data-range-cut]"), stage = $("[data-range-stage]"), dots = $$("[data-range-dot]");
@@ -901,7 +857,7 @@ STAGR.onReady.push(initAnimations);
         "body": body,
         "js": js,
         "loader": True,
-        "header_dark": False,
+        "header_dark": True,
         "nav": [("Range", "#range"), ("Inside", "#inside"), ("Story", "#story"), ("Shop", "#shop")],
         "shop_href": "#shop",
     }
