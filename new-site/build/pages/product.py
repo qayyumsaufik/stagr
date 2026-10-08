@@ -117,7 +117,6 @@ CSS = r'''
 /* ---- you may also like ---- */
 .pd-more { padding: clamp(48px, 7vw, 96px) 0 0; }
 .pd-more-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; margin-bottom: clamp(20px, 3vw, 28px); }
-.pd-more .cc-track { --rail-w: calc((100% - 12px) / 2); }
 .pd-more .wrap:not(.has-overflow) .rail-nav { visibility: hidden; }
 @media (min-width: 1024px) { .pd-more .cc-track { --rail-w: calc((100% - 60px) / 4); gap: 20px; } }
 @media (min-width: 640px) and (max-width: 1023px) { .pd-more .cc-track { --rail-w: calc((100% - 32px) / 3); gap: 16px; } }

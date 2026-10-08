@@ -531,7 +531,8 @@ html.is-entering .fade { opacity: 1; }
 @media (max-width: 767px) { .scard-body { padding: 12px 10px 14px; } .scard-name { font-size: 1.15rem; } .scard-meta { display: none; } .scard-quick { display: none; } .scard-body .btn { min-height: 36px; font-size: .6875rem; } }
 
 /* ---------- catalogue card (home rail, collection pages, shop) ---------- */
-.cc-track { --rail-w: calc((100% - 12px) / 2); gap: 12px; padding-bottom: 6px; scroll-padding-left: 0; }
+.cc-track { --rail-w: calc((100% - 12px) / 1); gap: 12px; padding-bottom: 6px; scroll-padding-left: 0; }
+@media (min-width: 590px) { .cc-track { --rail-w: calc((100% - 18px) / 2); gap: 15px; } }
 @media (min-width: 768px) { .cc-track { --rail-w: calc((100% - 36px) / 3); gap: 18px; } }
 @media (min-width: 1200px) { .cc-track { --rail-w: calc((100% - 60px) / 4); gap: 20px; } }
 .cc-track > .ccard { flex: 0 0 var(--rail-w); scroll-snap-align: start; }
