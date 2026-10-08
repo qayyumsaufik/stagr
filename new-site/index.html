@@ -372,7 +372,7 @@ address { font-style: normal; }
 
 /* ---------- cursor ---------- */
 .cursor { position: fixed; inset: 0; z-index: 200; pointer-events: none; display: none; }
-@media (hover: hover) and (pointer: fine) { .js .cursor { display: block; } .js.has-cursor, .js.has-cursor a, .js.has-cursor button, .js.has-cursor [data-cursor-label] { cursor: none; } }
+/* custom cursor disabled: the native cursor is used everywhere */
 .cursor .ring { position: absolute; top: 0; left: 0; width: 36px; height: 36px; margin: -18px 0 0 -18px; border-radius: 50%; border: 1px solid rgba(255,255,255,.55); mix-blend-mode: difference; display: grid; place-items: center; opacity: 0; }
 .cursor .ring span { font-size: 10px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--bone); opacity: 0; white-space: nowrap; }
 .cursor .dot { position: absolute; top: 0; left: 0; width: 6px; height: 6px; margin: -3px 0 0 -3px; border-radius: 50%; background: var(--accent); opacity: 0; }
@@ -622,38 +622,52 @@ html.is-entering .fade { opacity: 1; }
 .rp-copy { margin-top: 18px; max-width: 46ch; color: var(--fg-2); }
 .rp-spec { margin-top: 22px; max-width: 420px; }
 
-/* ---- 01 hero: belts left, wallets right, the words on the seam, bulk band beneath ---- */
-.hero { position: relative; background: var(--ink); color: var(--bone); }
-.slider { position: relative; height: calc(100svh - 76px); min-height: 620px; max-height: 980px; overflow: hidden; }
-.slide { position: absolute; inset: 0; display: flex; align-items: flex-end; opacity: 0; visibility: hidden; }
-.slide.is-on { opacity: 1; visibility: visible; }
-.slide img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 55%; transform: scale(1.04); will-change: transform; }
-.slide::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(26,27,29,.55) 0%, rgba(26,27,29,0) 28%, rgba(26,27,29,0) 45%, rgba(26,27,29,.78) 100%), linear-gradient(90deg, rgba(26,27,29,.5) 0%, rgba(26,27,29,0) 60%); pointer-events: none; }
-.slide-copy { position: relative; z-index: 2; width: 100%; padding-bottom: clamp(84px, 11vh, 120px); max-width: none; }
-.slide-copy > * { max-width: 760px; }
-.hero-kicker { font-size: .6875rem; letter-spacing: .3em; text-transform: uppercase; color: rgba(239,237,230,.8); }
-.hero-kicker span { margin: 0 6px; opacity: .6; }
-.hero-h1 { margin-top: 14px; font-family: var(--font-display); font-weight: 500; font-size: clamp(2.6rem, 1.2rem + 4.2vw, 5.375rem); line-height: 1; letter-spacing: 0; text-shadow: 0 2px 30px rgba(0,0,0,.45); }
-.hero-h1 .serif-i { font-family: var(--font-display); font-style: normal; }
-.hero-sub { margin-top: 18px; max-width: 44ch; font-size: clamp(.9375rem, .9rem + .25vw, 1.0625rem); line-height: 1.55; color: rgba(239,237,230,.88); text-shadow: 0 1px 14px rgba(0,0,0,.45); }
-.hero-ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+/* ---- 01 hero: copy left, a tilted wall of pieces looping on the right ---- */
+.hero { position: relative; background: #1b1917; color: var(--bone); }
+.shero { position: relative; min-height: calc(100svh - 76px); overflow: hidden; display: flex; flex-direction: column; }
+.shero .sh-grid { flex: 1; }
+.sh-glow { position: absolute; right: -10%; top: -20%; width: 70vmin; height: 70vmin; border-radius: 50%; background: radial-gradient(circle, rgba(197,139,74,.28), transparent 68%); filter: blur(40px); pointer-events: none; }
+.sh-grid { position: relative; display: grid; grid-template-columns: 1fr; gap: 24px; width: 100%; padding-top: calc(var(--nav-top) + 24px); }
+.sh-copy { position: relative; z-index: 2; display: flex; flex-direction: column; justify-content: center; padding-bottom: 24px; }
+.sh-eyebrow { display: flex; align-items: center; gap: 12px; font-size: .6875rem; letter-spacing: .28em; text-transform: uppercase; color: rgba(239,237,230,.75); }
+.sh-eyebrow i { width: 28px; height: 1px; background: var(--accent); }
+.sh-h1 { margin-top: 18px; font-family: var(--font-display); font-weight: 500; font-size: clamp(3rem, 1.6rem + 5vw, 6rem); line-height: .98; letter-spacing: -.015em; }
+.sh-h1 .line { display: block; overflow: hidden; }
+.sh-sub { margin-top: 20px; max-width: 40ch; font-size: clamp(.9375rem, .9rem + .25vw, 1.0625rem); line-height: 1.6; color: rgba(239,237,230,.82); }
+.hero-ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
 .btn--tan { background: var(--accent-deep); border-color: var(--accent-deep); color: var(--bone); }
 .btn--tan:hover { background: var(--accent); border-color: var(--accent); color: var(--ink); }
-.hero .btn--ghost { color: var(--bone); border-color: rgba(239,237,230,.55); background: rgba(26,27,29,.2); backdrop-filter: blur(6px); }
+.hero .btn--ghost { color: var(--bone); border-color: rgba(239,237,230,.5); background: rgba(26,27,29,.25); backdrop-filter: blur(6px); }
 .hero .btn--ghost:hover { background: var(--bone); color: var(--ink); }
-.slider-ui { position: absolute; left: 0; right: 0; bottom: clamp(22px, 3vh, 36px); z-index: 3; display: flex; justify-content: space-between; align-items: center; gap: 16px; pointer-events: none; }
-.slider-ui > * { pointer-events: auto; }
-.slider-dots { display: flex; gap: 10px; }
-.slider-dots button { width: 56px; height: 20px; display: grid; align-items: center; }
-.slider-dots i { display: block; height: 2px; background: rgba(239,237,230,.35); position: relative; overflow: hidden; }
-.slider-dots i::after { content: ""; position: absolute; inset: 0; background: var(--bone); transform: scaleX(var(--p, 0)); transform-origin: left; }
-.slider-dots button[aria-selected="true"] i { background: rgba(239,237,230,.35); }
-.slider-nav { display: flex; align-items: center; gap: 10px; }
-.slider-count { font-size: .75rem; letter-spacing: .2em; color: rgba(239,237,230,.75); margin-right: 8px; font-variant-numeric: tabular-nums; }
-.slider-count b { font-weight: 500; color: var(--bone); }
-.half-arrow { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(239,237,230,.5); display: grid; place-items: center; color: var(--bone); background: rgba(26,27,29,.25); backdrop-filter: blur(6px); transition: background-color .3s ease, color .3s ease, border-color .3s ease; }
-.half-arrow svg { width: 16px; height: 16px; }
-.half-arrow:hover { background: var(--bone); color: var(--ink); border-color: var(--bone); }
+.sh-stats { display: flex; flex-wrap: wrap; gap: 10px 28px; margin-top: 34px; padding-top: 18px; border-top: 1px solid rgba(239,237,230,.14); }
+.sh-stats li { display: grid; gap: 1px; }
+.sh-stats b { font-family: var(--font-display); font-weight: 400; font-size: 1.15rem; line-height: 1.1; }
+.sh-stats span { font-size: .75rem; color: rgba(239,237,230,.6); letter-spacing: .03em; }
+/* the wall */
+.sh-wall { position: relative; height: 92vw; overflow: hidden; -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 12%, #000 88%, transparent 100%); mask-image: linear-gradient(180deg, transparent 0%, #000 12%, #000 88%, transparent 100%); opacity: 0; }
+.sh-cols { position: absolute; inset: -14% -6%; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; transform: rotate(-8deg) scale(1.06); transform-origin: 50% 50%; }
+.sh-col { position: relative; overflow: hidden; }
+.sh-col[data-sh-col="down"] { margin-top: -30%; }
+.sh-track { display: flex; flex-direction: column; gap: 14px; will-change: transform; }
+.sh-card { position: relative; display: block; border-radius: 14px; overflow: hidden; background: #2a2623; box-shadow: 0 20px 40px -22px rgba(0,0,0,.7); }
+.sh-card--photo { aspect-ratio: 4 / 4.6; }
+.sh-card--photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.sh-pill { position: absolute; left: 12px; bottom: 12px; padding: 6px 12px; border-radius: 999px; background: rgba(26,27,29,.82); color: var(--bone); font-size: .625rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; backdrop-filter: blur(6px); }
+.sh-card--piece { background: #F3F1EC; color: var(--ink); display: grid; grid-template-rows: 1fr auto; aspect-ratio: 4 / 4.6; }
+.sh-cut { display: grid; place-items: center; padding: 10% 10% 4%; min-height: 0; }
+.sh-cut img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 14px 18px rgba(26,27,29,.22)); }
+.sh-meta { display: grid; gap: 2px; padding: 0 14px 14px; }
+.sh-meta b { font-size: .8125rem; font-weight: 600; line-height: 1.25; }
+.sh-meta em { font-style: normal; font-size: .8125rem; font-weight: 700; color: var(--accent-deep); }
+@media (min-width: 1024px) {
+  .sh-grid { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(24px, 4vw, 64px); padding-top: 0; }
+  .sh-copy { padding-top: calc(var(--nav-top) + 8px); padding-bottom: 40px; }
+  .sh-wall { height: auto; min-height: calc(100svh - 76px - var(--nav-top)); margin-top: var(--nav-top); margin-right: calc(var(--gutter) * -1); -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 86%, transparent 100%), linear-gradient(90deg, transparent 0%, #000 14%); -webkit-mask-composite: source-in; mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 86%, transparent 100%), linear-gradient(90deg, transparent 0%, #000 14%); mask-composite: intersect; }
+  .sh-cols { inset: -18% -8% -18% 0; gap: 18px; transform: rotate(-9deg) scale(1.08); }
+  .sh-track { gap: 18px; }
+  .sh-meta b { font-size: .9375rem; } .sh-meta em { font-size: .9375rem; }
+}
+@media (max-width: 767px) { .sh-h1 { font-size: 2.9rem; } .sh-wall { height: 110vw; margin-inline: calc(var(--gutter) * -1); } .sh-cols { gap: 10px; inset: -14% -4%; } .sh-track { gap: 10px; } .sh-stats { gap: 8px 20px; } .hero-ctas .btn { flex: 1 1 auto; justify-content: center; } }
 /* bulk-order band */
 .bulk-band { position: relative; background: var(--accent-deep); color: var(--bone); overflow: hidden; }
 .bulk-band::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: clamp(60px, 7vw, 110px); background: var(--accent); clip-path: polygon(0 0, 100% 0, 55% 100%, 0 100%); opacity: .9; }
@@ -756,12 +770,12 @@ html.is-entering .fade { opacity: 1; }
 .inside-sci svg { width: 44px; height: 44px; flex: none; }
 .inside-stage { position: relative; display: grid; place-items: center; min-height: 0; align-self: stretch; }
 .inside-halo { position: absolute; inset: 0; margin: auto; width: 46vh; height: 46vh; transform: scale(1.6); border-radius: 50%; background: #D9B07A; opacity: .5; filter: blur(60px); pointer-events: none; }
-.inside-float { position: relative; z-index: 1; width: min(40vh, 28vw); aspect-ratio: 1; display: grid; place-items: center; pointer-events: none; }
+.inside-float { position: relative; z-index: 1; width: min(54vh, 100%); aspect-ratio: 1; display: grid; place-items: center; pointer-events: none; }
 .inside-pills { position: relative; z-index: 2; }
 .inside-float img { position: absolute; width: 100%; height: auto; max-height: 100%; object-fit: contain; filter: drop-shadow(0 40px 60px rgba(0,0,0,.5)); }
 .inside-right { max-width: 420px; justify-self: end; width: 100%; }
 .inside-right .spec > div { padding: 8px 0; }
-@media (max-height: 820px) { .inside-measure, .inside-foot { display: none; } .inside-desc { margin-top: 10px; font-size: .9375rem; } .inside-point { margin-top: 12px; padding-top: 10px; } .inside-cta { margin-top: 12px; min-height: 44px; } .inside-float { width: min(34vh, 26vw); } .inside-pills .pill { min-height: 34px; } }
+@media (max-height: 820px) { .inside-measure, .inside-foot { display: none; } .inside-desc { margin-top: 10px; font-size: .9375rem; } .inside-point { margin-top: 12px; padding-top: 10px; } .inside-cta { margin-top: 12px; min-height: 44px; } .inside-float { width: min(46vh, 100%); } .inside-pills .pill { min-height: 34px; } }
 .inside-desc { margin-top: 14px; color: rgba(239,237,230,.8); max-width: 40ch; }
 .inside-bar { height: 1px; background: rgba(239,237,230,.15); margin-top: 10px; }
 .inside-point { margin-top: 18px; padding-top: 14px; border-top: 1px solid rgba(239,237,230,.15); font-size: .9375rem; color: var(--bone); display: flex; gap: 10px; align-items: baseline; }
@@ -771,11 +785,11 @@ html.is-entering .fade { opacity: 1; }
 .inside-foot { text-align: center; font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: rgba(239,237,230,.5); padding-top: 12px; }
 /* mobile deck */
 .inside-mobile { padding: var(--section-sm) 0 56px; }
-.inside-mobile .mstage { position: relative; height: 46vw; display: grid; place-items: center; margin: 8px 0 20px; touch-action: pan-y; }
+.inside-mobile .mstage { position: relative; height: 58vw; display: grid; place-items: center; margin: 8px 0 20px; touch-action: pan-y; }
 .inside-mobile .inside-pills { margin-top: 16px; }
 .inside-mobile .inside-lead { margin-top: 12px; }
 .inside-mobile .inside-halo { width: 60vw; height: 60vw; transform: scale(1.3); }
-.inside-mobile .inside-float { width: 44vw; }
+.inside-mobile .inside-float { width: 62vw; }
 .deck { display: flex; gap: 5vw; overflow-x: auto; scroll-snap-type: x mandatory; padding: 8px 9vw 16px; scrollbar-width: none; }
 .deck::-webkit-scrollbar { display: none; }
 .deck-card { flex: 0 0 82vw; scroll-snap-align: center; }
@@ -783,6 +797,53 @@ html.is-entering .fade { opacity: 1; }
 .deck-card [data-deck-item] { opacity: 0; margin-top: 12px; }
 .inside-mobile .mdots button { color: rgba(239,237,230,.35); }
 
+/* ---- 03b anatomy ---- */
+.anatomy { background: var(--bone); color: var(--ink); padding: clamp(56px, 7vw, 96px) 0 clamp(40px, 5vw, 64px); overflow: hidden; }
+.anatomy .inside-pills { display: flex; gap: 8px; justify-content: center; margin-top: 14px; }
+.an-panel[hidden] { display: none; }
+.an-head { text-align: center; display: grid; gap: 6px; justify-items: center; margin-top: clamp(24px, 3vw, 36px); }
+.an-kicker { display: flex; align-items: center; gap: 16px; font-size: .75rem; letter-spacing: .32em; text-transform: uppercase; color: var(--fg-2); }
+.an-kicker::before, .an-kicker::after { content: ""; width: clamp(40px, 8vw, 120px); height: 1px; background: var(--accent-deep); opacity: .6; }
+.an-name { font-family: var(--font-display); font-weight: 400; font-size: clamp(1.9rem, 1.2rem + 2.6vw, 3.4rem); line-height: 1.05; letter-spacing: .02em; text-transform: uppercase; }
+.an-tags { font-size: .75rem; letter-spacing: .3em; text-transform: uppercase; color: var(--fg-2); }
+.an-tags i { font-style: normal; margin: 0 .9em; color: var(--accent-deep); }
+.an-body { position: relative; display: grid; gap: 18px; margin-top: clamp(24px, 3vw, 40px); }
+.an-lines { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 2; display: none; }
+.an-lines path { fill: none; stroke: var(--accent-deep); stroke-width: 1; stroke-linejoin: round; stroke-linecap: round; opacity: .85; }
+.an-lines circle { fill: var(--accent); stroke: var(--bone); stroke-width: 1.5; }
+.an-box { position: relative; width: 100%; }
+.an-box img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 18px 26px rgba(26,27,29,.22)); }
+.an-stage { width: min(100%, 440px); margin: 0 auto; }
+.an-low { width: min(100%, 520px); margin: 0 auto; }
+.an-col { display: grid; gap: 14px; }
+.an-call { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 12px; align-items: center; }
+.an-circle { width: 64px; height: 64px; border-radius: 50%; overflow: hidden; box-shadow: 0 0 0 1.5px var(--accent-deep), 0 0 0 5px rgba(139,74,31,.12), 0 14px 22px -10px rgba(26,27,29,.35); transform: scale(0); }
+.an-circle img { width: 100%; height: 100%; display: block; }
+.an-text { display: grid; gap: 3px; }
+.an-text b { font-family: var(--font-display); font-weight: 400; font-size: 1.05rem; line-height: 1.15; letter-spacing: .03em; text-transform: uppercase; }
+.an-text b::after { content: ""; display: block; width: 100%; height: 1px; margin-top: 5px; background: var(--accent-deep); opacity: .55; }
+.an-text span { font-size: .8125rem; line-height: 1.45; color: var(--fg-2); }
+.an-icons { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 16px; margin-top: clamp(28px, 4vw, 44px); padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.an-icons li { display: flex; align-items: center; gap: 10px; font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; color: var(--fg); }
+.an-ic { flex: none; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--accent-deep); display: grid; place-items: center; color: var(--accent-deep); }
+.an-ic svg { width: 22px; height: 22px; }
+.an-cta { display: flex; justify-content: center; margin-top: 26px; }
+@media (min-width: 1024px) {
+  .an-body { grid-template-columns: minmax(0, 3fr) minmax(0, 4fr) minmax(0, 3fr); grid-template-areas: "l stage r" "low low low" "lc lc lc"; column-gap: clamp(24px, 3vw, 56px); row-gap: 28px; align-items: center; }
+  .an-lines { display: block; }
+  .an-col--l { grid-area: l; } .an-stage { grid-area: stage; width: 100%; max-width: 520px; } .an-col--r { grid-area: r; } .an-low { grid-area: low; width: min(100%, 640px); } .an-col--low { grid-area: lc; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; align-items: start; width: min(100%, 880px); margin: 0 auto; }
+  .an-col--l, .an-col--r { gap: 26px; }
+  .an-call { grid-template-columns: 88px minmax(0, 1fr); gap: 16px; }
+  .an-circle { width: 88px; height: 88px; }
+  .an-col--low .an-call { grid-template-columns: 76px minmax(0, 1fr); align-items: start; }
+  .an-col--low .an-circle { width: 76px; height: 76px; }
+  .an-icons { grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 12px; }
+  .an-icons li { flex-direction: row; }
+  .an-icons li + li { border-left: 1px solid var(--line); padding-left: 14px; }
+}
+@media (min-width: 1280px) { .an-text b { font-size: 1.15rem; } .an-text span { font-size: .875rem; } }
+@media (max-width: 1023px) { .an-head { margin-top: 24px; } .an-col--low .an-call, .an-call { align-items: center; } }
+@media (max-width: 767px) { .an-kicker::before, .an-kicker::after { width: 28px; } .an-name { font-size: 1.6rem; } .an-tags { font-size: .6875rem; letter-spacing: .2em; } .an-icons { grid-template-columns: 1fr 1fr; } .an-icons li { font-size: .6875rem; } }
 /* ---- 04 story (pinned timeline) ---- */
 .story { position: relative; background: var(--bone); color: var(--ink); }
 .story-pin { position: relative; height: 100vh; overflow: hidden; }
@@ -816,9 +877,9 @@ html.is-entering .fade { opacity: 1; }
 @media (min-width: 768px) { .pquotes { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; } }
 .pquote blockquote { font-size: clamp(1.1rem, 1rem + .6vw, 1.5rem); line-height: 1.35; color: rgba(239,237,230,.92); }
 .pquote figcaption { color: rgba(239,237,230,.5); }
-.press-marquee { margin-top: 0; border-top: 1px solid rgba(239,237,230,.15); padding: 22px 0; will-change: transform; }
-.press-marquee .track > span { font-family: var(--font-display); font-weight: 300; font-size: clamp(1.6rem, 1.2rem + 2vw, 3rem); color: var(--bone); }
-.press-marquee .track .mq-dot { color: var(--accent); font-size: 1rem; }
+.press-marquee { margin-top: 0; border-top: 1px solid rgba(239,237,230,.15); padding: 10px 0; will-change: transform; }
+.press-marquee .track > span { font-family: var(--font-display); font-weight: 300; font-size: clamp(1rem, .9rem + .5vw, 1.25rem); color: var(--bone); }
+.press-marquee .track .mq-dot { color: var(--accent); font-size: .75rem; }
 .press-marquee .track .outline { color: transparent; -webkit-text-stroke: 1px rgba(239,237,230,.6); }
 .press-marquee .row2 { margin-top: 12px; }
 
@@ -849,7 +910,7 @@ html.is-entering .fade { opacity: 1; }
   <button type="button" class="skip-btn">Skip</button>
 </div>
 <div class="fade" aria-hidden="true"></div>
-<div class="cursor" aria-hidden="true"><div class="ring"><span></span></div><div class="dot"></div></div>
+
 
 <div class="topbar" data-topbar>
   <div class="wrap topbar-inner">
@@ -899,29 +960,18 @@ html.is-entering .fade { opacity: 1; }
 
 <main id="main">
 
-<section id="hero" class="hero on-ink" aria-label="Introduction">
-  <div class="slider" data-slider aria-roledescription="carousel" aria-label="Belts and wallets">
-    <div class="slide is-on" data-slide="0" aria-roledescription="slide" aria-label="1 of 2">
-      <picture><source media="(max-width: 767px)" srcset="assets/hero/slide-wallet-portrait.jpg"><img data-slide-img src="assets/hero/slide-wallet-1600.jpg" srcset="assets/hero/slide-wallet-900.jpg 900w, assets/hero/slide-wallet-1600.jpg 1600w, assets/hero/slide-wallet-2000.jpg 1672w" sizes="100vw" alt="A Stagr bifold wallet with the stag mark, on walnut beside coffee beans and a wooden box" width="1672" height="941" fetchpriority="high" decoding="async"></picture>
-      <div class="wrap slide-copy">
-        <p class="hero-kicker" data-slide-item>Wallets <span aria-hidden="true">·</span> 7 pieces, from Rs 1,740</p>
-        <h1 class="hero-h1" data-slide-item><span class="serif-i">Folded, skived,</span><br>stitched by hand.</h1>
-        <p class="hero-sub" data-slide-item>Bifolds, trifolds and long wallets, boxed with a handwritten note. Cash on delivery across Pakistan.</p>
-        <div class="hero-ctas" data-slide-item><a class="btn btn--tan" href="wallets.html">Shop wallets <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="btn btn--ghost" href="shop.html">Everything</a></div>
-      </div>
+<section id="hero" class="hero shero on-ink" aria-label="Introduction">
+  <div class="sh-glow" aria-hidden="true"></div>
+  <div class="wrap sh-grid">
+    <div class="sh-copy">
+      <p class="sh-eyebrow" data-sh-item><span>Handmade in Pakistan</span><i></i><span>Full-grain crazy horse</span></p>
+      <h1 class="sh-h1" data-sh-title>Nothing but<br>leather.</h1>
+      <p class="sh-sub" data-sh-item>Belts and wallets cut from full hides, saddle stitched on one bench, boxed with a handwritten note. Cash on delivery, anywhere in Pakistan.</p>
+      <div class="hero-ctas" data-sh-item><a class="btn btn--tan" href="shop.html">Shop the range <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="btn btn--ghost" href="bulk.html">Bulk orders</a></div>
+      <ul class="sh-stats" role="list" data-sh-item><li><b>Rs 1,740 to Rs 3,500</b><span>one price, any quantity</span></li><li><b>3 to 5 days</b><span>cash on delivery</span></li><li><b>11 pieces</b><span>7 wallets, 4 belts</span></li></ul>
     </div>
-    <div class="slide" data-slide="1" aria-roledescription="slide" aria-label="2 of 2" aria-hidden="true">
-      <picture><source media="(max-width: 767px)" srcset="assets/hero/slide-belts-portrait.jpg"><img data-slide-img src="assets/hero/slide-belts-1600.jpg" srcset="assets/hero/slide-belts-900.jpg 900w, assets/hero/slide-belts-1600.jpg 1600w, assets/hero/slide-belts-2400.jpg 1672w" sizes="100vw" alt="A Stagr tan belt coiled on walnut beside coffee beans and shells" width="1672" height="941" loading="lazy" decoding="async"></picture>
-      <div class="wrap slide-copy">
-        <p class="hero-kicker" data-slide-item>Belts <span aria-hidden="true">·</span> 4 pieces, from Rs 2,394</p>
-        <h2 class="hero-h1" data-slide-item><span class="serif-i">Carried daily.</span><br>Made slowly.</h2>
-        <p class="hero-sub" data-slide-item>Full-grain crazy horse, cut in one piece, with a solid buckle on a screw post. Sizes 30 to 44.</p>
-        <div class="hero-ctas" data-slide-item><a class="btn btn--tan" href="belts.html">Shop belts <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a><a class="btn btn--ghost" href="shop.html">Everything</a></div>
-      </div>
-    </div>
-    <div class="wrap slider-ui">
-      <div class="slider-dots" role="tablist" aria-label="Choose slide"><button type="button" role="tab" aria-selected="true" data-slide-dot="0" aria-label="Wallets"><i></i></button><button type="button" role="tab" aria-selected="false" data-slide-dot="1" aria-label="Belts"><i></i></button></div>
-      <div class="slider-nav"><span class="slider-count"><b data-slide-n>01</b> / 02</span><button type="button" class="half-arrow" data-slide-prev aria-label="Previous slide" style="transform:scaleX(-1)"><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button><button type="button" class="half-arrow" data-slide-next aria-label="Next slide"><svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
+    <div class="sh-wall" data-sh-wall aria-hidden="true">
+      <div class="sh-cols"><div class="sh-col" data-sh-col="up"><div class="sh-track" data-sh-track><a class="sh-card sh-card--photo" href="wallets.html?cat=bifold" tabindex="-1"><img src="assets/categories/bifold-500.jpg" srcset="assets/categories/bifold-500.jpg 500w, assets/categories/bifold.jpg 900w" sizes="(min-width: 1024px) 18vw, 40vw" alt="" width="900" height="600" loading="lazy" decoding="async" draggable="false"><span class="sh-pill">Wallets</span></a><a class="sh-card sh-card--piece" href="product-monarch.html" tabindex="-1"><span class="sh-cut"><img src="assets/cutouts/monarch-1-600.webp" alt="" width="600" height="600" loading="lazy" decoding="async" draggable="false"></span><span class="sh-meta"><b>Monarch Premium Leather Belt</b><em>Rs 2,800</em></span></a><a class="sh-card sh-card--photo" href="belts.html?cat=classic" tabindex="-1"><img src="assets/categories/outlaw-500.jpg" srcset="assets/categories/outlaw-500.jpg 500w, assets/categories/outlaw.jpg 900w" sizes="(min-width: 1024px) 18vw, 40vw" alt="" width="900" height="600" loading="lazy" decoding="async" draggable="false"><span class="sh-pill">Belts</span></a><a class="sh-card sh-card--piece" href="product-regal.html" tabindex="-1"><span class="sh-cut"><img src="assets/cutouts/regal-brown-1-600.webp" alt="" width="600" height="600" loading="lazy" decoding="async" draggable="false"></span><span class="sh-meta"><b>Regal Bifold Leather Wallet</b><em>Rs 1,950</em></span></a><a class="sh-card sh-card--photo" href="wallets.html?cat=long" tabindex="-1"><img src="assets/categories/long-500.jpg" srcset="assets/categories/long-500.jpg 500w, assets/categories/long.jpg 900w" sizes="(min-width: 1024px) 18vw, 40vw" alt="" width="900" height="600" loading="lazy" decoding="async" draggable="false"><span class="sh-pill">Wallets</span></a><a class="sh-card sh-card--piece" href="product-outlaw.html" tabindex="-1"><span class="sh-cut"><img src="assets/cutouts/outlaw-1-600.webp" alt="" width="600" height="600" loading="lazy" decoding="async" draggable="false"></span><span class="sh-meta"><b>Outlaw Crazy Horse Leather Belt</b><em>Rs 2,765</em></span></a><a class="sh-card sh-card--photo" href="wallets.html?cat=bifold" tabindex="-1"><img src="assets/categories/bifold-500.jpg" srcset="assets/categories/bifold-500.jpg 500w, assets/categories/bifold.jpg 900w" sizes="(min-width: 1024px) 18vw, 40vw" alt="" width="900" height="600" loading="lazy" decoding="async" draggable="false"><span class="sh-pill">Wallets</span></a><a class="sh-card sh-card--piece" href="product-monarch.html" tabindex="-1"><span class="sh-cut"><img src="assets/cutouts/monarch-1-600.webp" alt="" width="600" height="600" loading="lazy" decoding="async" draggable="false"></span><span class="sh-meta"><b>Monarch Premium Leather Belt</b><em>Rs 2,800</em></span></a><a class="sh-card sh-card--photo" href="belts.html?cat=classic" tabindex="-1"><img src="assets/categories/outlaw-500.jpg" srcset="assets/categories/outlaw-500.jpg 500w, assets/categories/outlaw.jpg 900w" sizes="(min-width: 1024px) 18vw, 40vw" alt="" width="900" height="600" loading="lazy" decoding="async" draggable="false"><span class="sh-pill">Belts</span></a><a class="sh-card sh-card--piece" href="product-regal.html" tabindex="-1"><span class="sh-cut"><img src="assets/cutouts/regal-brown-1-600.webp" alt="" width="600" height="600" loading="lazy" decoding="async" draggable="false"></span><span class="sh-meta"><b>Regal Bifold Leather Wallet</b><em>Rs 1,950</em></span></a><a class="sh-card sh-card--photo" href="wallets.html?cat=long" tabindex="-1"><img src="assets/categories/long-500.jpg" srcset="assets/categories/long-500.jpg 500w, assets/categories/long.jpg 900w" sizes="(min-width: 1024px) 18vw, 40vw" alt="" width="900" height="600" loading="lazy" decoding="async" draggable="false"><span class="sh-pill">Wallets</span></a><a class="sh-card sh-card--piece" href="product-outlaw.html" tabindex="-1"><span class="sh-cut"><img src="assets/cutouts/outlaw-1-600.webp" alt="" width="600" height="600" loading="lazy" decoding="async" draggable="false"></span><span class="sh-meta"><b>Outlaw Crazy Horse Leather Belt</b><em>Rs 2,765</em></span></a></div></div><div class="sh-col" data-sh-col="down"><div class="sh-track" data-sh-track><a class="sh-card sh-card--piece" href="product-kingsmann.html" tabindex="-1"><span class="sh-cut"><img src="assets/cutouts/kingsmann-brown-1-600.webp" alt="" width="600" height="600" loading="lazy" decoding="async" draggable="false"></span><span class="sh-meta"><b>Kingsmann Bifold Leather Wallet</b><em>Rs 2,600</em></span></a><a class="sh-card sh-card--photo" href="belts.html?cat=double" tabindex="-1"><img src="assets/categories/nova-500.jpg" srcset="assets/categories/nova-500.jpg 500w, assets/categories/nova.jpg 900w" sizes="(min-width: 1024px) 18vw, 40vw" alt="" width="900" height="600" loading="lazy" decoding="async" draggable="false"><span class="sh-pill">Belts</span></a><a class="sh-card sh-card--piece" href="product-rodeo.html" tabindex="-1"><span class="sh-cut"><img src="assets/cutouts/rodeo-tan-1-600.webp" alt="" width="600" height="600" loading="lazy" decoding="async" draggable="false"></span><span class="sh-meta"><b>Rodeo Long Leather Wallet</b><em>Rs 3,500</em></span></a><a class="sh-card sh-card--photo" href="wallets.html?cat=trifold" tabindex="-1"><img src="assets/categories/trifold-500.jpg" srcset="assets/categories/trifold-500.jpg 500w, assets/categories/trifold.jpg 900w" sizes="(min-width: 1024px) 18vw, 40vw" alt="" width="900" height="600" loading="lazy" decoding="async" draggable="false"><span class="sh-pill">Wallets</span></a><a class="sh-card sh-card--piece" href="product-nova.html" tabindex="-1"><span class="sh-cut"><img src="assets/cutouts/nova-1-600.webp" alt="" width="600" height="600" loading="lazy" decoding="async" draggable="false"></span><span class="sh-meta"><b>Nova Double-Sided Leather Belt</b><em>Rs 2,394</em></span></a><a class="sh-card sh-card--photo" href="wallets.html" tabindex="-1"><img src="assets/categories/all-wallets-500.jpg" srcset="assets/categories/all-wallets-500.jpg 500w, assets/categories/all-wallets.jpg 900w" sizes="(min-width: 1024px) 18vw, 40vw" alt="" width="900" height="600" loading="lazy" decoding="async" draggable="false"><span class="sh-pill">Wallets</span></a><a class="sh-card sh-card--piece" href="product-kingsmann.html" tabindex="-1"><span class="sh-cut"><img src="assets/cutouts/kingsmann-brown-1-600.webp" alt="" width="600" height="600" loading="lazy" decoding="async" draggable="false"></span><span class="sh-meta"><b>Kingsmann Bifold Leather Wallet</b><em>Rs 2,600</em></span></a><a class="sh-card sh-card--photo" href="belts.html?cat=double" tabindex="-1"><img src="assets/categories/nova-500.jpg" srcset="assets/categories/nova-500.jpg 500w, assets/categories/nova.jpg 900w" sizes="(min-width: 1024px) 18vw, 40vw" alt="" width="900" height="600" loading="lazy" decoding="async" draggable="false"><span class="sh-pill">Belts</span></a><a class="sh-card sh-card--piece" href="product-rodeo.html" tabindex="-1"><span class="sh-cut"><img src="assets/cutouts/rodeo-tan-1-600.webp" alt="" width="600" height="600" loading="lazy" decoding="async" draggable="false"></span><span class="sh-meta"><b>Rodeo Long Leather Wallet</b><em>Rs 3,500</em></span></a><a class="sh-card sh-card--photo" href="wallets.html?cat=trifold" tabindex="-1"><img src="assets/categories/trifold-500.jpg" srcset="assets/categories/trifold-500.jpg 500w, assets/categories/trifold.jpg 900w" sizes="(min-width: 1024px) 18vw, 40vw" alt="" width="900" height="600" loading="lazy" decoding="async" draggable="false"><span class="sh-pill">Wallets</span></a><a class="sh-card sh-card--piece" href="product-nova.html" tabindex="-1"><span class="sh-cut"><img src="assets/cutouts/nova-1-600.webp" alt="" width="600" height="600" loading="lazy" decoding="async" draggable="false"></span><span class="sh-meta"><b>Nova Double-Sided Leather Belt</b><em>Rs 2,394</em></span></a><a class="sh-card sh-card--photo" href="wallets.html" tabindex="-1"><img src="assets/categories/all-wallets-500.jpg" srcset="assets/categories/all-wallets-500.jpg 500w, assets/categories/all-wallets.jpg 900w" sizes="(min-width: 1024px) 18vw, 40vw" alt="" width="900" height="600" loading="lazy" decoding="async" draggable="false"><span class="sh-pill">Wallets</span></a></div></div><div class="sh-col" data-sh-col="up"><div class="sh-track" data-sh-track><a class="sh-card sh-card--photo" href="belts.html?cat=tan-belts" tabindex="-1"><img src="assets/categories/monarch-500.jpg" srcset="assets/categories/monarch-500.jpg 500w, assets/categories/monarch.jpg 900w" sizes="(min-width: 1024px) 18vw, 40vw" alt="" width="900" height="600" loading="lazy" decoding="async" draggable="false"><span class="sh-pill">Belts</span></a><a class="sh-card sh-card--piece" href="product-majestic.html" tabindex="-1"><span class="sh-cut"><img src="assets/cutouts/majestic-brown-1-600.webp" alt="" width="600" height="600" loading="lazy" decoding="async" draggable="false"></span><span class="sh-meta"><b>Majestic Trifold Leather Wallet</b><em>Rs 2,600</em></span></a><a class="sh-card sh-card--photo" href="wallets.html?cat=minimalist" tabindex="-1"><img src="assets/categories/minimalist-500.jpg" srcset="assets/categories/minimalist-500.jpg 500w, assets/categories/minimalist.jpg 900w" sizes="(min-width: 1024px) 18vw, 40vw" alt="" width="900" height="600" loading="lazy" decoding="async" draggable="false"><span class="sh-pill">Wallets</span></a><a class="sh-card sh-card--piece" href="product-regent.html" tabindex="-1"><span class="sh-cut"><img src="assets/cutouts/regent-1-600.webp" alt="" width="600" height="600" loading="lazy" decoding="async" draggable="false"></span><span class="sh-meta"><b>Regent Premium Leather Belt</b><em>Rs 2,730</em></span></a><a class="sh-card sh-card--photo" href="belts.html?cat=black-belts" tabindex="-1"><img src="assets/categories/regent-500.jpg" srcset="assets/categories/regent-500.jpg 500w, assets/categories/regent.jpg 900w" sizes="(min-width: 1024px) 18vw, 40vw" alt="" width="900" height="600" loading="lazy" decoding="async" draggable="false"><span class="sh-pill">Belts</span></a><a class="sh-card sh-card--piece" href="product-upbuck.html" tabindex="-1"><span class="sh-cut"><img src="assets/cutouts/upbuck-brown-1-600.webp" alt="" width="600" height="600" loading="lazy" decoding="async" draggable="false"></span><span class="sh-meta"><b>Upbuck Long Leather Wallet</b><em>Rs 3,400</em></span></a><a class="sh-card sh-card--photo" href="belts.html?cat=tan-belts" tabindex="-1"><img src="assets/categories/monarch-500.jpg" srcset="assets/categories/monarch-500.jpg 500w, assets/categories/monarch.jpg 900w" sizes="(min-width: 1024px) 18vw, 40vw" alt="" width="900" height="600" loading="lazy" decoding="async" draggable="false"><span class="sh-pill">Belts</span></a><a class="sh-card sh-card--piece" href="product-majestic.html" tabindex="-1"><span class="sh-cut"><img src="assets/cutouts/majestic-brown-1-600.webp" alt="" width="600" height="600" loading="lazy" decoding="async" draggable="false"></span><span class="sh-meta"><b>Majestic Trifold Leather Wallet</b><em>Rs 2,600</em></span></a><a class="sh-card sh-card--photo" href="wallets.html?cat=minimalist" tabindex="-1"><img src="assets/categories/minimalist-500.jpg" srcset="assets/categories/minimalist-500.jpg 500w, assets/categories/minimalist.jpg 900w" sizes="(min-width: 1024px) 18vw, 40vw" alt="" width="900" height="600" loading="lazy" decoding="async" draggable="false"><span class="sh-pill">Wallets</span></a><a class="sh-card sh-card--piece" href="product-regent.html" tabindex="-1"><span class="sh-cut"><img src="assets/cutouts/regent-1-600.webp" alt="" width="600" height="600" loading="lazy" decoding="async" draggable="false"></span><span class="sh-meta"><b>Regent Premium Leather Belt</b><em>Rs 2,730</em></span></a><a class="sh-card sh-card--photo" href="belts.html?cat=black-belts" tabindex="-1"><img src="assets/categories/regent-500.jpg" srcset="assets/categories/regent-500.jpg 500w, assets/categories/regent.jpg 900w" sizes="(min-width: 1024px) 18vw, 40vw" alt="" width="900" height="600" loading="lazy" decoding="async" draggable="false"><span class="sh-pill">Belts</span></a><a class="sh-card sh-card--piece" href="product-upbuck.html" tabindex="-1"><span class="sh-cut"><img src="assets/cutouts/upbuck-brown-1-600.webp" alt="" width="600" height="600" loading="lazy" decoding="async" draggable="false"></span><span class="sh-meta"><b>Upbuck Long Leather Wallet</b><em>Rs 3,400</em></span></a></div></div></div>
     </div>
   </div>
   <div class="bulk-band" data-bulk-band>
@@ -1089,6 +1139,39 @@ html.is-entering .fade { opacity: 1; }
     </div>
 </section>
 
+<section id="anatomy" class="anatomy on-bone" aria-labelledby="anatomy-title">
+  <div class="wrap">
+    <div class="inside-head" style="text-align:center"><h2 class="label" id="anatomy-title" data-reveal>Taken apart · every detail, named</h2><div class="inside-pills" data-reveal data-delay=".1"><button type="button" class="pill" data-an-pill="0" aria-pressed="true">Belts</button><button type="button" class="pill" data-an-pill="1" aria-pressed="false">Wallets</button></div></div>
+    
+<div class="an-panel" data-an-panel="0" >
+  <div class="an-head"><p class="an-kicker"><span>The anatomy of a</span></p><h3 class="an-name">Handcrafted leather belt</h3><p class="an-tags">Timeless style<i>/</i>Premium quality<i>/</i>Built to last</p></div>
+  <div class="an-body">
+    <svg class="an-lines" data-an-lines aria-hidden="true"></svg>
+    <ul class="an-col an-col--l" role="list"><li class="an-call an-call--l" data-an-call data-an-target="top" data-an-x="16" data-an-y="62"><span class="an-circle"><img src="assets/details/anat-belt-4.webp" alt="" width="360" height="360" loading="lazy" draggable="false"></span><span class="an-text"><b>Solid buckle</b><span>Solid buckle on a removable screw post, so you can change it without tools.</span></span></li><li class="an-call an-call--l" data-an-call data-an-target="top" data-an-x="42" data-an-y="80"><span class="an-circle"><img src="assets/details/anat-belt-2.webp" alt="" width="360" height="360" loading="lazy" draggable="false"></span><span class="an-text"><b>Reinforced stitching</b><span>One row of saddle stitch in waxed linen thread. It cannot unravel the way a machine seam can.</span></span></li><li class="an-call an-call--l" data-an-call data-an-target="top" data-an-x="6" data-an-y="34"><span class="an-circle"><img src="assets/details/anat-belt-3.webp" alt="" width="360" height="360" loading="lazy" draggable="false"></span><span class="an-text"><b>Burnished edges</b><span>Bevelled, sanded and burnished four times, then sealed with beeswax.</span></span></li></ul>
+    <div class="an-stage" data-an-top><div class="an-box" style="aspect-ratio:740 / 560"><img data-an-img src="assets/cutouts/monarch-1.webp" alt="Handcrafted leather belt" width="740" height="560" loading="lazy" decoding="async" draggable="false"></div></div>
+    <ul class="an-col an-col--r" role="list"><li class="an-call an-call--r" data-an-call data-an-target="top" data-an-x="82" data-an-y="24"><span class="an-circle"><img src="assets/details/anat-belt-1.webp" alt="" width="360" height="360" loading="lazy" draggable="false"></span><span class="an-text"><b>Genuine full-grain leather</b><span>Crazy horse cowhide, treated with wax for a rugged surface and a patina that deepens with wear.</span></span></li><li class="an-call an-call--r" data-an-call data-an-target="top" data-an-x="58" data-an-y="62"><span class="an-circle"><img src="assets/details/anat-belt-5.webp" alt="" width="360" height="360" loading="lazy" draggable="false"></span><span class="an-text"><b>Keeper loop</b><span>Holds the tail of the strap flat and in place.</span></span></li><li class="an-call an-call--r" data-an-call data-an-target="top" data-an-x="88" data-an-y="58"><span class="an-circle"><img src="assets/details/anat-belt-6.webp" alt="" width="360" height="360" loading="lazy" draggable="false"></span><span class="an-text"><b>Tapered tip</b><span>A rounded tip that threads cleanly through the buckle and keeper.</span></span></li></ul>
+    <div class="an-low" data-an-low><div class="an-box" style="aspect-ratio:1024 / 433"><img data-an-img src="assets/cutouts/monarch-2.webp" alt="" width="1024" height="433" loading="lazy" decoding="async" draggable="false"></div></div>
+    <ul class="an-col an-col--low" role="list"><li class="an-call an-call--low" data-an-call data-an-target="low" data-an-x="30" data-an-y="80"><span class="an-circle"><img src="assets/details/anat-belt-7.webp" alt="" width="360" height="360" loading="lazy" draggable="false"></span><span class="an-text"><b>Adjustment holes</b><span>Sizes 30 to 44, measured from the buckle bar to the hole you use.</span></span></li><li class="an-call an-call--low" data-an-call data-an-target="low" data-an-x="50" data-an-y="96"><span class="an-circle"><img src="assets/details/anat-belt-8.webp" alt="" width="360" height="360" loading="lazy" draggable="false"></span><span class="an-text"><b>Ideal thickness</b><span>3.5 mm, cut in one piece along the spine of the hide.</span></span></li><li class="an-call an-call--low" data-an-call data-an-target="low" data-an-x="76" data-an-y="76"><span class="an-circle"><img src="assets/details/anat-belt-9.webp" alt="" width="360" height="360" loading="lazy" draggable="false"></span><span class="an-text"><b>Develops a patina</b><span>Every scuff stays. Honey today, chestnut in a year.</span></span></li></ul>
+  </div>
+  <ul class="an-icons" role="list"><li data-an-icon><span class="an-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 5h10l3 5-2 9H6L4 10z"/><path d="M9 9h6"/></svg></span><span>Full-grain leather</span></li><li data-an-icon><span class="an-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15c3-6 7-6 10 0s7 6 10 0"/><path d="M8 11l1 2M15 13l1 2"/></svg></span><span>Hand stitched</span></li><li data-an-icon><span class="an-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="7" width="16" height="10" rx="2"/><path d="M4 12h9"/><circle cx="13" cy="12" r="1.2"/></svg></span><span>Solid buckle</span></li><li data-an-icon><span class="an-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="8" rx="4"/><circle cx="8" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="16" cy="12" r="1.2"/></svg></span><span>Sizes 30 to 44</span></li><li data-an-icon><span class="an-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15l9-9 9 9"/><path d="M6 15l6-6 6 6"/></svg></span><span>Burnished edges</span></li><li data-an-icon><span class="an-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4l9 5-9 5-9-5z"/><path d="M3 14l9 5 9-5"/></svg></span><span>3.5 mm, one piece</span></li><li data-an-icon><span class="an-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19c0-8 5-13 14-14-1 9-6 14-14 14z"/><path d="M5 19l8-8"/></svg></span><span>Develops a patina</span></li></ul>
+  <p class="an-cta"><a class="btn btn--tan" href="belts.html">Shop belts <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
+</div>
+<div class="an-panel" data-an-panel="1" hidden>
+  <div class="an-head"><p class="an-kicker"><span>The anatomy of a</span></p><h3 class="an-name">Handcrafted bifold wallet</h3><p class="an-tags">Timeless style<i>/</i>Premium quality<i>/</i>Everyday function</p></div>
+  <div class="an-body">
+    <svg class="an-lines" data-an-lines aria-hidden="true"></svg>
+    <ul class="an-col an-col--l" role="list"><li class="an-call an-call--l" data-an-call data-an-target="top" data-an-x="16" data-an-y="40"><span class="an-circle"><img src="assets/details/anat-wallet-1.webp" alt="" width="360" height="360" loading="lazy" draggable="false"></span><span class="an-text"><b>Full-grain leather</b><span>Crazy horse cowhide, treated with wax, that softens and darkens with every carry.</span></span></li><li class="an-call an-call--l" data-an-call data-an-target="top" data-an-x="32" data-an-y="8"><span class="an-circle"><img src="assets/details/anat-wallet-2.webp" alt="" width="360" height="360" loading="lazy" draggable="false"></span><span class="an-text"><b>Hand-stitched construction</b><span>One row of saddle stitch, two needles, waxed linen thread.</span></span></li><li class="an-call an-call--l" data-an-call data-an-target="top" data-an-x="7" data-an-y="88"><span class="an-circle"><img src="assets/details/anat-wallet-3.webp" alt="" width="360" height="360" loading="lazy" draggable="false"></span><span class="an-text"><b>Burnished edges</b><span>Bevelled, sanded and burnished, then sealed with beeswax.</span></span></li></ul>
+    <div class="an-stage" data-an-top><div class="an-box" style="aspect-ratio:916 / 678"><img data-an-img src="assets/cutouts/kingsmann-brown-1.webp" alt="Handcrafted bifold wallet" width="916" height="678" loading="lazy" decoding="async" draggable="false"></div></div>
+    <ul class="an-col an-col--r" role="list"><li class="an-call an-call--r" data-an-call data-an-target="top" data-an-x="94" data-an-y="48"><span class="an-circle"><img src="assets/details/anat-wallet-4.webp" alt="" width="360" height="360" loading="lazy" draggable="false"></span><span class="an-text"><b>Slim profile</b><span>Skived at the fold so it stays flat in a jacket pocket.</span></span></li><li class="an-call an-call--r" data-an-call data-an-target="top" data-an-x="78" data-an-y="76"><span class="an-circle"><img src="assets/details/anat-wallet-5.webp" alt="" width="360" height="360" loading="lazy" draggable="false"></span><span class="an-text"><b>Embossed stag</b><span>The Stagr mark pressed into the leather, no foil.</span></span></li><li class="an-call an-call--r" data-an-call data-an-target="top" data-an-x="80" data-an-y="28"><span class="an-circle"><img src="assets/details/anat-wallet-6.webp" alt="" width="360" height="360" loading="lazy" draggable="false"></span><span class="an-text"><b>Develops a patina</b><span>The waxed surface marks and deepens with use, so no two age the same way.</span></span></li></ul>
+    <div class="an-low" data-an-low><div class="an-box" style="aspect-ratio:1321 / 635"><img data-an-img src="assets/cutouts/kingsmann-brown-2.webp" alt="" width="1321" height="635" loading="lazy" decoding="async" draggable="false"></div></div>
+    <ul class="an-col an-col--low" role="list"><li class="an-call an-call--low" data-an-call data-an-target="low" data-an-x="30" data-an-y="25"><span class="an-circle"><img src="assets/details/anat-wallet-7.webp" alt="" width="360" height="360" loading="lazy" draggable="false"></span><span class="an-text"><b>Four card slots</b><span>Two each side, cut so a card sits flush.</span></span></li><li class="an-call an-call--low" data-an-call data-an-target="low" data-an-x="50" data-an-y="30"><span class="an-circle"><img src="assets/details/anat-wallet-8.webp" alt="" width="360" height="360" loading="lazy" draggable="false"></span><span class="an-text"><b>Note section</b><span>One full-width section for folded notes.</span></span></li><li class="an-call an-call--low" data-an-call data-an-target="low" data-an-x="86" data-an-y="72"><span class="an-circle"><img src="assets/details/anat-wallet-9.webp" alt="" width="360" height="360" loading="lazy" draggable="false"></span><span class="an-text"><b>Compact everyday carry</b><span>Cards and notes in a wallet that still fits a front pocket.</span></span></li></ul>
+  </div>
+  <ul class="an-icons" role="list"><li data-an-icon><span class="an-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M7 5h10l3 5-2 9H6L4 10z"/><path d="M9 9h6"/></svg></span><span>Full-grain leather</span></li><li data-an-icon><span class="an-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15c3-6 7-6 10 0s7 6 10 0"/><path d="M8 11l1 2M15 13l1 2"/></svg></span><span>Hand stitched</span></li><li data-an-icon><span class="an-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 15l9-9 9 9"/><path d="M6 15l6-6 6 6"/></svg></span><span>Burnished edges</span></li><li data-an-icon><span class="an-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18"/></svg></span><span>Four card slots</span></li><li data-an-icon><span class="an-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7" width="18" height="10" rx="1"/><circle cx="12" cy="12" r="2"/></svg></span><span>Note section</span></li><li data-an-icon><span class="an-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="3" width="6" height="18" rx="1"/><path d="M9 8h6M9 16h6"/></svg></span><span>Slim profile</span></li><li data-an-icon><span class="an-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 19c0-8 5-13 14-14-1 9-6 14-14 14z"/><path d="M5 19l8-8"/></svg></span><span>Develops a patina</span></li></ul>
+  <p class="an-cta"><a class="btn btn--tan" href="wallets.html">Shop wallets <svg class="arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></p>
+</div>
+  </div>
+</section>
+
 <section id="inside" class="inside on-ink" aria-labelledby="inside-title">
   <div class="inside-pin desk-only" data-inside-pin>
     <div class="inside-head"><p class="label inside-kicker">Your hide. Our bench.</p><h2 class="inside-title" id="inside-title" data-inside-title>Two lines. One great finish.</h2><p class="inside-lead">Every piece is cut from full hides by local artisans and saddle stitched by hand. Pick the line, then the cut.</p><div class="inside-pills"><button type="button" class="pill" data-inside-pill="0" aria-pressed="true">Belts</button><button type="button" class="pill" data-inside-pill="1" aria-pressed="false">Wallets</button></div></div>
@@ -1102,7 +1185,7 @@ html.is-entering .fade { opacity: 1; }
   <div data-inside-hover><h3 class="inside-name" data-inside-name>Folded,<br>skived, stitched</h3></div>
   <div class="inside-sci" data-inside-sci><svg data-inside-svg viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" aria-hidden="true"><path data-bot d="M4 24l6-6 6 6 6-6 6 6 6-6 6 6"/><path data-bot d="M4 32l6-6 6 6 6-6 6 6 6-6 6 6"/></svg><span class="serif-i">Wallets · 7 pieces · Stitched by hand</span></div>
 </div></div>
-      <div class="inside-stage" data-inside-stage><div class="inside-halo" data-inside-halo></div><div class="inside-float" data-inside-float><img data-inside-img="0" src="assets/cutouts/monarch-1.webp" alt="" width="900" height="900" draggable="false" decoding="async" style="opacity:1"><img data-inside-img="1" src="assets/cutouts/kingsmann-brown-1.webp" alt="" width="900" height="900" draggable="false" decoding="async" style="opacity:0"></div></div>
+      <div class="inside-stage" data-inside-stage><div class="inside-halo" data-inside-halo></div><div class="inside-float" data-inside-float><img data-inside-img="0" src="assets/cutouts/inside-belt.webp" alt="" width="900" height="900" draggable="false" decoding="async" style="opacity:1"><img data-inside-img="1" src="assets/cutouts/inside-wallet.webp" alt="" width="900" height="900" draggable="false" decoding="async" style="opacity:0"></div></div>
       <div class="inside-right">
 <div data-inside-right="0" >
   <p class="label"><b>01</b><span class="slash">/</span>02</p>
@@ -1125,7 +1208,7 @@ html.is-entering .fade { opacity: 1; }
   </div>
   <div class="inside-mobile mob-only" data-inside-mobile>
     <div style="padding:0 20px;text-align:center"><p class="label inside-kicker" data-reveal>Your hide. Our bench.</p><h2 class="inside-title" data-inside-title-mobile style="opacity:1;margin-top:10px">Two lines. One<br>great finish.</h2><p class="inside-lead" data-reveal data-delay=".1">Every piece is cut from full hides by local artisans and saddle stitched by hand. Pick the line, then the cut.</p><div class="inside-pills" data-reveal data-delay=".15"><button type="button" class="pill" data-mpill="0" aria-pressed="true">Belts</button><button type="button" class="pill" data-mpill="1" aria-pressed="false">Wallets</button></div></div>
-    <div class="mstage"><div class="inside-halo" data-inside-halo-mobile></div><div class="inside-float" data-inside-float-mobile><img data-inside-img="0" src="assets/cutouts/monarch-1-600.webp" alt="" width="900" height="900" draggable="false" decoding="async" style="opacity:1"><img data-inside-img="1" src="assets/cutouts/kingsmann-brown-1-600.webp" alt="" width="900" height="900" draggable="false" decoding="async" style="opacity:0"></div></div>
+    <div class="mstage"><div class="inside-halo" data-inside-halo-mobile></div><div class="inside-float" data-inside-float-mobile><img data-inside-img="0" src="assets/cutouts/inside-belt-600.webp" alt="" width="900" height="900" draggable="false" decoding="async" style="opacity:1"><img data-inside-img="1" src="assets/cutouts/inside-wallet-600.webp" alt="" width="900" height="900" draggable="false" decoding="async" style="opacity:0"></div></div>
     <div class="deck" data-deck-track>
 <article class="deck-card" data-halo="#CDA373">
   <p class="label"><b>01</b><span class="slash">/</span>02</p>
@@ -1156,22 +1239,8 @@ html.is-entering .fade { opacity: 1; }
   </div>
 </section>
 
-<section id="more" class="more on-bone" aria-label="How it is made, bulk orders and the handwritten note">
-  <div class="wrap bento">
-    <a class="ftile ftile-main" href="about.html#craft" data-reveal aria-label="How it is made">
-      <div class="ftile-copy"><h2>How it is made</h2><p>Crazy horse leather, stitched by hand. Cut from full hides, skived at the folds, saddle stitched.</p></div>
-      <div class="ftile-pic">      <img src="assets/hero/tile-made-800.jpg" srcset="assets/hero/tile-made-800.jpg 800w, assets/hero/tile-made.jpg 1400w" sizes="(min-width: 1024px) 56vw, 100vw" alt="Two Stagr bifolds beside the knives and awls that made them" width="1400" height="933" loading="lazy" decoding="async"></div>
-    </a>
-    <a class="ftile" href="bulk.html" data-reveal data-delay=".1" aria-label="Bulk orders">
-      <div class="ftile-copy"><h2>Bulk orders</h2><p>Ten pieces or more, embossed with your logo, boxed with a card.</p></div>
-      <div class="ftile-pic">      <img src="assets/hero/tile-bulk-800.jpg" srcset="assets/hero/tile-bulk-800.jpg 800w, assets/hero/tile-bulk.jpg 1400w" sizes="(min-width: 1024px) 44vw, 100vw" alt="Four Stagr belts laid side by side on walnut" width="1400" height="933" loading="lazy" decoding="async"></div>
-    </a>
-    <a class="ftile" href="about.html#faq" data-reveal data-delay=".2" aria-label="A handwritten note">
-      <div class="ftile-copy"><h2>A handwritten note</h2><p>Add a message at checkout. We write it by hand and pack it in the box.</p></div>
-      <div class="ftile-pic">      <img src="assets/hero/tile-note-800.jpg" srcset="assets/hero/tile-note-800.jpg 800w, assets/hero/tile-note.jpg 1400w" sizes="(min-width: 1024px) 44vw, 100vw" alt="A Stagr wallet resting on its black gift box" width="1400" height="933" loading="lazy" decoding="async"></div>
-    </a>
-  </div>
-</section>
+
+<!-- feature tiles (how it is made / bulk / note) removed -->
 
 <!-- range section hidden for now --><section id="why" class="why on-bone" aria-labelledby="why-title">
   <div class="wrap">
@@ -1188,24 +1257,7 @@ html.is-entering .fade { opacity: 1; }
   </div>
 </section>
 
-<section id="story" class="story on-bone" aria-labelledby="story-title">
-  <div class="story-pin desk-only" data-story-pin>
-    <div class="story-intro" data-story-intro><p class="label"><b>06</b><span class="slash">/</span>Story</p><h2 class="h1" id="story-title" data-story-title>We cut leather, not corners.</h2><p class="lead">We cut in Pakistan, from hides we choose ourselves. One workshop, a small bench, no subcontracting. Prices run from Rs 1,740 to Rs 3,500.</p><div class="scroll-hint" style="margin-top:36px" aria-hidden="true"><span class="t">Scroll</span></div></div>
-    <div class="story-stage" data-story-stage><span class="ghost story-ghost" data-story-ghost="0" style="opacity:1">01</span><span class="ghost story-ghost" data-story-ghost="1" style="opacity:0">02</span><span class="ghost story-ghost" data-story-ghost="2" style="opacity:0">03</span><span class="ghost story-ghost" data-story-ghost="3" style="opacity:0">04</span><span class="ghost story-ghost" data-story-ghost="4" style="opacity:0">05</span><div class="story-figure" data-story-figure="0" style="opacity:1"><figure><div class="media ar-45"><img src="assets/lifestyle/ranger-02.jpg" srcset="assets/lifestyle/ranger-02-800.jpg 800w, assets/lifestyle/ranger-02.jpg 1600w" sizes="(min-width: 768px) 34vw, 86vw" alt="FIG. 01 · The stag, embossed in crazy horse leather" width="1200" height="1500" loading="lazy"></div><figcaption class="label" style="margin-top:12px;font-size:.75rem"><span style="color:var(--accent)">■</span> FIG. 01 · The stag, embossed in crazy horse leather</figcaption></figure></div><div class="story-figure" data-story-figure="1" style="opacity:0"><figure><div class="media ar-45"><img src="assets/lifestyle/ranger-flat.jpg" srcset="assets/lifestyle/ranger-flat-800.jpg 800w, assets/lifestyle/ranger-flat.jpg 1600w" sizes="(min-width: 768px) 34vw, 86vw" alt="FIG. 02 · Graded hide, embossed strap tip" width="1200" height="1500" loading="lazy"></div><figcaption class="label" style="margin-top:12px;font-size:.75rem"><span style="color:var(--accent)">■</span> FIG. 02 · Graded hide, embossed strap tip</figcaption></figure></div><div class="story-figure" data-story-figure="2" style="opacity:0"><figure><div class="media ar-45"><img src="assets/lifestyle/onyx-flat.jpg" srcset="assets/lifestyle/onyx-flat-800.jpg 800w, assets/lifestyle/onyx-flat.jpg 1600w" sizes="(min-width: 768px) 34vw, 86vw" alt="FIG. 03 · A cut strap, backlit" width="1200" height="1500" loading="lazy"></div><figcaption class="label" style="margin-top:12px;font-size:.75rem"><span style="color:var(--accent)">■</span> FIG. 03 · A cut strap, backlit</figcaption></figure></div><div class="story-figure" data-story-figure="3" style="opacity:0"><figure><div class="media ar-45"><img src="assets/lifestyle/kingsmen-02.jpg" srcset="assets/lifestyle/kingsmen-02-800.jpg 800w, assets/lifestyle/kingsmen-02.jpg 1600w" sizes="(min-width: 768px) 34vw, 86vw" alt="FIG. 04 · Saddle stitch on a wallet edge" width="1200" height="1500" loading="lazy"></div><figcaption class="label" style="margin-top:12px;font-size:.75rem"><span style="color:var(--accent)">■</span> FIG. 04 · Saddle stitch on a wallet edge</figcaption></figure></div><div class="story-figure" data-story-figure="4" style="opacity:0"><figure><div class="media ar-45"><img src="assets/lifestyle/monarch-01.jpg" srcset="assets/lifestyle/monarch-01-800.jpg 800w, assets/lifestyle/monarch-01.jpg 1600w" sizes="(min-width: 768px) 34vw, 86vw" alt="FIG. 05 · Finished belt, buckle on" width="1200" height="1500" loading="lazy"></div><figcaption class="label" style="margin-top:12px;font-size:.75rem"><span style="color:var(--accent)">■</span> FIG. 05 · Finished belt, buckle on</figcaption></figure></div><div class="story-panel" data-story-panel="0" ><p class="label" data-story-item>Chapter 01<span class="slash">·</span><b>The name</b></p><div class="rule" data-story-item style="margin-top:18px"></div><h3 class="h3" data-story-item style="margin-top:22px">The name.</h3><p class="body muted" data-story-item style="margin-top:16px">Stagr takes its name from the stag. An antler is a record of the years behind it, thickened and scarred and branched, and none of it is covered up. We ask the same of leather. It should show its age rather than hide it.</p></div><div class="story-panel" data-story-panel="1" hidden><p class="label" data-story-item>Chapter 02<span class="slash">·</span><b>The material</b></p><div class="rule" data-story-item style="margin-top:18px"></div><h3 class="h3" data-story-item style="margin-top:22px">The material.</h3><p class="body muted" data-story-item style="margin-top:16px">We buy whole hides and reject about a third. What is left is graded by hand for grain, thickness and stretch. We cut in Pakistan, from hides we choose ourselves. One workshop, a small bench, no subcontracting. A belt leaves us when it is right, not when the week ends.</p></div><div class="story-panel" data-story-panel="2" hidden><p class="label" data-story-item>Chapter 03<span class="slash">·</span><b>The cutting</b></p><div class="rule" data-story-item style="margin-top:18px"></div><h3 class="h3" data-story-item style="margin-top:22px">The cutting.</h3><p class="body muted" data-story-item style="margin-top:16px">Straps are cut along the spine where the hide is tightest, so a belt holds its shape instead of curling.</p></div><div class="story-panel" data-story-panel="3" hidden><p class="label" data-story-item>Chapter 04<span class="slash">·</span><b>The stitching</b></p><div class="rule" data-story-item style="margin-top:18px"></div><h3 class="h3" data-story-item style="margin-top:22px">The stitching.</h3><p class="body muted" data-story-item style="margin-top:16px">One row of saddle stitch, two needles, waxed linen thread. It cannot unravel the way a machine seam can.</p></div><div class="story-panel" data-story-panel="4" hidden><p class="label" data-story-item>Chapter 05<span class="slash">·</span><b>The finish</b></p><div class="rule" data-story-item style="margin-top:18px"></div><h3 class="h3" data-story-item style="margin-top:22px">The finish.</h3><p class="body muted" data-story-item style="margin-top:16px">Edges bevelled, sanded, burnished four times, sealed with beeswax. Then the buckle goes on and it is checked. Prices run from Rs 1,740 to Rs 3,500. That is the whole range, and it is the same for a gift of one or an order of a hundred.</p></div><div class="story-years"><div class="story-progress" data-story-progress></div><button type="button" data-story-year="0" style="color:var(--fg)">01</button><button type="button" data-story-year="1" style="color:var(--fg-2)">02</button><button type="button" data-story-year="2" style="color:var(--fg-2)">03</button><button type="button" data-story-year="3" style="color:var(--fg-2)">04</button><button type="button" data-story-year="4" style="color:var(--fg-2)">05</button></div></div>
-  </div>
-  <div class="story-mobile mob-only">
-    <div data-reveal><p class="label"><b>06</b><span class="slash">/</span>Story</p></div>
-    <h2 class="h1" data-text-reveal="lines" style="margin-top:12px">We cut leather, not corners.</h2>
-    <p class="lead" data-illuminate style="margin-top:16px">We cut in Pakistan, from hides we choose ourselves. One workshop, a small bench, no subcontracting.</p>
-    <div class="mstory" data-mstory>
-      <div class="mstory-sticky">
-        <div class="mstory-stage"><span class="ghost" data-mstory-ghost="0" style="opacity:1">01</span><span class="ghost" data-mstory-ghost="1" style="opacity:0">02</span><span class="ghost" data-mstory-ghost="2" style="opacity:0">03</span><span class="ghost" data-mstory-ghost="3" style="opacity:0">04</span><span class="ghost" data-mstory-ghost="4" style="opacity:0">05</span><div class="mstory-figure" data-mstory-figure="0"><img src="assets/lifestyle/ranger-02-800.jpg" alt="FIG. 01 · The stag, embossed in crazy horse leather" width="800" height="1000" loading="lazy"></div><div class="mstory-figure" data-mstory-figure="1"><img src="assets/lifestyle/ranger-flat-800.jpg" alt="FIG. 02 · Graded hide, embossed strap tip" width="800" height="1000" loading="lazy"></div><div class="mstory-figure" data-mstory-figure="2"><img src="assets/lifestyle/onyx-flat-800.jpg" alt="FIG. 03 · A cut strap, backlit" width="800" height="1000" loading="lazy"></div><div class="mstory-figure" data-mstory-figure="3"><img src="assets/lifestyle/kingsmen-02-800.jpg" alt="FIG. 04 · Saddle stitch on a wallet edge" width="800" height="1000" loading="lazy"></div><div class="mstory-figure" data-mstory-figure="4"><img src="assets/lifestyle/monarch-01-800.jpg" alt="FIG. 05 · Finished belt, buckle on" width="800" height="1000" loading="lazy"></div></div>
-        <div class="mstory-text"><div data-mstory-panel="0" ><p class="label">Chapter 01<span class="slash">·</span><b>The name</b></p><h3 class="h3" data-mstory-title style="margin-top:14px">The name.</h3><p class="body muted" data-mstory-text style="margin-top:14px">Stagr takes its name from the stag. An antler is a record of the years behind it, thickened and scarred and branched, and none of it is covered up. We ask the same of leather. It should show its age rather than hide it.</p></div><div data-mstory-panel="1" hidden><p class="label">Chapter 02<span class="slash">·</span><b>The material</b></p><h3 class="h3" data-mstory-title style="margin-top:14px">The material.</h3><p class="body muted" data-mstory-text style="margin-top:14px">We buy whole hides and reject about a third. What is left is graded by hand for grain, thickness and stretch. We cut in Pakistan, from hides we choose ourselves. One workshop, a small bench, no subcontracting. A belt leaves us when it is right, not when the week ends.</p></div><div data-mstory-panel="2" hidden><p class="label">Chapter 03<span class="slash">·</span><b>The cutting</b></p><h3 class="h3" data-mstory-title style="margin-top:14px">The cutting.</h3><p class="body muted" data-mstory-text style="margin-top:14px">Straps are cut along the spine where the hide is tightest, so a belt holds its shape instead of curling.</p></div><div data-mstory-panel="3" hidden><p class="label">Chapter 04<span class="slash">·</span><b>The stitching</b></p><h3 class="h3" data-mstory-title style="margin-top:14px">The stitching.</h3><p class="body muted" data-mstory-text style="margin-top:14px">One row of saddle stitch, two needles, waxed linen thread. It cannot unravel the way a machine seam can.</p></div><div data-mstory-panel="4" hidden><p class="label">Chapter 05<span class="slash">·</span><b>The finish</b></p><h3 class="h3" data-mstory-title style="margin-top:14px">The finish.</h3><p class="body muted" data-mstory-text style="margin-top:14px">Edges bevelled, sanded, burnished four times, sealed with beeswax. Then the buckle goes on and it is checked. Prices run from Rs 1,740 to Rs 3,500. That is the whole range, and it is the same for a gift of one or an order of a hundred.</p></div></div>
-        <div class="mstory-years"><button type="button" data-mstory-year="0" style="color:var(--fg)">01</button><button type="button" data-mstory-year="1" style="color:var(--fg-2)">02</button><button type="button" data-mstory-year="2" style="color:var(--fg-2)">03</button><button type="button" data-mstory-year="3" style="color:var(--fg-2)">04</button><button type="button" data-mstory-year="4" style="color:var(--fg-2)">05</button></div>
-      </div>
-    </div>
-  </div>
-</section>
+<!-- story section hidden for now -->
 
 
 </main>
@@ -1298,37 +1350,37 @@ function initAnimations() {
   function initScrollHint() { const dot = $("[data-scroll-dot]"); if (!dot || !isRendered(dot)) return; if (reduced) { G.set(dot, { opacity: 1, y: 9 }); return; } G.timeline({ repeat: -1, repeatDelay: .5 }).set(dot, { y: 0, opacity: 0 }).to(dot, { opacity: 1, duration: .25 }).to(dot, { y: 19, duration: 1, ease: "power2.inOut" }, .1).to(dot, { opacity: 0, duration: .3, ease: "power1.in" }, .85); }
 
   function initHero() {
-    const root = $("[data-slider]"), slides = $$("[data-slide]", root), dots = $$("[data-slide-dot]", root), count = $("[data-slide-n]", root), band = $("[data-bulk-band]");
-    const n = slides.length, HOLD = 6.5; let active = 0, busy = false, timer = null, started = false;
-    const items = (i) => $$("[data-slide-item]", slides[i]), img = (i) => $("[data-slide-img]", slides[i]);
-    const pad = (i) => String(i + 1).padStart(2, "0");
-    const paintDots = () => dots.forEach((d, i) => d.setAttribute("aria-selected", String(i === active)));
-    // the active dot fills up over the hold, then we move on
-    const arm = () => { clearTimeout(timer); dots.forEach((d) => $("i", d).style.setProperty("--p", 0)); if (reduced || document.hidden) return; const bar = $("i", dots[active]); G.fromTo(bar, { "--p": 0 }, { "--p": 1, duration: HOLD, ease: "none", overwrite: true }); timer = setTimeout(() => go(active + 1), HOLD * 1000); };
-    const enter = (i, delay) => { if (reduced) { G.set(items(i), { opacity: 1, y: 0 }); return; } G.fromTo(img(i), { scale: 1.12 }, { scale: 1.04, duration: 2.6, ease: "power2.out", overwrite: true, delay }); G.fromTo(items(i), { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: .7, ease: "power3.out", stagger: .08, delay: delay + .25, overwrite: true, clearProps: "transform" }); };
-    const go = (next, user) => {
-      next = (next + n) % n; if (next === active || busy) return; busy = true;
-      const from = slides[active], to = slides[next]; active = next; paintDots(); if (count) count.textContent = pad(next);
-      to.classList.add("is-on"); to.setAttribute("aria-hidden", "false"); from.setAttribute("aria-hidden", "true");
-      if (reduced) { from.classList.remove("is-on"); G.set(items(next), { opacity: 1 }); busy = false; arm(); return; }
-      G.set(to, { zIndex: 2 }); G.set(from, { zIndex: 1 });
-      G.fromTo(to, { opacity: 0 }, { opacity: 1, duration: 1, ease: "power2.inOut", onComplete: () => { from.classList.remove("is-on"); G.set([from, to], { clearProps: "zIndex,opacity" }); busy = false; } });
-      G.to($$("[data-slide-item]", from), { opacity: 0, y: -10, duration: .35, ease: "power2.in", overwrite: true });
-      enter(next, 0); arm();
+    const hero = $("#hero"), wall = $("[data-sh-wall]"), cols = $$("[data-sh-col]"), title = $("[data-sh-title]"), items = $$("[data-sh-item]"), band = $("[data-bulk-band]");
+    const loops = [];
+    const run = () => {
+      loops.forEach((t) => t.kill()); loops.length = 0;
+      cols.forEach((col, i) => {
+        const track = $("[data-sh-track]", col), half = track.scrollHeight / 2, down = col.dataset.shCol === "down";
+        G.set(track, { y: down ? -half : 0 });
+        if (reduced) return;
+        loops.push(G.to(track, { y: down ? 0 : -half, duration: 38 + i * 7, ease: "none", repeat: -1 }));
+      });
     };
-    dots.forEach((d, i) => d.addEventListener("click", () => go(i, true)));
-    $("[data-slide-prev]", root).addEventListener("click", () => go(active - 1, true));
-    $("[data-slide-next]", root).addEventListener("click", () => go(active + 1, true));
-    root.addEventListener("keydown", (e) => { if (e.key === "ArrowRight") go(active + 1, true); if (e.key === "ArrowLeft") go(active - 1, true); });
-    root.addEventListener("pointerenter", () => clearTimeout(timer)); root.addEventListener("pointerleave", () => { if (started) arm(); });
-    document.addEventListener("visibilitychange", () => { if (!started) return; if (document.hidden) clearTimeout(timer); else arm(); });
-    // swipe
-    let sx = 0, sy = 0; root.addEventListener("touchstart", (e) => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
-    root.addEventListener("touchend", (e) => { const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy; if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.5) go(active + (dx < 0 ? 1 : -1), true); }, { passive: true });
-    if (!reduced) { G.set(items(0), { opacity: 0 }); if (band) G.set(band, { y: 24, opacity: 0 }); }
-    return function start() { started = true; enter(0, 0); if (band && !reduced) G.to(band, { y: 0, opacity: 1, duration: .6, ease: "power3.out", delay: .6, clearProps: "transform" }); arm(); };
+    // slow the wall while the pointer is over it, so a card can be read
+    wall.addEventListener("pointerenter", () => loops.forEach((t) => G.to(t, { timeScale: .25, duration: .6 })));
+    wall.addEventListener("pointerleave", () => loops.forEach((t) => G.to(t, { timeScale: 1, duration: .6 })));
+    let rt = 0; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(run, 150); });
+    document.addEventListener("visibilitychange", () => loops.forEach((t) => document.hidden ? t.pause() : t.resume()));
+    if (!reduced) { G.set(items, { opacity: 0, y: 18 }); G.set(title, { opacity: 0 }); if (band) G.set(band, { y: 24, opacity: 0 }); }
+    else { G.set(wall, { opacity: 1 }); G.set(title, { opacity: 1 }); }
+    return function start() {
+      run();
+      if (reduced) return;
+      const tl = G.timeline({ defaults: { ease: "power3.out" } });
+      tl.fromTo(wall, { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 1.4, ease: "power3.out" }, .1);
+      if (window.SplitText) window.SplitText.create(title, { type: "lines", mask: "lines", linesClass: "line", onSplit: (self) => { G.set(title, { opacity: 1 }); return G.fromTo(self.lines, { yPercent: 110 }, { yPercent: 0, duration: 1.1, ease: "power4.out", stagger: .12, delay: .25 }); } });
+      else tl.to(title, { opacity: 1, duration: .8 }, .25);
+      tl.to(items, { opacity: 1, y: 0, duration: .8, stagger: .1, clearProps: "transform" }, .5);
+      if (band) tl.to(band, { y: 0, opacity: 1, duration: .6, clearProps: "transform" }, 1.1);
+      if (fine) { const wx = G.quickTo(wall, "x", { duration: 1.2, ease: "power2.out" }), wy = G.quickTo(wall, "y", { duration: 1.2, ease: "power2.out" }); hero.addEventListener("pointermove", (e) => { wx((e.clientX / innerWidth - .5) * 14); wy((e.clientY / innerHeight - .5) * 10); }, { passive: true }); }
+      if (ST) G.to(wall, { yPercent: -10, ease: "none", scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true } });
+    };
   }
-
   /* ================= 02 RANGE ================= */
   function initRangeDesktop() {
     const section = $("#range"); if (!section) return; const pin = $("[data-range-pin]"), title = $("[data-range-title-main]"), label = $("[data-range-label]"), count = $("[data-range-count]"), panels = $$("[data-range-panel]"), bgs = $$("[data-range-bloom]"), ghosts = $$("[data-range-ghost]"), cuts = $$("[data-range-cut]"), stage = $("[data-range-stage]"), dots = $$("[data-range-dot]");
@@ -1419,6 +1471,56 @@ function initAnimations() {
     if (fine && !reduced) { const wrap = $("[data-inside-float]"); const sx = G.quickTo(wrap, "x", { duration: .9, ease: "power2.out" }), sy = G.quickTo(wrap, "y", { duration: .9, ease: "power2.out" }); section.addEventListener("pointermove", (e) => { sx((e.clientX / innerWidth - .5) * 22); sy((e.clientY / innerHeight - .5) * 12); }, { passive: true }); }
   }
 
+  /* ================= 03b ANATOMY ================= */
+  function initAnatomy() {
+    const section = $("#anatomy"); if (!section) return;
+    const panels = $$("[data-an-panel]", section), pills = $$("[data-an-pill]", section); let active = 0, busy = false, entered = false;
+    const desktop = () => window.matchMedia("(min-width: 1024px)").matches, NS = "http://www.w3.org/2000/svg";
+    const route = (panel) => {
+      const svg = $("[data-an-lines]", panel), body = $(".an-body", panel); svg.innerHTML = ""; if (!desktop()) return { paths: [], dots: [] };
+      const br = body.getBoundingClientRect(); svg.setAttribute("viewBox", "0 0 " + br.width + " " + br.height);
+      const boxes = { top: $("[data-an-top] .an-box", panel).getBoundingClientRect(), low: $("[data-an-low] .an-box", panel).getBoundingClientRect() };
+      const paths = [], dots = [];
+      $$("[data-an-call]", panel).forEach((call) => {
+        const ir = boxes[call.dataset.anTarget], side = call.classList.contains("an-call--l") ? "l" : call.classList.contains("an-call--r") ? "r" : "low";
+        const x1 = ir.left + ir.width * (+call.dataset.anX) / 100 - br.left, y1 = ir.top + ir.height * (+call.dataset.anY) / 100 - br.top;
+        let x0, y0, d;
+        if (side === "low") { const cr = $(".an-circle", call).getBoundingClientRect(); x0 = cr.left + cr.width / 2 - br.left; y0 = cr.top - 3 - br.top; const ky = y0 - (y0 - y1) * .5; d = "M" + x0 + " " + y0 + " L" + x0 + " " + ky + " L" + x1 + " " + y1; }
+        else { const tr = $(".an-text", call).getBoundingClientRect(), cr = $(".an-circle", call).getBoundingClientRect(); const bt = $("b", call).getBoundingClientRect(); y0 = bt.bottom + 2 - br.top; x0 = (side === "l" ? tr.right + 6 : cr.left - 6) - br.left; const kx = x0 + (x1 - x0) * .45; d = "M" + x0 + " " + y0 + " L" + kx + " " + y0 + " L" + x1 + " " + y1; }
+        const p = document.createElementNS(NS, "path"); p.setAttribute("d", d); svg.appendChild(p); paths.push(p);
+        const c = document.createElementNS(NS, "circle"); c.setAttribute("cx", x1); c.setAttribute("cy", y1); c.setAttribute("r", 3.5); svg.appendChild(c); dots.push(c);
+      });
+      return { paths, dots };
+    };
+    const pieces = (panel) => ({ imgs: $$("[data-an-img]", panel), circles: $$(".an-circle", panel), texts: $$(".an-text", panel), head: $$(".an-head > *", panel), icons: $$("[data-an-icon]", panel), cta: $(".an-cta", panel) });
+    const prime = (panel) => { const P = pieces(panel); G.set([...P.imgs, ...P.texts, ...P.head, ...P.icons, P.cta], { opacity: 0 }); G.set(P.circles, { scale: 0 }); };
+    const play = (panel) => {
+      const P = pieces(panel), L = route(panel);
+      if (reduced) { G.set([...P.imgs, ...P.texts, ...P.head, ...P.icons, P.cta], { opacity: 1 }); G.set(P.circles, { scale: 1 }); G.set(L.paths, { drawSVG: "100%" }); busy = false; return; }
+      G.set(L.dots, { scale: 0, transformOrigin: "50% 50%" });
+      const tl = G.timeline({ defaults: { ease: "power3.out" }, onComplete: () => { busy = false; } });
+      tl.fromTo(P.head, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: .6, stagger: .08, clearProps: "transform" }, 0)
+        .fromTo(P.imgs, { opacity: 0, y: 24, scale: .96 }, { opacity: 1, y: 0, scale: 1, duration: .9, stagger: .12, clearProps: "transform" }, .15)
+        .fromTo(P.circles, { scale: 0 }, { scale: 1, duration: .6, ease: "back.out(1.8)", stagger: .07 }, .55);
+      if (L.paths.length && window.DrawSVGPlugin) tl.fromTo(L.paths, { drawSVG: "0%" }, { drawSVG: "100%", duration: .55, ease: "power2.inOut", stagger: .07 }, .75);
+      tl.to(L.dots, { scale: 1, duration: .35, ease: "back.out(3)", stagger: .07 }, 1.05)
+        .fromTo(P.texts, { opacity: 0, x: (i, el) => el.closest(".an-call--l") ? -10 : el.closest(".an-call--r") ? 10 : 0, y: (i, el) => el.closest(".an-call--low") ? 8 : 0 }, { opacity: 1, x: 0, y: 0, duration: .5, stagger: .07, clearProps: "transform" }, .9)
+        .fromTo(P.icons, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .45, stagger: .05, clearProps: "transform" }, 1.5)
+        .fromTo(P.cta, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: .45, clearProps: "transform" }, 1.8);
+    };
+    panels.forEach(prime);
+    const setActive = (next) => {
+      if (next === active || busy) return; busy = true; const prev = active; active = next; pills.forEach((p, i) => p.setAttribute("aria-pressed", String(i === next)));
+      const out = panels[prev], P = pieces(out);
+      G.to([...P.imgs, ...P.texts, ...P.head, ...P.icons, P.cta, ...$$("path, circle", $("[data-an-lines]", out))], { opacity: 0, duration: .22, ease: "power2.in", overwrite: "auto" });
+      G.to(P.circles, { scale: 0, duration: .22, ease: "power2.in", overwrite: "auto", onComplete: () => { out.hidden = true; panels[next].hidden = false; prime(panels[next]); play(panels[next]); ST.refresh(); } });
+    };
+    pills.forEach((p, i) => p.addEventListener("click", () => setActive(i)));
+    ST.create({ trigger: section, start: "top 60%", once: true, onEnter: () => { entered = true; busy = true; play(panels[active]); } });
+    let rt = 0; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { if (!entered) return; const L = route(panels[active]); G.set(L.paths, { drawSVG: "100%" }); G.set(L.dots, { scale: 1, transformOrigin: "50% 50%" }); }, 120); });
+    window.addEventListener("load", () => { if (entered) { const L = route(panels[active]); G.set(L.paths, { drawSVG: "100%" }); G.set(L.dots, { scale: 1, transformOrigin: "50% 50%" }); } });
+  }
+
   /* ================= 04 STORY ================= */
   function initStoryDesktop() {
     const pin = $("[data-story-pin]"), intro = $("[data-story-intro]"), stage = $("[data-story-stage]"), title = $("[data-story-title]"), ghosts = $$("[data-story-ghost]"), figures = $$("[data-story-figure]"), panels = $$("[data-story-panel]"), bar = $("[data-story-progress]"), years = $$("[data-story-year]");
@@ -1468,7 +1570,7 @@ function initAnimations() {
 
   /* ================= boot (top to bottom so pinned blocks measure in order) ================= */
   const startHero = initHero();
-  initScrollHint(); S.initReveals($("#hero")); S.initReveals($("#explore")); initShop(); S.initReveals($("#shop")); initInside(); S.initReveals($("#inside")); initPromise(); S.initReveals($("#more"));
+  initScrollHint(); S.initReveals($("#hero")); S.initReveals($("#explore")); initShop(); S.initReveals($("#shop")); initAnatomy(); S.initReveals($("#anatomy")); initInside(); S.initReveals($("#inside")); initPromise();
   (function initExplore() {
     const tabs = $$("[data-ex-tab]"), grids = $$("[data-ex-grid]"), all = $("[data-ex-all]"); if (!tabs.length) return;
     tabs.forEach((t) => t.addEventListener("click", () => {
@@ -1481,7 +1583,7 @@ function initAnimations() {
     }));
   })();
   if (isMobile) initRangeMobile(); else initRangeDesktop();
-  if (isMobile) initStoryMobile(); else initStoryDesktop();
+  if ($("#story")) { if (isMobile) initStoryMobile(); else initStoryDesktop(); }   // story hidden for now
   S.initReveals($("#why")); S.initReveals($("#story")); S.initReveals($("footer"));
   S.onLoaderDone.push(() => { startHero(); ST.refresh(); });
   // pinned sections measure once; re-measure after fonts and every image have settled so nothing pins early

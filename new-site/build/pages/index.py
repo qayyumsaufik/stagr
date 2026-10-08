@@ -3,12 +3,27 @@ import json
 
 
 def render(ctx):
+    esc = ctx["esc"]
     P = ctx["products"]
     B = ctx["brand"]
     I = ctx["icon"]
     by = {p["id"]: p for p in P}
     fmt = lambda n: "Rs " + format(n, ",d")
     cut = lambda pid, i=0: ctx["cutouts"](by[pid])[i]
+
+    # ---------------- 01 hero wall: three looping columns of photos and pieces ----------------
+    byid = {p["id"]: p for p in P}
+    def wphoto(key, label, href):
+        return f'<a class="sh-card sh-card--photo" href="{href}" tabindex="-1"><img src="assets/categories/{key}-500.jpg" srcset="assets/categories/{key}-500.jpg 500w, assets/categories/{key}.jpg 900w" sizes="(min-width: 1024px) 18vw, 40vw" alt="" width="900" height="600" loading="lazy" decoding="async" draggable="false"><span class="sh-pill">{label}</span></a>'
+    def wpiece(pid, n=1):
+        p = byid[pid]; c = [x for x in ctx["cutouts"](p) if x["colour"] == p["defaultColour"]]; im = (c or ctx["cutouts"](p))[min(n - 1, len(c) - 1) if c else 0]
+        return f'<a class="sh-card sh-card--piece" href="product-{pid}.html" tabindex="-1"><span class="sh-cut"><img src="{im["small"]}" alt="" width="600" height="600" loading="lazy" decoding="async" draggable="false"></span><span class="sh-meta"><b>{esc(p["name"])}</b><em>{fmt(p["price"])}</em></span></a>'
+    columns = [
+        [wphoto("bifold", "Wallets", "wallets.html?cat=bifold"), wpiece("monarch"), wphoto("outlaw", "Belts", "belts.html?cat=classic"), wpiece("regal"), wphoto("long", "Wallets", "wallets.html?cat=long"), wpiece("outlaw")],
+        [wpiece("kingsmann"), wphoto("nova", "Belts", "belts.html?cat=double"), wpiece("rodeo"), wphoto("trifold", "Wallets", "wallets.html?cat=trifold"), wpiece("nova"), wphoto("all-wallets", "Wallets", "wallets.html")],
+        [wphoto("monarch", "Belts", "belts.html?cat=tan-belts"), wpiece("majestic"), wphoto("minimalist", "Wallets", "wallets.html?cat=minimalist"), wpiece("regent"), wphoto("regent", "Belts", "belts.html?cat=black-belts"), wpiece("upbuck")],
+    ]
+    wall_cols = "".join(f'<div class="sh-col" data-sh-col="{"down" if i % 2 else "up"}"><div class="sh-track" data-sh-track>{"".join(cards)}{"".join(cards)}</div></div>' for i, cards in enumerate(columns))
 
     # ---------------- 02 range: five families ----------------
     families = [
@@ -68,7 +83,7 @@ def render(ctx):
              svg='<path data-bot d="M4 24l6-6 6 6 6-6 6 6 6-6 6 6"/><path data-bot d="M4 32l6-6 6 6 6-6 6 6 6-6 6 6"/>'),
     ]
     N_INSIDE = len(inside)
-    inside_imgs = [cut("monarch"), cut("kingsmann")]
+    inside_imgs = [{"src": "assets/cutouts/inside-belt.webp", "small": "assets/cutouts/inside-belt-600.webp"}, {"src": "assets/cutouts/inside-wallet.webp", "small": "assets/cutouts/inside-wallet-600.webp"}]
     inside_stack = lambda size: "".join(f'<img data-inside-img="{i}" src="{im[size]}" alt="" width="900" height="900" draggable="false" decoding="async" style="opacity:{1 if i == 0 else 0}">' for i, im in enumerate(inside_imgs))
     pills = "".join(f'<button type="button" class="pill" data-inside-pill="{i}" aria-pressed="{str(i == 0).lower()}">{d["tab"]}</button>' for i, d in enumerate(inside))
     lefts = "".join(f'''
@@ -95,6 +110,68 @@ def render(ctx):
   <p class="inside-point" data-deck-item><span aria-hidden="true">+</span>{d["point"]}</p>
   <p data-deck-item style="margin-top:18px"><a class="btn btn--tan btn--wide" href="{d["href"]}">{d["cta"]} {I["arrow"]}</a></p>
 </article>''' for i, d in enumerate(inside))
+
+    # ---------------- 03b anatomy: the piece, taken apart ----------------
+    # callout: (title, note, crop n, dot x%, dot y%); dots are on the top image unless the callout sits under the low image
+    IC = {
+        "hide": '<path d="M7 5h10l3 5-2 9H6L4 10z"/><path d="M9 9h6"/>',
+        "stitch": '<path d="M4 15c3-6 7-6 10 0s7 6 10 0"/><path d="M8 11l1 2M15 13l1 2"/>',
+        "buckle": '<rect x="4" y="7" width="16" height="10" rx="2"/><path d="M4 12h9"/><circle cx="13" cy="12" r="1.2"/>',
+        "holes": '<rect x="3" y="8" width="18" height="8" rx="4"/><circle cx="8" cy="12" r="1.2"/><circle cx="12" cy="12" r="1.2"/><circle cx="16" cy="12" r="1.2"/>',
+        "edge": '<path d="M3 15l9-9 9 9"/><path d="M6 15l6-6 6 6"/>',
+        "layers": '<path d="M12 4l9 5-9 5-9-5z"/><path d="M3 14l9 5 9-5"/>',
+        "leaf": '<path d="M5 19c0-8 5-13 14-14-1 9-6 14-14 14z"/><path d="M5 19l8-8"/>',
+        "cards": '<rect x="3" y="6" width="18" height="12" rx="2"/><path d="M3 10h18"/>',
+        "notes": '<rect x="3" y="7" width="18" height="10" rx="1"/><circle cx="12" cy="12" r="2"/>',
+        "slim": '<rect x="9" y="3" width="6" height="18" rx="1"/><path d="M9 8h6M9 16h6"/>',
+    }
+    anatomy = [
+        dict(key="belt", tab="Belts", name="Handcrafted leather belt", tags="Timeless style / Premium quality / Built to last",
+             top=dict(img="monarch-1", w=740, h=560), low=dict(img="monarch-2", w=1024, h=433), href="belts.html", cta="Shop belts",
+             left=[("Solid buckle", "Solid buckle on a removable screw post, so you can change it without tools.", 4, 16, 62),
+                   ("Reinforced stitching", "One row of saddle stitch in waxed linen thread. It cannot unravel the way a machine seam can.", 2, 42, 80),
+                   ("Burnished edges", "Bevelled, sanded and burnished four times, then sealed with beeswax.", 3, 6, 34)],
+             right=[("Genuine full-grain leather", "Crazy horse cowhide, treated with wax for a rugged surface and a patina that deepens with wear.", 1, 82, 24),
+                    ("Keeper loop", "Holds the tail of the strap flat and in place.", 5, 58, 62),
+                    ("Tapered tip", "A rounded tip that threads cleanly through the buckle and keeper.", 6, 88, 58)],
+             low_calls=[("Adjustment holes", "Sizes 30 to 44, measured from the buckle bar to the hole you use.", 7, 30, 80),
+                        ("Ideal thickness", "3.5 mm, cut in one piece along the spine of the hide.", 8, 50, 96),
+                        ("Develops a patina", "Every scuff stays. Honey today, chestnut in a year.", 9, 76, 76)],
+             icons=[("hide", "Full-grain leather"), ("stitch", "Hand stitched"), ("buckle", "Solid buckle"), ("holes", "Sizes 30 to 44"), ("edge", "Burnished edges"), ("layers", "3.5 mm, one piece"), ("leaf", "Develops a patina")]),
+        dict(key="wallet", tab="Wallets", name="Handcrafted bifold wallet", tags="Timeless style / Premium quality / Everyday function",
+             top=dict(img="kingsmann-brown-1", w=916, h=678), low=dict(img="kingsmann-brown-2", w=1321, h=635), href="wallets.html", cta="Shop wallets",
+             left=[("Full-grain leather", "Crazy horse cowhide, treated with wax, that softens and darkens with every carry.", 1, 16, 40),
+                   ("Hand-stitched construction", "One row of saddle stitch, two needles, waxed linen thread.", 2, 32, 8),
+                   ("Burnished edges", "Bevelled, sanded and burnished, then sealed with beeswax.", 3, 7, 88)],
+             right=[("Slim profile", "Skived at the fold so it stays flat in a jacket pocket.", 4, 94, 48),
+                    ("Embossed stag", "The Stagr mark pressed into the leather, no foil.", 5, 78, 76),
+                    ("Develops a patina", "The waxed surface marks and deepens with use, so no two age the same way.", 6, 80, 28)],
+             low_calls=[("Four card slots", "Two each side, cut so a card sits flush.", 7, 30, 25),
+                        ("Note section", "One full-width section for folded notes.", 8, 50, 30),
+                        ("Compact everyday carry", "Cards and notes in a wallet that still fits a front pocket.", 9, 86, 72)],
+             icons=[("hide", "Full-grain leather"), ("stitch", "Hand stitched"), ("edge", "Burnished edges"), ("cards", "Four card slots"), ("notes", "Note section"), ("slim", "Slim profile"), ("leaf", "Develops a patina")]),
+    ]
+    def an_call(piece, c, side, target):
+        t, note, n, x, y = c
+        return f'''<li class="an-call an-call--{side}" data-an-call data-an-target="{target}" data-an-x="{x}" data-an-y="{y}"><span class="an-circle"><img src="assets/details/anat-{piece}-{n}.webp" alt="" width="360" height="360" loading="lazy" draggable="false"></span><span class="an-text"><b>{t}</b><span>{note}</span></span></li>'''
+    def an_panel(i, d):
+        k = d["key"]; cutimg = lambda im, size: f"assets/cutouts/{im}{size}.webp"
+        return f'''
+<div class="an-panel" data-an-panel="{i}" {"hidden" if i else ""}>
+  <div class="an-head"><p class="an-kicker"><span>The anatomy of a</span></p><h3 class="an-name">{d["name"]}</h3><p class="an-tags">{d["tags"].replace(" / ", '<i>/</i>')}</p></div>
+  <div class="an-body">
+    <svg class="an-lines" data-an-lines aria-hidden="true"></svg>
+    <ul class="an-col an-col--l" role="list">{"".join(an_call(k, c, "l", "top") for c in d["left"])}</ul>
+    <div class="an-stage" data-an-top><div class="an-box" style="aspect-ratio:{d["top"]["w"]} / {d["top"]["h"]}"><img data-an-img src="{cutimg(d["top"]["img"], "")}" alt="{d["name"]}" width="{d["top"]["w"]}" height="{d["top"]["h"]}" loading="lazy" decoding="async" draggable="false"></div></div>
+    <ul class="an-col an-col--r" role="list">{"".join(an_call(k, c, "r", "top") for c in d["right"])}</ul>
+    <div class="an-low" data-an-low><div class="an-box" style="aspect-ratio:{d["low"]["w"]} / {d["low"]["h"]}"><img data-an-img src="{cutimg(d["low"]["img"], "")}" alt="" width="{d["low"]["w"]}" height="{d["low"]["h"]}" loading="lazy" decoding="async" draggable="false"></div></div>
+    <ul class="an-col an-col--low" role="list">{"".join(an_call(k, c, "low", "low") for c in d["low_calls"])}</ul>
+  </div>
+  <ul class="an-icons" role="list">{"".join(f'<li data-an-icon><span class="an-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">{IC[ic]}</svg></span><span>{lbl}</span></li>' for ic, lbl in d["icons"])}</ul>
+  <p class="an-cta"><a class="btn btn--tan" href="{d["href"]}">{d["cta"]} {I["arrow"]}</a></p>
+</div>'''
+    an_panels = "".join(an_panel(i, d) for i, d in enumerate(anatomy))
+    an_pills = "".join(f'<button type="button" class="pill" data-an-pill="{i}" aria-pressed="{str(i == 0).lower()}">{d["tab"]}</button>' for i, d in enumerate(anatomy))
 
     # ---------------- 04 story: five chapters ----------------
     chapters = [
@@ -139,38 +216,52 @@ def render(ctx):
 .rp-copy { margin-top: 18px; max-width: 46ch; color: var(--fg-2); }
 .rp-spec { margin-top: 22px; max-width: 420px; }
 
-/* ---- 01 hero: belts left, wallets right, the words on the seam, bulk band beneath ---- */
-.hero { position: relative; background: var(--ink); color: var(--bone); }
-.slider { position: relative; height: calc(100svh - 76px); min-height: 620px; max-height: 980px; overflow: hidden; }
-.slide { position: absolute; inset: 0; display: flex; align-items: flex-end; opacity: 0; visibility: hidden; }
-.slide.is-on { opacity: 1; visibility: visible; }
-.slide img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 55%; transform: scale(1.04); will-change: transform; }
-.slide::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(26,27,29,.55) 0%, rgba(26,27,29,0) 28%, rgba(26,27,29,0) 45%, rgba(26,27,29,.78) 100%), linear-gradient(90deg, rgba(26,27,29,.5) 0%, rgba(26,27,29,0) 60%); pointer-events: none; }
-.slide-copy { position: relative; z-index: 2; width: 100%; padding-bottom: clamp(84px, 11vh, 120px); max-width: none; }
-.slide-copy > * { max-width: 760px; }
-.hero-kicker { font-size: .6875rem; letter-spacing: .3em; text-transform: uppercase; color: rgba(239,237,230,.8); }
-.hero-kicker span { margin: 0 6px; opacity: .6; }
-.hero-h1 { margin-top: 14px; font-family: var(--font-display); font-weight: 500; font-size: clamp(2.6rem, 1.2rem + 4.2vw, 5.375rem); line-height: 1; letter-spacing: 0; text-shadow: 0 2px 30px rgba(0,0,0,.45); }
-.hero-h1 .serif-i { font-family: var(--font-display); font-style: normal; }
-.hero-sub { margin-top: 18px; max-width: 44ch; font-size: clamp(.9375rem, .9rem + .25vw, 1.0625rem); line-height: 1.55; color: rgba(239,237,230,.88); text-shadow: 0 1px 14px rgba(0,0,0,.45); }
-.hero-ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+/* ---- 01 hero: copy left, a tilted wall of pieces looping on the right ---- */
+.hero { position: relative; background: #1b1917; color: var(--bone); }
+.shero { position: relative; min-height: calc(100svh - 76px); overflow: hidden; display: flex; flex-direction: column; }
+.shero .sh-grid { flex: 1; }
+.sh-glow { position: absolute; right: -10%; top: -20%; width: 70vmin; height: 70vmin; border-radius: 50%; background: radial-gradient(circle, rgba(197,139,74,.28), transparent 68%); filter: blur(40px); pointer-events: none; }
+.sh-grid { position: relative; display: grid; grid-template-columns: 1fr; gap: 24px; width: 100%; padding-top: calc(var(--nav-top) + 24px); }
+.sh-copy { position: relative; z-index: 2; display: flex; flex-direction: column; justify-content: center; padding-bottom: 24px; }
+.sh-eyebrow { display: flex; align-items: center; gap: 12px; font-size: .6875rem; letter-spacing: .28em; text-transform: uppercase; color: rgba(239,237,230,.75); }
+.sh-eyebrow i { width: 28px; height: 1px; background: var(--accent); }
+.sh-h1 { margin-top: 18px; font-family: var(--font-display); font-weight: 500; font-size: clamp(3rem, 1.6rem + 5vw, 6rem); line-height: .98; letter-spacing: -.015em; }
+.sh-h1 .line { display: block; overflow: hidden; }
+.sh-sub { margin-top: 20px; max-width: 40ch; font-size: clamp(.9375rem, .9rem + .25vw, 1.0625rem); line-height: 1.6; color: rgba(239,237,230,.82); }
+.hero-ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
 .btn--tan { background: var(--accent-deep); border-color: var(--accent-deep); color: var(--bone); }
 .btn--tan:hover { background: var(--accent); border-color: var(--accent); color: var(--ink); }
-.hero .btn--ghost { color: var(--bone); border-color: rgba(239,237,230,.55); background: rgba(26,27,29,.2); backdrop-filter: blur(6px); }
+.hero .btn--ghost { color: var(--bone); border-color: rgba(239,237,230,.5); background: rgba(26,27,29,.25); backdrop-filter: blur(6px); }
 .hero .btn--ghost:hover { background: var(--bone); color: var(--ink); }
-.slider-ui { position: absolute; left: 0; right: 0; bottom: clamp(22px, 3vh, 36px); z-index: 3; display: flex; justify-content: space-between; align-items: center; gap: 16px; pointer-events: none; }
-.slider-ui > * { pointer-events: auto; }
-.slider-dots { display: flex; gap: 10px; }
-.slider-dots button { width: 56px; height: 20px; display: grid; align-items: center; }
-.slider-dots i { display: block; height: 2px; background: rgba(239,237,230,.35); position: relative; overflow: hidden; }
-.slider-dots i::after { content: ""; position: absolute; inset: 0; background: var(--bone); transform: scaleX(var(--p, 0)); transform-origin: left; }
-.slider-dots button[aria-selected="true"] i { background: rgba(239,237,230,.35); }
-.slider-nav { display: flex; align-items: center; gap: 10px; }
-.slider-count { font-size: .75rem; letter-spacing: .2em; color: rgba(239,237,230,.75); margin-right: 8px; font-variant-numeric: tabular-nums; }
-.slider-count b { font-weight: 500; color: var(--bone); }
-.half-arrow { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(239,237,230,.5); display: grid; place-items: center; color: var(--bone); background: rgba(26,27,29,.25); backdrop-filter: blur(6px); transition: background-color .3s ease, color .3s ease, border-color .3s ease; }
-.half-arrow svg { width: 16px; height: 16px; }
-.half-arrow:hover { background: var(--bone); color: var(--ink); border-color: var(--bone); }
+.sh-stats { display: flex; flex-wrap: wrap; gap: 10px 28px; margin-top: 34px; padding-top: 18px; border-top: 1px solid rgba(239,237,230,.14); }
+.sh-stats li { display: grid; gap: 1px; }
+.sh-stats b { font-family: var(--font-display); font-weight: 400; font-size: 1.15rem; line-height: 1.1; }
+.sh-stats span { font-size: .75rem; color: rgba(239,237,230,.6); letter-spacing: .03em; }
+/* the wall */
+.sh-wall { position: relative; height: 92vw; overflow: hidden; -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 12%, #000 88%, transparent 100%); mask-image: linear-gradient(180deg, transparent 0%, #000 12%, #000 88%, transparent 100%); opacity: 0; }
+.sh-cols { position: absolute; inset: -14% -6%; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; transform: rotate(-8deg) scale(1.06); transform-origin: 50% 50%; }
+.sh-col { position: relative; overflow: hidden; }
+.sh-col[data-sh-col="down"] { margin-top: -30%; }
+.sh-track { display: flex; flex-direction: column; gap: 14px; will-change: transform; }
+.sh-card { position: relative; display: block; border-radius: 14px; overflow: hidden; background: #2a2623; box-shadow: 0 20px 40px -22px rgba(0,0,0,.7); }
+.sh-card--photo { aspect-ratio: 4 / 4.6; }
+.sh-card--photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.sh-pill { position: absolute; left: 12px; bottom: 12px; padding: 6px 12px; border-radius: 999px; background: rgba(26,27,29,.82); color: var(--bone); font-size: .625rem; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; backdrop-filter: blur(6px); }
+.sh-card--piece { background: #F3F1EC; color: var(--ink); display: grid; grid-template-rows: 1fr auto; aspect-ratio: 4 / 4.6; }
+.sh-cut { display: grid; place-items: center; padding: 10% 10% 4%; min-height: 0; }
+.sh-cut img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 14px 18px rgba(26,27,29,.22)); }
+.sh-meta { display: grid; gap: 2px; padding: 0 14px 14px; }
+.sh-meta b { font-size: .8125rem; font-weight: 600; line-height: 1.25; }
+.sh-meta em { font-style: normal; font-size: .8125rem; font-weight: 700; color: var(--accent-deep); }
+@media (min-width: 1024px) {
+  .sh-grid { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(24px, 4vw, 64px); padding-top: 0; }
+  .sh-copy { padding-top: calc(var(--nav-top) + 8px); padding-bottom: 40px; }
+  .sh-wall { height: auto; min-height: calc(100svh - 76px - var(--nav-top)); margin-top: var(--nav-top); margin-right: calc(var(--gutter) * -1); -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 86%, transparent 100%), linear-gradient(90deg, transparent 0%, #000 14%); -webkit-mask-composite: source-in; mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 86%, transparent 100%), linear-gradient(90deg, transparent 0%, #000 14%); mask-composite: intersect; }
+  .sh-cols { inset: -18% -8% -18% 0; gap: 18px; transform: rotate(-9deg) scale(1.08); }
+  .sh-track { gap: 18px; }
+  .sh-meta b { font-size: .9375rem; } .sh-meta em { font-size: .9375rem; }
+}
+@media (max-width: 767px) { .sh-h1 { font-size: 2.9rem; } .sh-wall { height: 110vw; margin-inline: calc(var(--gutter) * -1); } .sh-cols { gap: 10px; inset: -14% -4%; } .sh-track { gap: 10px; } .sh-stats { gap: 8px 20px; } .hero-ctas .btn { flex: 1 1 auto; justify-content: center; } }
 /* bulk-order band */
 .bulk-band { position: relative; background: var(--accent-deep); color: var(--bone); overflow: hidden; }
 .bulk-band::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: clamp(60px, 7vw, 110px); background: var(--accent); clip-path: polygon(0 0, 100% 0, 55% 100%, 0 100%); opacity: .9; }
@@ -273,12 +364,12 @@ def render(ctx):
 .inside-sci svg { width: 44px; height: 44px; flex: none; }
 .inside-stage { position: relative; display: grid; place-items: center; min-height: 0; align-self: stretch; }
 .inside-halo { position: absolute; inset: 0; margin: auto; width: 46vh; height: 46vh; transform: scale(1.6); border-radius: 50%; background: #D9B07A; opacity: .5; filter: blur(60px); pointer-events: none; }
-.inside-float { position: relative; z-index: 1; width: min(40vh, 28vw); aspect-ratio: 1; display: grid; place-items: center; pointer-events: none; }
+.inside-float { position: relative; z-index: 1; width: min(54vh, 100%); aspect-ratio: 1; display: grid; place-items: center; pointer-events: none; }
 .inside-pills { position: relative; z-index: 2; }
 .inside-float img { position: absolute; width: 100%; height: auto; max-height: 100%; object-fit: contain; filter: drop-shadow(0 40px 60px rgba(0,0,0,.5)); }
 .inside-right { max-width: 420px; justify-self: end; width: 100%; }
 .inside-right .spec > div { padding: 8px 0; }
-@media (max-height: 820px) { .inside-measure, .inside-foot { display: none; } .inside-desc { margin-top: 10px; font-size: .9375rem; } .inside-point { margin-top: 12px; padding-top: 10px; } .inside-cta { margin-top: 12px; min-height: 44px; } .inside-float { width: min(34vh, 26vw); } .inside-pills .pill { min-height: 34px; } }
+@media (max-height: 820px) { .inside-measure, .inside-foot { display: none; } .inside-desc { margin-top: 10px; font-size: .9375rem; } .inside-point { margin-top: 12px; padding-top: 10px; } .inside-cta { margin-top: 12px; min-height: 44px; } .inside-float { width: min(46vh, 100%); } .inside-pills .pill { min-height: 34px; } }
 .inside-desc { margin-top: 14px; color: rgba(239,237,230,.8); max-width: 40ch; }
 .inside-bar { height: 1px; background: rgba(239,237,230,.15); margin-top: 10px; }
 .inside-point { margin-top: 18px; padding-top: 14px; border-top: 1px solid rgba(239,237,230,.15); font-size: .9375rem; color: var(--bone); display: flex; gap: 10px; align-items: baseline; }
@@ -288,11 +379,11 @@ def render(ctx):
 .inside-foot { text-align: center; font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: rgba(239,237,230,.5); padding-top: 12px; }
 /* mobile deck */
 .inside-mobile { padding: var(--section-sm) 0 56px; }
-.inside-mobile .mstage { position: relative; height: 46vw; display: grid; place-items: center; margin: 8px 0 20px; touch-action: pan-y; }
+.inside-mobile .mstage { position: relative; height: 58vw; display: grid; place-items: center; margin: 8px 0 20px; touch-action: pan-y; }
 .inside-mobile .inside-pills { margin-top: 16px; }
 .inside-mobile .inside-lead { margin-top: 12px; }
 .inside-mobile .inside-halo { width: 60vw; height: 60vw; transform: scale(1.3); }
-.inside-mobile .inside-float { width: 44vw; }
+.inside-mobile .inside-float { width: 62vw; }
 .deck { display: flex; gap: 5vw; overflow-x: auto; scroll-snap-type: x mandatory; padding: 8px 9vw 16px; scrollbar-width: none; }
 .deck::-webkit-scrollbar { display: none; }
 .deck-card { flex: 0 0 82vw; scroll-snap-align: center; }
@@ -300,6 +391,53 @@ def render(ctx):
 .deck-card [data-deck-item] { opacity: 0; margin-top: 12px; }
 .inside-mobile .mdots button { color: rgba(239,237,230,.35); }
 
+/* ---- 03b anatomy ---- */
+.anatomy { background: var(--bone); color: var(--ink); padding: clamp(56px, 7vw, 96px) 0 clamp(40px, 5vw, 64px); overflow: hidden; }
+.anatomy .inside-pills { display: flex; gap: 8px; justify-content: center; margin-top: 14px; }
+.an-panel[hidden] { display: none; }
+.an-head { text-align: center; display: grid; gap: 6px; justify-items: center; margin-top: clamp(24px, 3vw, 36px); }
+.an-kicker { display: flex; align-items: center; gap: 16px; font-size: .75rem; letter-spacing: .32em; text-transform: uppercase; color: var(--fg-2); }
+.an-kicker::before, .an-kicker::after { content: ""; width: clamp(40px, 8vw, 120px); height: 1px; background: var(--accent-deep); opacity: .6; }
+.an-name { font-family: var(--font-display); font-weight: 400; font-size: clamp(1.9rem, 1.2rem + 2.6vw, 3.4rem); line-height: 1.05; letter-spacing: .02em; text-transform: uppercase; }
+.an-tags { font-size: .75rem; letter-spacing: .3em; text-transform: uppercase; color: var(--fg-2); }
+.an-tags i { font-style: normal; margin: 0 .9em; color: var(--accent-deep); }
+.an-body { position: relative; display: grid; gap: 18px; margin-top: clamp(24px, 3vw, 40px); }
+.an-lines { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; z-index: 2; display: none; }
+.an-lines path { fill: none; stroke: var(--accent-deep); stroke-width: 1; stroke-linejoin: round; stroke-linecap: round; opacity: .85; }
+.an-lines circle { fill: var(--accent); stroke: var(--bone); stroke-width: 1.5; }
+.an-box { position: relative; width: 100%; }
+.an-box img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 18px 26px rgba(26,27,29,.22)); }
+.an-stage { width: min(100%, 440px); margin: 0 auto; }
+.an-low { width: min(100%, 520px); margin: 0 auto; }
+.an-col { display: grid; gap: 14px; }
+.an-call { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 12px; align-items: center; }
+.an-circle { width: 64px; height: 64px; border-radius: 50%; overflow: hidden; box-shadow: 0 0 0 1.5px var(--accent-deep), 0 0 0 5px rgba(139,74,31,.12), 0 14px 22px -10px rgba(26,27,29,.35); transform: scale(0); }
+.an-circle img { width: 100%; height: 100%; display: block; }
+.an-text { display: grid; gap: 3px; }
+.an-text b { font-family: var(--font-display); font-weight: 400; font-size: 1.05rem; line-height: 1.15; letter-spacing: .03em; text-transform: uppercase; }
+.an-text b::after { content: ""; display: block; width: 100%; height: 1px; margin-top: 5px; background: var(--accent-deep); opacity: .55; }
+.an-text span { font-size: .8125rem; line-height: 1.45; color: var(--fg-2); }
+.an-icons { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 16px; margin-top: clamp(28px, 4vw, 44px); padding-top: 22px; border-top: 1px solid var(--line-strong); }
+.an-icons li { display: flex; align-items: center; gap: 10px; font-size: .75rem; letter-spacing: .12em; text-transform: uppercase; color: var(--fg); }
+.an-ic { flex: none; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--accent-deep); display: grid; place-items: center; color: var(--accent-deep); }
+.an-ic svg { width: 22px; height: 22px; }
+.an-cta { display: flex; justify-content: center; margin-top: 26px; }
+@media (min-width: 1024px) {
+  .an-body { grid-template-columns: minmax(0, 3fr) minmax(0, 4fr) minmax(0, 3fr); grid-template-areas: "l stage r" "low low low" "lc lc lc"; column-gap: clamp(24px, 3vw, 56px); row-gap: 28px; align-items: center; }
+  .an-lines { display: block; }
+  .an-col--l { grid-area: l; } .an-stage { grid-area: stage; width: 100%; max-width: 520px; } .an-col--r { grid-area: r; } .an-low { grid-area: low; width: min(100%, 640px); } .an-col--low { grid-area: lc; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; align-items: start; width: min(100%, 880px); margin: 0 auto; }
+  .an-col--l, .an-col--r { gap: 26px; }
+  .an-call { grid-template-columns: 88px minmax(0, 1fr); gap: 16px; }
+  .an-circle { width: 88px; height: 88px; }
+  .an-col--low .an-call { grid-template-columns: 76px minmax(0, 1fr); align-items: start; }
+  .an-col--low .an-circle { width: 76px; height: 76px; }
+  .an-icons { grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 12px; }
+  .an-icons li { flex-direction: row; }
+  .an-icons li + li { border-left: 1px solid var(--line); padding-left: 14px; }
+}
+@media (min-width: 1280px) { .an-text b { font-size: 1.15rem; } .an-text span { font-size: .875rem; } }
+@media (max-width: 1023px) { .an-head { margin-top: 24px; } .an-col--low .an-call, .an-call { align-items: center; } }
+@media (max-width: 767px) { .an-kicker::before, .an-kicker::after { width: 28px; } .an-name { font-size: 1.6rem; } .an-tags { font-size: .6875rem; letter-spacing: .2em; } .an-icons { grid-template-columns: 1fr 1fr; } .an-icons li { font-size: .6875rem; } }
 /* ---- 04 story (pinned timeline) ---- */
 .story { position: relative; background: var(--bone); color: var(--ink); }
 .story-pin { position: relative; height: 100vh; overflow: hidden; }
@@ -333,9 +471,9 @@ def render(ctx):
 @media (min-width: 768px) { .pquotes { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; } }
 .pquote blockquote { font-size: clamp(1.1rem, 1rem + .6vw, 1.5rem); line-height: 1.35; color: rgba(239,237,230,.92); }
 .pquote figcaption { color: rgba(239,237,230,.5); }
-.press-marquee { margin-top: 0; border-top: 1px solid rgba(239,237,230,.15); padding: 22px 0; will-change: transform; }
-.press-marquee .track > span { font-family: var(--font-display); font-weight: 300; font-size: clamp(1.6rem, 1.2rem + 2vw, 3rem); color: var(--bone); }
-.press-marquee .track .mq-dot { color: var(--accent); font-size: 1rem; }
+.press-marquee { margin-top: 0; border-top: 1px solid rgba(239,237,230,.15); padding: 10px 0; will-change: transform; }
+.press-marquee .track > span { font-family: var(--font-display); font-weight: 300; font-size: clamp(1rem, .9rem + .5vw, 1.25rem); color: var(--bone); }
+.press-marquee .track .mq-dot { color: var(--accent); font-size: .75rem; }
 .press-marquee .track .outline { color: transparent; -webkit-text-stroke: 1px rgba(239,237,230,.6); }
 .press-marquee .row2 { margin-top: 12px; }
 
@@ -364,29 +502,18 @@ def render(ctx):
         return (f'<div class="pair"><img class="p-belt" src="{bl[size]}" alt="" width="900" height="900" draggable="false" decoding="async">'
                 f'<img class="p-wallet" src="{w[size]}" alt="{a}" width="900" height="900" draggable="false" decoding="async"></div>')
     body = f'''
-<section id="hero" class="hero on-ink" aria-label="Introduction">
-  <div class="slider" data-slider aria-roledescription="carousel" aria-label="Belts and wallets">
-    <div class="slide is-on" data-slide="0" aria-roledescription="slide" aria-label="1 of 2">
-      <picture><source media="(max-width: 767px)" srcset="assets/hero/slide-wallet-portrait.jpg"><img data-slide-img src="assets/hero/slide-wallet-1600.jpg" srcset="assets/hero/slide-wallet-900.jpg 900w, assets/hero/slide-wallet-1600.jpg 1600w, assets/hero/slide-wallet-2000.jpg 1672w" sizes="100vw" alt="A Stagr bifold wallet with the stag mark, on walnut beside coffee beans and a wooden box" width="1672" height="941" fetchpriority="high" decoding="async"></picture>
-      <div class="wrap slide-copy">
-        <p class="hero-kicker" data-slide-item>Wallets <span aria-hidden="true">·</span> {n_wallets} pieces, from {fmt(min_wallet)}</p>
-        <h1 class="hero-h1" data-slide-item><span class="serif-i">Folded, skived,</span><br>stitched by hand.</h1>
-        <p class="hero-sub" data-slide-item>Bifolds, trifolds and long wallets, boxed with a handwritten note. Cash on delivery across Pakistan.</p>
-        <div class="hero-ctas" data-slide-item><a class="btn btn--tan" href="wallets.html">Shop wallets {I["arrow"]}</a><a class="btn btn--ghost" href="shop.html">Everything</a></div>
-      </div>
+<section id="hero" class="hero shero on-ink" aria-label="Introduction">
+  <div class="sh-glow" aria-hidden="true"></div>
+  <div class="wrap sh-grid">
+    <div class="sh-copy">
+      <p class="sh-eyebrow" data-sh-item><span>Handmade in Pakistan</span><i></i><span>Full-grain crazy horse</span></p>
+      <h1 class="sh-h1" data-sh-title>Nothing but<br>leather.</h1>
+      <p class="sh-sub" data-sh-item>Belts and wallets cut from full hides, saddle stitched on one bench, boxed with a handwritten note. Cash on delivery, anywhere in Pakistan.</p>
+      <div class="hero-ctas" data-sh-item><a class="btn btn--tan" href="shop.html">Shop the range {I["arrow"]}</a><a class="btn btn--ghost" href="bulk.html">Bulk orders</a></div>
+      <ul class="sh-stats" role="list" data-sh-item><li><b>{fmt(min(p["price"] for p in P))} to {fmt(max(p["price"] for p in P))}</b><span>one price, any quantity</span></li><li><b>3 to 5 days</b><span>cash on delivery</span></li><li><b>{len(P)} pieces</b><span>{n_wallets} wallets, {n_belts} belts</span></li></ul>
     </div>
-    <div class="slide" data-slide="1" aria-roledescription="slide" aria-label="2 of 2" aria-hidden="true">
-      <picture><source media="(max-width: 767px)" srcset="assets/hero/slide-belts-portrait.jpg"><img data-slide-img src="assets/hero/slide-belts-1600.jpg" srcset="assets/hero/slide-belts-900.jpg 900w, assets/hero/slide-belts-1600.jpg 1600w, assets/hero/slide-belts-2400.jpg 1672w" sizes="100vw" alt="A Stagr tan belt coiled on walnut beside coffee beans and shells" width="1672" height="941" loading="lazy" decoding="async"></picture>
-      <div class="wrap slide-copy">
-        <p class="hero-kicker" data-slide-item>Belts <span aria-hidden="true">·</span> {n_belts} pieces, from {fmt(min_belt)}</p>
-        <h2 class="hero-h1" data-slide-item><span class="serif-i">{B["hero"]["headline"][0]}</span><br>{B["hero"]["headline"][1]}</h2>
-        <p class="hero-sub" data-slide-item>Full-grain crazy horse, cut in one piece, with a solid buckle on a screw post. Sizes 30 to 44.</p>
-        <div class="hero-ctas" data-slide-item><a class="btn btn--tan" href="belts.html">Shop belts {I["arrow"]}</a><a class="btn btn--ghost" href="shop.html">Everything</a></div>
-      </div>
-    </div>
-    <div class="wrap slider-ui">
-      <div class="slider-dots" role="tablist" aria-label="Choose slide"><button type="button" role="tab" aria-selected="true" data-slide-dot="0" aria-label="Wallets"><i></i></button><button type="button" role="tab" aria-selected="false" data-slide-dot="1" aria-label="Belts"><i></i></button></div>
-      <div class="slider-nav"><span class="slider-count"><b data-slide-n>01</b> / 02</span><button type="button" class="half-arrow" data-slide-prev aria-label="Previous slide" style="transform:scaleX(-1)">{I["arrow"]}</button><button type="button" class="half-arrow" data-slide-next aria-label="Next slide">{I["arrow"]}</button></div>
+    <div class="sh-wall" data-sh-wall aria-hidden="true">
+      <div class="sh-cols">{wall_cols}</div>
     </div>
   </div>
   <div class="bulk-band" data-bulk-band>
@@ -443,6 +570,13 @@ def render(ctx):
     </div>
 </section>
 
+<section id="anatomy" class="anatomy on-bone" aria-labelledby="anatomy-title">
+  <div class="wrap">
+    <div class="inside-head" style="text-align:center"><h2 class="label" id="anatomy-title" data-reveal>Taken apart · every detail, named</h2><div class="inside-pills" data-reveal data-delay=".1">{an_pills}</div></div>
+    {an_panels}
+  </div>
+</section>
+
 <section id="inside" class="inside on-ink" aria-labelledby="inside-title">
   <div class="inside-pin desk-only" data-inside-pin>
     <div class="inside-head"><p class="label inside-kicker">Your hide. Our bench.</p><h2 class="inside-title" id="inside-title" data-inside-title>Two lines. One great finish.</h2><p class="inside-lead">Every piece is cut from full hides by local artisans and saddle stitched by hand. Pick the line, then the cut.</p><div class="inside-pills">{pills}</div></div>
@@ -468,43 +602,12 @@ def render(ctx):
   </div>
 </section>
 
-<section id="more" class="more on-bone" aria-label="How it is made, bulk orders and the handwritten note">
-  <div class="wrap bento">
-    <a class="ftile ftile-main" href="about.html#craft" data-reveal aria-label="How it is made">
-      <div class="ftile-copy"><h2>How it is made</h2><p>{B["craft"]["heading"]}. Cut from full hides, skived at the folds, saddle stitched.</p></div>
-      <div class="ftile-pic">      <img src="assets/hero/tile-made-800.jpg" srcset="assets/hero/tile-made-800.jpg 800w, assets/hero/tile-made.jpg 1400w" sizes="(min-width: 1024px) 56vw, 100vw" alt="Two Stagr bifolds beside the knives and awls that made them" width="1400" height="933" loading="lazy" decoding="async"></div>
-    </a>
-    <a class="ftile" href="bulk.html" data-reveal data-delay=".1" aria-label="Bulk orders">
-      <div class="ftile-copy"><h2>Bulk orders</h2><p>Ten pieces or more, embossed with your logo, boxed with a card.</p></div>
-      <div class="ftile-pic">      <img src="assets/hero/tile-bulk-800.jpg" srcset="assets/hero/tile-bulk-800.jpg 800w, assets/hero/tile-bulk.jpg 1400w" sizes="(min-width: 1024px) 44vw, 100vw" alt="Four Stagr belts laid side by side on walnut" width="1400" height="933" loading="lazy" decoding="async"></div>
-    </a>
-    <a class="ftile" href="about.html#faq" data-reveal data-delay=".2" aria-label="A handwritten note">
-      <div class="ftile-copy"><h2>A handwritten note</h2><p>Add a message at checkout. We write it by hand and pack it in the box.</p></div>
-      <div class="ftile-pic">      <img src="assets/hero/tile-note-800.jpg" srcset="assets/hero/tile-note-800.jpg 800w, assets/hero/tile-note.jpg 1400w" sizes="(min-width: 1024px) 44vw, 100vw" alt="A Stagr wallet resting on its black gift box" width="1400" height="933" loading="lazy" decoding="async"></div>
-    </a>
-  </div>
-</section>
+
+<!-- feature tiles (how it is made / bulk / note) removed -->
 
 <!-- range section hidden for now -->{ctx["why"](ctx)}
 
-<section id="story" class="story on-bone" aria-labelledby="story-title">
-  <div class="story-pin desk-only" data-story-pin>
-    <div class="story-intro" data-story-intro><p class="label"><b>06</b><span class="slash">/</span>Story</p><h2 class="h1" id="story-title" data-story-title>{B["about"]["headline"]}.</h2><p class="lead">{B["about"]["intro"]} {B["about"]["sections"][2]["body"].split(".")[0]}.</p><div class="scroll-hint" style="margin-top:36px" aria-hidden="true"><span class="t">Scroll</span></div></div>
-    <div class="story-stage" data-story-stage>{ghosts}{figures}{spanels}<div class="story-years"><div class="story-progress" data-story-progress></div>{years}</div></div>
-  </div>
-  <div class="story-mobile mob-only">
-    <div data-reveal><p class="label"><b>06</b><span class="slash">/</span>Story</p></div>
-    <h2 class="h1" data-text-reveal="lines" style="margin-top:12px">{B["about"]["headline"]}.</h2>
-    <p class="lead" data-illuminate style="margin-top:16px">{B["about"]["intro"]}</p>
-    <div class="mstory" data-mstory>
-      <div class="mstory-sticky">
-        <div class="mstory-stage">{mstory_ghosts}{mstory_figs}</div>
-        <div class="mstory-text">{mstory_panels}</div>
-        <div class="mstory-years">{myears}</div>
-      </div>
-    </div>
-  </div>
-</section>
+<!-- story section hidden for now -->
 
 '''
 
@@ -518,37 +621,37 @@ function initAnimations() {
   function initScrollHint() { const dot = $("[data-scroll-dot]"); if (!dot || !isRendered(dot)) return; if (reduced) { G.set(dot, { opacity: 1, y: 9 }); return; } G.timeline({ repeat: -1, repeatDelay: .5 }).set(dot, { y: 0, opacity: 0 }).to(dot, { opacity: 1, duration: .25 }).to(dot, { y: 19, duration: 1, ease: "power2.inOut" }, .1).to(dot, { opacity: 0, duration: .3, ease: "power1.in" }, .85); }
 
   function initHero() {
-    const root = $("[data-slider]"), slides = $$("[data-slide]", root), dots = $$("[data-slide-dot]", root), count = $("[data-slide-n]", root), band = $("[data-bulk-band]");
-    const n = slides.length, HOLD = 6.5; let active = 0, busy = false, timer = null, started = false;
-    const items = (i) => $$("[data-slide-item]", slides[i]), img = (i) => $("[data-slide-img]", slides[i]);
-    const pad = (i) => String(i + 1).padStart(2, "0");
-    const paintDots = () => dots.forEach((d, i) => d.setAttribute("aria-selected", String(i === active)));
-    // the active dot fills up over the hold, then we move on
-    const arm = () => { clearTimeout(timer); dots.forEach((d) => $("i", d).style.setProperty("--p", 0)); if (reduced || document.hidden) return; const bar = $("i", dots[active]); G.fromTo(bar, { "--p": 0 }, { "--p": 1, duration: HOLD, ease: "none", overwrite: true }); timer = setTimeout(() => go(active + 1), HOLD * 1000); };
-    const enter = (i, delay) => { if (reduced) { G.set(items(i), { opacity: 1, y: 0 }); return; } G.fromTo(img(i), { scale: 1.12 }, { scale: 1.04, duration: 2.6, ease: "power2.out", overwrite: true, delay }); G.fromTo(items(i), { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: .7, ease: "power3.out", stagger: .08, delay: delay + .25, overwrite: true, clearProps: "transform" }); };
-    const go = (next, user) => {
-      next = (next + n) % n; if (next === active || busy) return; busy = true;
-      const from = slides[active], to = slides[next]; active = next; paintDots(); if (count) count.textContent = pad(next);
-      to.classList.add("is-on"); to.setAttribute("aria-hidden", "false"); from.setAttribute("aria-hidden", "true");
-      if (reduced) { from.classList.remove("is-on"); G.set(items(next), { opacity: 1 }); busy = false; arm(); return; }
-      G.set(to, { zIndex: 2 }); G.set(from, { zIndex: 1 });
-      G.fromTo(to, { opacity: 0 }, { opacity: 1, duration: 1, ease: "power2.inOut", onComplete: () => { from.classList.remove("is-on"); G.set([from, to], { clearProps: "zIndex,opacity" }); busy = false; } });
-      G.to($$("[data-slide-item]", from), { opacity: 0, y: -10, duration: .35, ease: "power2.in", overwrite: true });
-      enter(next, 0); arm();
+    const hero = $("#hero"), wall = $("[data-sh-wall]"), cols = $$("[data-sh-col]"), title = $("[data-sh-title]"), items = $$("[data-sh-item]"), band = $("[data-bulk-band]");
+    const loops = [];
+    const run = () => {
+      loops.forEach((t) => t.kill()); loops.length = 0;
+      cols.forEach((col, i) => {
+        const track = $("[data-sh-track]", col), half = track.scrollHeight / 2, down = col.dataset.shCol === "down";
+        G.set(track, { y: down ? -half : 0 });
+        if (reduced) return;
+        loops.push(G.to(track, { y: down ? 0 : -half, duration: 38 + i * 7, ease: "none", repeat: -1 }));
+      });
     };
-    dots.forEach((d, i) => d.addEventListener("click", () => go(i, true)));
-    $("[data-slide-prev]", root).addEventListener("click", () => go(active - 1, true));
-    $("[data-slide-next]", root).addEventListener("click", () => go(active + 1, true));
-    root.addEventListener("keydown", (e) => { if (e.key === "ArrowRight") go(active + 1, true); if (e.key === "ArrowLeft") go(active - 1, true); });
-    root.addEventListener("pointerenter", () => clearTimeout(timer)); root.addEventListener("pointerleave", () => { if (started) arm(); });
-    document.addEventListener("visibilitychange", () => { if (!started) return; if (document.hidden) clearTimeout(timer); else arm(); });
-    // swipe
-    let sx = 0, sy = 0; root.addEventListener("touchstart", (e) => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
-    root.addEventListener("touchend", (e) => { const dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy; if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.5) go(active + (dx < 0 ? 1 : -1), true); }, { passive: true });
-    if (!reduced) { G.set(items(0), { opacity: 0 }); if (band) G.set(band, { y: 24, opacity: 0 }); }
-    return function start() { started = true; enter(0, 0); if (band && !reduced) G.to(band, { y: 0, opacity: 1, duration: .6, ease: "power3.out", delay: .6, clearProps: "transform" }); arm(); };
+    // slow the wall while the pointer is over it, so a card can be read
+    wall.addEventListener("pointerenter", () => loops.forEach((t) => G.to(t, { timeScale: .25, duration: .6 })));
+    wall.addEventListener("pointerleave", () => loops.forEach((t) => G.to(t, { timeScale: 1, duration: .6 })));
+    let rt = 0; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(run, 150); });
+    document.addEventListener("visibilitychange", () => loops.forEach((t) => document.hidden ? t.pause() : t.resume()));
+    if (!reduced) { G.set(items, { opacity: 0, y: 18 }); G.set(title, { opacity: 0 }); if (band) G.set(band, { y: 24, opacity: 0 }); }
+    else { G.set(wall, { opacity: 1 }); G.set(title, { opacity: 1 }); }
+    return function start() {
+      run();
+      if (reduced) return;
+      const tl = G.timeline({ defaults: { ease: "power3.out" } });
+      tl.fromTo(wall, { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 1.4, ease: "power3.out" }, .1);
+      if (window.SplitText) window.SplitText.create(title, { type: "lines", mask: "lines", linesClass: "line", onSplit: (self) => { G.set(title, { opacity: 1 }); return G.fromTo(self.lines, { yPercent: 110 }, { yPercent: 0, duration: 1.1, ease: "power4.out", stagger: .12, delay: .25 }); } });
+      else tl.to(title, { opacity: 1, duration: .8 }, .25);
+      tl.to(items, { opacity: 1, y: 0, duration: .8, stagger: .1, clearProps: "transform" }, .5);
+      if (band) tl.to(band, { y: 0, opacity: 1, duration: .6, clearProps: "transform" }, 1.1);
+      if (fine) { const wx = G.quickTo(wall, "x", { duration: 1.2, ease: "power2.out" }), wy = G.quickTo(wall, "y", { duration: 1.2, ease: "power2.out" }); hero.addEventListener("pointermove", (e) => { wx((e.clientX / innerWidth - .5) * 14); wy((e.clientY / innerHeight - .5) * 10); }, { passive: true }); }
+      if (ST) G.to(wall, { yPercent: -10, ease: "none", scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true } });
+    };
   }
-
   /* ================= 02 RANGE ================= */
   function initRangeDesktop() {
     const section = $("#range"); if (!section) return; const pin = $("[data-range-pin]"), title = $("[data-range-title-main]"), label = $("[data-range-label]"), count = $("[data-range-count]"), panels = $$("[data-range-panel]"), bgs = $$("[data-range-bloom]"), ghosts = $$("[data-range-ghost]"), cuts = $$("[data-range-cut]"), stage = $("[data-range-stage]"), dots = $$("[data-range-dot]");
@@ -639,6 +742,56 @@ function initAnimations() {
     if (fine && !reduced) { const wrap = $("[data-inside-float]"); const sx = G.quickTo(wrap, "x", { duration: .9, ease: "power2.out" }), sy = G.quickTo(wrap, "y", { duration: .9, ease: "power2.out" }); section.addEventListener("pointermove", (e) => { sx((e.clientX / innerWidth - .5) * 22); sy((e.clientY / innerHeight - .5) * 12); }, { passive: true }); }
   }
 
+  /* ================= 03b ANATOMY ================= */
+  function initAnatomy() {
+    const section = $("#anatomy"); if (!section) return;
+    const panels = $$("[data-an-panel]", section), pills = $$("[data-an-pill]", section); let active = 0, busy = false, entered = false;
+    const desktop = () => window.matchMedia("(min-width: 1024px)").matches, NS = "http://www.w3.org/2000/svg";
+    const route = (panel) => {
+      const svg = $("[data-an-lines]", panel), body = $(".an-body", panel); svg.innerHTML = ""; if (!desktop()) return { paths: [], dots: [] };
+      const br = body.getBoundingClientRect(); svg.setAttribute("viewBox", "0 0 " + br.width + " " + br.height);
+      const boxes = { top: $("[data-an-top] .an-box", panel).getBoundingClientRect(), low: $("[data-an-low] .an-box", panel).getBoundingClientRect() };
+      const paths = [], dots = [];
+      $$("[data-an-call]", panel).forEach((call) => {
+        const ir = boxes[call.dataset.anTarget], side = call.classList.contains("an-call--l") ? "l" : call.classList.contains("an-call--r") ? "r" : "low";
+        const x1 = ir.left + ir.width * (+call.dataset.anX) / 100 - br.left, y1 = ir.top + ir.height * (+call.dataset.anY) / 100 - br.top;
+        let x0, y0, d;
+        if (side === "low") { const cr = $(".an-circle", call).getBoundingClientRect(); x0 = cr.left + cr.width / 2 - br.left; y0 = cr.top - 3 - br.top; const ky = y0 - (y0 - y1) * .5; d = "M" + x0 + " " + y0 + " L" + x0 + " " + ky + " L" + x1 + " " + y1; }
+        else { const tr = $(".an-text", call).getBoundingClientRect(), cr = $(".an-circle", call).getBoundingClientRect(); const bt = $("b", call).getBoundingClientRect(); y0 = bt.bottom + 2 - br.top; x0 = (side === "l" ? tr.right + 6 : cr.left - 6) - br.left; const kx = x0 + (x1 - x0) * .45; d = "M" + x0 + " " + y0 + " L" + kx + " " + y0 + " L" + x1 + " " + y1; }
+        const p = document.createElementNS(NS, "path"); p.setAttribute("d", d); svg.appendChild(p); paths.push(p);
+        const c = document.createElementNS(NS, "circle"); c.setAttribute("cx", x1); c.setAttribute("cy", y1); c.setAttribute("r", 3.5); svg.appendChild(c); dots.push(c);
+      });
+      return { paths, dots };
+    };
+    const pieces = (panel) => ({ imgs: $$("[data-an-img]", panel), circles: $$(".an-circle", panel), texts: $$(".an-text", panel), head: $$(".an-head > *", panel), icons: $$("[data-an-icon]", panel), cta: $(".an-cta", panel) });
+    const prime = (panel) => { const P = pieces(panel); G.set([...P.imgs, ...P.texts, ...P.head, ...P.icons, P.cta], { opacity: 0 }); G.set(P.circles, { scale: 0 }); };
+    const play = (panel) => {
+      const P = pieces(panel), L = route(panel);
+      if (reduced) { G.set([...P.imgs, ...P.texts, ...P.head, ...P.icons, P.cta], { opacity: 1 }); G.set(P.circles, { scale: 1 }); G.set(L.paths, { drawSVG: "100%" }); busy = false; return; }
+      G.set(L.dots, { scale: 0, transformOrigin: "50% 50%" });
+      const tl = G.timeline({ defaults: { ease: "power3.out" }, onComplete: () => { busy = false; } });
+      tl.fromTo(P.head, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: .6, stagger: .08, clearProps: "transform" }, 0)
+        .fromTo(P.imgs, { opacity: 0, y: 24, scale: .96 }, { opacity: 1, y: 0, scale: 1, duration: .9, stagger: .12, clearProps: "transform" }, .15)
+        .fromTo(P.circles, { scale: 0 }, { scale: 1, duration: .6, ease: "back.out(1.8)", stagger: .07 }, .55);
+      if (L.paths.length && window.DrawSVGPlugin) tl.fromTo(L.paths, { drawSVG: "0%" }, { drawSVG: "100%", duration: .55, ease: "power2.inOut", stagger: .07 }, .75);
+      tl.to(L.dots, { scale: 1, duration: .35, ease: "back.out(3)", stagger: .07 }, 1.05)
+        .fromTo(P.texts, { opacity: 0, x: (i, el) => el.closest(".an-call--l") ? -10 : el.closest(".an-call--r") ? 10 : 0, y: (i, el) => el.closest(".an-call--low") ? 8 : 0 }, { opacity: 1, x: 0, y: 0, duration: .5, stagger: .07, clearProps: "transform" }, .9)
+        .fromTo(P.icons, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .45, stagger: .05, clearProps: "transform" }, 1.5)
+        .fromTo(P.cta, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: .45, clearProps: "transform" }, 1.8);
+    };
+    panels.forEach(prime);
+    const setActive = (next) => {
+      if (next === active || busy) return; busy = true; const prev = active; active = next; pills.forEach((p, i) => p.setAttribute("aria-pressed", String(i === next)));
+      const out = panels[prev], P = pieces(out);
+      G.to([...P.imgs, ...P.texts, ...P.head, ...P.icons, P.cta, ...$$("path, circle", $("[data-an-lines]", out))], { opacity: 0, duration: .22, ease: "power2.in", overwrite: "auto" });
+      G.to(P.circles, { scale: 0, duration: .22, ease: "power2.in", overwrite: "auto", onComplete: () => { out.hidden = true; panels[next].hidden = false; prime(panels[next]); play(panels[next]); ST.refresh(); } });
+    };
+    pills.forEach((p, i) => p.addEventListener("click", () => setActive(i)));
+    ST.create({ trigger: section, start: "top 60%", once: true, onEnter: () => { entered = true; busy = true; play(panels[active]); } });
+    let rt = 0; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(() => { if (!entered) return; const L = route(panels[active]); G.set(L.paths, { drawSVG: "100%" }); G.set(L.dots, { scale: 1, transformOrigin: "50% 50%" }); }, 120); });
+    window.addEventListener("load", () => { if (entered) { const L = route(panels[active]); G.set(L.paths, { drawSVG: "100%" }); G.set(L.dots, { scale: 1, transformOrigin: "50% 50%" }); } });
+  }
+
   /* ================= 04 STORY ================= */
   function initStoryDesktop() {
     const pin = $("[data-story-pin]"), intro = $("[data-story-intro]"), stage = $("[data-story-stage]"), title = $("[data-story-title]"), ghosts = $$("[data-story-ghost]"), figures = $$("[data-story-figure]"), panels = $$("[data-story-panel]"), bar = $("[data-story-progress]"), years = $$("[data-story-year]");
@@ -688,7 +841,7 @@ function initAnimations() {
 
   /* ================= boot (top to bottom so pinned blocks measure in order) ================= */
   const startHero = initHero();
-  initScrollHint(); S.initReveals($("#hero")); S.initReveals($("#explore")); initShop(); S.initReveals($("#shop")); initInside(); S.initReveals($("#inside")); initPromise(); S.initReveals($("#more"));
+  initScrollHint(); S.initReveals($("#hero")); S.initReveals($("#explore")); initShop(); S.initReveals($("#shop")); initAnatomy(); S.initReveals($("#anatomy")); initInside(); S.initReveals($("#inside")); initPromise();
   (function initExplore() {
     const tabs = $$("[data-ex-tab]"), grids = $$("[data-ex-grid]"), all = $("[data-ex-all]"); if (!tabs.length) return;
     tabs.forEach((t) => t.addEventListener("click", () => {
@@ -701,7 +854,7 @@ function initAnimations() {
     }));
   })();
   if (isMobile) initRangeMobile(); else initRangeDesktop();
-  if (isMobile) initStoryMobile(); else initStoryDesktop();
+  if ($("#story")) { if (isMobile) initStoryMobile(); else initStoryDesktop(); }   // story hidden for now
   S.initReveals($("#why")); S.initReveals($("#story")); S.initReveals($("footer"));
   S.onLoaderDone.push(() => { startHero(); ST.refresh(); });
   // pinned sections measure once; re-measure after fonts and every image have settled so nothing pins early
