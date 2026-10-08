@@ -201,70 +201,43 @@ def render(ctx):
 .rp-copy { margin-top: 18px; max-width: 46ch; color: var(--fg-2); }
 .rp-spec { margin-top: 22px; max-width: 420px; }
 
-/* ---- 01 hero: the wallet, lit, over a giant wordmark ---- */
-.hero { position: relative; background: var(--ink); color: var(--bone); }
-.phero { position: relative; min-height: calc(100svh - 76px); display: flex; flex-direction: column; justify-content: space-between; padding: calc(var(--nav-top) + 28px) 0 0; overflow: hidden; }
-.ph-bg { position: absolute; inset: -6%; z-index: 0; }
-.ph-bg img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 60%; filter: blur(22px) saturate(1.1) brightness(.42); transform: scale(1.08); opacity: 0; }
-.ph-bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(26,27,29,.55) 0%, rgba(26,27,29,.2) 40%, rgba(26,27,29,.85) 100%); }
-.ph-glow { position: absolute; z-index: 0; left: 50%; top: 52%; width: 70vmin; height: 70vmin; transform: translate(-30%, -50%); border-radius: 50%; background: radial-gradient(circle, rgba(217,176,122,.42), rgba(197,139,74,.18) 40%, transparent 70%); filter: blur(30px); pointer-events: none; }
-.ph-word { position: absolute; z-index: 0; left: 50%; top: 50%; transform: translate(-50%, -54%); font-family: var(--font-wordmark); font-weight: 800; font-size: clamp(9rem, 26vw, 24rem); line-height: 1; letter-spacing: -.03em; color: transparent; -webkit-text-stroke: 1px rgba(239,237,230,.14); white-space: nowrap; pointer-events: none; user-select: none; }
-.ph-grid { position: relative; z-index: 1; display: grid; gap: 24px; grid-template-columns: 1fr; align-items: center; flex: 1; }
-.ph-eyebrow { display: flex; align-items: center; gap: 12px; font-size: .6875rem; letter-spacing: .28em; text-transform: uppercase; color: rgba(239,237,230,.75); }
+/* ---- 01 hero: the scene on stone, copy in the clear left ---- */
+.hero { position: relative; background: #1a1817; color: var(--bone); }
+.phero { position: relative; min-height: calc(100svh - 76px); display: flex; flex-direction: column; justify-content: flex-end; overflow: hidden; }
+.ph-scene, .ph-scene img { position: absolute; inset: 0; width: 100%; height: 100%; }
+.ph-scene img { object-fit: cover; object-position: 62% 50%; transform: scale(1.02); will-change: transform; opacity: 0; }
+.phero::before { content: ""; position: absolute; inset: 0; z-index: 1; background: linear-gradient(90deg, rgba(26,24,23,.55) 0%, rgba(26,24,23,.25) 34%, rgba(26,24,23,0) 55%), linear-gradient(180deg, rgba(26,24,23,.35) 0%, rgba(26,24,23,0) 30%); pointer-events: none; }
+.ph-copy { position: relative; z-index: 2; flex: 1; display: flex; flex-direction: column; justify-content: center; padding-top: calc(var(--nav-top) + 24px); padding-bottom: 32px; }
+.ph-eyebrow { display: flex; align-items: center; gap: 12px; font-size: .6875rem; letter-spacing: .28em; text-transform: uppercase; color: rgba(239,237,230,.78); }
 .ph-eyebrow i { width: 28px; height: 1px; background: var(--accent); }
-.ph-h1 { margin-top: 18px; font-family: var(--font-display); font-weight: 500; font-size: clamp(3rem, 1.6rem + 5vw, 6rem); line-height: .98; letter-spacing: -.015em; }
+.ph-h1 { margin-top: 18px; font-family: var(--font-display); font-weight: 500; font-size: clamp(3rem, 1.6rem + 5vw, 6rem); line-height: .98; letter-spacing: -.015em; text-shadow: 0 2px 30px rgba(0,0,0,.4); }
 .ph-h1 .line { display: block; overflow: hidden; }
-.ph-sub { margin-top: 20px; max-width: 42ch; font-size: clamp(.9375rem, .9rem + .25vw, 1.0625rem); line-height: 1.6; color: rgba(239,237,230,.82); }
+.ph-sub { margin-top: 20px; max-width: 40ch; font-size: clamp(.9375rem, .9rem + .25vw, 1.0625rem); line-height: 1.6; color: rgba(239,237,230,.84); text-shadow: 0 1px 16px rgba(0,0,0,.4); }
 .hero-ctas { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 26px; }
 .btn--tan { background: var(--accent-deep); border-color: var(--accent-deep); color: var(--bone); }
 .btn--tan:hover { background: var(--accent); border-color: var(--accent); color: var(--ink); }
 .hero .btn--ghost { color: var(--bone); border-color: rgba(239,237,230,.5); background: rgba(26,27,29,.25); backdrop-filter: blur(6px); }
 .hero .btn--ghost:hover { background: var(--bone); color: var(--ink); }
-.ph-stage { position: relative; width: 100%; aspect-ratio: 1 / .9; }
-.ph-ring { position: absolute; left: 50%; top: 50%; width: 92%; aspect-ratio: 1; transform: translate(-50%, -50%) scale(.9); border-radius: 50%; border: 1px solid rgba(239,237,230,.14); opacity: 0; }
-.ph-ring::after { content: ""; position: absolute; inset: 10%; border-radius: 50%; border: 1px dashed rgba(197,139,74,.4); }
-.ph-piece { position: absolute; display: block; opacity: 0; }
-.ph-piece img { width: 100%; height: auto; display: block; }
-.ph-wallet { left: 4%; top: 6%; width: 86%; z-index: 2; }
-.ph-wallet img { filter: drop-shadow(0 40px 50px rgba(0,0,0,.6)) drop-shadow(0 6px 10px rgba(0,0,0,.35)); }
-.ph-belt { right: -8%; bottom: -4%; width: 58%; z-index: 3; transform: rotate(-8deg); }
-.ph-belt img { filter: drop-shadow(0 30px 36px rgba(0,0,0,.6)); }
-.ph-tag { position: absolute; z-index: 4; display: inline-flex; align-items: center; gap: 10px; padding: 8px 14px 8px 10px; border-radius: 999px; background: rgba(239,237,230,.1); border: 1px solid rgba(239,237,230,.22); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); color: var(--bone); font-size: .75rem; white-space: nowrap; opacity: 0; transition: background-color .3s ease, border-color .3s ease; }
-.ph-tag:hover { background: rgba(239,237,230,.18); border-color: rgba(239,237,230,.45); }
-.ph-tag i { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px rgba(197,139,74,.25); }
-.ph-tag b { font-weight: 600; }
-.ph-tag--w { left: 0; top: 0; } .ph-tag--b { right: 0; top: 60%; }
-.ph-foot { position: relative; z-index: 1; display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; padding-top: 24px; padding-bottom: 22px; border-top: 1px solid rgba(239,237,230,.12); margin-top: 24px; }
+.ph-foot { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; padding-top: 20px; padding-bottom: 22px; border-top: 1px solid rgba(239,237,230,.14); background: linear-gradient(180deg, rgba(26,24,23,0), rgba(26,24,23,.5)); }
 .ph-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 28px; }
 .ph-stats li { display: grid; gap: 2px; opacity: 0; }
 .ph-stats b { font-family: var(--font-display); font-weight: 400; font-size: 1.25rem; line-height: 1.1; }
-.ph-stats span { font-size: .75rem; color: rgba(239,237,230,.62); letter-spacing: .04em; }
+.ph-stats span { font-size: .75rem; color: rgba(239,237,230,.64); letter-spacing: .04em; }
 .ph-scroll { display: none; align-items: center; gap: 12px; font-size: .6875rem; letter-spacing: .3em; text-transform: uppercase; color: rgba(239,237,230,.6); opacity: 0; }
 .ph-scroll i { width: 1px; height: 44px; background: rgba(239,237,230,.3); position: relative; overflow: hidden; }
 .ph-scroll i::after { content: ""; position: absolute; left: 0; top: -100%; width: 100%; height: 100%; background: var(--accent); animation: ph-drop 2.2s ease-in-out infinite; }
 @keyframes ph-drop { 0% { top: -100%; } 60% { top: 100%; } 100% { top: 100%; } }
-@media (min-width: 1024px) {
-  .phero { padding-top: calc(var(--nav-top) + 10px); }
-  .ph-grid { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(24px, 4vw, 64px); }
-  .ph-stage { aspect-ratio: 1 / .78; margin-right: -4%; }
-  .ph-wallet { left: 6%; top: 2%; width: 78%; }
-  .ph-belt { right: -2%; bottom: -2%; width: 52%; }
-  .ph-tag--w { left: 2%; top: 4%; } .ph-tag--b { right: 4%; top: 58%; }
-  .ph-stats { grid-template-columns: repeat(4, auto); gap: 40px; }
-  .ph-scroll { display: flex; }
-}
+@media (min-width: 1024px) { .ph-copy { max-width: none; padding-top: calc(var(--nav-top) + 8px); } .ph-copy > * { max-width: 40%; } .ph-stats { grid-template-columns: repeat(4, auto); gap: 40px; } .ph-scroll { display: flex; } }
 @media (max-width: 767px) {
-  .phero { padding-top: calc(var(--nav-top) + 14px); }
-  .ph-word { font-size: 32vw; top: 56%; }
+  .phero { min-height: 0; }
+  .ph-scene { position: relative; display: block; order: 2; width: 100%; height: 96vw; inset: auto; }
+  .ph-scene img { position: absolute; inset: 0; object-position: 50% 62%; }
+  .phero::before { display: none; }
+  .ph-copy { order: 1; justify-content: flex-start; padding-top: calc(var(--nav-top) + 14px); padding-bottom: 8px; }
+  .ph-foot { order: 3; }
   .ph-h1 { font-size: 2.9rem; }
-  .ph-stage { aspect-ratio: 1 / .84; margin-top: 6px; }
-  .ph-wallet { left: 2%; top: 4%; width: 84%; }
-  .ph-belt { right: -10%; bottom: -2%; width: 60%; }
-  .ph-tag { font-size: .6875rem; padding: 6px 11px 6px 8px; }
-  .ph-tag--b { top: 64%; }
-  .ph-foot { margin-top: 10px; padding-top: 18px; }
-  .ph-stats { gap: 12px 16px; }
-  .ph-stats b { font-size: 1.05rem; }
+  .ph-foot { padding-top: 16px; background: linear-gradient(180deg, rgba(26,24,23,.1), rgba(26,24,23,.7)); }
+  .ph-stats { gap: 12px 16px; } .ph-stats b { font-size: 1.05rem; }
   .hero-ctas .btn { flex: 1 1 auto; justify-content: center; }
 }
 /* bulk-order band */
@@ -508,23 +481,12 @@ def render(ctx):
                 f'<img class="p-wallet" src="{w[size]}" alt="{a}" width="900" height="900" draggable="false" decoding="async"></div>')
     body = f'''
 <section id="hero" class="hero phero on-ink" aria-label="Introduction">
-  <div class="ph-bg" aria-hidden="true"><img src="assets/hero/slide-wallet-1600.jpg" alt="" width="1672" height="941" fetchpriority="high" decoding="async" data-ph-bg></div>
-  <div class="ph-glow" aria-hidden="true" data-ph-glow></div>
-  <div class="ph-word" aria-hidden="true" data-ph-word>STAGR</div>
-  <div class="wrap ph-grid">
-    <div class="ph-copy">
-      <p class="ph-eyebrow" data-ph-item><span>Handmade in Pakistan</span><i></i><span>Full-grain crazy horse</span></p>
-      <h1 class="ph-h1" data-ph-title>Nothing but<br>leather.</h1>
-      <p class="ph-sub" data-ph-item>Belts and wallets cut from full hides, saddle stitched on one bench, and boxed with a handwritten note. Cash on delivery, anywhere in Pakistan.</p>
-      <div class="hero-ctas" data-ph-item><a class="btn btn--tan" href="shop.html">Shop the range {I["arrow"]}</a><a class="btn btn--ghost" href="bulk.html">Bulk orders</a></div>
-    </div>
-    <div class="ph-stage" data-ph-stage>
-      <div class="ph-ring" aria-hidden="true" data-ph-ring></div>
-      <a class="ph-piece ph-wallet" href="product-kingsmann.html" data-ph-wallet aria-label="Kingsmann bifold wallet"><img src="assets/hero/ph-wallet-900.webp" srcset="assets/hero/ph-wallet-900.webp 900w, assets/hero/ph-wallet.webp 1800w" sizes="(min-width: 1024px) 44vw, 90vw" alt="Kingsmann bifold wallet in brown, with the stag mark" width="1800" height="1541" fetchpriority="high" draggable="false"></a>
-      <a class="ph-piece ph-belt" href="product-monarch.html" data-ph-belt aria-label="Monarch belt"><img src="assets/cutouts/inside-belt.webp" alt="Monarch belt in tan, coiled" width="1024" height="602" draggable="false"></a>
-      <a class="ph-tag ph-tag--w" href="product-kingsmann.html" data-ph-tag><i></i><span><b>Kingsmann</b> bifold · {fmt(min(p["price"] for p in P if p["id"] == "kingsmann"))}</span></a>
-      <a class="ph-tag ph-tag--b" href="product-monarch.html" data-ph-tag><i></i><span><b>Monarch</b> belt · {fmt(min(p["price"] for p in P if p["id"] == "monarch"))}</span></a>
-    </div>
+  <picture class="ph-scene"><source media="(max-width: 767px)" srcset="assets/hero/scene-portrait.jpg"><img data-ph-scene src="assets/hero/scene-1600.jpg" srcset="assets/hero/scene-1000.jpg 1000w, assets/hero/scene-1600.jpg 1600w, assets/hero/scene-2400.jpg 2400w" sizes="100vw" alt="A Stagr bifold wallet standing open on dark stone, with a tan belt coiled in front" width="2400" height="1350" fetchpriority="high" decoding="async"></picture>
+  <div class="wrap ph-copy">
+    <p class="ph-eyebrow" data-ph-item><span>Handmade in Pakistan</span><i></i><span>Full-grain crazy horse</span></p>
+    <h1 class="ph-h1" data-ph-title>Nothing but<br>leather.</h1>
+    <p class="ph-sub" data-ph-item>Belts and wallets cut from full hides, saddle stitched on one bench, and boxed with a handwritten note. Cash on delivery, anywhere in Pakistan.</p>
+    <div class="hero-ctas" data-ph-item><a class="btn btn--tan" href="shop.html">Shop the range {I["arrow"]}</a><a class="btn btn--ghost" href="bulk.html">Bulk orders</a></div>
   </div>
   <div class="wrap ph-foot">
     <ul class="ph-stats" role="list">
@@ -640,35 +602,22 @@ function initAnimations() {
   function initScrollHint() { const dot = $("[data-scroll-dot]"); if (!dot || !isRendered(dot)) return; if (reduced) { G.set(dot, { opacity: 1, y: 9 }); return; } G.timeline({ repeat: -1, repeatDelay: .5 }).set(dot, { y: 0, opacity: 0 }).to(dot, { opacity: 1, duration: .25 }).to(dot, { y: 19, duration: 1, ease: "power2.inOut" }, .1).to(dot, { opacity: 0, duration: .3, ease: "power1.in" }, .85); }
 
   function initHero() {
-    const hero = $("#hero"), bg = $("[data-ph-bg]"), glow = $("[data-ph-glow]"), word = $("[data-ph-word]"), title = $("[data-ph-title]"), items = $$("[data-ph-item]"), stage = $("[data-ph-stage]"), ring = $("[data-ph-ring]"), wallet = $("[data-ph-wallet]"), belt = $("[data-ph-belt]"), tags = $$("[data-ph-tag]"), stats = $$("[data-ph-stat]"), band = $("[data-bulk-band]");
+    const hero = $("#hero"), scene = $("[data-ph-scene]"), title = $("[data-ph-title]"), items = $$("[data-ph-item]"), stats = $$("[data-ph-stat]"), band = $("[data-bulk-band]");
     if (!reduced) { G.set(items, { opacity: 0, y: 18 }); G.set(title, { opacity: 0 }); if (band) G.set(band, { y: 24, opacity: 0 }); }
-    else { G.set([bg, ring, wallet, belt, ...tags, ...stats], { opacity: 1 }); G.set(title, { opacity: 1 }); }
+    else { G.set([scene, ...stats], { opacity: 1, clearProps: "transform" }); G.set(title, { opacity: 1 }); }
     return function start() {
       if (reduced) return;
       const tl = G.timeline({ defaults: { ease: "power3.out" } });
-      tl.to(bg, { opacity: 1, duration: 1.6, ease: "power2.out" }, 0)
-        .fromTo(word, { opacity: 0, scale: 1.08 }, { opacity: 1, scale: 1, duration: 1.8, ease: "power2.out" }, .1)
-        .fromTo(ring, { opacity: 0, scale: .85 }, { opacity: 1, scale: 1, duration: 1.4, ease: "power2.out" }, .25)
-        .fromTo(wallet, { opacity: 0, y: 70, rotate: -6, scale: .92 }, { opacity: 1, y: 0, rotate: 0, scale: 1, duration: 1.3, ease: "power4.out" }, .35)
-        .fromTo(belt, { opacity: 0, x: 80, y: 60, rotate: 6 }, { opacity: 1, x: 0, y: 0, rotate: -8, duration: 1.2, ease: "power4.out" }, .6);
-      // the headline rises line by line behind a mask
-      if (window.SplitText) { window.SplitText.create(title, { type: "lines", mask: "lines", linesClass: "line", onSplit: (self) => { G.set(title, { opacity: 1 }); return G.fromTo(self.lines, { yPercent: 110 }, { yPercent: 0, duration: 1.1, ease: "power4.out", stagger: .12, delay: .3 }); } }); }
-      else tl.to(title, { opacity: 1, duration: .8 }, .3);
-      tl.to(items, { opacity: 1, y: 0, duration: .8, stagger: .1, clearProps: "transform" }, .55)
-        .fromTo(tags, { opacity: 0, y: 10, scale: .9 }, { opacity: 1, y: 0, scale: 1, duration: .6, ease: "back.out(1.8)", stagger: .15 }, 1.3)
-        .fromTo(stats, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: .6, stagger: .08, clearProps: "transform" }, 1.2);
-      if (band) tl.to(band, { y: 0, opacity: 1, duration: .6, clearProps: "transform" }, 1.4);
-      // after the entrance: a slow breathing float on the pieces and the glow
-      tl.add(() => {
-        G.to(wallet, { y: -10, duration: 3.2, ease: "sine.inOut", yoyo: true, repeat: -1 });
-        G.to(belt, { y: 8, duration: 3.8, ease: "sine.inOut", yoyo: true, repeat: -1, delay: .4 });
-        G.to(glow, { scale: 1.08, opacity: .85, duration: 4, ease: "sine.inOut", yoyo: true, repeat: -1 });
-      }, 1.8);
-      // depth on pointer: background drifts least, wallet most
-      if (fine) { const mx = G.quickTo(bg, "x", { duration: 1.2, ease: "power2.out" }), my = G.quickTo(bg, "y", { duration: 1.2, ease: "power2.out" }), wx = G.quickTo(stage, "x", { duration: .9, ease: "power2.out" }), wy = G.quickTo(stage, "y", { duration: .9, ease: "power2.out" }), kx = G.quickTo(word, "x", { duration: 1.4, ease: "power2.out" });
-        hero.addEventListener("pointermove", (e) => { const px = e.clientX / innerWidth - .5, py = e.clientY / innerHeight - .5; mx(-px * 14); my(-py * 10); wx(px * 18); wy(py * 12); kx(-px * 30 - innerWidth * 0); }, { passive: true }); }
-      // on scroll the pieces lift away a little faster than the copy
-      if (ST) { G.to(stage, { yPercent: -14, ease: "none", scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true } }); G.to(word, { yPercent: 22, ease: "none", scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true } }); }
+      tl.fromTo(scene, { opacity: 0, scale: 1.1 }, { opacity: 1, scale: 1.02, duration: 2.4, ease: "power2.out" }, 0);
+      if (window.SplitText) window.SplitText.create(title, { type: "lines", mask: "lines", linesClass: "line", onSplit: (self) => { G.set(title, { opacity: 1 }); return G.fromTo(self.lines, { yPercent: 110 }, { yPercent: 0, duration: 1.1, ease: "power4.out", stagger: .12, delay: .35 }); } });
+      else tl.to(title, { opacity: 1, duration: .8 }, .35);
+      tl.to(items, { opacity: 1, y: 0, duration: .8, stagger: .1, clearProps: "transform" }, .6)
+        .fromTo(stats, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: .6, stagger: .08, clearProps: "transform" }, 1.1);
+      if (band) tl.to(band, { y: 0, opacity: 1, duration: .6, clearProps: "transform" }, 1.3);
+      // a slow drift on the scene, a touch of depth with the pointer, and a lift on scroll
+      tl.add(() => G.to(scene, { scale: 1.06, duration: 14, ease: "sine.inOut", yoyo: true, repeat: -1 }), 2.4);
+      if (fine) { const sx = G.quickTo(scene, "x", { duration: 1.4, ease: "power2.out" }), sy = G.quickTo(scene, "y", { duration: 1.4, ease: "power2.out" }); hero.addEventListener("pointermove", (e) => { sx((e.clientX / innerWidth - .5) * -16); sy((e.clientY / innerHeight - .5) * -10); }, { passive: true }); }
+      if (ST) G.to($(".ph-copy"), { yPercent: 18, opacity: .2, ease: "none", scrollTrigger: { trigger: hero, start: "top top", end: "bottom top", scrub: true } });
     };
   }
   /* ================= 02 RANGE ================= */
