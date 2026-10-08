@@ -85,16 +85,6 @@
           "srcSmall": "assets/products/nova-black-1-800.jpg"
         },
         {
-          "src": "assets/products/nova-black-2.jpg",
-          "source": "products-images/v2/nova-2.jpg",
-          "width": 1024,
-          "height": 1024,
-          "colour": "black",
-          "kind": "studio",
-          "alt": "Nova Double-Sided Leather Belt in black",
-          "srcSmall": "assets/products/nova-black-2-800.jpg"
-        },
-        {
           "src": "assets/products/nova-black-3.jpg",
           "source": "products-images/v2/nova-3.jpg",
           "width": 1200,
