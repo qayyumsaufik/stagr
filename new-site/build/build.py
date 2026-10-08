@@ -201,7 +201,7 @@ def mega(line, ctx):
         tabs = [("collections", "Collections"), ("style", "By style"), ("care", "Care and sizing")]
         rows = f'<div class="mega-row" data-mega-tab="collections">{"".join(thumb(p) for p in items)}</div>'
         rows += f'<div class="mega-row" data-mega-tab="style" hidden>{thumb(P["outlaw"], "Classic", "belts.html#classic")}{thumb(P["nova"], "Double-sided", "belts.html#double-sided")}{thumb(P["monarch"], "Tan", "belts.html?colour=Tan")}{thumb(P["regent"], "Black", "belts.html?colour=Black")}</div>'
-    care = [("How it is made", "about.html#craft"), ("Leather care", "about.html#faq"), ("Size guide", "product-nova.html#details" if line == "belts" else "about.html#faq"), ("Delivery and returns", "index.html#delivery"), ("Bulk orders", "about.html#bulk")]
+    care = [("How it is made", "about.html#craft"), ("Leather care", "about.html#faq"), ("Size guide", "product-nova.html#details" if line == "belts" else "about.html#faq"), ("Delivery and returns", "index.html#delivery"), ("Bulk orders", "bulk.html")]
     rows += f'<div class="mega-row mega-links" data-mega-tab="care" hidden>{"".join(f"<a class=link href={h}>{t}</a>" for t, h in care)}</div>'
     tabs_html = "".join(f'<button type="button" role="tab" aria-selected="{str(i == 0).lower()}" data-mega-tab-btn="{k}">{t}</button>' for i, (k, t) in enumerate(tabs))
     return f'''
@@ -272,7 +272,7 @@ def chrome(ctx, page):
     <ul class="nav-main desk-only" role="list">
       <li data-mega="wallets"><a href="wallets.html" class="nav-underline{" is-active" if page.get("key") == "wallets" else ""}" aria-haspopup="true">Wallets</a></li>
       <li data-mega="belts"><a href="belts.html" class="nav-underline{" is-active" if page.get("key") == "belts" else ""}" aria-haspopup="true">Belts</a></li>
-      <li><a href="about.html#bulk" class="nav-underline">Bulk orders</a></li>
+      <li><a href="bulk.html" class="nav-underline{" is-active" if page.get("key") == "bulk" else ""}">Bulk orders</a></li>
       <li><a href="shop.html" class="nav-underline{" is-active" if page.get("key") == "shop" else ""}">Shop</a></li>
     </ul>
     <a class="brand" href="index.html" aria-label="Stagr, home">STAGR<span class="dot"></span></a>
@@ -328,7 +328,7 @@ def chrome(ctx, page):
     </ul>
     <div class="fcols">
       <div class="fbrand"><img src="assets/brand/stagr-lockup-beige.png" alt="Stagr" width="200" height="120" loading="lazy"><p>{B["descriptor"]} Delivery in {B["shipping"]["deliveryTime"]}.</p><div class="socials">{socials}</div></div>
-      <div><h4>Shop &amp; create</h4><ul><li><a href="belts.html">Belts</a></li><li><a href="wallets.html">Wallets</a></li><li><a href="about.html#bulk">Bulk orders</a></li><li><a href="about.html#craft">How it is made</a></li></ul></div>
+      <div><h4>Shop &amp; create</h4><ul><li><a href="belts.html">Belts</a></li><li><a href="wallets.html">Wallets</a></li><li><a href="bulk.html">Bulk orders</a></li><li><a href="about.html#craft">How it is made</a></li></ul></div>
       <div><h4>Here to help</h4><ul><li><a href="product-nova.html#details">Size guide</a></li><li><a href="index.html#delivery">Delivery &amp; returns</a></li><li><a href="about.html#faq">Leather care</a></li><li><a href="{B["contact"]["whatsapp"]["link"]}" target="_blank" rel="noopener">Contact</a></li></ul></div>
       <div><h4>Let&#8217;s connect</h4><ul><li><a href="{B["contact"]["whatsapp"]["link"]}" target="_blank" rel="noopener">{B["contact"]["whatsapp"]["value"]} (WhatsApp)</a></li><li><a href="{B["social"]["links"]["instagram"]}" target="_blank" rel="noopener">{B["social"]["handle"]}</a></li><li>{B["contact"]["workshop"]["value"]}</li><li>Mon to Sat, 11am to 8pm</li></ul></div>
     </div>
@@ -393,7 +393,7 @@ def main():
         base_css = f.read()
     products_doc = load_json("products.json")
     ctx = {"products": products_doc["products"], "products_doc": products_doc, "brand": load_json("brand.json"), "base_css": base_css, "icon": ICON, "esc": esc, "cutouts": cutouts_for, "bloom": BLOOM, "swatch": SWATCH, "pcard": pcard, "scard": scard, "ccard": ccard, "why": why, "tags": TAGS}
-    pages = sys.argv[1:] or ["index", "collection", "shop", "product", "about"]
+    pages = sys.argv[1:] or ["index", "collection", "shop", "product", "bulk", "about"]
     for name in pages:
         if not os.path.exists(os.path.join(HERE, "pages", name + ".py")):
             print("skip (no module):", name); continue

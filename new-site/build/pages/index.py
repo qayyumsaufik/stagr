@@ -392,7 +392,7 @@ def render(ctx):
     <div class="wrap bulk-inner">
       <span class="bulk-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M3 8l9-4 9 4-9 4-9-4z"/><path d="M3 8v8l9 4 9-4V8"/><path d="M12 12v8"/></svg></span>
       <p class="bulk-text"><b>Buying for a team? Meet Stagr bulk orders.</b><span>Ten pieces or more, embossed with your logo, boxed with a handwritten card.</span></p>
-      <a class="btn btn--sm bulk-btn" href="about.html#bulk">Get a quote {I["arrow"]}</a>
+      <a class="btn btn--sm bulk-btn" href="bulk.html">Get a quote {I["arrow"]}</a>
     </div>
   </div>
 </section>
@@ -473,7 +473,7 @@ def render(ctx):
       <div class="ftile-copy"><h2>How it is made</h2><p>{B["craft"]["heading"]}. Cut from full hides, skived at the folds, saddle stitched.</p></div>
       <div class="ftile-pic">      <img src="assets/hero/tile-made-800.jpg" srcset="assets/hero/tile-made-800.jpg 800w, assets/hero/tile-made.jpg 1400w" sizes="(min-width: 1024px) 56vw, 100vw" alt="Two Stagr bifolds beside the knives and awls that made them" width="1400" height="933" loading="lazy" decoding="async"></div>
     </a>
-    <a class="ftile" href="about.html#bulk" data-reveal data-delay=".1" aria-label="Bulk orders">
+    <a class="ftile" href="bulk.html" data-reveal data-delay=".1" aria-label="Bulk orders">
       <div class="ftile-copy"><h2>Bulk orders</h2><p>Ten pieces or more, embossed with your logo, boxed with a card.</p></div>
       <div class="ftile-pic">      <img src="assets/hero/tile-bulk-800.jpg" srcset="assets/hero/tile-bulk-800.jpg 800w, assets/hero/tile-bulk.jpg 1400w" sizes="(min-width: 1024px) 44vw, 100vw" alt="Four Stagr belts laid side by side on walnut" width="1400" height="933" loading="lazy" decoding="async"></div>
     </a>
